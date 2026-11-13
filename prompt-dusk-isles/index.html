@@ -1,0 +1,258 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>复现提示词：黄昏海岛 1.0 | 十九画生</title><meta name="keywords" content="提示词, prompt, vibe coding, Three.js, WorkBuddy"><meta name="author" content="十九画生"><meta name="copyright" content="十九画生"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一份可直接复制给 AI 编码助手的主提示词，用来从零复现「黄昏群岛」：单文件 Three.js、CC0 模型、海底生态、昼夜与天气系统。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="复现提示词：黄昏海岛 1.0">
+<meta property="og:url" content="https://xiangjianhuan-blog.github.io/prompt-dusk-isles/index.html">
+<meta property="og:site_name" content="十九画生">
+<meta property="og:description" content="一份可直接复制给 AI 编码助手的主提示词，用来从零复现「黄昏群岛」：单文件 Three.js、CC0 模型、海底生态、昼夜与天气系统。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xiangjianhuan-blog.github.io/img/init.png">
+<meta property="article:published_time" content="2026-11-13T07:32:00.000Z">
+<meta property="article:modified_time" content="2026-11-13T07:32:00.000Z">
+<meta property="article:author" content="十九画生">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xiangjianhuan-blog.github.io/img/init.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://xiangjianhuan-blog.github.io/prompt-dusk-isles/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '复现提示词：黄昏海岛 1.0',
+  isPost: false,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2026-11-13 15:32:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/background.css"><link rel="stylesheet" href="/css/back.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/static-butterfly/dist/css/index.min.css"><meta name="generator" content="Hexo 5.4.2"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header" style="background-image: url('/img/vibe-coding/dusk-isles-hero.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">十九画生</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="page-site-info"><h1 id="site-title">复现提示词：黄昏海岛 1.0</h1></div></header><main class="layout" id="content-inner"><div id="page"><div id="article-container"><p>这是<a href="/2026/11/13/vibe-coding-dusk-isles/">《vibe coding：黄昏海岛 1.0》</a>那篇文章的配套提示词。</p>
+<p>那篇文章记录的是「过程」，这一页给的是「入口」——把整轮对话里真正起作用的那些决定抽出来，压成一份可以直接粘进 AI 编码助手的任务书。它不保证一字不差地复刻，但能保证<strong>同样的结构、同样的坑、同样的验收方式</strong>。</p>
+<p>适用对象：能读写本地文件、能执行命令的 AI 编码助手（WorkBuddy、Claude Code、Cursor 之类）。全程一个人、一次会话、零构建。</p>
+<p><strong>预期产出：</strong> 单个 <code>index.html</code>（约 6800 行）+ <code>assets/models/</code>（75 个 CC0 GLB，约 26 MB）+ <code>start.bat</code>。</p>
+<hr>
+<h2 id="一、主提示词（整段复制）"><a href="#一、主提示词（整段复制）" class="headerlink" title="一、主提示词（整段复制）"></a>一、主提示词（整段复制）</h2><p>下面这一整块就是提示词本体。<strong>一次性给全，不要拆开分轮喂</strong>——它内部有顺序依赖，拆开会让 AI 在前面缺少约束的情况下做出后面要推翻的决定。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br></pre></td><td class="code"><pre><span class="line">【任务】用 Three.js 做一个「盗贼之海」风格的海岛漫游 Demo：可以走、可以游、可以潜到海底，</span><br><span class="line">有昼夜流转和动态天气。单文件、无构建、素材全部 CC0。</span><br><span class="line"></span><br><span class="line">════ 0. 交付形态（先定死，后面所有决定都受它约束）</span><br><span class="line">· 一个 index.html 承载全部 HTML/CSS/JS，不引入打包工具、不写构建脚本、不拆模块文件。</span><br><span class="line">· Three.js 走 ESM + importmap 从 CDN 引入，版本锁定 r169，不要用 latest。</span><br><span class="line">· 外部资源只有 assets/models/*.glb，页面内不能出现 base64 贴图或音频文件。</span><br><span class="line">· 附带 start.bat：优先调用 python -m http.server，没有 Python 就退回 PowerShell 的</span><br><span class="line">  HttpListener 起一个最小静态服务器，起好自动打开浏览器。零依赖，双击即用。</span><br><span class="line">· 代码分节，每节前用注释写清职责；后续新增的模块要能被一眼认出来。</span><br><span class="line"></span><br><span class="line">════ 1. 环境红线（第一件事，不是最后一件）</span><br><span class="line">· 页面必须检测 location.protocol === &#x27;file:&#x27;，命中就显示一张全屏引导卡：</span><br><span class="line">  说明 GLB 需要 http 协议，请双击 start.bat，并给出原因。</span><br><span class="line">· 原因：GLTFLoader 走 fetch，file:// 下被同源策略拦截，而且失败是静默的——</span><br><span class="line">  用户看到的是「树没了」，不是「加载失败」。绝不允许静默降级。</span><br><span class="line"></span><br><span class="line">════ 2. 世界基底</span><br><span class="line">· 岛屿用解析高度场 terrainHeight(x, z)：径向基 + 多层 value noise，</span><br><span class="line">  输出沙滩 / 草地 / 岩石三段的连续高度；海平面 y = 0。</span><br><span class="line">· 海面是一整块大平面 + 自定义 ShaderMaterial，至少包含：</span><br><span class="line">  - 菲涅尔（视角越平越反射天空）</span><br><span class="line">  - 多组方向波叠加的顶点位移，随时间演化</span><br><span class="line">  - 按水深插值的颜色（近岸浅青绿 → 深海墨蓝），要能透出海底</span><br><span class="line">  - 太阳镜面：一条宽光带 + 高频碎金闪烁，随波纹抖动</span><br><span class="line">  - 次表面散射：朝太阳方向看时，浪的迎光脊线透出绿松石色</span><br><span class="line">  - 浪尖泡沫：按高度阈值 + 噪声，只在波峰出现</span><br><span class="line">  - 与雾颜色融合（远处海天一线）</span><br><span class="line">· 必须同时提供一个 JS 侧的 waveAt(x, z, t)，与顶点着色器共用同一组波参数。</span><br><span class="line">  船、浮标、海鸥的贴水高度都用它，不能各算各的。</span><br><span class="line"></span><br><span class="line">════ 3. 植被：按高度带分配，不是随机撒</span><br><span class="line">· 先用高度把岛分成四带，物种按带分配：</span><br><span class="line">  沙滩带（h 1.0–3.4）：扇叶棕榈，稀疏，朝海倾斜</span><br><span class="line">  山腰带（h 3.4–5.0）：小型阔叶树，中等密度</span><br><span class="line">  山顶带（h &gt; 5.0）：密林，同种树做 3 个尺度变体 + 随机旋转 + 轻微色相偏移</span><br><span class="line">  水线与陡坡：不种树</span><br><span class="line">· 山顶的树密度要是山腰的 2–3 倍，让轮廓看起来「有林子」，不是「有几棵树」。</span><br><span class="line">· 地被另算一层：草丛 / 蕨类 / 灌木 / 野花按高度和噪声做斑块状分布，避开沙滩。</span><br><span class="line">· 出生点与主路两侧手动放几株当「框景」，只在这一处允许手写坐标。</span><br><span class="line">· 所有实例化对象要设投影与接收阴影，但数量大的用 InstancedMesh 或合并几何。</span><br><span class="line"></span><br><span class="line">════ 4. 船只：用现成模型，甲板高度靠射线量</span><br><span class="line">· 从 CC0 素材站拿一艘带桅杆和索具的帆船 GLB，不要用基本几何体拼。</span><br><span class="line">· 模型放进场景后有三件事要处理：</span><br><span class="line">  a) 朝向对齐：模型船首方向与游戏前进方向不一致时，外面包一层 Group 转 90°。</span><br><span class="line">  b) 归一化：按包围盒缩放到目标船长，垂直方向以龙骨为基准，吃水自己定（约 2.6 m）。</span><br><span class="line">  c) 甲板高度表：从上方沿船长方向打 N 条射线到船体网格，把命中高度存成</span><br><span class="line">     N 个采样点的表，玩家行走时用插值查表。禁止假设甲板是平的。</span><br><span class="line">· 甲板上的道具（箱子 / 桶 / 灯柱 / 舵轮 / 绳梯）在模型到位后按实测甲板重新摆放。</span><br><span class="line">· 上下船用舷侧绳梯；系缆绳从船舷连到码头桩。</span><br><span class="line">· 航行动力学保持简单：速度、舵角、帆面积三段，带惯性，转弯时轻微横倾。</span><br><span class="line"></span><br><span class="line">════ 5. 海底地形：必须和岛的岸坡接得上</span><br><span class="line">· 海床高度用 seabedHeight(x, z)，公式的第一段必须与岛屿解析水下坡**严格同式**</span><br><span class="line">  （同一个 shoreRadius(θ)），保证两者重叠区不穿模、不出现台阶。</span><br><span class="line">· 离岸后过渡到平原（约 -23 m），叠加低频沙丘噪声、几个高斯隆起的礁石区，</span><br><span class="line">  再用一条「被压扁的胶囊体」函数 carve 出一条海沟。</span><br><span class="line">· 海床网格用放射环划分（近岸密、远海疏），顶点色区分沙 / 泥 / 岩，</span><br><span class="line">  片元里叠焦散光斑。</span><br><span class="line">· 风格化优先：起伏要缓、棱角要软，不做真实海底摄影那套。</span><br><span class="line"></span><br><span class="line">════ 6. 海底生态：分带布置，不要平铺</span><br><span class="line">· 生态按深度带：</span><br><span class="line">  岸坡浅水（0 ~ -6 m）：成片海带、零散珊瑚头、海扇</span><br><span class="line">  中深度（-6 ~ -14 m）：海藻林、礁石拱门、气泡柱、章鱼栖身的石堆</span><br><span class="line">  深海（&lt; -14 m）：稀疏、以沙地和岩块为主，鱼群大、个体少</span><br><span class="line">· 鱼群用 InstancedMesh：一个群 12–24 条，每帧在 JS 里算群心环游轨迹，</span><br><span class="line">  个体做相位偏移；尾巴摆动用顶点着色器（onBeforeCompile）按实例位置算相位，</span><br><span class="line">  不要每帧改 CPU 顶点。</span><br><span class="line">· 水母单独做：半透明伞体 + 触须，各自正弦漂浮，禁止同步（相位必须随机）。</span><br><span class="line">· 大型独游生物（海龟 / 蝠鲼）走大半径回环，姿态朝切线方向。</span><br><span class="line">· 沉船残骸压在沙地上，材质整体压暗做旧，跳过帆与索具部件避免穿模。</span><br><span class="line"></span><br><span class="line">════ 7. 水下：质感是四样东西叠出来的</span><br><span class="line">· 相机：水面上下用滞回判定（进入 / 离开阈值不同，防抖）。</span><br><span class="line">  潜水时相机轻微滚转 + FOV 微变 + 缓慢上下浮动；浮力微弱，按住下潜键才下沉。</span><br><span class="line">· 四件套缺一不可：</span><br><span class="line">  1) 深度雾：FogExp2，颜色深青，密度随深度和天气能见度变化</span><br><span class="line">  2) 焦散：海床和岩石上的移动光斑，强度跟随太阳高度与云量</span><br><span class="line">  3) 体积光束：从水面斜射下来的锥形面片，additive、只在相机位于水下时可见</span><br><span class="line">  4) 后处理折射：全屏 UV 波动 + 轻微色散 + 冷色调 + 暗角，水面上下平滑过渡</span><br><span class="line">· 从水下仰视时，海面要呈现「斯涅尔窗」：头顶一块明亮的圆形天窗，</span><br><span class="line">  周围是镜面反射的暗区。这个分支写在海面着色器里。</span><br><span class="line">· 悬浮颗粒：相机周围一小团 Points，水下才淡入。</span><br><span class="line"></span><br><span class="line">════ 8. 昼夜：把美术判断变成关键帧表</span><br><span class="line">· 建一个 DAY_KEYS 数组，按 t（0 = 午夜，0.5 = 正午）排关键帧，至少 9 帧：</span><br><span class="line">  深夜 / 黎明前 / 日出 / 上午 / 正午 / 下午 / 黄昏 / 日落 / 入夜。</span><br><span class="line">· 每帧存：太阳色与强度、天顶 / 中层 / 地平线 / 地面四段天空色、雾色与雾密度、</span><br><span class="line">  三层水色（浅 / 中 / 深）、焦散强度、半球光强度、曝光。</span><br><span class="line">· 插值函数在相邻帧之间做平滑混合（颜色走 HSL 或线性都行，但必须连续），</span><br><span class="line">  禁止用 if (hour &gt; 18) 这种硬切。</span><br><span class="line">· 太阳方向用仰角曲线算，夜里必须落到地平线以下（负仰角），并让月亮接管主光。</span><br><span class="line">· 天空盒是着色器穹顶：渐变 + 云层 + 夜间星空 + 月亮本体 + 闪电白闪。</span><br><span class="line">  星星必须是「网格单元内的高斯点」，不能整格涂白。</span><br><span class="line">· 夜晚的海面要真的暗下来：太阳的镜面项和次表面散射要乘一个「太阳可见度」，</span><br><span class="line">  夜里归零。否则会得到一片发青绿的海。</span><br><span class="line"></span><br><span class="line">════ 9. 天气：6 种状态 = 11 个乘子</span><br><span class="line">· 天气不是开关，是一组可以插值的参数。每种天气定义 11 个乘子：</span><br><span class="line">  云量、阳光衰减、雾倍率、浪高、泡沫、涟漪、雨量、风力、焦散、水下能见度、饱和度。</span><br><span class="line">· 六种：晴 / 多云 / 阴天 / 小雨 / 暴风雨 / 海雾。</span><br><span class="line">  暴风雨：浪高 2.4×、泡沫 1.7×、雨 4800 粒、风力 2.6×、能见度 0.3×。</span><br><span class="line">· 当前值每帧朝目标值 lerp（时间常数 2–4 秒），所有天气切换都走同一条路径，</span><br><span class="line">  所以永远不会有硬切。</span><br><span class="line">· 雨用 LineSegments + 着色器：相机周围一个盒子内下落、出界回绕、按风力倾斜。</span><br><span class="line">  数量分档，上限 4800，低画质档减半。</span><br><span class="line">· 闪电：只在暴风雨下计时，间隔 4–9 秒随机，一次双闪（强-弱），</span><br><span class="line">  同时驱动天空白闪和场景提亮。</span><br><span class="line">· 雾天只调雾密度和饱和度，不要动浪。</span><br><span class="line"></span><br><span class="line">════ 10. UI 与性能</span><br><span class="line">· 左上角一个轻量面板：时间滑块（可直接拖动预览某时刻）、暂停、1× / 8× / 60× 变速、</span><br><span class="line">  六个天气按钮（当前项高亮）、自动变天开关（每 90–160 秒随机切一次）。</span><br><span class="line">· 面板要显示当前时刻与天气名，随系统状态回写，不要只往下发不收。</span><br><span class="line">· 画质分档：像素比、阴影开关、雨粒子上限、后处理是否启用。</span><br><span class="line">· 后处理用 EffectComposer + RenderPass + 自定义水下 ShaderPass + OutputPass，</span><br><span class="line">  色调映射统一交给 OutputPass。常开管线，不要在水下才创建——</span><br><span class="line">  中途创建渲染目标会导致全材质重编译，卡一秒。</span><br><span class="line"></span><br><span class="line">════ 11. 明确禁止</span><br><span class="line">· 禁止用基本几何体（Box / Sphere / Cylinder）拼船、拼树、拼海鸥、拼云。</span><br><span class="line">  这些必须是 CC0 的 GLB 模型。程序化几何只允许用于：地形、海床、海面、天空穹顶、粒子。</span><br><span class="line">· 禁止把所有资源塞进 base64。</span><br><span class="line">· 禁止用 setInterval 驱动主循环；用 requestAnimationFrame + dt。</span><br><span class="line">· 禁止在渲染循环里 new 对象 / 查 DOM / 读 localStorage。</span><br><span class="line">· 禁止假设「甲板是平的」「水面是平的」「模型船首朝 +Z」。</span><br><span class="line"></span><br><span class="line">════ 12. 验收（必须逐条截图确认，不许只跑通就说完成）</span><br><span class="line">1. 双击 index.html（file://）→ 出现引导卡，不是白屏也不是缺模型的场景。</span><br><span class="line">2. 双击 start.bat → 场景完整：船、码头、森林、海面都在，控制台零报错。</span><br><span class="line">3. 站在沙滩上看山：山上是密林，沙滩上只有棕榈，水线附近没有树。</span><br><span class="line">4. 上船、转舵、升帆 → 船沿水面起伏，玩家在甲板上不穿模、不悬空。</span><br><span class="line">5. 跳进海里按 Ctrl 下潜 → 有雾、有焦散、有光束、有鱼群，仰视有明亮天窗。</span><br><span class="line">6. 把时间滑块拖到 0.3 / 0.5 / 0.75 / 0.0 →</span><br><span class="line">   黎明粉橙、正午冷亮、黄昏金橘、夜晚深蓝带星空月光，四张截图都对。</span><br><span class="line">7. 切暴风雨 → 乌云、斜雨、白浪泡沫、闪电，水下能见度明显下降。</span><br><span class="line">8. 切海雾 → 远处岛屿消失，饱和度下降，不出现「白幕」。</span><br><span class="line">9. 演奏乐器：按住左键持续演奏，松开停止，再次按下换下一首（准备 4 首曲子）。</span><br><span class="line">10. 全过程把页面丢进无头浏览器，收集 pageerror 和 4xx 请求，必须为 0。</span><br><span class="line"></span><br><span class="line">════ 13. 参考数值（可直接用，也可按需微调）</span><br><span class="line">· 船长 24 m / 船宽 6.3 m / 吃水 2.6 m / 甲板高约 1.15 m（模型实测 3.59 m 全高）</span><br><span class="line">· 海沟：从 (30, 132) 到 (96, 172)，宽 15 m，最深 11 m</span><br><span class="line">· 深海平原 -23 m，海床最小深度 -1.4 m</span><br><span class="line">· 昼夜：9 帧，t = 0 / .23 / .28 / .40 / .60 / .75 / .82 / .90 / 1</span><br><span class="line">· 天气乘子（晴 / 暴风雨）：云量 0.10 / 1.00，浪 1.0 / 2.4，风 1.0 / 2.6，</span><br><span class="line">  水下能见度 1.0 / 0.3，雾倍率 1.0 / 2.1</span><br><span class="line">· 夜海水色参考 0x09242e / 0x041018，正午 0x147a8c / 0x0a4a64</span><br><span class="line"></span><br><span class="line">════ 工作方式</span><br><span class="line">· 分阶段交付，每阶段结束先自查再继续；每完成一个阶段告诉我改了什么。</span><br><span class="line">· 不确定的数值不要编，先在场景里量（射线 / 包围盒 / 采样），把测量结果存成表。</span><br><span class="line">· 遇到「某个东西不对」，先判断是渲染问题还是数据问题，再动手。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="二、为什么是这么写的"><a href="#二、为什么是这么写的" class="headerlink" title="二、为什么是这么写的"></a>二、为什么是这么写的</h2><p>这份提示词里几乎没有「做得好看一点」这种话。每一条约束背后都对应一次真实的返工，把它们反推回去，大致是这样：</p>
+<table>
+<thead>
+<tr>
+<th>提示词里的段落</th>
+<th>它真正在防什么</th>
+<th>对应那次踩的坑</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0. 交付形态</td>
+<td>防止 AI 自作主张拆模块、上构建工具</td>
+<td>单文件是这个项目的核心约束，一旦破掉，后面每条都要重写</td>
+</tr>
+<tr>
+<td>1. 环境红线</td>
+<td>防止「静默失败」被当成「没生成」</td>
+<td>双击打不开，<code>file://</code> 下 GLB 全部消失，控制台才有 CORS</td>
+</tr>
+<tr>
+<td>2. <code>waveAt</code> 与着色器共用参数</td>
+<td>防止船和水面各算各的</td>
+<td>船浮在水下或悬在水上，都是两套波参数造成的</td>
+</tr>
+<tr>
+<td>3. 高度带 + 密度倍数</td>
+<td>把审美判断翻译成可执行参数</td>
+<td>「树怎么长在沙滩上」——原实现只看噪声不看高度</td>
+</tr>
+<tr>
+<td>4. 射线量甲板</td>
+<td>防止假设甲板是平的</td>
+<td>换模型后玩家站在半空或陷进甲板</td>
+</tr>
+<tr>
+<td>5. 海床与岸坡同式</td>
+<td>防止两套地形函数打架</td>
+<td>岸线与海床重叠区穿模、出现台阶</td>
+</tr>
+<tr>
+<td>6. 分带 + InstancedMesh</td>
+<td>防止「撒点式」生态和性能崩塌</td>
+<td>鱼群逐帧改顶点 → 掉帧；生物全在同一深度</td>
+</tr>
+<tr>
+<td>7. 四件套 + 滞回</td>
+<td>让「水下质感」可验收</td>
+<td>「要有潜水的感觉」无法执行，拆成雾&#x2F;焦散&#x2F;光束&#x2F;折射才行</td>
+</tr>
+<tr>
+<td>8. 9 帧表 + 夜里负仰角</td>
+<td>防止硬编码时段、防止夜里太阳不落山</td>
+<td>夜晚海水发青绿，根因是太阳仍在地平线上</td>
+</tr>
+<tr>
+<td>9. 11 个乘子</td>
+<td>让「天气过渡」有唯一实现路径</td>
+<td>逐种天气写 if 分支 → 切换必然硬切</td>
+</tr>
+<tr>
+<td>10. OutputPass</td>
+<td>防止中途创建渲染目标</td>
+<td>下潜瞬间卡顿一秒，全材质重编译</td>
+</tr>
+<tr>
+<td>11. 禁止清单</td>
+<td>防止用基本几何体凑数</td>
+<td>用户明确要求：海鸥、云也不能自己搭</td>
+</tr>
+<tr>
+<td>12. 十条验收</td>
+<td>把「完成」定义清楚</td>
+<td>不写验收，AI 会以「代码跑通」为完成</td>
+</tr>
+</tbody></table>
+<p>一个反直觉的地方：<strong>提示词里最值钱的不是「要什么」，而是「不许什么」</strong>。约束越具体，AI 的自由度越落在正确的地方。第 11 条那五句禁止，比前面十节加起来省的时间都多。</p>
+<hr>
+<h2 id="三、验收清单（可以直接照做）"><a href="#三、验收清单（可以直接照做）" class="headerlink" title="三、验收清单（可以直接照做）"></a>三、验收清单（可以直接照做）</h2><p>把这张表当成 checklist。前六条不过关，先别加新功能——后面所有效果都建立在这六条之上。</p>
+<ul>
+<li><input disabled="" type="checkbox"> <code>file://</code> 打开 → 引导卡出现，不是白屏</li>
+<li><input disabled="" type="checkbox"> <code>start.bat</code> 打开 → 控制台 0 报错，<code>GLB 就位 69/69</code></li>
+<li><input disabled="" type="checkbox"> 沙滩看山：山顶密林、沙滩只有棕榈、水线无树</li>
+<li><input disabled="" type="checkbox"> 上船转舵：船贴水面起伏，人在甲板不穿模</li>
+<li><input disabled="" type="checkbox"> 下潜：雾 + 焦散 + 光束 + 鱼群 + 仰视天窗，五样齐</li>
+<li><input disabled="" type="checkbox"> 四个时刻各截一张：黎明 &#x2F; 正午 &#x2F; 黄昏 &#x2F; 夜晚，色调都对</li>
+<li><input disabled="" type="checkbox"> 暴风雨：乌云 + 斜雨 + 白浪 + 闪电 + 水下能见度骤降</li>
+<li><input disabled="" type="checkbox"> 海雾：远岛消失但不发白</li>
+<li><input disabled="" type="checkbox"> 按住左键演奏、松开换曲</li>
+<li><input disabled="" type="checkbox"> <code>pageerror</code> 与 4xx 请求均为 0</li>
+</ul>
+<hr>
+<h2 id="四、如果你是在改造已有项目"><a href="#四、如果你是在改造已有项目" class="headerlink" title="四、如果你是在改造已有项目"></a>四、如果你是在改造已有项目</h2><p>上面那份是从零起。如果手上已经有一个能跑的版本，只是要加海底、昼夜和天气，用这份增量版更省事——关键是<strong>先说清楚什么不许动</strong>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">在现有这个 Three.js 海岛 Demo 上做增量改造。先读代码，不要重写。</span><br><span class="line"></span><br><span class="line">【不许动】</span><br><span class="line">· 现有的船只航行、海面 Shader、水下地形、海底生态逻辑——一行都不许推倒重来。</span><br><span class="line">· 不许改文件结构，不许引入构建工具，不许新增依赖。</span><br><span class="line">· 不许把已有函数改名（除非你自己同步所有调用点并告诉我改了哪里）。</span><br><span class="line"></span><br><span class="line">【要加的四块】</span><br><span class="line">1) 昼夜系统：把写死的黄昏光照换成 9 帧关键帧表 + 平滑插值，</span><br><span class="line">   太阳方向按仰角曲线走，夜里落到地平线下并让月亮接管主光；</span><br><span class="line">   天空穹顶加星空（单元内高斯星点，不要整格涂白）和月亮本体。</span><br><span class="line">2) 天气系统：6 种状态，每种 11 个乘子（云量/阳光/雾/浪/泡沫/涟漪/雨/风/焦散/能见度/饱和度），</span><br><span class="line">   当前值向目标值 lerp，禁止逐种写 if 分支。</span><br><span class="line">3) 雨与闪电：LineSegments 着色器雨（相机周围回绕 + 风力倾斜，上限 4800，分档），</span><br><span class="line">   闪电 4–9 秒随机双闪，同时驱动天空白闪和场景提亮。</span><br><span class="line">4) UI 面板：时间滑块（可拖动预览）、暂停、1×/8×/60× 变速、6 个天气按钮、自动变天开关，</span><br><span class="line">  面板要显示当前时刻与天气，状态双向同步。</span><br><span class="line"></span><br><span class="line">【共享通道】</span><br><span class="line">新建一组共享 uniforms（夜度/云量/闪电/太阳可见度/浪高倍率/泡沫倍率/涟漪/焦散/风力），</span><br><span class="line">合并进天空穹顶和海面材质的 uniforms 里，让两个着色器读同一份环境状态。</span><br><span class="line"></span><br><span class="line">【加注释区分】</span><br><span class="line">新增模块统一加「★ 新增」前缀注释，并在文件顶部维护一份模块索引。</span><br><span class="line"></span><br><span class="line">做完先自查：页面零报错、原功能全部还能用，再逐条截图给我看（四个时刻 + 三种天气 + 水上水下）。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、这条提示词本身是怎么来的"><a href="#五、这条提示词本身是怎么来的" class="headerlink" title="五、这条提示词本身是怎么来的"></a>五、这条提示词本身是怎么来的</h2><p>不是一开始就写成这样的。真实顺序是反过来的：<strong>先撞墙，再把墙记下来</strong>。</p>
+<p>第一版需求只有一句话——「加入海底地形和生态，游泳要有潜水的质感」。这句话对一个 AI 来说几乎无法执行：什么叫质感？加几层雾算够？所以第一轮出来的东西一定是「看起来有，但不对」。之后每一轮对话，实际上都在做同一件事：</p>
+<blockquote>
+<p>把一句「我觉得不对」翻译成一句既能让 AI 执行、又能让我验收的话。</p>
+</blockquote>
+<p>「树不该长在沙滩上」→「按高度带分配物种，山顶密度 3 倍于山腰」。<br>「水下没感觉」→「雾&#x2F;焦散&#x2F;体积光&#x2F;折射四件套 + 仰视斯涅尔窗」。<br>「天气切换太突然」→「11 个乘子，当前值向目标值 lerp，时间常数 2–4 秒」。</p>
+<p>每完成一次翻译，就往这份提示词里加一条。所以上面那 13 节，本质是 13 次返工的沉淀物。</p>
+<p>如果你要拿它做别的东西，真正该抄的不是那些数字，是这套结构：<strong>先锁交付形态，再定红线，然后每个效果给出可验收的分解，最后写禁止清单和十张截图。</strong></p>
+<hr>
+<p><strong><a href="/2026/11/13/vibe-coding-dusk-isles/">← 回到《vibe coding：黄昏海岛 1.0》</a></strong>　·　<strong><a target="_blank" rel="noopener" href="https://dusk-isles-3d.app.workbuddy.host/?sharecode=73H2SNZEKE">直接玩一局 →</a></strong></p>
+</div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/favicon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">十九画生</div><div class="author-info__description">低头哭过别忘了抬头继续走</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">17</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Myability-component/Myability-component.github.io.git"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Myability-component" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:1875285962@qq.com" target="_blank" title="Email"><i class="fas fa-envelope-open-text"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">这是十九画生的数字花园<img src="/img/momo.gif"></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/11/13/vibe-coding-dusk-isles/" title="vibe coding：黄昏海岛1.0（WorkBuddy）"><img src="/img/vibe-coding/dusk-isles-hero.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vibe coding：黄昏海岛1.0（WorkBuddy）"/></a><div class="content"><a class="title" href="/2026/11/13/vibe-coding-dusk-isles/" title="vibe coding：黄昏海岛1.0（WorkBuddy）">vibe coding：黄昏海岛1.0（WorkBuddy）</a><time datetime="2026-11-13T07:00:00.000Z" title="发表于 2026-11-13 15:00:00">2026-11-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/11/10/ppt-template-doubao/" title="PPT：模板创作（豆包）"><img src="/img/ppt-template/ppt-template-cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="PPT：模板创作（豆包）"/></a><div class="content"><a class="title" href="/2026/11/10/ppt-template-doubao/" title="PPT：模板创作（豆包）">PPT：模板创作（豆包）</a><time datetime="2026-11-10T05:50:00.000Z" title="发表于 2026-11-10 13:50:00">2026-11-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/11/10/vibe-coding-drawing-tool/" title="vibe coding：画图工具（WorkBuddy）"><img src="/img/vibe-coding/drawing-tool-promo.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vibe coding：画图工具（WorkBuddy）"/></a><div class="content"><a class="title" href="/2026/11/10/vibe-coding-drawing-tool/" title="vibe coding：画图工具（WorkBuddy）">vibe coding：画图工具（WorkBuddy）</a><time datetime="2026-11-10T03:56:00.000Z" title="发表于 2026-11-10 11:56:00">2026-11-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/14/%E6%95%B0%E5%AD%97%E4%BA%BA%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90%E5%B9%B3%E5%8F%B0/" title="数字人视频生成创作平台"><img src="/img/digital-human/cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="数字人视频生成创作平台"/></a><div class="content"><a class="title" href="/2025/10/14/%E6%95%B0%E5%AD%97%E4%BA%BA%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90%E5%B9%B3%E5%8F%B0/" title="数字人视频生成创作平台">数字人视频生成创作平台</a><time datetime="2025-10-14T05:53:11.486Z" title="发表于 2025-10-14 13:53:11">2025-10-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/14/%E6%98%9F%E5%9B%BE/" title="星图"><img src="/img/img/5cf5fef3945b9a2d50cb4886h1a502533ff3440a.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="星图"/></a><div class="content"><a class="title" href="/2025/10/14/%E6%98%9F%E5%9B%BE/" title="星图">星图</a><time datetime="2025-10-14T05:46:33.008Z" title="发表于 2025-10-14 13:46:33">2025-10-14</time></div></div></div></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/ACBS/" style="font-size: 1.1em; color: #999">ACBS</a> <a href="/tags/AI%E6%8B%93%E5%AE%A2/" style="font-size: 1.1em; color: #999">AI拓客</a> <a href="/tags/Canvas/" style="font-size: 1.1em; color: #999">Canvas</a> <a href="/tags/PPT/" style="font-size: 1.1em; color: #999">PPT</a> <a href="/tags/Three-js/" style="font-size: 1.1em; color: #999">Three.js</a> <a href="/tags/WorkBuddy/" style="font-size: 1.5em; color: #99a9bf">WorkBuddy</a> <a href="/tags/vibe-coding/" style="font-size: 1.5em; color: #99a9bf">vibe coding</a> <a href="/tags/%E5%8D%95%E6%96%87%E4%BB%B6%E5%BA%94%E7%94%A8/" style="font-size: 1.1em; color: #999">单文件应用</a> <a href="/tags/%E5%AE%89%E6%8E%92%E6%8A%A5%E4%BB%B7/" style="font-size: 1.1em; color: #999">安排报价</a> <a href="/tags/%E6%8F%90%E7%A4%BA%E8%AF%8D%E5%B7%A5%E7%A8%8B/" style="font-size: 1.1em; color: #999">提示词工程</a> <a href="/tags/%E6%95%B0%E5%AD%97%E4%BA%BA%E8%A7%86%E9%A2%91%E7%94%9F%E6%88%90%E5%88%9B%E4%BD%9C%E5%B9%B3%E5%8F%B0/" style="font-size: 1.1em; color: #999">数字人视频生成创作平台</a> <a href="/tags/%E6%98%9F%E5%9B%BE/" style="font-size: 1.1em; color: #999">星图</a> <a href="/tags/%E6%A8%A1%E6%9D%BF%E8%AE%BE%E8%AE%A1/" style="font-size: 1.1em; color: #999">模板设计</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 1.1em; color: #999">游戏</a> <a href="/tags/%E7%9D%80%E8%89%B2%E5%99%A8/" style="font-size: 1.1em; color: #999">着色器</a> <a href="/tags/%E8%94%9A%E8%93%9D%E6%99%BA%E5%BA%93-%E5%9C%A8%E7%BA%BF%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0/" style="font-size: 1.1em; color: #999">蔚蓝智库 - 在线学习平台</a> <a href="/tags/%E8%B1%86%E5%8C%85/" style="font-size: 1.1em; color: #999">豆包</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/11/"><span class="card-archive-list-date">十一月 2026</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/10/"><span class="card-archive-list-date">十月 2025</span><span class="card-archive-list-count">5</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/04/"><span class="card-archive-list-date">四月 2022</span><span class="card-archive-list-count">1</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">9</div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">24.8k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-11-13T07:35:00.215Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2026 By 十九画生</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false});</script></body></html>
