@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>threejs-water · 基础示例</title>
+    <link rel="icon" href="data:," />
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+        background: #04101c;
+        color: #eee;
+        font-family: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+      }
+
+      #stage {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* 加载/错误提示：和场景面板同一套视觉 */
+      #boot {
+        position: absolute;
+        inset: 0;
+        z-index: 30;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        background: #0a0f14;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+
+      #boot[data-state='ready'] {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      #boot h1 {
+        margin: 0;
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      #boot p {
+        margin: 0;
+        font-size: 10px;
+        color: #6fd7ff;
+      }
+
+      #boot[data-state='error'] p {
+        color: #ff8a80;
+      }
+
+      #boot .track {
+        width: 180px;
+        height: 2px;
+        background: #262626;
+      }
+
+      #boot .fill {
+        width: 0;
+        height: 100%;
+        background: #00c8ff;
+        transition: width 0.25s ease;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="stage">
+      <div id="boot" data-state="loading">
+        <h1>Three.js Water Package Demo</h1>
+        <p id="boot-label">initializing…</p>
+        <div class="track"><div class="fill" id="boot-fill"></div></div>
+      </div>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
