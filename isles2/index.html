@@ -451,6 +451,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
 import { clone as cloneSkeleton } from 'three/addons/utils/SkeletonUtils.js';
 import * as RAPIER from '@dimforge/rapier3d-compat';
@@ -5938,8 +5939,11 @@ function makeWreckedBarrel(seed){
           摆放矩阵 × 归一化矩阵 × 部件局部矩阵；一棵一万面的树撒几十棵也只有 1~2 个 draw call。
    ========================================================================== */
 const GLB_DIR = 'assets/models/';
-/* 传 manager：否则 GLTFLoader 走 DefaultLoadingManager，进度条永远停在 0 */
+/* 传 manager：否则 GLTFLoader 走 DefaultLoadingManager，进度条永远停在 0。
+   meshopt 解码器：植被/岩石/骷髅兵这批大件用 EXT_meshopt_compression 压过几何，
+   体积减半；没压缩的 GLB 走同一个 loader 也完全兼容。 */
 const gltfLoader = new GLTFLoader(manager);
+gltfLoader.setMeshoptDecoder(MeshoptDecoder);
 /* 扫描件的叶片贴图普遍偏暗（逆光拍摄），直接用会渲染成黑碎片。
    按模型给一个亮度补偿，只作用于「名字里带 leaf/foliage」的部件。 */
 const LEAF_BOOST = {
