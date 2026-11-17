@@ -52156,11 +52156,24 @@ var WaterScene = class extends Emitter {
     }
     void this.loadModels();
   }
-  loadTexture(path, srgb = false) {
+  loadTexture(path, srgb = false, attempt = 0) {
     const texture = new TextureLoader().load(path, (loaded) => {
       if (this.disposed) loaded.dispose();
     }, void 0, () => {
-      if (!this.disposed) this.callbacks.error(`\u7EB9\u7406\u52A0\u8F7D\u5931\u8D25\uFF1A${path}`);
+      if (this.disposed) return;
+      if (attempt < 1) {
+        window.setTimeout(() => {
+          if (this.disposed) return;
+          const retry = new TextureLoader().load(`${path}${path.includes("?") ? "&" : "?"}retry=1`, (image) => {
+            if (this.disposed) return;
+            texture.image = image.image;
+            texture.needsUpdate = true;
+          }, void 0, () => console.warn(`[threejs-water] \u7EB9\u7406\u52A0\u8F7D\u5931\u8D25\uFF08\u91CD\u8BD5\u540E\uFF09\uFF1A${path}`));
+          retry.wrapS = retry.wrapT = RepeatWrapping;
+        }, 600);
+        return;
+      }
+      console.warn(`[threejs-water] \u7EB9\u7406\u52A0\u8F7D\u5931\u8D25\uFF1A${path}`);
     });
     texture.wrapS = texture.wrapT = RepeatWrapping;
     texture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
