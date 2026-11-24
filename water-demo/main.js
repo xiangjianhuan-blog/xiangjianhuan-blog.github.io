@@ -309,7 +309,7 @@ function ceilPowerOfTwo(value) {
 function floorPowerOfTwo(value) {
   return Math.pow(2, Math.floor(Math.log(value) / Math.LN2));
 }
-function setQuaternionFromProperEuler(q3, a3, b6, c5, order) {
+function setQuaternionFromProperEuler(q4, a3, b6, c5, order) {
   const cos = Math.cos;
   const sin = Math.sin;
   const c22 = cos(b6 / 2);
@@ -322,22 +322,22 @@ function setQuaternionFromProperEuler(q3, a3, b6, c5, order) {
   const s3_1 = sin((c5 - a3) / 2);
   switch (order) {
     case "XYX":
-      q3.set(c22 * s13, s2 * c1_3, s2 * s1_3, c22 * c13);
+      q4.set(c22 * s13, s2 * c1_3, s2 * s1_3, c22 * c13);
       break;
     case "YZY":
-      q3.set(s2 * s1_3, c22 * s13, s2 * c1_3, c22 * c13);
+      q4.set(s2 * s1_3, c22 * s13, s2 * c1_3, c22 * c13);
       break;
     case "ZXZ":
-      q3.set(s2 * c1_3, s2 * s1_3, c22 * s13, c22 * c13);
+      q4.set(s2 * c1_3, s2 * s1_3, c22 * s13, c22 * c13);
       break;
     case "XZX":
-      q3.set(c22 * s13, s2 * s3_1, s2 * c3_1, c22 * c13);
+      q4.set(c22 * s13, s2 * s3_1, s2 * c3_1, c22 * c13);
       break;
     case "YXY":
-      q3.set(s2 * c3_1, c22 * s13, s2 * s3_1, c22 * c13);
+      q4.set(s2 * c3_1, c22 * s13, s2 * s3_1, c22 * c13);
       break;
     case "ZYZ":
-      q3.set(s2 * s3_1, s2 * c3_1, c22 * s13, c22 * c13);
+      q4.set(s2 * s3_1, s2 * c3_1, c22 * s13, c22 * c13);
       break;
     default:
       console.warn("THREE.MathUtils: .setQuaternionFromProperEuler() encountered an unknown order: " + order);
@@ -1295,11 +1295,11 @@ var Quaternion = class {
       z0 = z0 * s2 + z1 * tDir;
       w0 = w0 * s2 + w1 * tDir;
       if (s2 === 1 - t3) {
-        const f3 = 1 / Math.sqrt(x02 * x02 + y02 * y02 + z0 * z0 + w0 * w0);
-        x02 *= f3;
-        y02 *= f3;
-        z0 *= f3;
-        w0 *= f3;
+        const f4 = 1 / Math.sqrt(x02 * x02 + y02 * y02 + z0 * z0 + w0 * w0);
+        x02 *= f4;
+        y02 *= f4;
+        z0 *= f4;
+        w0 *= f4;
       }
     }
     dst[dstOffset] = x02;
@@ -1576,8 +1576,8 @@ var Quaternion = class {
    * @param {Quaternion} q - The quaternion to compute the angle with.
    * @return {number} The angle in radians.
    */
-  angleTo(q3) {
-    return 2 * Math.acos(Math.abs(clamp(this.dot(q3), -1, 1)));
+  angleTo(q4) {
+    return 2 * Math.acos(Math.abs(clamp(this.dot(q4), -1, 1)));
   }
   /**
    * Rotates this quaternion by a given angular step to the given quaternion.
@@ -1587,11 +1587,11 @@ var Quaternion = class {
    * @param {number} step - The angular step in radians.
    * @return {Quaternion} A reference to this quaternion.
    */
-  rotateTowards(q3, step) {
-    const angle = this.angleTo(q3);
+  rotateTowards(q4, step) {
+    const angle = this.angleTo(q4);
     if (angle === 0) return this;
     const t3 = Math.min(1, step / angle);
-    this.slerp(q3, t3);
+    this.slerp(q4, t3);
     return this;
   }
   /**
@@ -1684,8 +1684,8 @@ var Quaternion = class {
    * @param {Quaternion} q - The quaternion.
    * @return {Quaternion} A reference to this quaternion.
    */
-  multiply(q3) {
-    return this.multiplyQuaternions(this, q3);
+  multiply(q4) {
+    return this.multiplyQuaternions(this, q4);
   }
   /**
    * Pre-multiplies this quaternion by the given one.
@@ -1693,8 +1693,8 @@ var Quaternion = class {
    * @param {Quaternion} q - The quaternion.
    * @return {Quaternion} A reference to this quaternion.
    */
-  premultiply(q3) {
-    return this.multiplyQuaternions(q3, this);
+  premultiply(q4) {
+    return this.multiplyQuaternions(q4, this);
   }
   /**
    * Multiplies the given quaternions and stores the result in this instance.
@@ -2188,9 +2188,9 @@ var Vector3 = class _Vector3 {
    * @param {Quaternion} q - The Quaternion.
    * @return {Vector3} A reference to this vector.
    */
-  applyQuaternion(q3) {
+  applyQuaternion(q4) {
     const vx = this.x, vy = this.y, vz = this.z;
-    const qx = q3.x, qy = q3.y, qz = q3.z, qw = q3.w;
+    const qx = q4.x, qy = q4.y, qz = q4.z, qw = q4.w;
     const tx = 2 * (qy * vz - qz * vy);
     const ty = 2 * (qz * vx - qx * vz);
     const tz = 2 * (qx * vy - qy * vx);
@@ -2206,8 +2206,8 @@ var Vector3 = class _Vector3 {
    * @param {Camera} camera - The camera.
    * @return {Vector3} A reference to this vector.
    */
-  project(camera) {
-    return this.applyMatrix4(camera.matrixWorldInverse).applyMatrix4(camera.projectionMatrix);
+  project(camera2) {
+    return this.applyMatrix4(camera2.matrixWorldInverse).applyMatrix4(camera2.projectionMatrix);
   }
   /**
    * Unprojects this vector from the camera's normalized device coordinate (NDC)
@@ -2216,8 +2216,8 @@ var Vector3 = class _Vector3 {
    * @param {Camera} camera - The camera.
    * @return {Vector3} A reference to this vector.
    */
-  unproject(camera) {
-    return this.applyMatrix4(camera.projectionMatrixInverse).applyMatrix4(camera.matrixWorld);
+  unproject(camera2) {
+    return this.applyMatrix4(camera2.projectionMatrixInverse).applyMatrix4(camera2.matrixWorld);
   }
   /**
    * Transforms the direction of this vector by a matrix (the upper left 3 x 3
@@ -2523,8 +2523,8 @@ var Vector3 = class _Vector3 {
    * @param {Vector3} normal - The (normalized) normal vector.
    * @return {Vector3} A reference to this vector.
    */
-  reflect(normal) {
-    return this.sub(_vector$c.copy(normal).multiplyScalar(2 * this.dot(normal)));
+  reflect(normal2) {
+    return this.sub(_vector$c.copy(normal2).multiplyScalar(2 * this.dot(normal2)));
   }
   /**
    * Returns the angle between the given vector and this instance in radians.
@@ -2982,8 +2982,8 @@ var Matrix3 = class _Matrix3 {
    */
   determinant() {
     const te4 = this.elements;
-    const a3 = te4[0], b6 = te4[1], c5 = te4[2], d3 = te4[3], e4 = te4[4], f3 = te4[5], g6 = te4[6], h3 = te4[7], i4 = te4[8];
-    return a3 * e4 * i4 - a3 * f3 * h3 - b6 * d3 * i4 + b6 * f3 * g6 + c5 * d3 * h3 - c5 * e4 * g6;
+    const a3 = te4[0], b6 = te4[1], c5 = te4[2], d3 = te4[3], e4 = te4[4], f4 = te4[5], g6 = te4[6], h3 = te4[7], i4 = te4[8];
+    return a3 * e4 * i4 - a3 * f4 * h3 - b6 * d3 * i4 + b6 * f4 * g6 + c5 * d3 * h3 - c5 * e4 * g6;
   }
   /**
    * Inverts this matrix, using the [analytic method]{@link https://en.wikipedia.org/wiki/Invertible_matrix#Analytic_solution}.
@@ -3385,8 +3385,8 @@ function createColorManagement() {
       if (colorSpace === NoColorSpace) return LinearTransfer;
       return this.spaces[colorSpace].transfer;
     },
-    getLuminanceCoefficients: function(target, colorSpace = this.workingColorSpace) {
-      return target.fromArray(this.spaces[colorSpace].luminanceCoefficients);
+    getLuminanceCoefficients: function(target2, colorSpace = this.workingColorSpace) {
+      return target2.fromArray(this.spaces[colorSpace].luminanceCoefficients);
     },
     define: function(colorSpaces) {
       Object.assign(this.spaces, colorSpaces);
@@ -3532,16 +3532,16 @@ var Source = class {
     this.dataReady = true;
     this.version = 0;
   }
-  getSize(target) {
+  getSize(target2) {
     const data = this.data;
     if (data instanceof HTMLVideoElement) {
-      target.set(data.videoWidth, data.videoHeight);
+      target2.set(data.videoWidth, data.videoHeight);
     } else if (data !== null) {
-      target.set(data.width, data.height, data.depth || 0);
+      target2.set(data.width, data.height, data.depth || 0);
     } else {
-      target.set(0, 0, 0);
+      target2.set(0, 0, 0);
     }
-    return target;
+    return target2;
   }
   /**
    * When the property is set to `true`, the engine allocates the memory
@@ -4265,17 +4265,17 @@ var Vector4 = class _Vector4 {
    * @param {Quaternion} q - The Quaternion to set.
    * @return {Vector4} A reference to this vector.
    */
-  setAxisAngleFromQuaternion(q3) {
-    this.w = 2 * Math.acos(q3.w);
-    const s2 = Math.sqrt(1 - q3.w * q3.w);
+  setAxisAngleFromQuaternion(q4) {
+    this.w = 2 * Math.acos(q4.w);
+    const s2 = Math.sqrt(1 - q4.w * q4.w);
     if (s2 < 1e-4) {
       this.x = 1;
       this.y = 0;
       this.z = 0;
     } else {
-      this.x = q3.x / s2;
-      this.y = q3.y / s2;
-      this.z = q3.z / s2;
+      this.x = q4.x / s2;
+      this.y = q4.y / s2;
+      this.z = q4.z / s2;
     }
     return this;
   }
@@ -5085,8 +5085,8 @@ var Box3 = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} The center point.
    */
-  getCenter(target) {
-    return this.isEmpty() ? target.set(0, 0, 0) : target.addVectors(this.min, this.max).multiplyScalar(0.5);
+  getCenter(target2) {
+    return this.isEmpty() ? target2.set(0, 0, 0) : target2.addVectors(this.min, this.max).multiplyScalar(0.5);
   }
   /**
    * Returns the dimensions of this box.
@@ -5094,8 +5094,8 @@ var Box3 = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} The size.
    */
-  getSize(target) {
-    return this.isEmpty() ? target.set(0, 0, 0) : target.subVectors(this.max, this.min);
+  getSize(target2) {
+    return this.isEmpty() ? target2.set(0, 0, 0) : target2.subVectors(this.max, this.min);
   }
   /**
    * Expands the boundaries of this box to include the given point.
@@ -5148,9 +5148,9 @@ var Box3 = class {
    */
   expandByObject(object, precise = false) {
     object.updateWorldMatrix(false, false);
-    const geometry = object.geometry;
-    if (geometry !== void 0) {
-      const positionAttribute = geometry.getAttribute("position");
+    const geometry2 = object.geometry;
+    if (geometry2 !== void 0) {
+      const positionAttribute = geometry2.getAttribute("position");
       if (precise === true && positionAttribute !== void 0 && object.isInstancedMesh !== true) {
         for (let i4 = 0, l3 = positionAttribute.count; i4 < l3; i4++) {
           if (object.isMesh === true) {
@@ -5168,10 +5168,10 @@ var Box3 = class {
           }
           _box$4.copy(object.boundingBox);
         } else {
-          if (geometry.boundingBox === null) {
-            geometry.computeBoundingBox();
+          if (geometry2.boundingBox === null) {
+            geometry2.computeBoundingBox();
           }
-          _box$4.copy(geometry.boundingBox);
+          _box$4.copy(geometry2.boundingBox);
         }
         _box$4.applyMatrix4(object.matrixWorld);
         this.union(_box$4);
@@ -5209,8 +5209,8 @@ var Box3 = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} A point as a proportion of this box's width, height and depth.
    */
-  getParameter(point, target) {
-    return target.set(
+  getParameter(point, target2) {
+    return target2.set(
       (point.x - this.min.x) / (this.max.x - this.min.x),
       (point.y - this.min.y) / (this.max.y - this.min.y),
       (point.z - this.min.z) / (this.max.z - this.min.z)
@@ -5241,30 +5241,30 @@ var Box3 = class {
    * @param {Plane} plane - The plane to test.
    * @return {boolean} Whether the given plane intersects with this bounding box.
    */
-  intersectsPlane(plane) {
+  intersectsPlane(plane2) {
     let min, max2;
-    if (plane.normal.x > 0) {
-      min = plane.normal.x * this.min.x;
-      max2 = plane.normal.x * this.max.x;
+    if (plane2.normal.x > 0) {
+      min = plane2.normal.x * this.min.x;
+      max2 = plane2.normal.x * this.max.x;
     } else {
-      min = plane.normal.x * this.max.x;
-      max2 = plane.normal.x * this.min.x;
+      min = plane2.normal.x * this.max.x;
+      max2 = plane2.normal.x * this.min.x;
     }
-    if (plane.normal.y > 0) {
-      min += plane.normal.y * this.min.y;
-      max2 += plane.normal.y * this.max.y;
+    if (plane2.normal.y > 0) {
+      min += plane2.normal.y * this.min.y;
+      max2 += plane2.normal.y * this.max.y;
     } else {
-      min += plane.normal.y * this.max.y;
-      max2 += plane.normal.y * this.min.y;
+      min += plane2.normal.y * this.max.y;
+      max2 += plane2.normal.y * this.min.y;
     }
-    if (plane.normal.z > 0) {
-      min += plane.normal.z * this.min.z;
-      max2 += plane.normal.z * this.max.z;
+    if (plane2.normal.z > 0) {
+      min += plane2.normal.z * this.min.z;
+      max2 += plane2.normal.z * this.max.z;
     } else {
-      min += plane.normal.z * this.max.z;
-      max2 += plane.normal.z * this.min.z;
+      min += plane2.normal.z * this.max.z;
+      max2 += plane2.normal.z * this.min.z;
     }
-    return min <= -plane.constant && max2 >= -plane.constant;
+    return min <= -plane2.constant && max2 >= -plane2.constant;
   }
   /**
    * Returns `true` if the given triangle intersects with this bounding box.
@@ -5331,8 +5331,8 @@ var Box3 = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} The clamped point.
    */
-  clampPoint(point, target) {
-    return target.copy(point).clamp(this.min, this.max);
+  clampPoint(point, target2) {
+    return target2.copy(point).clamp(this.min, this.max);
   }
   /**
    * Returns the euclidean distance from any edge of this box to the specified point. If
@@ -5350,14 +5350,14 @@ var Box3 = class {
    * @param {Sphere} target - The target sphere that is used to store the method's result.
    * @return {Sphere} The bounding sphere that encloses this bounding box.
    */
-  getBoundingSphere(target) {
+  getBoundingSphere(target2) {
     if (this.isEmpty()) {
-      target.makeEmpty();
+      target2.makeEmpty();
     } else {
-      this.getCenter(target.center);
-      target.radius = this.getSize(_vector$b).length() * 0.5;
+      this.getCenter(target2.center);
+      target2.radius = this.getSize(_vector$b).length() * 0.5;
     }
-    return target;
+    return target2;
   }
   /**
    * Computes the intersection of this bounding box and the given one, setting the upper
@@ -5614,8 +5614,8 @@ var Sphere = class {
    * @param {Plane} plane - The plane to test.
    * @return {boolean} Whether this sphere intersects with the given plane or not.
    */
-  intersectsPlane(plane) {
-    return Math.abs(plane.distanceToPoint(this.center)) <= this.radius;
+  intersectsPlane(plane2) {
+    return Math.abs(plane2.distanceToPoint(this.center)) <= this.radius;
   }
   /**
    * Clamps a point within the sphere. If the point is outside the sphere, it
@@ -5626,14 +5626,14 @@ var Sphere = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} The clamped point.
    */
-  clampPoint(point, target) {
+  clampPoint(point, target2) {
     const deltaLengthSq = this.center.distanceToSquared(point);
-    target.copy(point);
+    target2.copy(point);
     if (deltaLengthSq > this.radius * this.radius) {
-      target.sub(this.center).normalize();
-      target.multiplyScalar(this.radius).add(this.center);
+      target2.sub(this.center).normalize();
+      target2.multiplyScalar(this.radius).add(this.center);
     }
-    return target;
+    return target2;
   }
   /**
    * Returns a bounding box that encloses this sphere.
@@ -5641,14 +5641,14 @@ var Sphere = class {
    * @param {Box3} target - The target box that is used to store the method's result.
    * @return {Box3} The bounding box that encloses this sphere.
    */
-  getBoundingBox(target) {
+  getBoundingBox(target2) {
     if (this.isEmpty()) {
-      target.makeEmpty();
-      return target;
+      target2.makeEmpty();
+      return target2;
     }
-    target.set(this.center, this.center);
-    target.expandByScalar(this.radius);
-    return target;
+    target2.set(this.center, this.center);
+    target2.expandByScalar(this.radius);
+    return target2;
   }
   /**
    * Transforms this sphere with the given 4x4 transformation matrix.
@@ -5804,8 +5804,8 @@ var Ray = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} A position on the ray.
    */
-  at(t3, target) {
-    return target.copy(this.origin).addScaledVector(this.direction, t3);
+  at(t3, target2) {
+    return target2.copy(this.origin).addScaledVector(this.direction, t3);
   }
   /**
    * Adjusts the direction of the ray to point at the given vector in world space.
@@ -5834,13 +5834,13 @@ var Ray = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} The closest point on this ray.
    */
-  closestPointToPoint(point, target) {
-    target.subVectors(point, this.origin);
-    const directionDistance = target.dot(this.direction);
+  closestPointToPoint(point, target2) {
+    target2.subVectors(point, this.origin);
+    const directionDistance = target2.dot(this.direction);
     if (directionDistance < 0) {
-      return target.copy(this.origin);
+      return target2.copy(this.origin);
     }
-    return target.copy(this.origin).addScaledVector(this.direction, directionDistance);
+    return target2.copy(this.origin).addScaledVector(this.direction, directionDistance);
   }
   /**
    * Returns the distance of the closest approach between this ray and the given point.
@@ -5942,7 +5942,7 @@ var Ray = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {?Vector3} The intersection point.
    */
-  intersectSphere(sphere, target) {
+  intersectSphere(sphere, target2) {
     _vector$a.subVectors(sphere.center, this.origin);
     const tca = _vector$a.dot(this.direction);
     const d22 = _vector$a.dot(_vector$a) - tca * tca;
@@ -5952,8 +5952,8 @@ var Ray = class {
     const t02 = tca - thc;
     const t1 = tca + thc;
     if (t1 < 0) return null;
-    if (t02 < 0) return this.at(t1, target);
-    return this.at(t02, target);
+    if (t02 < 0) return this.at(t1, target2);
+    return this.at(t02, target2);
   }
   /**
    * Returns `true` if this ray intersects with the given sphere.
@@ -5972,15 +5972,15 @@ var Ray = class {
    * @param {Plane} plane - The plane to compute the distance to.
    * @return {?number} Whether this ray intersects with the given sphere or not.
    */
-  distanceToPlane(plane) {
-    const denominator = plane.normal.dot(this.direction);
+  distanceToPlane(plane2) {
+    const denominator = plane2.normal.dot(this.direction);
     if (denominator === 0) {
-      if (plane.distanceToPoint(this.origin) === 0) {
+      if (plane2.distanceToPoint(this.origin) === 0) {
         return 0;
       }
       return null;
     }
-    const t3 = -(this.origin.dot(plane.normal) + plane.constant) / denominator;
+    const t3 = -(this.origin.dot(plane2.normal) + plane2.constant) / denominator;
     return t3 >= 0 ? t3 : null;
   }
   /**
@@ -5991,12 +5991,12 @@ var Ray = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {?Vector3} The intersection point.
    */
-  intersectPlane(plane, target) {
-    const t3 = this.distanceToPlane(plane);
+  intersectPlane(plane2, target2) {
+    const t3 = this.distanceToPlane(plane2);
     if (t3 === null) {
       return null;
     }
-    return this.at(t3, target);
+    return this.at(t3, target2);
   }
   /**
    * Returns `true` if this ray intersects with the given plane.
@@ -6004,12 +6004,12 @@ var Ray = class {
    * @param {Plane} plane - The plane to intersect.
    * @return {boolean} Whether this ray intersects with the given plane or not.
    */
-  intersectsPlane(plane) {
-    const distToPoint = plane.distanceToPoint(this.origin);
+  intersectsPlane(plane2) {
+    const distToPoint = plane2.distanceToPoint(this.origin);
     if (distToPoint === 0) {
       return true;
     }
-    const denominator = plane.normal.dot(this.direction);
+    const denominator = plane2.normal.dot(this.direction);
     if (denominator * distToPoint < 0) {
       return true;
     }
@@ -6023,7 +6023,7 @@ var Ray = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {?Vector3} The intersection point.
    */
-  intersectBox(box, target) {
+  intersectBox(box, target2) {
     let tmin, tmax, tymin, tymax, tzmin, tzmax;
     const invdirx = 1 / this.direction.x, invdiry = 1 / this.direction.y, invdirz = 1 / this.direction.z;
     const origin = this.origin;
@@ -6055,7 +6055,7 @@ var Ray = class {
     if (tzmin > tmin || tmin !== tmin) tmin = tzmin;
     if (tzmax < tmax || tmax !== tmax) tmax = tzmax;
     if (tmax < 0) return null;
-    return this.at(tmin >= 0 ? tmin : tmax, target);
+    return this.at(tmin >= 0 ? tmin : tmax, target2);
   }
   /**
    * Returns `true` if this ray intersects with the given box.
@@ -6077,7 +6077,7 @@ var Ray = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {?Vector3} The intersection point.
    */
-  intersectTriangle(a3, b6, c5, backfaceCulling, target) {
+  intersectTriangle(a3, b6, c5, backfaceCulling, target2) {
     _edge1.subVectors(b6, a3);
     _edge2.subVectors(c5, a3);
     _normal$1.crossVectors(_edge1, _edge2);
@@ -6108,7 +6108,7 @@ var Ray = class {
     if (QdN < 0) {
       return null;
     }
-    return this.at(QdN / DdN, target);
+    return this.at(QdN / DdN, target2);
   }
   /**
    * Transforms this ray with the given 4x4 transformation matrix.
@@ -6422,11 +6422,11 @@ var Matrix4 = class _Matrix4 {
     const x3 = euler.x, y4 = euler.y, z4 = euler.z;
     const a3 = Math.cos(x3), b6 = Math.sin(x3);
     const c5 = Math.cos(y4), d3 = Math.sin(y4);
-    const e4 = Math.cos(z4), f3 = Math.sin(z4);
+    const e4 = Math.cos(z4), f4 = Math.sin(z4);
     if (euler.order === "XYZ") {
-      const ae2 = a3 * e4, af = a3 * f3, be3 = b6 * e4, bf = b6 * f3;
+      const ae2 = a3 * e4, af = a3 * f4, be3 = b6 * e4, bf = b6 * f4;
       te4[0] = c5 * e4;
-      te4[4] = -c5 * f3;
+      te4[4] = -c5 * f4;
       te4[8] = d3;
       te4[1] = af + be3 * d3;
       te4[5] = ae2 - bf * d3;
@@ -6435,20 +6435,20 @@ var Matrix4 = class _Matrix4 {
       te4[6] = be3 + af * d3;
       te4[10] = a3 * c5;
     } else if (euler.order === "YXZ") {
-      const ce3 = c5 * e4, cf = c5 * f3, de = d3 * e4, df = d3 * f3;
+      const ce3 = c5 * e4, cf = c5 * f4, de = d3 * e4, df = d3 * f4;
       te4[0] = ce3 + df * b6;
       te4[4] = de * b6 - cf;
       te4[8] = a3 * d3;
-      te4[1] = a3 * f3;
+      te4[1] = a3 * f4;
       te4[5] = a3 * e4;
       te4[9] = -b6;
       te4[2] = cf * b6 - de;
       te4[6] = df + ce3 * b6;
       te4[10] = a3 * c5;
     } else if (euler.order === "ZXY") {
-      const ce3 = c5 * e4, cf = c5 * f3, de = d3 * e4, df = d3 * f3;
+      const ce3 = c5 * e4, cf = c5 * f4, de = d3 * e4, df = d3 * f4;
       te4[0] = ce3 - df * b6;
-      te4[4] = -a3 * f3;
+      te4[4] = -a3 * f4;
       te4[8] = de + cf * b6;
       te4[1] = cf + de * b6;
       te4[5] = a3 * e4;
@@ -6457,11 +6457,11 @@ var Matrix4 = class _Matrix4 {
       te4[6] = b6;
       te4[10] = a3 * c5;
     } else if (euler.order === "ZYX") {
-      const ae2 = a3 * e4, af = a3 * f3, be3 = b6 * e4, bf = b6 * f3;
+      const ae2 = a3 * e4, af = a3 * f4, be3 = b6 * e4, bf = b6 * f4;
       te4[0] = c5 * e4;
       te4[4] = be3 * d3 - af;
       te4[8] = ae2 * d3 + bf;
-      te4[1] = c5 * f3;
+      te4[1] = c5 * f4;
       te4[5] = bf * d3 + ae2;
       te4[9] = af * d3 - be3;
       te4[2] = -d3;
@@ -6470,25 +6470,25 @@ var Matrix4 = class _Matrix4 {
     } else if (euler.order === "YZX") {
       const ac = a3 * c5, ad = a3 * d3, bc = b6 * c5, bd = b6 * d3;
       te4[0] = c5 * e4;
-      te4[4] = bd - ac * f3;
-      te4[8] = bc * f3 + ad;
-      te4[1] = f3;
+      te4[4] = bd - ac * f4;
+      te4[8] = bc * f4 + ad;
+      te4[1] = f4;
       te4[5] = a3 * e4;
       te4[9] = -b6 * e4;
       te4[2] = -d3 * e4;
-      te4[6] = ad * f3 + bc;
-      te4[10] = ac - bd * f3;
+      te4[6] = ad * f4 + bc;
+      te4[10] = ac - bd * f4;
     } else if (euler.order === "XZY") {
       const ac = a3 * c5, ad = a3 * d3, bc = b6 * c5, bd = b6 * d3;
       te4[0] = c5 * e4;
-      te4[4] = -f3;
+      te4[4] = -f4;
       te4[8] = d3 * e4;
-      te4[1] = ac * f3 + bd;
+      te4[1] = ac * f4 + bd;
       te4[5] = a3 * e4;
-      te4[9] = ad * f3 - bc;
-      te4[2] = bc * f3 - ad;
+      te4[9] = ad * f4 - bc;
+      te4[2] = bc * f4 - ad;
       te4[6] = b6 * e4;
-      te4[10] = bd * f3 + ac;
+      te4[10] = bd * f4 + ac;
     }
     te4[3] = 0;
     te4[7] = 0;
@@ -6507,8 +6507,8 @@ var Matrix4 = class _Matrix4 {
    * @param {Quaternion} q - The Quaternion.
    * @return {Matrix4} A reference to this matrix.
    */
-  makeRotationFromQuaternion(q3) {
-    return this.compose(_zero, q3, _one);
+  makeRotationFromQuaternion(q4) {
+    return this.compose(_zero, q4, _one);
   }
   /**
    * Sets the rotation component of the transformation matrix, looking from `eye` towards
@@ -6519,9 +6519,9 @@ var Matrix4 = class _Matrix4 {
    * @param {Vector3} up - The up vector.
    * @return {Matrix4} A reference to this matrix.
    */
-  lookAt(eye, target, up) {
+  lookAt(eye, target2, up) {
     const te4 = this.elements;
-    _z.subVectors(eye, target);
+    _z.subVectors(eye, target2);
     if (_z.lengthSq() === 0) {
       _z.z = 1;
     }
@@ -7429,8 +7429,8 @@ var Euler = class _Euler {
    * @param {boolean} [update=true] - Whether the internal `onChange` callback should be executed or not.
    * @return {Euler} A reference to this Euler instance.
    */
-  setFromQuaternion(q3, order, update) {
-    _matrix$2.makeRotationFromQuaternion(q3);
+  setFromQuaternion(q4, order, update) {
+    _matrix$2.makeRotationFromQuaternion(q4);
     return this.setFromRotationMatrix(_matrix$2, order, update);
   }
   /**
@@ -7774,8 +7774,8 @@ var Object3D = class _Object3D extends EventDispatcher {
    * @param {Quaternion} q - The quaternion.
    * @return {Object3D} A reference to this instance.
    */
-  applyQuaternion(q3) {
-    this.quaternion.premultiply(q3);
+  applyQuaternion(q4) {
+    this.quaternion.premultiply(q4);
     return this;
   }
   /**
@@ -7809,8 +7809,8 @@ var Object3D = class _Object3D extends EventDispatcher {
    *
    * @param {Quaternion} q - The Quaternion
    */
-  setRotationFromQuaternion(q3) {
-    this.quaternion.copy(q3);
+  setRotationFromQuaternion(q4) {
+    this.quaternion.copy(q4);
   }
   /**
    * Rotates the 3D object along an axis in local space.
@@ -8126,9 +8126,9 @@ var Object3D = class _Object3D extends EventDispatcher {
    * @param {Vector3} target - The target vector the result is stored to.
    * @return {Vector3} The 3D object's position in world space.
    */
-  getWorldPosition(target) {
+  getWorldPosition(target2) {
     this.updateWorldMatrix(true, false);
-    return target.setFromMatrixPosition(this.matrixWorld);
+    return target2.setFromMatrixPosition(this.matrixWorld);
   }
   /**
    * Returns a Quaternion representing the position of the 3D object in world space.
@@ -8136,10 +8136,10 @@ var Object3D = class _Object3D extends EventDispatcher {
    * @param {Quaternion} target - The target Quaternion the result is stored to.
    * @return {Quaternion} The 3D object's rotation in world space.
    */
-  getWorldQuaternion(target) {
+  getWorldQuaternion(target2) {
     this.updateWorldMatrix(true, false);
-    this.matrixWorld.decompose(_position$3, target, _scale$2);
-    return target;
+    this.matrixWorld.decompose(_position$3, target2, _scale$2);
+    return target2;
   }
   /**
    * Returns a vector representing the scale of the 3D object in world space.
@@ -8147,10 +8147,10 @@ var Object3D = class _Object3D extends EventDispatcher {
    * @param {Vector3} target - The target vector the result is stored to.
    * @return {Vector3} The 3D object's scale in world space.
    */
-  getWorldScale(target) {
+  getWorldScale(target2) {
     this.updateWorldMatrix(true, false);
-    this.matrixWorld.decompose(_position$3, _quaternion$2, target);
-    return target;
+    this.matrixWorld.decompose(_position$3, _quaternion$2, target2);
+    return target2;
   }
   /**
    * Returns a vector representing the ("look") direction of the 3D object in world space.
@@ -8158,10 +8158,10 @@ var Object3D = class _Object3D extends EventDispatcher {
    * @param {Vector3} target - The target vector the result is stored to.
    * @return {Vector3} The 3D object's direction in world space.
    */
-  getWorldDirection(target) {
+  getWorldDirection(target2) {
     this.updateWorldMatrix(true, false);
     const e4 = this.matrixWorld.elements;
-    return target.set(e4[8], e4[9], e4[10]).normalize();
+    return target2.set(e4[8], e4[9], e4[10]).normalize();
   }
   /**
    * Abstract method to get intersections between a casted ray and this
@@ -8541,15 +8541,15 @@ var Triangle = class _Triangle {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} The triangle's normal.
    */
-  static getNormal(a3, b6, c5, target) {
-    target.subVectors(c5, b6);
+  static getNormal(a3, b6, c5, target2) {
+    target2.subVectors(c5, b6);
     _v0$1.subVectors(a3, b6);
-    target.cross(_v0$1);
-    const targetLengthSq = target.lengthSq();
+    target2.cross(_v0$1);
+    const targetLengthSq = target2.lengthSq();
     if (targetLengthSq > 0) {
-      return target.multiplyScalar(1 / Math.sqrt(targetLengthSq));
+      return target2.multiplyScalar(1 / Math.sqrt(targetLengthSq));
     }
-    return target.set(0, 0, 0);
+    return target2.set(0, 0, 0);
   }
   /**
    * Computes a barycentric coordinates from the given vector.
@@ -8562,7 +8562,7 @@ var Triangle = class _Triangle {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {?Vector3} The barycentric coordinates for the given point
    */
-  static getBarycoord(point, a3, b6, c5, target) {
+  static getBarycoord(point, a3, b6, c5, target2) {
     _v0$1.subVectors(c5, a3);
     _v1$3.subVectors(b6, a3);
     _v2$2.subVectors(point, a3);
@@ -8573,13 +8573,13 @@ var Triangle = class _Triangle {
     const dot12 = _v1$3.dot(_v2$2);
     const denom = dot00 * dot11 - dot01 * dot01;
     if (denom === 0) {
-      target.set(0, 0, 0);
+      target2.set(0, 0, 0);
       return null;
     }
     const invDenom = 1 / denom;
     const u4 = (dot11 * dot02 - dot01 * dot12) * invDenom;
     const v3 = (dot00 * dot12 - dot01 * dot02) * invDenom;
-    return target.set(1 - u4 - v3, v3, u4);
+    return target2.set(1 - u4 - v3, v3, u4);
   }
   /**
    * Returns `true` if the given point, when projected onto the plane of the
@@ -8612,19 +8612,19 @@ var Triangle = class _Triangle {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {?Vector3} The interpolated value.
    */
-  static getInterpolation(point, p1, p22, p32, v1, v22, v3, target) {
+  static getInterpolation(point, p1, p22, p32, v1, v22, v3, target2) {
     if (this.getBarycoord(point, p1, p22, p32, _v3$2) === null) {
-      target.x = 0;
-      target.y = 0;
-      if ("z" in target) target.z = 0;
-      if ("w" in target) target.w = 0;
+      target2.x = 0;
+      target2.y = 0;
+      if ("z" in target2) target2.z = 0;
+      if ("w" in target2) target2.w = 0;
       return null;
     }
-    target.setScalar(0);
-    target.addScaledVector(v1, _v3$2.x);
-    target.addScaledVector(v22, _v3$2.y);
-    target.addScaledVector(v3, _v3$2.z);
-    return target;
+    target2.setScalar(0);
+    target2.addScaledVector(v1, _v3$2.x);
+    target2.addScaledVector(v22, _v3$2.y);
+    target2.addScaledVector(v3, _v3$2.z);
+    return target2;
   }
   /**
    * Computes the value barycentrically interpolated for the given attribute and indices.
@@ -8637,18 +8637,18 @@ var Triangle = class _Triangle {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} The interpolated attribute value.
    */
-  static getInterpolatedAttribute(attr, i1, i22, i33, barycoord, target) {
+  static getInterpolatedAttribute(attr, i1, i22, i33, barycoord, target2) {
     _v40.setScalar(0);
     _v41.setScalar(0);
     _v42.setScalar(0);
     _v40.fromBufferAttribute(attr, i1);
     _v41.fromBufferAttribute(attr, i22);
     _v42.fromBufferAttribute(attr, i33);
-    target.setScalar(0);
-    target.addScaledVector(_v40, barycoord.x);
-    target.addScaledVector(_v41, barycoord.y);
-    target.addScaledVector(_v42, barycoord.z);
-    return target;
+    target2.setScalar(0);
+    target2.addScaledVector(_v40, barycoord.x);
+    target2.addScaledVector(_v41, barycoord.y);
+    target2.addScaledVector(_v42, barycoord.z);
+    return target2;
   }
   /**
    * Returns `true` if the triangle is oriented towards the given direction.
@@ -8744,8 +8744,8 @@ var Triangle = class _Triangle {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} The triangle's midpoint.
    */
-  getMidpoint(target) {
-    return target.addVectors(this.a, this.b).add(this.c).multiplyScalar(1 / 3);
+  getMidpoint(target2) {
+    return target2.addVectors(this.a, this.b).add(this.c).multiplyScalar(1 / 3);
   }
   /**
    * Computes the normal of the triangle.
@@ -8753,8 +8753,8 @@ var Triangle = class _Triangle {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} The triangle's normal.
    */
-  getNormal(target) {
-    return _Triangle.getNormal(this.a, this.b, this.c, target);
+  getNormal(target2) {
+    return _Triangle.getNormal(this.a, this.b, this.c, target2);
   }
   /**
    * Computes a plane the triangle lies within.
@@ -8762,8 +8762,8 @@ var Triangle = class _Triangle {
    * @param {Plane} target - The target vector that is used to store the method's result.
    * @return {Plane} The plane the triangle lies within.
    */
-  getPlane(target) {
-    return target.setFromCoplanarPoints(this.a, this.b, this.c);
+  getPlane(target2) {
+    return target2.setFromCoplanarPoints(this.a, this.b, this.c);
   }
   /**
    * Computes a barycentric coordinates from the given vector.
@@ -8773,8 +8773,8 @@ var Triangle = class _Triangle {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {?Vector3} The barycentric coordinates for the given point
    */
-  getBarycoord(point, target) {
-    return _Triangle.getBarycoord(point, this.a, this.b, this.c, target);
+  getBarycoord(point, target2) {
+    return _Triangle.getBarycoord(point, this.a, this.b, this.c, target2);
   }
   /**
    * Computes the value barycentrically interpolated for the given point on the
@@ -8787,8 +8787,8 @@ var Triangle = class _Triangle {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {?Vector3} The interpolated value.
    */
-  getInterpolation(point, v1, v22, v3, target) {
-    return _Triangle.getInterpolation(point, this.a, this.b, this.c, v1, v22, v3, target);
+  getInterpolation(point, v1, v22, v3, target2) {
+    return _Triangle.getInterpolation(point, this.a, this.b, this.c, v1, v22, v3, target2);
   }
   /**
    * Returns `true` if the given point, when projected onto the plane of the
@@ -8826,7 +8826,7 @@ var Triangle = class _Triangle {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} The closest point on the triangle.
    */
-  closestPointToPoint(p4, target) {
+  closestPointToPoint(p4, target2) {
     const a3 = this.a, b6 = this.b, c5 = this.c;
     let v3, w4;
     _vab.subVectors(b6, a3);
@@ -8835,40 +8835,40 @@ var Triangle = class _Triangle {
     const d1 = _vab.dot(_vap);
     const d22 = _vac.dot(_vap);
     if (d1 <= 0 && d22 <= 0) {
-      return target.copy(a3);
+      return target2.copy(a3);
     }
     _vbp.subVectors(p4, b6);
     const d3 = _vab.dot(_vbp);
     const d4 = _vac.dot(_vbp);
     if (d3 >= 0 && d4 <= d3) {
-      return target.copy(b6);
+      return target2.copy(b6);
     }
     const vc = d1 * d4 - d3 * d22;
     if (vc <= 0 && d1 >= 0 && d3 <= 0) {
       v3 = d1 / (d1 - d3);
-      return target.copy(a3).addScaledVector(_vab, v3);
+      return target2.copy(a3).addScaledVector(_vab, v3);
     }
     _vcp.subVectors(p4, c5);
     const d5 = _vab.dot(_vcp);
     const d6 = _vac.dot(_vcp);
     if (d6 >= 0 && d5 <= d6) {
-      return target.copy(c5);
+      return target2.copy(c5);
     }
     const vb = d5 * d22 - d1 * d6;
     if (vb <= 0 && d22 >= 0 && d6 <= 0) {
       w4 = d22 / (d22 - d6);
-      return target.copy(a3).addScaledVector(_vac, w4);
+      return target2.copy(a3).addScaledVector(_vac, w4);
     }
     const va = d3 * d6 - d5 * d4;
     if (va <= 0 && d4 - d3 >= 0 && d5 - d6 >= 0) {
       _vbc.subVectors(c5, b6);
       w4 = (d4 - d3) / (d4 - d3 + (d5 - d6));
-      return target.copy(b6).addScaledVector(_vbc, w4);
+      return target2.copy(b6).addScaledVector(_vbc, w4);
     }
     const denom = 1 / (va + vb + vc);
     v3 = vb * denom;
     w4 = vc * denom;
-    return target.copy(a3).addScaledVector(_vab, v3).addScaledVector(_vac, w4);
+    return target2.copy(a3).addScaledVector(_vab, v3).addScaledVector(_vac, w4);
   }
   /**
    * Returns `true` if this triangle is equal with the given one.
@@ -9032,12 +9032,12 @@ var _colorKeywords = {
 };
 var _hslA = { h: 0, s: 0, l: 0 };
 var _hslB = { h: 0, s: 0, l: 0 };
-function hue2rgb(p4, q3, t3) {
+function hue2rgb(p4, q4, t3) {
   if (t3 < 0) t3 += 1;
   if (t3 > 1) t3 -= 1;
-  if (t3 < 1 / 6) return p4 + (q3 - p4) * 6 * t3;
-  if (t3 < 1 / 2) return q3;
-  if (t3 < 2 / 3) return p4 + (q3 - p4) * 6 * (2 / 3 - t3);
+  if (t3 < 1 / 6) return p4 + (q4 - p4) * 6 * t3;
+  if (t3 < 1 / 2) return q4;
+  if (t3 < 2 / 3) return p4 + (q4 - p4) * 6 * (2 / 3 - t3);
   return p4;
 }
 var Color = class {
@@ -9143,10 +9143,10 @@ var Color = class {
       this.r = this.g = this.b = l3;
     } else {
       const p4 = l3 <= 0.5 ? l3 * (1 + s2) : l3 + s2 - l3 * s2;
-      const q3 = 2 * l3 - p4;
-      this.r = hue2rgb(q3, p4, h3 + 1 / 3);
-      this.g = hue2rgb(q3, p4, h3);
-      this.b = hue2rgb(q3, p4, h3 - 1 / 3);
+      const q4 = 2 * l3 - p4;
+      this.r = hue2rgb(q4, p4, h3 + 1 / 3);
+      this.g = hue2rgb(q4, p4, h3);
+      this.b = hue2rgb(q4, p4, h3 - 1 / 3);
     }
     ColorManagement.colorSpaceToWorking(this, colorSpace);
     return this;
@@ -9343,7 +9343,7 @@ var Color = class {
    * @param {string} [colorSpace=ColorManagement.workingColorSpace] - The color space.
    * @return {{h:number,s:number,l:number}} The HSL representation of this color.
    */
-  getHSL(target, colorSpace = ColorManagement.workingColorSpace) {
+  getHSL(target2, colorSpace = ColorManagement.workingColorSpace) {
     ColorManagement.workingToColorSpace(_color.copy(this), colorSpace);
     const r3 = _color.r, g6 = _color.g, b6 = _color.b;
     const max2 = Math.max(r3, g6, b6);
@@ -9369,10 +9369,10 @@ var Color = class {
       }
       hue /= 6;
     }
-    target.h = hue;
-    target.s = saturation;
-    target.l = lightness;
-    return target;
+    target2.h = hue;
+    target2.s = saturation;
+    target2.l = lightness;
+    return target2;
   }
   /**
    * Returns the RGB values of this color and stores them into the given target object.
@@ -9381,12 +9381,12 @@ var Color = class {
    * @param {string} [colorSpace=ColorManagement.workingColorSpace] - The color space.
    * @return {Color} The RGB representation of this color.
    */
-  getRGB(target, colorSpace = ColorManagement.workingColorSpace) {
+  getRGB(target2, colorSpace = ColorManagement.workingColorSpace) {
     ColorManagement.workingToColorSpace(_color.copy(this), colorSpace);
-    target.r = _color.r;
-    target.g = _color.g;
-    target.b = _color.b;
-    return target;
+    target2.r = _color.r;
+    target2.g = _color.g;
+    target2.b = _color.b;
+    return target2;
   }
   /**
    * Returns the value of this color as a CSS style string. Example: `rgb(255,0,0)`.
@@ -10183,9 +10183,9 @@ function toHalfFloat(val) {
   if (Math.abs(val) > 65504) console.warn("THREE.DataUtils.toHalfFloat(): Value out of range.");
   val = clamp(val, -65504, 65504);
   _tables.floatView[0] = val;
-  const f3 = _tables.uint32View[0];
-  const e4 = f3 >> 23 & 511;
-  return _tables.baseTable[e4] + ((f3 & 8388607) >> _tables.shiftTable[e4]);
+  const f4 = _tables.uint32View[0];
+  const e4 = f4 >> 23 & 511;
+  return _tables.baseTable[e4] + ((f4 & 8388607) >> _tables.shiftTable[e4]);
 }
 function fromHalfFloat(val) {
   const m3 = val >> 10;
@@ -10812,11 +10812,11 @@ var BufferGeometry = class _BufferGeometry extends EventDispatcher {
       position.applyMatrix4(matrix);
       position.needsUpdate = true;
     }
-    const normal = this.attributes.normal;
-    if (normal !== void 0) {
+    const normal2 = this.attributes.normal;
+    if (normal2 !== void 0) {
       const normalMatrix = new Matrix3().getNormalMatrix(matrix);
-      normal.applyNormalMatrix(normalMatrix);
-      normal.needsUpdate = true;
+      normal2.applyNormalMatrix(normalMatrix);
+      normal2.needsUpdate = true;
     }
     const tangent = this.attributes.tangent;
     if (tangent !== void 0) {
@@ -10837,8 +10837,8 @@ var BufferGeometry = class _BufferGeometry extends EventDispatcher {
    * @param {Quaternion} q - The Quaternion to apply.
    * @return {BufferGeometry} A reference to this instance.
    */
-  applyQuaternion(q3) {
-    _m1.makeRotationFromQuaternion(q3);
+  applyQuaternion(q4) {
+    _m1.makeRotationFromQuaternion(q4);
     this.applyMatrix4(_m1);
     return this;
   }
@@ -11445,11 +11445,11 @@ var Mesh = class extends Object3D {
    * @param {BufferGeometry} [geometry] - The mesh geometry.
    * @param {Material|Array<Material>} [material] - The mesh material.
    */
-  constructor(geometry = new BufferGeometry(), material = new MeshBasicMaterial()) {
+  constructor(geometry2 = new BufferGeometry(), material = new MeshBasicMaterial()) {
     super();
     this.isMesh = true;
     this.type = "Mesh";
-    this.geometry = geometry;
+    this.geometry = geometry2;
     this.material = material;
     this.morphTargetDictionary = void 0;
     this.morphTargetInfluences = void 0;
@@ -11473,8 +11473,8 @@ var Mesh = class extends Object3D {
    * to make sure existing morph targets can influence this 3D object.
    */
   updateMorphTargets() {
-    const geometry = this.geometry;
-    const morphAttributes = geometry.morphAttributes;
+    const geometry2 = this.geometry;
+    const morphAttributes = geometry2.morphAttributes;
     const keys = Object.keys(morphAttributes);
     if (keys.length > 0) {
       const morphAttribute = morphAttributes[keys[0]];
@@ -11497,12 +11497,12 @@ var Mesh = class extends Object3D {
    * @param {Vector3} target - The target object that is used to store the method's result.
    * @return {Vector3} The vertex position in local space.
    */
-  getVertexPosition(index, target) {
-    const geometry = this.geometry;
-    const position = geometry.attributes.position;
-    const morphPosition = geometry.morphAttributes.position;
-    const morphTargetsRelative = geometry.morphTargetsRelative;
-    target.fromBufferAttribute(position, index);
+  getVertexPosition(index, target2) {
+    const geometry2 = this.geometry;
+    const position = geometry2.attributes.position;
+    const morphPosition = geometry2.morphAttributes.position;
+    const morphTargetsRelative = geometry2.morphTargetsRelative;
+    target2.fromBufferAttribute(position, index);
     const morphInfluences = this.morphTargetInfluences;
     if (morphPosition && morphInfluences) {
       _morphA.set(0, 0, 0);
@@ -11514,12 +11514,12 @@ var Mesh = class extends Object3D {
         if (morphTargetsRelative) {
           _morphA.addScaledVector(_tempA, influence);
         } else {
-          _morphA.addScaledVector(_tempA.sub(target), influence);
+          _morphA.addScaledVector(_tempA.sub(target2), influence);
         }
       }
-      target.add(_morphA);
+      target2.add(_morphA);
     }
-    return target;
+    return target2;
   }
   /**
    * Computes intersection points between a casted ray and this line.
@@ -11528,12 +11528,12 @@ var Mesh = class extends Object3D {
    * @param {Array<Object>} intersects - The target array that holds the intersection points.
    */
   raycast(raycaster, intersects) {
-    const geometry = this.geometry;
+    const geometry2 = this.geometry;
     const material = this.material;
     const matrixWorld = this.matrixWorld;
     if (material === void 0) return;
-    if (geometry.boundingSphere === null) geometry.computeBoundingSphere();
-    _sphere$6.copy(geometry.boundingSphere);
+    if (geometry2.boundingSphere === null) geometry2.computeBoundingSphere();
+    _sphere$6.copy(geometry2.boundingSphere);
     _sphere$6.applyMatrix4(matrixWorld);
     _ray$3.copy(raycaster.ray).recast(raycaster.near);
     if (_sphere$6.containsPoint(_ray$3.origin) === false) {
@@ -11542,22 +11542,22 @@ var Mesh = class extends Object3D {
     }
     _inverseMatrix$3.copy(matrixWorld).invert();
     _ray$3.copy(raycaster.ray).applyMatrix4(_inverseMatrix$3);
-    if (geometry.boundingBox !== null) {
-      if (_ray$3.intersectsBox(geometry.boundingBox) === false) return;
+    if (geometry2.boundingBox !== null) {
+      if (_ray$3.intersectsBox(geometry2.boundingBox) === false) return;
     }
     this._computeIntersections(raycaster, intersects, _ray$3);
   }
   _computeIntersections(raycaster, intersects, rayLocalSpace) {
     let intersection;
-    const geometry = this.geometry;
+    const geometry2 = this.geometry;
     const material = this.material;
-    const index = geometry.index;
-    const position = geometry.attributes.position;
-    const uv = geometry.attributes.uv;
-    const uv1 = geometry.attributes.uv1;
-    const normal = geometry.attributes.normal;
-    const groups = geometry.groups;
-    const drawRange = geometry.drawRange;
+    const index = geometry2.index;
+    const position = geometry2.attributes.position;
+    const uv = geometry2.attributes.uv;
+    const uv1 = geometry2.attributes.uv1;
+    const normal2 = geometry2.attributes.normal;
+    const groups = geometry2.groups;
+    const drawRange = geometry2.drawRange;
     if (index !== null) {
       if (Array.isArray(material)) {
         for (let i4 = 0, il = groups.length; i4 < il; i4++) {
@@ -11569,7 +11569,7 @@ var Mesh = class extends Object3D {
             const a3 = index.getX(j3);
             const b6 = index.getX(j3 + 1);
             const c5 = index.getX(j3 + 2);
-            intersection = checkGeometryIntersection(this, groupMaterial, raycaster, rayLocalSpace, uv, uv1, normal, a3, b6, c5);
+            intersection = checkGeometryIntersection(this, groupMaterial, raycaster, rayLocalSpace, uv, uv1, normal2, a3, b6, c5);
             if (intersection) {
               intersection.faceIndex = Math.floor(j3 / 3);
               intersection.face.materialIndex = group.materialIndex;
@@ -11584,7 +11584,7 @@ var Mesh = class extends Object3D {
           const a3 = index.getX(i4);
           const b6 = index.getX(i4 + 1);
           const c5 = index.getX(i4 + 2);
-          intersection = checkGeometryIntersection(this, material, raycaster, rayLocalSpace, uv, uv1, normal, a3, b6, c5);
+          intersection = checkGeometryIntersection(this, material, raycaster, rayLocalSpace, uv, uv1, normal2, a3, b6, c5);
           if (intersection) {
             intersection.faceIndex = Math.floor(i4 / 3);
             intersects.push(intersection);
@@ -11602,7 +11602,7 @@ var Mesh = class extends Object3D {
             const a3 = j3;
             const b6 = j3 + 1;
             const c5 = j3 + 2;
-            intersection = checkGeometryIntersection(this, groupMaterial, raycaster, rayLocalSpace, uv, uv1, normal, a3, b6, c5);
+            intersection = checkGeometryIntersection(this, groupMaterial, raycaster, rayLocalSpace, uv, uv1, normal2, a3, b6, c5);
             if (intersection) {
               intersection.faceIndex = Math.floor(j3 / 3);
               intersection.face.materialIndex = group.materialIndex;
@@ -11617,7 +11617,7 @@ var Mesh = class extends Object3D {
           const a3 = i4;
           const b6 = i4 + 1;
           const c5 = i4 + 2;
-          intersection = checkGeometryIntersection(this, material, raycaster, rayLocalSpace, uv, uv1, normal, a3, b6, c5);
+          intersection = checkGeometryIntersection(this, material, raycaster, rayLocalSpace, uv, uv1, normal2, a3, b6, c5);
           if (intersection) {
             intersection.faceIndex = Math.floor(i4 / 3);
             intersects.push(intersection);
@@ -11645,7 +11645,7 @@ function checkIntersection$1(object, material, raycaster, ray, pA, pB, pC, point
     object
   };
 }
-function checkGeometryIntersection(object, material, raycaster, ray, uv, uv1, normal, a3, b6, c5) {
+function checkGeometryIntersection(object, material, raycaster, ray, uv, uv1, normal2, a3, b6, c5) {
   object.getVertexPosition(a3, _vA$1);
   object.getVertexPosition(b6, _vB$1);
   object.getVertexPosition(c5, _vC$1);
@@ -11659,8 +11659,8 @@ function checkGeometryIntersection(object, material, raycaster, ray, uv, uv1, no
     if (uv1) {
       intersection.uv1 = Triangle.getInterpolatedAttribute(uv1, a3, b6, c5, barycoord, new Vector2());
     }
-    if (normal) {
-      intersection.normal = Triangle.getInterpolatedAttribute(normal, a3, b6, c5, barycoord, new Vector3());
+    if (normal2) {
+      intersection.normal = Triangle.getInterpolatedAttribute(normal2, a3, b6, c5, barycoord, new Vector3());
       if (intersection.normal.dot(ray.direction) > 0) {
         intersection.normal.multiplyScalar(-1);
       }
@@ -11983,8 +11983,8 @@ var Camera = class extends Object3D {
    * @param {Vector3} target - The target vector the result is stored to.
    * @return {Vector3} The 3D object's direction in world space.
    */
-  getWorldDirection(target) {
-    return super.getWorldDirection(target).negate();
+  getWorldDirection(target2) {
+    return super.getWorldDirection(target2).negate();
   }
   updateMatrixWorld(force) {
     super.updateMatrixWorld(force);
@@ -12110,9 +12110,9 @@ var PerspectiveCamera = class extends Camera {
    * @param {Vector2} target - The target vector that is used to store result where x is width and y is height.
    * @returns {Vector2} The view size.
    */
-  getViewSize(distance, target) {
+  getViewSize(distance, target2) {
     this.getViewBounds(distance, _minTarget, _maxTarget);
-    return target.subVectors(_maxTarget, _minTarget);
+    return target2.subVectors(_maxTarget, _minTarget);
   }
   /**
    * Sets an offset in a larger frustum. This is useful for multi-window or
@@ -12267,7 +12267,7 @@ var CubeCamera = class extends Object3D {
     const coordinateSystem = this.coordinateSystem;
     const cameras = this.children.concat();
     const [cameraPX, cameraNX, cameraPY, cameraNY, cameraPZ, cameraNZ] = cameras;
-    for (const camera of cameras) this.remove(camera);
+    for (const camera2 of cameras) this.remove(camera2);
     if (coordinateSystem === WebGLCoordinateSystem) {
       cameraPX.up.set(0, 1, 0);
       cameraPX.lookAt(1, 0, 0);
@@ -12297,9 +12297,9 @@ var CubeCamera = class extends Object3D {
     } else {
       throw new Error("THREE.CubeCamera.updateCoordinateSystem(): Invalid coordinate system: " + coordinateSystem);
     }
-    for (const camera of cameras) {
-      this.add(camera);
-      camera.updateMatrixWorld();
+    for (const camera2 of cameras) {
+      this.add(camera2);
+      camera2.updateMatrixWorld();
     }
   }
   /**
@@ -12451,7 +12451,7 @@ var WebGLCubeRenderTarget = class extends WebGLRenderTarget {
 			`
       )
     };
-    const geometry = new BoxGeometry(5, 5, 5);
+    const geometry2 = new BoxGeometry(5, 5, 5);
     const material = new ShaderMaterial({
       name: "CubemapFromEquirect",
       uniforms: cloneUniforms(shader.uniforms),
@@ -12461,11 +12461,11 @@ var WebGLCubeRenderTarget = class extends WebGLRenderTarget {
       blending: NoBlending
     });
     material.uniforms.tEquirect.value = texture;
-    const mesh = new Mesh(geometry, material);
+    const mesh = new Mesh(geometry2, material);
     const currentMinFilter = texture.minFilter;
     if (texture.minFilter === LinearMipmapLinearFilter) texture.minFilter = LinearFilter;
-    const camera = new CubeCamera(1, 10, this);
-    camera.update(renderer, mesh);
+    const camera2 = new CubeCamera(1, 10, this);
+    camera2.update(renderer, mesh);
     texture.minFilter = currentMinFilter;
     mesh.geometry.dispose();
     mesh.material.dispose();
@@ -13319,6 +13319,166 @@ var InterleavedBufferAttribute = class _InterleavedBufferAttribute {
     }
   }
 };
+var SpriteMaterial = class extends Material {
+  /**
+   * Constructs a new sprite material.
+   *
+   * @param {Object} [parameters] - An object with one or more properties
+   * defining the material's appearance. Any property of the material
+   * (including any property from inherited materials) can be passed
+   * in here. Color values can be passed any type of value accepted
+   * by {@link Color#set}.
+   */
+  constructor(parameters) {
+    super();
+    this.isSpriteMaterial = true;
+    this.type = "SpriteMaterial";
+    this.color = new Color(16777215);
+    this.map = null;
+    this.alphaMap = null;
+    this.rotation = 0;
+    this.sizeAttenuation = true;
+    this.transparent = true;
+    this.fog = true;
+    this.setValues(parameters);
+  }
+  copy(source) {
+    super.copy(source);
+    this.color.copy(source.color);
+    this.map = source.map;
+    this.alphaMap = source.alphaMap;
+    this.rotation = source.rotation;
+    this.sizeAttenuation = source.sizeAttenuation;
+    this.fog = source.fog;
+    return this;
+  }
+};
+var _geometry;
+var _intersectPoint = /* @__PURE__ */ new Vector3();
+var _worldScale = /* @__PURE__ */ new Vector3();
+var _mvPosition = /* @__PURE__ */ new Vector3();
+var _alignedPosition = /* @__PURE__ */ new Vector2();
+var _rotatedPosition = /* @__PURE__ */ new Vector2();
+var _viewWorldMatrix = /* @__PURE__ */ new Matrix4();
+var _vA = /* @__PURE__ */ new Vector3();
+var _vB = /* @__PURE__ */ new Vector3();
+var _vC = /* @__PURE__ */ new Vector3();
+var _uvA = /* @__PURE__ */ new Vector2();
+var _uvB = /* @__PURE__ */ new Vector2();
+var _uvC = /* @__PURE__ */ new Vector2();
+var Sprite = class extends Object3D {
+  /**
+   * Constructs a new sprite.
+   *
+   * @param {SpriteMaterial} [material] - The sprite material.
+   */
+  constructor(material = new SpriteMaterial()) {
+    super();
+    this.isSprite = true;
+    this.type = "Sprite";
+    if (_geometry === void 0) {
+      _geometry = new BufferGeometry();
+      const float32Array = new Float32Array([
+        -0.5,
+        -0.5,
+        0,
+        0,
+        0,
+        0.5,
+        -0.5,
+        0,
+        1,
+        0,
+        0.5,
+        0.5,
+        0,
+        1,
+        1,
+        -0.5,
+        0.5,
+        0,
+        0,
+        1
+      ]);
+      const interleavedBuffer = new InterleavedBuffer(float32Array, 5);
+      _geometry.setIndex([0, 1, 2, 0, 2, 3]);
+      _geometry.setAttribute("position", new InterleavedBufferAttribute(interleavedBuffer, 3, 0, false));
+      _geometry.setAttribute("uv", new InterleavedBufferAttribute(interleavedBuffer, 2, 3, false));
+    }
+    this.geometry = _geometry;
+    this.material = material;
+    this.center = new Vector2(0.5, 0.5);
+    this.count = 1;
+  }
+  /**
+   * Computes intersection points between a casted ray and this sprite.
+   *
+   * @param {Raycaster} raycaster - The raycaster.
+   * @param {Array<Object>} intersects - The target array that holds the intersection points.
+   */
+  raycast(raycaster, intersects) {
+    if (raycaster.camera === null) {
+      console.error('THREE.Sprite: "Raycaster.camera" needs to be set in order to raycast against sprites.');
+    }
+    _worldScale.setFromMatrixScale(this.matrixWorld);
+    _viewWorldMatrix.copy(raycaster.camera.matrixWorld);
+    this.modelViewMatrix.multiplyMatrices(raycaster.camera.matrixWorldInverse, this.matrixWorld);
+    _mvPosition.setFromMatrixPosition(this.modelViewMatrix);
+    if (raycaster.camera.isPerspectiveCamera && this.material.sizeAttenuation === false) {
+      _worldScale.multiplyScalar(-_mvPosition.z);
+    }
+    const rotation = this.material.rotation;
+    let sin, cos;
+    if (rotation !== 0) {
+      cos = Math.cos(rotation);
+      sin = Math.sin(rotation);
+    }
+    const center = this.center;
+    transformVertex(_vA.set(-0.5, -0.5, 0), _mvPosition, center, _worldScale, sin, cos);
+    transformVertex(_vB.set(0.5, -0.5, 0), _mvPosition, center, _worldScale, sin, cos);
+    transformVertex(_vC.set(0.5, 0.5, 0), _mvPosition, center, _worldScale, sin, cos);
+    _uvA.set(0, 0);
+    _uvB.set(1, 0);
+    _uvC.set(1, 1);
+    let intersect = raycaster.ray.intersectTriangle(_vA, _vB, _vC, false, _intersectPoint);
+    if (intersect === null) {
+      transformVertex(_vB.set(-0.5, 0.5, 0), _mvPosition, center, _worldScale, sin, cos);
+      _uvB.set(0, 1);
+      intersect = raycaster.ray.intersectTriangle(_vA, _vC, _vB, false, _intersectPoint);
+      if (intersect === null) {
+        return;
+      }
+    }
+    const distance = raycaster.ray.origin.distanceTo(_intersectPoint);
+    if (distance < raycaster.near || distance > raycaster.far) return;
+    intersects.push({
+      distance,
+      point: _intersectPoint.clone(),
+      uv: Triangle.getInterpolation(_intersectPoint, _vA, _vB, _vC, _uvA, _uvB, _uvC, new Vector2()),
+      face: null,
+      object: this
+    });
+  }
+  copy(source, recursive) {
+    super.copy(source, recursive);
+    if (source.center !== void 0) this.center.copy(source.center);
+    this.material = source.material;
+    return this;
+  }
+};
+function transformVertex(vertexPosition, mvPosition, center, scale, sin, cos) {
+  _alignedPosition.subVectors(vertexPosition, center).addScalar(0.5).multiply(scale);
+  if (sin !== void 0) {
+    _rotatedPosition.x = cos * _alignedPosition.x - sin * _alignedPosition.y;
+    _rotatedPosition.y = sin * _alignedPosition.x + cos * _alignedPosition.y;
+  } else {
+    _rotatedPosition.copy(_alignedPosition);
+  }
+  vertexPosition.copy(mvPosition);
+  vertexPosition.x += _rotatedPosition.x;
+  vertexPosition.y += _rotatedPosition.y;
+  vertexPosition.applyMatrix4(_viewWorldMatrix);
+}
 var _basePosition = /* @__PURE__ */ new Vector3();
 var _skinIndex = /* @__PURE__ */ new Vector4();
 var _skinWeight = /* @__PURE__ */ new Vector4();
@@ -13335,8 +13495,8 @@ var SkinnedMesh = class extends Mesh {
    * @param {BufferGeometry} [geometry] - The mesh geometry.
    * @param {Material|Array<Material>} [material] - The mesh material.
    */
-  constructor(geometry, material) {
-    super(geometry, material);
+  constructor(geometry2, material) {
+    super(geometry2, material);
     this.isSkinnedMesh = true;
     this.type = "SkinnedMesh";
     this.bindMode = AttachedBindMode;
@@ -13352,12 +13512,12 @@ var SkinnedMesh = class extends Mesh {
    * the current animation state.
    */
   computeBoundingBox() {
-    const geometry = this.geometry;
+    const geometry2 = this.geometry;
     if (this.boundingBox === null) {
       this.boundingBox = new Box3();
     }
     this.boundingBox.makeEmpty();
-    const positionAttribute = geometry.getAttribute("position");
+    const positionAttribute = geometry2.getAttribute("position");
     for (let i4 = 0; i4 < positionAttribute.count; i4++) {
       this.getVertexPosition(i4, _vertex);
       this.boundingBox.expandByPoint(_vertex);
@@ -13370,12 +13530,12 @@ var SkinnedMesh = class extends Mesh {
    * per frame in order to reflect the current animation state.
    */
   computeBoundingSphere() {
-    const geometry = this.geometry;
+    const geometry2 = this.geometry;
     if (this.boundingSphere === null) {
       this.boundingSphere = new Sphere();
     }
     this.boundingSphere.makeEmpty();
-    const positionAttribute = geometry.getAttribute("position");
+    const positionAttribute = geometry2.getAttribute("position");
     for (let i4 = 0; i4 < positionAttribute.count; i4++) {
       this.getVertexPosition(i4, _vertex);
       this.boundingSphere.expandByPoint(_vertex);
@@ -13406,10 +13566,10 @@ var SkinnedMesh = class extends Mesh {
     }
     this._computeIntersections(raycaster, intersects, _ray$2);
   }
-  getVertexPosition(index, target) {
-    super.getVertexPosition(index, target);
-    this.applyBoneTransform(index, target);
-    return target;
+  getVertexPosition(index, target2) {
+    super.getVertexPosition(index, target2);
+    this.applyBoneTransform(index, target2);
+    return target2;
   }
   /**
    * Binds the given skeleton to the skinned mesh.
@@ -13471,22 +13631,22 @@ var SkinnedMesh = class extends Mesh {
    * the skinned mesh's world matrix will be used instead.
    * @return {Vector3} The updated vertex position.
    */
-  applyBoneTransform(index, target) {
+  applyBoneTransform(index, target2) {
     const skeleton = this.skeleton;
-    const geometry = this.geometry;
-    _skinIndex.fromBufferAttribute(geometry.attributes.skinIndex, index);
-    _skinWeight.fromBufferAttribute(geometry.attributes.skinWeight, index);
-    _basePosition.copy(target).applyMatrix4(this.bindMatrix);
-    target.set(0, 0, 0);
+    const geometry2 = this.geometry;
+    _skinIndex.fromBufferAttribute(geometry2.attributes.skinIndex, index);
+    _skinWeight.fromBufferAttribute(geometry2.attributes.skinWeight, index);
+    _basePosition.copy(target2).applyMatrix4(this.bindMatrix);
+    target2.set(0, 0, 0);
     for (let i4 = 0; i4 < 4; i4++) {
       const weight = _skinWeight.getComponent(i4);
       if (weight !== 0) {
         const boneIndex = _skinIndex.getComponent(i4);
         _matrix4.multiplyMatrices(skeleton.bones[boneIndex].matrixWorld, skeleton.boneInverses[boneIndex]);
-        target.addScaledVector(_vector3.copy(_basePosition).applyMatrix4(_matrix4), weight);
+        target2.addScaledVector(_vector3.copy(_basePosition).applyMatrix4(_matrix4), weight);
       }
     }
-    return target.applyMatrix4(this.bindMatrixInverse);
+    return target2.applyMatrix4(this.bindMatrixInverse);
   }
 };
 var Bone = class extends Object3D {
@@ -13760,8 +13920,8 @@ var InstancedMesh = class extends Mesh {
    * @param {Material|Array<Material>} [material] - The mesh material.
    * @param {number} count - The number of instances.
    */
-  constructor(geometry, material, count) {
-    super(geometry, material);
+  constructor(geometry2, material, count) {
+    super(geometry2, material);
     this.isInstancedMesh = true;
     this.instanceMatrix = new InstancedBufferAttribute(new Float32Array(count * 16), 16);
     this.instanceColor = null;
@@ -13779,18 +13939,18 @@ var InstancedMesh = class extends Mesh {
    * You may need to recompute the bounding box if an instance is transformed via {@link InstancedMesh#setMatrixAt}.
    */
   computeBoundingBox() {
-    const geometry = this.geometry;
+    const geometry2 = this.geometry;
     const count = this.count;
     if (this.boundingBox === null) {
       this.boundingBox = new Box3();
     }
-    if (geometry.boundingBox === null) {
-      geometry.computeBoundingBox();
+    if (geometry2.boundingBox === null) {
+      geometry2.computeBoundingBox();
     }
     this.boundingBox.makeEmpty();
     for (let i4 = 0; i4 < count; i4++) {
       this.getMatrixAt(i4, _instanceLocalMatrix);
-      _box3.copy(geometry.boundingBox).applyMatrix4(_instanceLocalMatrix);
+      _box3.copy(geometry2.boundingBox).applyMatrix4(_instanceLocalMatrix);
       this.boundingBox.union(_box3);
     }
   }
@@ -13800,18 +13960,18 @@ var InstancedMesh = class extends Mesh {
    * You may need to recompute the bounding sphere if an instance is transformed via {@link InstancedMesh#setMatrixAt}.
    */
   computeBoundingSphere() {
-    const geometry = this.geometry;
+    const geometry2 = this.geometry;
     const count = this.count;
     if (this.boundingSphere === null) {
       this.boundingSphere = new Sphere();
     }
-    if (geometry.boundingSphere === null) {
-      geometry.computeBoundingSphere();
+    if (geometry2.boundingSphere === null) {
+      geometry2.computeBoundingSphere();
     }
     this.boundingSphere.makeEmpty();
     for (let i4 = 0; i4 < count; i4++) {
       this.getMatrixAt(i4, _instanceLocalMatrix);
-      _sphere$4.copy(geometry.boundingSphere).applyMatrix4(_instanceLocalMatrix);
+      _sphere$4.copy(geometry2.boundingSphere).applyMatrix4(_instanceLocalMatrix);
       this.boundingSphere.union(_sphere$4);
     }
   }
@@ -13953,9 +14113,9 @@ var Plane = class {
    * @param {Vector3} [normal=(1,0,0)] - A unit length vector defining the normal of the plane.
    * @param {number} [constant=0] - The signed distance from the origin to the plane.
    */
-  constructor(normal = new Vector3(1, 0, 0), constant = 0) {
+  constructor(normal2 = new Vector3(1, 0, 0), constant = 0) {
     this.isPlane = true;
-    this.normal = normal;
+    this.normal = normal2;
     this.constant = constant;
   }
   /**
@@ -13965,8 +14125,8 @@ var Plane = class {
    * @param {number} constant - The constant.
    * @return {Plane} A reference to this plane.
    */
-  set(normal, constant) {
-    this.normal.copy(normal);
+  set(normal2, constant) {
+    this.normal.copy(normal2);
     this.constant = constant;
     return this;
   }
@@ -13993,8 +14153,8 @@ var Plane = class {
    * @param {Vector3} point - A coplanar point.
    * @return {Plane} A reference to this plane.
    */
-  setFromNormalAndCoplanarPoint(normal, point) {
-    this.normal.copy(normal);
+  setFromNormalAndCoplanarPoint(normal2, point) {
+    this.normal.copy(normal2);
     this.constant = -point.dot(this.normal);
     return this;
   }
@@ -14009,8 +14169,8 @@ var Plane = class {
    * @return {Plane} A reference to this plane.
    */
   setFromCoplanarPoints(a3, b6, c5) {
-    const normal = _vector1.subVectors(c5, b6).cross(_vector2.subVectors(a3, b6)).normalize();
-    this.setFromNormalAndCoplanarPoint(normal, a3);
+    const normal2 = _vector1.subVectors(c5, b6).cross(_vector2.subVectors(a3, b6)).normalize();
+    this.setFromNormalAndCoplanarPoint(normal2, a3);
     return this;
   }
   /**
@@ -14019,9 +14179,9 @@ var Plane = class {
    * @param {Plane} plane - The plane to copy.
    * @return {Plane} A reference to this plane.
    */
-  copy(plane) {
-    this.normal.copy(plane.normal);
-    this.constant = plane.constant;
+  copy(plane2) {
+    this.normal.copy(plane2.normal);
+    this.constant = plane2.constant;
     return this;
   }
   /**
@@ -14070,8 +14230,8 @@ var Plane = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} The projected point on the plane.
    */
-  projectPoint(point, target) {
-    return target.copy(point).addScaledVector(this.normal, -this.distanceToPoint(point));
+  projectPoint(point, target2) {
+    return target2.copy(point).addScaledVector(this.normal, -this.distanceToPoint(point));
   }
   /**
    * Returns the intersection point of the passed line and the plane. Returns
@@ -14082,12 +14242,12 @@ var Plane = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {?Vector3} The intersection point.
    */
-  intersectLine(line, target) {
+  intersectLine(line, target2) {
     const direction = line.delta(_vector1);
     const denominator = this.normal.dot(direction);
     if (denominator === 0) {
       if (this.distanceToPoint(line.start) === 0) {
-        return target.copy(line.start);
+        return target2.copy(line.start);
       }
       return null;
     }
@@ -14095,7 +14255,7 @@ var Plane = class {
     if (t3 < 0 || t3 > 1) {
       return null;
     }
-    return target.copy(line.start).addScaledVector(direction, t3);
+    return target2.copy(line.start).addScaledVector(direction, t3);
   }
   /**
    * Returns `true` if the given line segment intersects with (passes through) the plane.
@@ -14133,8 +14293,8 @@ var Plane = class {
    * @param {Vector3} target - The target vector that is used to store the method's result.
    * @return {Vector3} The coplanar point.
    */
-  coplanarPoint(target) {
-    return target.copy(this.normal).multiplyScalar(-this.constant);
+  coplanarPoint(target2) {
+    return target2.copy(this.normal).multiplyScalar(-this.constant);
   }
   /**
    * Apply a 4x4 matrix to the plane. The matrix must be an affine, homogeneous transform.
@@ -14151,8 +14311,8 @@ var Plane = class {
   applyMatrix4(matrix, optionalNormalMatrix) {
     const normalMatrix = optionalNormalMatrix || _normalMatrix.getNormalMatrix(matrix);
     const referencePoint = this.coplanarPoint(_vector1).applyMatrix4(matrix);
-    const normal = this.normal.applyMatrix3(normalMatrix).normalize();
-    this.constant = -referencePoint.dot(normal);
+    const normal2 = this.normal.applyMatrix3(normalMatrix).normalize();
+    this.constant = -referencePoint.dot(normal2);
     return this;
   }
   /**
@@ -14172,8 +14332,8 @@ var Plane = class {
    * @param {Plane} plane - The plane to test for equality.
    * @return {boolean} Whether this plane is equal with the given one.
    */
-  equals(plane) {
-    return plane.normal.equals(this.normal) && plane.constant === this.constant;
+  equals(plane2) {
+    return plane2.normal.equals(this.normal) && plane2.constant === this.constant;
   }
   /**
    * Returns a new plane with copied values from this instance.
@@ -14275,9 +14435,9 @@ var Frustum = class {
       if (object.boundingSphere === null) object.computeBoundingSphere();
       _sphere$3.copy(object.boundingSphere).applyMatrix4(object.matrixWorld);
     } else {
-      const geometry = object.geometry;
-      if (geometry.boundingSphere === null) geometry.computeBoundingSphere();
-      _sphere$3.copy(geometry.boundingSphere).applyMatrix4(object.matrixWorld);
+      const geometry2 = object.geometry;
+      if (geometry2.boundingSphere === null) geometry2.computeBoundingSphere();
+      _sphere$3.copy(geometry2.boundingSphere).applyMatrix4(object.matrixWorld);
     }
     return this.intersectsSphere(_sphere$3);
   }
@@ -14320,11 +14480,11 @@ var Frustum = class {
   intersectsBox(box) {
     const planes = this.planes;
     for (let i4 = 0; i4 < 6; i4++) {
-      const plane = planes[i4];
-      _vector$6.x = plane.normal.x > 0 ? box.max.x : box.min.x;
-      _vector$6.y = plane.normal.y > 0 ? box.max.y : box.min.y;
-      _vector$6.z = plane.normal.z > 0 ? box.max.z : box.min.z;
-      if (plane.distanceToPoint(_vector$6) < 0) {
+      const plane2 = planes[i4];
+      _vector$6.x = plane2.normal.x > 0 ? box.max.x : box.min.x;
+      _vector$6.y = plane2.normal.y > 0 ? box.max.y : box.min.y;
+      _vector$6.z = plane2.normal.z > 0 ? box.max.z : box.min.z;
+      if (plane2.distanceToPoint(_vector$6) < 0) {
         return false;
       }
     }
@@ -14401,11 +14561,11 @@ var Line = class extends Object3D {
    * @param {BufferGeometry} [geometry] - The line geometry.
    * @param {Material|Array<Material>} [material] - The line material.
    */
-  constructor(geometry = new BufferGeometry(), material = new LineBasicMaterial()) {
+  constructor(geometry2 = new BufferGeometry(), material = new LineBasicMaterial()) {
     super();
     this.isLine = true;
     this.type = "Line";
-    this.geometry = geometry;
+    this.geometry = geometry2;
     this.material = material;
     this.morphTargetDictionary = void 0;
     this.morphTargetInfluences = void 0;
@@ -14425,9 +14585,9 @@ var Line = class extends Object3D {
    * @return {Line} A reference to this line.
    */
   computeLineDistances() {
-    const geometry = this.geometry;
-    if (geometry.index === null) {
-      const positionAttribute = geometry.attributes.position;
+    const geometry2 = this.geometry;
+    if (geometry2.index === null) {
+      const positionAttribute = geometry2.attributes.position;
       const lineDistances = [0];
       for (let i4 = 1, l3 = positionAttribute.count; i4 < l3; i4++) {
         _vStart.fromBufferAttribute(positionAttribute, i4 - 1);
@@ -14435,7 +14595,7 @@ var Line = class extends Object3D {
         lineDistances[i4] = lineDistances[i4 - 1];
         lineDistances[i4] += _vStart.distanceTo(_vEnd);
       }
-      geometry.setAttribute("lineDistance", new Float32BufferAttribute(lineDistances, 1));
+      geometry2.setAttribute("lineDistance", new Float32BufferAttribute(lineDistances, 1));
     } else {
       console.warn("THREE.Line.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.");
     }
@@ -14448,12 +14608,12 @@ var Line = class extends Object3D {
    * @param {Array<Object>} intersects - The target array that holds the intersection points.
    */
   raycast(raycaster, intersects) {
-    const geometry = this.geometry;
+    const geometry2 = this.geometry;
     const matrixWorld = this.matrixWorld;
     const threshold = raycaster.params.Line.threshold;
-    const drawRange = geometry.drawRange;
-    if (geometry.boundingSphere === null) geometry.computeBoundingSphere();
-    _sphere$1.copy(geometry.boundingSphere);
+    const drawRange = geometry2.drawRange;
+    if (geometry2.boundingSphere === null) geometry2.computeBoundingSphere();
+    _sphere$1.copy(geometry2.boundingSphere);
     _sphere$1.applyMatrix4(matrixWorld);
     _sphere$1.radius += threshold;
     if (raycaster.ray.intersectsSphere(_sphere$1) === false) return;
@@ -14462,8 +14622,8 @@ var Line = class extends Object3D {
     const localThreshold = threshold / ((this.scale.x + this.scale.y + this.scale.z) / 3);
     const localThresholdSq = localThreshold * localThreshold;
     const step = this.isLineSegments ? 2 : 1;
-    const index = geometry.index;
-    const attributes = geometry.attributes;
+    const index = geometry2.index;
+    const attributes = geometry2.attributes;
     const positionAttribute = attributes.position;
     if (index !== null) {
       const start = Math.max(0, drawRange.start);
@@ -14506,8 +14666,8 @@ var Line = class extends Object3D {
    * to make sure existing morph targets can influence this 3D object.
    */
   updateMorphTargets() {
-    const geometry = this.geometry;
-    const morphAttributes = geometry.morphAttributes;
+    const geometry2 = this.geometry;
+    const morphAttributes = geometry2.morphAttributes;
     const keys = Object.keys(morphAttributes);
     if (keys.length > 0) {
       const morphAttribute = morphAttributes[keys[0]];
@@ -14553,15 +14713,15 @@ var LineSegments = class extends Line {
    * @param {BufferGeometry} [geometry] - The line geometry.
    * @param {Material|Array<Material>} [material] - The line material.
    */
-  constructor(geometry, material) {
-    super(geometry, material);
+  constructor(geometry2, material) {
+    super(geometry2, material);
     this.isLineSegments = true;
     this.type = "LineSegments";
   }
   computeLineDistances() {
-    const geometry = this.geometry;
-    if (geometry.index === null) {
-      const positionAttribute = geometry.attributes.position;
+    const geometry2 = this.geometry;
+    if (geometry2.index === null) {
+      const positionAttribute = geometry2.attributes.position;
       const lineDistances = [];
       for (let i4 = 0, l3 = positionAttribute.count; i4 < l3; i4 += 2) {
         _start.fromBufferAttribute(positionAttribute, i4);
@@ -14569,7 +14729,7 @@ var LineSegments = class extends Line {
         lineDistances[i4] = i4 === 0 ? 0 : lineDistances[i4 - 1];
         lineDistances[i4 + 1] = lineDistances[i4] + _start.distanceTo(_end);
       }
-      geometry.setAttribute("lineDistance", new Float32BufferAttribute(lineDistances, 1));
+      geometry2.setAttribute("lineDistance", new Float32BufferAttribute(lineDistances, 1));
     } else {
       console.warn("THREE.LineSegments.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.");
     }
@@ -14583,8 +14743,8 @@ var LineLoop = class extends Line {
    * @param {BufferGeometry} [geometry] - The line geometry.
    * @param {Material|Array<Material>} [material] - The line material.
    */
-  constructor(geometry, material) {
-    super(geometry, material);
+  constructor(geometry2, material) {
+    super(geometry2, material);
     this.isLineLoop = true;
     this.type = "LineLoop";
   }
@@ -14633,11 +14793,11 @@ var Points = class extends Object3D {
    * @param {BufferGeometry} [geometry] - The points geometry.
    * @param {Material|Array<Material>} [material] - The points material.
    */
-  constructor(geometry = new BufferGeometry(), material = new PointsMaterial()) {
+  constructor(geometry2 = new BufferGeometry(), material = new PointsMaterial()) {
     super();
     this.isPoints = true;
     this.type = "Points";
-    this.geometry = geometry;
+    this.geometry = geometry2;
     this.material = material;
     this.morphTargetDictionary = void 0;
     this.morphTargetInfluences = void 0;
@@ -14656,12 +14816,12 @@ var Points = class extends Object3D {
    * @param {Array<Object>} intersects - The target array that holds the intersection points.
    */
   raycast(raycaster, intersects) {
-    const geometry = this.geometry;
+    const geometry2 = this.geometry;
     const matrixWorld = this.matrixWorld;
     const threshold = raycaster.params.Points.threshold;
-    const drawRange = geometry.drawRange;
-    if (geometry.boundingSphere === null) geometry.computeBoundingSphere();
-    _sphere.copy(geometry.boundingSphere);
+    const drawRange = geometry2.drawRange;
+    if (geometry2.boundingSphere === null) geometry2.computeBoundingSphere();
+    _sphere.copy(geometry2.boundingSphere);
     _sphere.applyMatrix4(matrixWorld);
     _sphere.radius += threshold;
     if (raycaster.ray.intersectsSphere(_sphere) === false) return;
@@ -14669,8 +14829,8 @@ var Points = class extends Object3D {
     _ray.copy(raycaster.ray).applyMatrix4(_inverseMatrix);
     const localThreshold = threshold / ((this.scale.x + this.scale.y + this.scale.z) / 3);
     const localThresholdSq = localThreshold * localThreshold;
-    const index = geometry.index;
-    const attributes = geometry.attributes;
+    const index = geometry2.index;
+    const attributes = geometry2.attributes;
     const positionAttribute = attributes.position;
     if (index !== null) {
       const start = Math.max(0, drawRange.start);
@@ -14694,8 +14854,8 @@ var Points = class extends Object3D {
    * to make sure existing morph targets can influence this 3D object.
    */
   updateMorphTargets() {
-    const geometry = this.geometry;
-    const morphAttributes = geometry.morphAttributes;
+    const geometry2 = this.geometry;
+    const morphAttributes = geometry2.morphAttributes;
     const keys = Object.keys(morphAttributes);
     if (keys.length > 0) {
       const morphAttribute = morphAttributes[keys[0]];
@@ -14768,6 +14928,193 @@ var DepthTexture = class extends Texture {
     const data = super.toJSON(meta);
     if (this.compareFunction !== null) data.compareFunction = this.compareFunction;
     return data;
+  }
+};
+var CylinderGeometry = class _CylinderGeometry extends BufferGeometry {
+  /**
+   * Constructs a new cylinder geometry.
+   *
+   * @param {number} [radiusTop=1] - Radius of the cylinder at the top.
+   * @param {number} [radiusBottom=1] - Radius of the cylinder at the bottom.
+   * @param {number} [height=1] - Height of the cylinder.
+   * @param {number} [radialSegments=32] - Number of segmented faces around the circumference of the cylinder.
+   * @param {number} [heightSegments=1] - Number of rows of faces along the height of the cylinder.
+   * @param {boolean} [openEnded=false] - Whether the base of the cylinder is open or capped.
+   * @param {number} [thetaStart=0] - Start angle for first segment, in radians.
+   * @param {number} [thetaLength=Math.PI*2] - The central angle, often called theta, of the circular sector, in radians.
+   * The default value results in a complete cylinder.
+   */
+  constructor(radiusTop = 1, radiusBottom = 1, height = 1, radialSegments = 32, heightSegments = 1, openEnded = false, thetaStart = 0, thetaLength = Math.PI * 2) {
+    super();
+    this.type = "CylinderGeometry";
+    this.parameters = {
+      radiusTop,
+      radiusBottom,
+      height,
+      radialSegments,
+      heightSegments,
+      openEnded,
+      thetaStart,
+      thetaLength
+    };
+    const scope = this;
+    radialSegments = Math.floor(radialSegments);
+    heightSegments = Math.floor(heightSegments);
+    const indices = [];
+    const vertices = [];
+    const normals = [];
+    const uvs = [];
+    let index = 0;
+    const indexArray = [];
+    const halfHeight = height / 2;
+    let groupStart = 0;
+    generateTorso();
+    if (openEnded === false) {
+      if (radiusTop > 0) generateCap(true);
+      if (radiusBottom > 0) generateCap(false);
+    }
+    this.setIndex(indices);
+    this.setAttribute("position", new Float32BufferAttribute(vertices, 3));
+    this.setAttribute("normal", new Float32BufferAttribute(normals, 3));
+    this.setAttribute("uv", new Float32BufferAttribute(uvs, 2));
+    function generateTorso() {
+      const normal2 = new Vector3();
+      const vertex3 = new Vector3();
+      let groupCount = 0;
+      const slope = (radiusBottom - radiusTop) / height;
+      for (let y4 = 0; y4 <= heightSegments; y4++) {
+        const indexRow = [];
+        const v3 = y4 / heightSegments;
+        const radius = v3 * (radiusBottom - radiusTop) + radiusTop;
+        for (let x3 = 0; x3 <= radialSegments; x3++) {
+          const u4 = x3 / radialSegments;
+          const theta = u4 * thetaLength + thetaStart;
+          const sinTheta = Math.sin(theta);
+          const cosTheta = Math.cos(theta);
+          vertex3.x = radius * sinTheta;
+          vertex3.y = -v3 * height + halfHeight;
+          vertex3.z = radius * cosTheta;
+          vertices.push(vertex3.x, vertex3.y, vertex3.z);
+          normal2.set(sinTheta, slope, cosTheta).normalize();
+          normals.push(normal2.x, normal2.y, normal2.z);
+          uvs.push(u4, 1 - v3);
+          indexRow.push(index++);
+        }
+        indexArray.push(indexRow);
+      }
+      for (let x3 = 0; x3 < radialSegments; x3++) {
+        for (let y4 = 0; y4 < heightSegments; y4++) {
+          const a3 = indexArray[y4][x3];
+          const b6 = indexArray[y4 + 1][x3];
+          const c5 = indexArray[y4 + 1][x3 + 1];
+          const d3 = indexArray[y4][x3 + 1];
+          if (radiusTop > 0 || y4 !== 0) {
+            indices.push(a3, b6, d3);
+            groupCount += 3;
+          }
+          if (radiusBottom > 0 || y4 !== heightSegments - 1) {
+            indices.push(b6, c5, d3);
+            groupCount += 3;
+          }
+        }
+      }
+      scope.addGroup(groupStart, groupCount, 0);
+      groupStart += groupCount;
+    }
+    function generateCap(top) {
+      const centerIndexStart = index;
+      const uv = new Vector2();
+      const vertex3 = new Vector3();
+      let groupCount = 0;
+      const radius = top === true ? radiusTop : radiusBottom;
+      const sign = top === true ? 1 : -1;
+      for (let x3 = 1; x3 <= radialSegments; x3++) {
+        vertices.push(0, halfHeight * sign, 0);
+        normals.push(0, sign, 0);
+        uvs.push(0.5, 0.5);
+        index++;
+      }
+      const centerIndexEnd = index;
+      for (let x3 = 0; x3 <= radialSegments; x3++) {
+        const u4 = x3 / radialSegments;
+        const theta = u4 * thetaLength + thetaStart;
+        const cosTheta = Math.cos(theta);
+        const sinTheta = Math.sin(theta);
+        vertex3.x = radius * sinTheta;
+        vertex3.y = halfHeight * sign;
+        vertex3.z = radius * cosTheta;
+        vertices.push(vertex3.x, vertex3.y, vertex3.z);
+        normals.push(0, sign, 0);
+        uv.x = cosTheta * 0.5 + 0.5;
+        uv.y = sinTheta * 0.5 * sign + 0.5;
+        uvs.push(uv.x, uv.y);
+        index++;
+      }
+      for (let x3 = 0; x3 < radialSegments; x3++) {
+        const c5 = centerIndexStart + x3;
+        const i4 = centerIndexEnd + x3;
+        if (top === true) {
+          indices.push(i4, i4 + 1, c5);
+        } else {
+          indices.push(i4 + 1, i4, c5);
+        }
+        groupCount += 3;
+      }
+      scope.addGroup(groupStart, groupCount, top === true ? 1 : 2);
+      groupStart += groupCount;
+    }
+  }
+  copy(source) {
+    super.copy(source);
+    this.parameters = Object.assign({}, source.parameters);
+    return this;
+  }
+  /**
+   * Factory method for creating an instance of this class from the given
+   * JSON object.
+   *
+   * @param {Object} data - A JSON object representing the serialized geometry.
+   * @return {CylinderGeometry} A new instance.
+   */
+  static fromJSON(data) {
+    return new _CylinderGeometry(data.radiusTop, data.radiusBottom, data.height, data.radialSegments, data.heightSegments, data.openEnded, data.thetaStart, data.thetaLength);
+  }
+};
+var ConeGeometry = class _ConeGeometry extends CylinderGeometry {
+  /**
+   * Constructs a new cone geometry.
+   *
+   * @param {number} [radius=1] - Radius of the cone base.
+   * @param {number} [height=1] - Height of the cone.
+   * @param {number} [radialSegments=32] - Number of segmented faces around the circumference of the cone.
+   * @param {number} [heightSegments=1] - Number of rows of faces along the height of the cone.
+   * @param {boolean} [openEnded=false] - Whether the base of the cone is open or capped.
+   * @param {number} [thetaStart=0] - Start angle for first segment, in radians.
+   * @param {number} [thetaLength=Math.PI*2] - The central angle, often called theta, of the circular sector, in radians.
+   * The default value results in a complete cone.
+   */
+  constructor(radius = 1, height = 1, radialSegments = 32, heightSegments = 1, openEnded = false, thetaStart = 0, thetaLength = Math.PI * 2) {
+    super(0, radius, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength);
+    this.type = "ConeGeometry";
+    this.parameters = {
+      radius,
+      height,
+      radialSegments,
+      heightSegments,
+      openEnded,
+      thetaStart,
+      thetaLength
+    };
+  }
+  /**
+   * Factory method for creating an instance of this class from the given
+   * JSON object.
+   *
+   * @param {Object} data - A JSON object representing the serialized geometry.
+   * @return {ConeGeometry} A new instance.
+   */
+  static fromJSON(data) {
+    return new _ConeGeometry(data.radius, data.height, data.radialSegments, data.heightSegments, data.openEnded, data.thetaStart, data.thetaLength);
   }
 };
 var Curve = class {
@@ -14964,7 +15311,7 @@ var Curve = class {
    * @return {{tangents: Array<Vector3>, normals: Array<Vector3>, binormals: Array<Vector3>}} The Frenet Frames.
    */
   computeFrenetFrames(segments, closed = false) {
-    const normal = new Vector3();
+    const normal2 = new Vector3();
     const tangents = [];
     const normals = [];
     const binormals = [];
@@ -14982,16 +15329,16 @@ var Curve = class {
     const tz = Math.abs(tangents[0].z);
     if (tx <= min) {
       min = tx;
-      normal.set(1, 0, 0);
+      normal2.set(1, 0, 0);
     }
     if (ty <= min) {
       min = ty;
-      normal.set(0, 1, 0);
+      normal2.set(0, 1, 0);
     }
     if (tz <= min) {
-      normal.set(0, 0, 1);
+      normal2.set(0, 0, 1);
     }
-    vec.crossVectors(tangents[0], normal).normalize();
+    vec.crossVectors(tangents[0], normal2).normalize();
     normals[0].crossVectors(tangents[0], vec);
     binormals[0].crossVectors(tangents[0], normals[0]);
     for (let i4 = 1; i4 <= segments; i4++) {
@@ -15312,8 +15659,8 @@ var SphereGeometry = class _SphereGeometry extends BufferGeometry {
     const thetaEnd = Math.min(thetaStart + thetaLength, Math.PI);
     let index = 0;
     const grid = [];
-    const vertex4 = new Vector3();
-    const normal = new Vector3();
+    const vertex3 = new Vector3();
+    const normal2 = new Vector3();
     const indices = [];
     const vertices = [];
     const normals = [];
@@ -15329,12 +15676,12 @@ var SphereGeometry = class _SphereGeometry extends BufferGeometry {
       }
       for (let ix = 0; ix <= widthSegments; ix++) {
         const u4 = ix / widthSegments;
-        vertex4.x = -radius * Math.cos(phiStart + u4 * phiLength) * Math.sin(thetaStart + v3 * thetaLength);
-        vertex4.y = radius * Math.cos(thetaStart + v3 * thetaLength);
-        vertex4.z = radius * Math.sin(phiStart + u4 * phiLength) * Math.sin(thetaStart + v3 * thetaLength);
-        vertices.push(vertex4.x, vertex4.y, vertex4.z);
-        normal.copy(vertex4).normalize();
-        normals.push(normal.x, normal.y, normal.z);
+        vertex3.x = -radius * Math.cos(phiStart + u4 * phiLength) * Math.sin(thetaStart + v3 * thetaLength);
+        vertex3.y = radius * Math.cos(thetaStart + v3 * thetaLength);
+        vertex3.z = radius * Math.sin(phiStart + u4 * phiLength) * Math.sin(thetaStart + v3 * thetaLength);
+        vertices.push(vertex3.x, vertex3.y, vertex3.z);
+        normal2.copy(vertex3).normalize();
+        normals.push(normal2.x, normal2.y, normal2.z);
         uvs.push(u4 + uOffset, 1 - v3);
         verticesRow.push(index++);
       }
@@ -15398,20 +15745,20 @@ var TorusGeometry = class _TorusGeometry extends BufferGeometry {
     const normals = [];
     const uvs = [];
     const center = new Vector3();
-    const vertex4 = new Vector3();
-    const normal = new Vector3();
+    const vertex3 = new Vector3();
+    const normal2 = new Vector3();
     for (let j3 = 0; j3 <= radialSegments; j3++) {
       for (let i4 = 0; i4 <= tubularSegments; i4++) {
         const u4 = i4 / tubularSegments * arc;
         const v3 = j3 / radialSegments * Math.PI * 2;
-        vertex4.x = (radius + tube * Math.cos(v3)) * Math.cos(u4);
-        vertex4.y = (radius + tube * Math.cos(v3)) * Math.sin(u4);
-        vertex4.z = tube * Math.sin(v3);
-        vertices.push(vertex4.x, vertex4.y, vertex4.z);
+        vertex3.x = (radius + tube * Math.cos(v3)) * Math.cos(u4);
+        vertex3.y = (radius + tube * Math.cos(v3)) * Math.sin(u4);
+        vertex3.z = tube * Math.sin(v3);
+        vertices.push(vertex3.x, vertex3.y, vertex3.z);
         center.x = radius * Math.cos(u4);
         center.y = radius * Math.sin(u4);
-        normal.subVectors(vertex4, center).normalize();
-        normals.push(normal.x, normal.y, normal.z);
+        normal2.subVectors(vertex3, center).normalize();
+        normals.push(normal2.x, normal2.y, normal2.z);
         uvs.push(i4 / tubularSegments);
         uvs.push(j3 / radialSegments);
       }
@@ -16608,9 +16955,9 @@ var AnimationClip = class {
     for (let i4 = 0, n4 = jsonTracks.length; i4 !== n4; ++i4) {
       tracks.push(parseKeyframeTrack(jsonTracks[i4]).scale(frameTime));
     }
-    const clip = new this(json.name, json.duration, tracks, json.blendMode);
-    clip.uuid = json.uuid;
-    return clip;
+    const clip2 = new this(json.name, json.duration, tracks, json.blendMode);
+    clip2.uuid = json.uuid;
+    return clip2;
   }
   /**
    * Serializes the given animation clip into JSON.
@@ -16619,14 +16966,14 @@ var AnimationClip = class {
    * @param {AnimationClip} clip - The animation clip to serialize.
    * @return {Object} The JSON object.
    */
-  static toJSON(clip) {
-    const tracks = [], clipTracks = clip.tracks;
+  static toJSON(clip2) {
+    const tracks = [], clipTracks = clip2.tracks;
     const json = {
-      "name": clip.name,
-      "duration": clip.duration,
+      "name": clip2.name,
+      "duration": clip2.duration,
       "tracks": tracks,
-      "uuid": clip.uuid,
-      "blendMode": clip.blendMode
+      "uuid": clip2.uuid,
+      "blendMode": clip2.blendMode
     };
     for (let i4 = 0, n4 = clipTracks.length; i4 !== n4; ++i4) {
       tracks.push(KeyframeTrack.toJSON(clipTracks[i4]));
@@ -16816,8 +17163,8 @@ var AnimationClip = class {
     if (tracks.length === 0) {
       return null;
     }
-    const clip = new this(clipName, duration, tracks, blendMode);
-    return clip;
+    const clip2 = new this(clipName, duration, tracks, blendMode);
+    return clip2;
   }
   /**
    * Sets the duration of this clip to the duration of its longest keyframe track.
@@ -17594,8 +17941,8 @@ var LightShadow = class {
    *
    * @param {Camera} camera - The light's view of the world.
    */
-  constructor(camera) {
-    this.camera = camera;
+  constructor(camera2) {
+    this.camera = camera2;
     this.intensity = 1;
     this.bias = 0;
     this.normalBias = 0;
@@ -17751,15 +18098,15 @@ var SpotLightShadow = class extends LightShadow {
     this.aspect = 1;
   }
   updateMatrices(light) {
-    const camera = this.camera;
+    const camera2 = this.camera;
     const fov2 = RAD2DEG * 2 * light.angle * this.focus;
     const aspect2 = this.mapSize.width / this.mapSize.height * this.aspect;
-    const far = light.distance || camera.far;
-    if (fov2 !== camera.fov || aspect2 !== camera.aspect || far !== camera.far) {
-      camera.fov = fov2;
-      camera.aspect = aspect2;
-      camera.far = far;
-      camera.updateProjectionMatrix();
+    const far = light.distance || camera2.far;
+    if (fov2 !== camera2.fov || aspect2 !== camera2.aspect || far !== camera2.far) {
+      camera2.fov = fov2;
+      camera2.aspect = aspect2;
+      camera2.far = far;
+      camera2.updateProjectionMatrix();
     }
     super.updateMatrices(light);
   }
@@ -17882,22 +18229,22 @@ var PointLightShadow = class extends LightShadow {
    * @param {number} [viewportIndex=0] - The viewport index.
    */
   updateMatrices(light, viewportIndex = 0) {
-    const camera = this.camera;
+    const camera2 = this.camera;
     const shadowMatrix = this.matrix;
-    const far = light.distance || camera.far;
-    if (far !== camera.far) {
-      camera.far = far;
-      camera.updateProjectionMatrix();
+    const far = light.distance || camera2.far;
+    if (far !== camera2.far) {
+      camera2.far = far;
+      camera2.updateProjectionMatrix();
     }
     _lightPositionWorld.setFromMatrixPosition(light.matrixWorld);
-    camera.position.copy(_lightPositionWorld);
-    _lookTarget.copy(camera.position);
+    camera2.position.copy(_lightPositionWorld);
+    _lookTarget.copy(camera2.position);
     _lookTarget.add(this._cubeDirections[viewportIndex]);
-    camera.up.copy(this._cubeUps[viewportIndex]);
-    camera.lookAt(_lookTarget);
-    camera.updateMatrixWorld();
+    camera2.up.copy(this._cubeUps[viewportIndex]);
+    camera2.lookAt(_lookTarget);
+    camera2.updateMatrixWorld();
     shadowMatrix.makeTranslation(-_lightPositionWorld.x, -_lightPositionWorld.y, -_lightPositionWorld.z);
-    _projScreenMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+    _projScreenMatrix.multiplyMatrices(camera2.projectionMatrix, camera2.matrixWorldInverse);
     this._frustum.setFromProjectionMatrix(_projScreenMatrix);
   }
 };
@@ -18307,8 +18654,8 @@ var PropertyMixer = class {
       currentWeight = weight;
     } else {
       currentWeight += weight;
-      const mix = weight / currentWeight;
-      this._mixBufferRegion(buffer, offset, 0, mix, stride);
+      const mix2 = weight / currentWeight;
+      this._mixBufferRegion(buffer, offset, 0, mix2, stride);
     }
     this.cumulativeWeight = currentWeight;
   }
@@ -18858,12 +19205,12 @@ var AnimationAction = class {
    * @param {?Object3D} [localRoot=null] - The root object on which this action is performed.
    * @param {(NormalAnimationBlendMode|AdditiveAnimationBlendMode)} [blendMode] - The blend mode.
    */
-  constructor(mixer, clip, localRoot = null, blendMode = clip.blendMode) {
+  constructor(mixer, clip2, localRoot = null, blendMode = clip2.blendMode) {
     this._mixer = mixer;
-    this._clip = clip;
+    this._clip = clip2;
     this._localRoot = localRoot;
     this.blendMode = blendMode;
-    const tracks = clip.tracks, nTracks = tracks.length, interpolants = new Array(nTracks);
+    const tracks = clip2.tracks, nTracks = tracks.length, interpolants = new Array(nTracks);
     const interpolantSettings = {
       endingStart: ZeroCurvatureEnding,
       endingEnd: ZeroCurvatureEnding
@@ -19613,10 +19960,10 @@ var AnimationMixer = class extends EventDispatcher {
    * @param {(NormalAnimationBlendMode|AdditiveAnimationBlendMode)} [blendMode] - The blend mode.
    * @return {?AnimationAction} The animation action.
    */
-  clipAction(clip, optionalRoot, blendMode) {
+  clipAction(clip2, optionalRoot, blendMode) {
     const root = optionalRoot || this._root, rootUuid = root.uuid;
-    let clipObject = typeof clip === "string" ? AnimationClip.findByName(root, clip) : clip;
-    const clipUuid = clipObject !== null ? clipObject.uuid : clip;
+    let clipObject = typeof clip2 === "string" ? AnimationClip.findByName(root, clip2) : clip2;
+    const clipUuid = clipObject !== null ? clipObject.uuid : clip2;
     const actionsForClip = this._actionsByClip[clipUuid];
     let prototypeAction = null;
     if (blendMode === void 0) {
@@ -19648,8 +19995,8 @@ var AnimationMixer = class extends EventDispatcher {
    * @param {Object3D} [optionalRoot] - An alternative root object.
    * @return {?AnimationAction} The animation action. Returns `null` if no action was found.
    */
-  existingAction(clip, optionalRoot) {
-    const root = optionalRoot || this._root, rootUuid = root.uuid, clipObject = typeof clip === "string" ? AnimationClip.findByName(root, clip) : clip, clipUuid = clipObject ? clipObject.uuid : clip, actionsForClip = this._actionsByClip[clipUuid];
+  existingAction(clip2, optionalRoot) {
+    const root = optionalRoot || this._root, rootUuid = root.uuid, clipObject = typeof clip2 === "string" ? AnimationClip.findByName(root, clip2) : clip2, clipUuid = clipObject ? clipObject.uuid : clip2, actionsForClip = this._actionsByClip[clipUuid];
     if (actionsForClip !== void 0) {
       return actionsForClip.actionByRoot[rootUuid] || null;
     }
@@ -19719,8 +20066,8 @@ var AnimationMixer = class extends EventDispatcher {
    *
    * @param {AnimationClip} clip - The clip to uncache.
    */
-  uncacheClip(clip) {
-    const actions = this._actions, clipUuid = clip.uuid, actionsByClip = this._actionsByClip, actionsForClip = actionsByClip[clipUuid];
+  uncacheClip(clip2) {
+    const actions = this._actions, clipUuid = clip2.uuid, actionsByClip = this._actionsByClip, actionsForClip = actionsByClip[clipUuid];
     if (actionsForClip !== void 0) {
       const actionsToRemove = actionsForClip.knownActions;
       for (let i4 = 0, n4 = actionsToRemove.length; i4 !== n4; ++i4) {
@@ -19771,8 +20118,8 @@ var AnimationMixer = class extends EventDispatcher {
    * @param {AnimationClip|string} clip - An animation clip or alternatively the name of the animation clip.
    * @param {Object3D} [optionalRoot] - An alternative root object.
    */
-  uncacheAction(clip, optionalRoot) {
-    const action = this.existingAction(clip, optionalRoot);
+  uncacheAction(clip2, optionalRoot) {
+    const action = this.existingAction(clip2, optionalRoot);
     if (action !== null) {
       this._deactivateAction(action);
       this._removeInactiveAction(action);
@@ -20992,8 +21339,8 @@ function WebGLBackground(renderer, cubemaps, cubeuvmaps, state, objects, alpha, 
         );
         boxMesh.geometry.deleteAttribute("normal");
         boxMesh.geometry.deleteAttribute("uv");
-        boxMesh.onBeforeRender = function(renderer2, scene2, camera) {
-          this.matrixWorld.copyPosition(camera.matrixWorld);
+        boxMesh.onBeforeRender = function(renderer2, scene2, camera2) {
+          this.matrixWorld.copyPosition(camera2.matrixWorld);
         };
         Object.defineProperty(boxMesh.material, "envMap", {
           get: function() {
@@ -21108,21 +21455,21 @@ function WebGLBindingStates(gl, attributes) {
   const defaultState = createBindingState(null);
   let currentState = defaultState;
   let forceUpdate = false;
-  function setup(object, material, program, geometry, index) {
+  function setup(object, material, program, geometry2, index) {
     let updateBuffers = false;
-    const state = getBindingState(geometry, program, material);
+    const state = getBindingState(geometry2, program, material);
     if (currentState !== state) {
       currentState = state;
       bindVertexArrayObject(currentState.object);
     }
-    updateBuffers = needsUpdate(object, geometry, program, index);
-    if (updateBuffers) saveCache(object, geometry, program, index);
+    updateBuffers = needsUpdate(object, geometry2, program, index);
+    if (updateBuffers) saveCache(object, geometry2, program, index);
     if (index !== null) {
       attributes.update(index, gl.ELEMENT_ARRAY_BUFFER);
     }
     if (updateBuffers || forceUpdate) {
       forceUpdate = false;
-      setupVertexAttributes(object, material, program, geometry);
+      setupVertexAttributes(object, material, program, geometry2);
       if (index !== null) {
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, attributes.get(index).buffer);
       }
@@ -21137,12 +21484,12 @@ function WebGLBindingStates(gl, attributes) {
   function deleteVertexArrayObject(vao) {
     return gl.deleteVertexArray(vao);
   }
-  function getBindingState(geometry, program, material) {
+  function getBindingState(geometry2, program, material) {
     const wireframe = material.wireframe === true;
-    let programMap = bindingStates[geometry.id];
+    let programMap = bindingStates[geometry2.id];
     if (programMap === void 0) {
       programMap = {};
-      bindingStates[geometry.id] = programMap;
+      bindingStates[geometry2.id] = programMap;
     }
     let stateMap = programMap[program.id];
     if (stateMap === void 0) {
@@ -21178,9 +21525,9 @@ function WebGLBindingStates(gl, attributes) {
       index: null
     };
   }
-  function needsUpdate(object, geometry, program, index) {
+  function needsUpdate(object, geometry2, program, index) {
     const cachedAttributes = currentState.attributes;
-    const geometryAttributes = geometry.attributes;
+    const geometryAttributes = geometry2.attributes;
     let attributesNum = 0;
     const programAttributes = program.getAttributes();
     for (const name in programAttributes) {
@@ -21202,9 +21549,9 @@ function WebGLBindingStates(gl, attributes) {
     if (currentState.index !== index) return true;
     return false;
   }
-  function saveCache(object, geometry, program, index) {
+  function saveCache(object, geometry2, program, index) {
     const cache = {};
-    const attributes2 = geometry.attributes;
+    const attributes2 = geometry2.attributes;
     let attributesNum = 0;
     const programAttributes = program.getAttributes();
     for (const name in programAttributes) {
@@ -21268,9 +21615,9 @@ function WebGLBindingStates(gl, attributes) {
       gl.vertexAttribPointer(index, size, type, normalized, stride, offset);
     }
   }
-  function setupVertexAttributes(object, material, program, geometry) {
+  function setupVertexAttributes(object, material, program, geometry2) {
     initAttributes();
-    const geometryAttributes = geometry.attributes;
+    const geometryAttributes = geometry2.attributes;
     const programAttributes = program.getAttributes();
     const materialDefaultAttributeValues = material.defaultAttributeValues;
     for (const name in programAttributes) {
@@ -21298,8 +21645,8 @@ function WebGLBindingStates(gl, attributes) {
               for (let i4 = 0; i4 < programAttribute.locationSize; i4++) {
                 enableAttributeAndDivisor(programAttribute.location + i4, data.meshPerAttribute);
               }
-              if (object.isInstancedMesh !== true && geometry._maxInstanceCount === void 0) {
-                geometry._maxInstanceCount = data.meshPerAttribute * data.count;
+              if (object.isInstancedMesh !== true && geometry2._maxInstanceCount === void 0) {
+                geometry2._maxInstanceCount = data.meshPerAttribute * data.count;
               }
             } else {
               for (let i4 = 0; i4 < programAttribute.locationSize; i4++) {
@@ -21323,8 +21670,8 @@ function WebGLBindingStates(gl, attributes) {
               for (let i4 = 0; i4 < programAttribute.locationSize; i4++) {
                 enableAttributeAndDivisor(programAttribute.location + i4, geometryAttribute.meshPerAttribute);
               }
-              if (object.isInstancedMesh !== true && geometry._maxInstanceCount === void 0) {
-                geometry._maxInstanceCount = geometryAttribute.meshPerAttribute * geometryAttribute.count;
+              if (object.isInstancedMesh !== true && geometry2._maxInstanceCount === void 0) {
+                geometry2._maxInstanceCount = geometryAttribute.meshPerAttribute * geometryAttribute.count;
               }
             } else {
               for (let i4 = 0; i4 < programAttribute.locationSize; i4++) {
@@ -21381,9 +21728,9 @@ function WebGLBindingStates(gl, attributes) {
       delete bindingStates[geometryId];
     }
   }
-  function releaseStatesOfGeometry(geometry) {
-    if (bindingStates[geometry.id] === void 0) return;
-    const programMap = bindingStates[geometry.id];
+  function releaseStatesOfGeometry(geometry2) {
+    if (bindingStates[geometry2.id] === void 0) return;
+    const programMap = bindingStates[geometry2.id];
     for (const programId in programMap) {
       const stateMap = programMap[programId];
       for (const wireframe in stateMap) {
@@ -21392,7 +21739,7 @@ function WebGLBindingStates(gl, attributes) {
       }
       delete programMap[programId];
     }
-    delete bindingStates[geometry.id];
+    delete bindingStates[geometry2.id];
   }
   function releaseStatesOfProgram(program) {
     for (const geometryId in bindingStates) {
@@ -21559,7 +21906,7 @@ function WebGLCapabilities(gl, extensions, parameters, utils) {
 function WebGLClipping(properties) {
   const scope = this;
   let globalState = null, numGlobalPlanes = 0, localClippingEnabled = false, renderingShadows = false;
-  const plane = new Plane(), viewNormalMatrix = new Matrix3(), uniform = { value: null, needsUpdate: false };
+  const plane2 = new Plane(), viewNormalMatrix = new Matrix3(), uniform = { value: null, needsUpdate: false };
   this.uniform = uniform;
   this.numPlanes = 0;
   this.numIntersection = 0;
@@ -21578,10 +21925,10 @@ function WebGLClipping(properties) {
   this.endShadows = function() {
     renderingShadows = false;
   };
-  this.setGlobalState = function(planes, camera) {
-    globalState = projectPlanes(planes, camera, 0);
+  this.setGlobalState = function(planes, camera2) {
+    globalState = projectPlanes(planes, camera2, 0);
   };
-  this.setState = function(material, camera, useCache) {
+  this.setState = function(material, camera2, useCache) {
     const planes = material.clippingPlanes, clipIntersection = material.clipIntersection, clipShadows = material.clipShadows;
     const materialProperties = properties.get(material);
     if (!localClippingEnabled || planes === null || planes.length === 0 || renderingShadows && !clipShadows) {
@@ -21594,7 +21941,7 @@ function WebGLClipping(properties) {
       const nGlobal = renderingShadows ? 0 : numGlobalPlanes, lGlobal = nGlobal * 4;
       let dstArray = materialProperties.clippingState || null;
       uniform.value = dstArray;
-      dstArray = projectPlanes(planes, camera, lGlobal, useCache);
+      dstArray = projectPlanes(planes, camera2, lGlobal, useCache);
       for (let i4 = 0; i4 !== lGlobal; ++i4) {
         dstArray[i4] = globalState[i4];
       }
@@ -21611,21 +21958,21 @@ function WebGLClipping(properties) {
     scope.numPlanes = numGlobalPlanes;
     scope.numIntersection = 0;
   }
-  function projectPlanes(planes, camera, dstOffset, skipTransform) {
+  function projectPlanes(planes, camera2, dstOffset, skipTransform) {
     const nPlanes = planes !== null ? planes.length : 0;
     let dstArray = null;
     if (nPlanes !== 0) {
       dstArray = uniform.value;
       if (skipTransform !== true || dstArray === null) {
-        const flatSize = dstOffset + nPlanes * 4, viewMatrix = camera.matrixWorldInverse;
+        const flatSize = dstOffset + nPlanes * 4, viewMatrix = camera2.matrixWorldInverse;
         viewNormalMatrix.getNormalMatrix(viewMatrix);
         if (dstArray === null || dstArray.length < flatSize) {
           dstArray = new Float32Array(flatSize);
         }
         for (let i4 = 0, i42 = dstOffset; i4 !== nPlanes; ++i4, i42 += 4) {
-          plane.copy(planes[i4]).applyMatrix4(viewMatrix, viewNormalMatrix);
-          plane.normal.toArray(dstArray, i42);
-          dstArray[i42 + 3] = plane.constant;
+          plane2.copy(planes[i4]).applyMatrix4(viewMatrix, viewNormalMatrix);
+          plane2.normal.toArray(dstArray, i42);
+          dstArray[i42 + 3] = plane2.constant;
         }
       }
       uniform.value = dstArray;
@@ -22136,9 +22483,9 @@ function _createRenderTarget(width, height, params) {
   cubeUVRenderTarget.scissorTest = true;
   return cubeUVRenderTarget;
 }
-function _setViewport(target, x3, y4, width, height) {
-  target.viewport.set(x3, y4, width, height);
-  target.scissor.set(x3, y4, width, height);
+function _setViewport(target2, x3, y4, width, height) {
+  target2.viewport.set(x3, y4, width, height);
+  target2.scissor.set(x3, y4, width, height);
 }
 function _getBlurShader(lodMax, width, height) {
   const weights = new Float32Array(MAX_SAMPLES);
@@ -22478,43 +22825,43 @@ function WebGLGeometries(gl, attributes, info, bindingStates) {
   const geometries = {};
   const wireframeAttributes = /* @__PURE__ */ new WeakMap();
   function onGeometryDispose(event) {
-    const geometry = event.target;
-    if (geometry.index !== null) {
-      attributes.remove(geometry.index);
+    const geometry2 = event.target;
+    if (geometry2.index !== null) {
+      attributes.remove(geometry2.index);
     }
-    for (const name in geometry.attributes) {
-      attributes.remove(geometry.attributes[name]);
+    for (const name in geometry2.attributes) {
+      attributes.remove(geometry2.attributes[name]);
     }
-    geometry.removeEventListener("dispose", onGeometryDispose);
-    delete geometries[geometry.id];
-    const attribute = wireframeAttributes.get(geometry);
+    geometry2.removeEventListener("dispose", onGeometryDispose);
+    delete geometries[geometry2.id];
+    const attribute = wireframeAttributes.get(geometry2);
     if (attribute) {
       attributes.remove(attribute);
-      wireframeAttributes.delete(geometry);
+      wireframeAttributes.delete(geometry2);
     }
-    bindingStates.releaseStatesOfGeometry(geometry);
-    if (geometry.isInstancedBufferGeometry === true) {
-      delete geometry._maxInstanceCount;
+    bindingStates.releaseStatesOfGeometry(geometry2);
+    if (geometry2.isInstancedBufferGeometry === true) {
+      delete geometry2._maxInstanceCount;
     }
     info.memory.geometries--;
   }
-  function get(object, geometry) {
-    if (geometries[geometry.id] === true) return geometry;
-    geometry.addEventListener("dispose", onGeometryDispose);
-    geometries[geometry.id] = true;
+  function get(object, geometry2) {
+    if (geometries[geometry2.id] === true) return geometry2;
+    geometry2.addEventListener("dispose", onGeometryDispose);
+    geometries[geometry2.id] = true;
     info.memory.geometries++;
-    return geometry;
+    return geometry2;
   }
-  function update(geometry) {
-    const geometryAttributes = geometry.attributes;
+  function update(geometry2) {
+    const geometryAttributes = geometry2.attributes;
     for (const name in geometryAttributes) {
       attributes.update(geometryAttributes[name], gl.ARRAY_BUFFER);
     }
   }
-  function updateWireframeAttribute(geometry) {
+  function updateWireframeAttribute(geometry2) {
     const indices = [];
-    const geometryIndex = geometry.index;
-    const geometryPosition = geometry.attributes.position;
+    const geometryIndex = geometry2.index;
+    const geometryPosition = geometry2.attributes.position;
     let version = 0;
     if (geometryIndex !== null) {
       const array = geometryIndex.array;
@@ -22539,23 +22886,23 @@ function WebGLGeometries(gl, attributes, info, bindingStates) {
     }
     const attribute = new (arrayNeedsUint32(indices) ? Uint32BufferAttribute : Uint16BufferAttribute)(indices, 1);
     attribute.version = version;
-    const previousAttribute = wireframeAttributes.get(geometry);
+    const previousAttribute = wireframeAttributes.get(geometry2);
     if (previousAttribute) attributes.remove(previousAttribute);
-    wireframeAttributes.set(geometry, attribute);
+    wireframeAttributes.set(geometry2, attribute);
   }
-  function getWireframeAttribute(geometry) {
-    const currentAttribute = wireframeAttributes.get(geometry);
+  function getWireframeAttribute(geometry2) {
+    const currentAttribute = wireframeAttributes.get(geometry2);
     if (currentAttribute) {
-      const geometryIndex = geometry.index;
+      const geometryIndex = geometry2.index;
       if (geometryIndex !== null) {
         if (currentAttribute.version < geometryIndex.version) {
-          updateWireframeAttribute(geometry);
+          updateWireframeAttribute(geometry2);
         }
       }
     } else {
-      updateWireframeAttribute(geometry);
+      updateWireframeAttribute(geometry2);
     }
-    return wireframeAttributes.get(geometry);
+    return wireframeAttributes.get(geometry2);
   }
   return {
     get,
@@ -22668,29 +23015,29 @@ function WebGLInfo(gl) {
 function WebGLMorphtargets(gl, capabilities, textures) {
   const morphTextures = /* @__PURE__ */ new WeakMap();
   const morph = new Vector4();
-  function update(object, geometry, program) {
+  function update(object, geometry2, program) {
     const objectInfluences = object.morphTargetInfluences;
-    const morphAttribute = geometry.morphAttributes.position || geometry.morphAttributes.normal || geometry.morphAttributes.color;
+    const morphAttribute = geometry2.morphAttributes.position || geometry2.morphAttributes.normal || geometry2.morphAttributes.color;
     const morphTargetsCount = morphAttribute !== void 0 ? morphAttribute.length : 0;
-    let entry = morphTextures.get(geometry);
+    let entry = morphTextures.get(geometry2);
     if (entry === void 0 || entry.count !== morphTargetsCount) {
       let disposeTexture = function() {
         texture.dispose();
-        morphTextures.delete(geometry);
-        geometry.removeEventListener("dispose", disposeTexture);
+        morphTextures.delete(geometry2);
+        geometry2.removeEventListener("dispose", disposeTexture);
       };
       if (entry !== void 0) entry.texture.dispose();
-      const hasMorphPosition = geometry.morphAttributes.position !== void 0;
-      const hasMorphNormals = geometry.morphAttributes.normal !== void 0;
-      const hasMorphColors = geometry.morphAttributes.color !== void 0;
-      const morphTargets = geometry.morphAttributes.position || [];
-      const morphNormals = geometry.morphAttributes.normal || [];
-      const morphColors = geometry.morphAttributes.color || [];
+      const hasMorphPosition = geometry2.morphAttributes.position !== void 0;
+      const hasMorphNormals = geometry2.morphAttributes.normal !== void 0;
+      const hasMorphColors = geometry2.morphAttributes.color !== void 0;
+      const morphTargets = geometry2.morphAttributes.position || [];
+      const morphNormals = geometry2.morphAttributes.normal || [];
+      const morphColors = geometry2.morphAttributes.color || [];
       let vertexDataCount = 0;
       if (hasMorphPosition === true) vertexDataCount = 1;
       if (hasMorphNormals === true) vertexDataCount = 2;
       if (hasMorphColors === true) vertexDataCount = 3;
-      let width = geometry.attributes.position.count * vertexDataCount;
+      let width = geometry2.attributes.position.count * vertexDataCount;
       let height = 1;
       if (width > capabilities.maxTextureSize) {
         height = Math.ceil(width / capabilities.maxTextureSize);
@@ -22736,8 +23083,8 @@ function WebGLMorphtargets(gl, capabilities, textures) {
         texture,
         size: new Vector2(width, height)
       };
-      morphTextures.set(geometry, entry);
-      geometry.addEventListener("dispose", disposeTexture);
+      morphTextures.set(geometry2, entry);
+      geometry2.addEventListener("dispose", disposeTexture);
     }
     if (object.isInstancedMesh === true && object.morphTexture !== null) {
       program.getUniforms().setValue(gl, "morphTexture", object.morphTexture, textures);
@@ -22746,7 +23093,7 @@ function WebGLMorphtargets(gl, capabilities, textures) {
       for (let i4 = 0; i4 < objectInfluences.length; i4++) {
         morphInfluencesSum += objectInfluences[i4];
       }
-      const morphBaseInfluence = geometry.morphTargetsRelative ? 1 : 1 - morphInfluencesSum;
+      const morphBaseInfluence = geometry2.morphTargetsRelative ? 1 : 1 - morphInfluencesSum;
       program.getUniforms().setValue(gl, "morphTargetBaseInfluence", morphBaseInfluence);
       program.getUniforms().setValue(gl, "morphTargetInfluences", objectInfluences);
     }
@@ -22761,8 +23108,8 @@ function WebGLObjects(gl, geometries, attributes, info) {
   let updateMap = /* @__PURE__ */ new WeakMap();
   function update(object) {
     const frame = info.render.frame;
-    const geometry = object.geometry;
-    const buffergeometry = geometries.get(object, geometry);
+    const geometry2 = object.geometry;
+    const buffergeometry = geometries.get(object, geometry2);
     if (updateMap.get(buffergeometry) !== frame) {
       geometries.update(buffergeometry);
       updateMap.set(buffergeometry, frame);
@@ -24192,7 +24539,7 @@ function WebGLPrograms(renderer, cubemaps, cubeuvmaps, extensions, capabilities,
   }
   function getParameters(material, lights, shadows, scene, object) {
     const fog = scene.fog;
-    const geometry = object.geometry;
+    const geometry2 = object.geometry;
     const environment = material.isMeshStandardMaterial ? scene.environment : null;
     const envMap = (material.isMeshStandardMaterial ? cubeuvmaps : cubemaps).get(material.envMap || environment);
     const envMapCubeUVHeight = !!envMap && envMap.mapping === CubeUVReflectionMapping ? envMap.image.height : null;
@@ -24203,12 +24550,12 @@ function WebGLPrograms(renderer, cubemaps, cubeuvmaps, extensions, capabilities,
         console.warn("THREE.WebGLProgram.getParameters:", material.precision, "not supported, using", precision, "instead.");
       }
     }
-    const morphAttribute = geometry.morphAttributes.position || geometry.morphAttributes.normal || geometry.morphAttributes.color;
+    const morphAttribute = geometry2.morphAttributes.position || geometry2.morphAttributes.normal || geometry2.morphAttributes.color;
     const morphTargetsCount = morphAttribute !== void 0 ? morphAttribute.length : 0;
     let morphTextureStride = 0;
-    if (geometry.morphAttributes.position !== void 0) morphTextureStride = 1;
-    if (geometry.morphAttributes.normal !== void 0) morphTextureStride = 2;
-    if (geometry.morphAttributes.color !== void 0) morphTextureStride = 3;
+    if (geometry2.morphAttributes.position !== void 0) morphTextureStride = 1;
+    if (geometry2.morphAttributes.normal !== void 0) morphTextureStride = 2;
+    if (geometry2.morphAttributes.color !== void 0) morphTextureStride = 3;
     let vertexShader, fragmentShader;
     let customVertexShaderID, customFragmentShaderID;
     if (shaderID) {
@@ -24352,10 +24699,10 @@ function WebGLPrograms(renderer, cubemaps, cubeuvmaps, extensions, capabilities,
       thicknessMapUv: HAS_THICKNESSMAP && getChannel(material.thicknessMap.channel),
       alphaMapUv: HAS_ALPHAMAP && getChannel(material.alphaMap.channel),
       //
-      vertexTangents: !!geometry.attributes.tangent && (HAS_NORMALMAP || HAS_ANISOTROPY),
+      vertexTangents: !!geometry2.attributes.tangent && (HAS_NORMALMAP || HAS_ANISOTROPY),
       vertexColors: material.vertexColors,
-      vertexAlphas: material.vertexColors === true && !!geometry.attributes.color && geometry.attributes.color.itemSize === 4,
-      pointsUvs: object.isPoints === true && !!geometry.attributes.uv && (HAS_MAP || HAS_ALPHAMAP),
+      vertexAlphas: material.vertexColors === true && !!geometry2.attributes.color && geometry2.attributes.color.itemSize === 4,
+      pointsUvs: object.isPoints === true && !!geometry2.attributes.uv && (HAS_MAP || HAS_ALPHAMAP),
       fog: !!fog,
       useFog: material.fog === true,
       fogExp2: !!fog && fog.isFogExp2,
@@ -24364,9 +24711,9 @@ function WebGLPrograms(renderer, cubemaps, cubeuvmaps, extensions, capabilities,
       logarithmicDepthBuffer,
       reverseDepthBuffer,
       skinning: object.isSkinnedMesh === true,
-      morphTargets: geometry.morphAttributes.position !== void 0,
-      morphNormals: geometry.morphAttributes.normal !== void 0,
-      morphColors: geometry.morphAttributes.color !== void 0,
+      morphTargets: geometry2.morphAttributes.position !== void 0,
+      morphNormals: geometry2.morphAttributes.normal !== void 0,
+      morphColors: geometry2.morphAttributes.color !== void 0,
       morphTargetsCount,
       morphTextureStride,
       numDirLights: lights.directional.length,
@@ -24690,13 +25037,13 @@ function WebGLRenderList() {
     transmissive.length = 0;
     transparent.length = 0;
   }
-  function getNextRenderItem(object, geometry, material, groupOrder, z4, group) {
+  function getNextRenderItem(object, geometry2, material, groupOrder, z4, group) {
     let renderItem = renderItems[renderItemsIndex];
     if (renderItem === void 0) {
       renderItem = {
         id: object.id,
         object,
-        geometry,
+        geometry: geometry2,
         material,
         groupOrder,
         renderOrder: object.renderOrder,
@@ -24707,7 +25054,7 @@ function WebGLRenderList() {
     } else {
       renderItem.id = object.id;
       renderItem.object = object;
-      renderItem.geometry = geometry;
+      renderItem.geometry = geometry2;
       renderItem.material = material;
       renderItem.groupOrder = groupOrder;
       renderItem.renderOrder = object.renderOrder;
@@ -24717,8 +25064,8 @@ function WebGLRenderList() {
     renderItemsIndex++;
     return renderItem;
   }
-  function push(object, geometry, material, groupOrder, z4, group) {
-    const renderItem = getNextRenderItem(object, geometry, material, groupOrder, z4, group);
+  function push(object, geometry2, material, groupOrder, z4, group) {
+    const renderItem = getNextRenderItem(object, geometry2, material, groupOrder, z4, group);
     if (material.transmission > 0) {
       transmissive.push(renderItem);
     } else if (material.transparent === true) {
@@ -24727,8 +25074,8 @@ function WebGLRenderList() {
       opaque.push(renderItem);
     }
   }
-  function unshift(object, geometry, material, groupOrder, z4, group) {
-    const renderItem = getNextRenderItem(object, geometry, material, groupOrder, z4, group);
+  function unshift(object, geometry2, material, groupOrder, z4, group) {
+    const renderItem = getNextRenderItem(object, geometry2, material, groupOrder, z4, group);
     if (material.transmission > 0) {
       transmissive.unshift(renderItem);
     } else if (material.transparent === true) {
@@ -25094,13 +25441,13 @@ function WebGLLights(extensions) {
       state.version = nextVersion++;
     }
   }
-  function setupView(lights, camera) {
+  function setupView(lights, camera2) {
     let directionalLength = 0;
     let pointLength = 0;
     let spotLength = 0;
     let rectAreaLength = 0;
     let hemiLength = 0;
-    const viewMatrix = camera.matrixWorldInverse;
+    const viewMatrix = camera2.matrixWorldInverse;
     for (let i4 = 0, l3 = lights.length; i4 < l3; i4++) {
       const light = lights[i4];
       if (light.isDirectionalLight) {
@@ -25155,8 +25502,8 @@ function WebGLRenderState(extensions) {
   const lights = new WebGLLights(extensions);
   const lightsArray = [];
   const shadowsArray = [];
-  function init(camera) {
-    state.camera = camera;
+  function init(camera2) {
+    state.camera = camera2;
     lightsArray.length = 0;
     shadowsArray.length = 0;
   }
@@ -25169,8 +25516,8 @@ function WebGLRenderState(extensions) {
   function setupLights() {
     lights.setup(lightsArray);
   }
-  function setupLightsView(camera) {
-    lights.setupView(lightsArray, camera);
+  function setupLightsView(camera2) {
+    lights.setupView(lightsArray, camera2);
   }
   const state = {
     lightsArray,
@@ -25249,7 +25596,7 @@ function WebGLShadowMap(renderer, objects, capabilities) {
   this.needsUpdate = false;
   this.type = PCFShadowMap;
   let _previousType = this.type;
-  this.render = function(lights, scene, camera) {
+  this.render = function(lights, scene, camera2) {
     if (scope.enabled === false) return;
     if (scope.autoUpdate === false && scope.needsUpdate === false) return;
     if (lights.length === 0) return;
@@ -25310,10 +25657,10 @@ function WebGLShadowMap(renderer, objects, capabilities) {
         _state.viewport(_viewport);
         shadow.updateMatrices(light, vp);
         _frustum = shadow.getFrustum();
-        renderObject(scene, camera, shadow.camera, light, this.type);
+        renderObject(scene, camera2, shadow.camera, light, this.type);
       }
       if (shadow.isPointLightShadow !== true && this.type === VSMShadowMap) {
-        VSMPass(shadow, camera);
+        VSMPass(shadow, camera2);
       }
       shadow.needsUpdate = false;
     }
@@ -25321,8 +25668,8 @@ function WebGLShadowMap(renderer, objects, capabilities) {
     scope.needsUpdate = false;
     renderer.setRenderTarget(currentRenderTarget, activeCubeFace, activeMipmapLevel);
   };
-  function VSMPass(shadow, camera) {
-    const geometry = objects.update(fullScreenMesh);
+  function VSMPass(shadow, camera2) {
+    const geometry2 = objects.update(fullScreenMesh);
     if (shadowMaterialVertical.defines.VSM_SAMPLES !== shadow.blurSamples) {
       shadowMaterialVertical.defines.VSM_SAMPLES = shadow.blurSamples;
       shadowMaterialHorizontal.defines.VSM_SAMPLES = shadow.blurSamples;
@@ -25337,13 +25684,13 @@ function WebGLShadowMap(renderer, objects, capabilities) {
     shadowMaterialVertical.uniforms.radius.value = shadow.radius;
     renderer.setRenderTarget(shadow.mapPass);
     renderer.clear();
-    renderer.renderBufferDirect(camera, null, geometry, shadowMaterialVertical, fullScreenMesh, null);
+    renderer.renderBufferDirect(camera2, null, geometry2, shadowMaterialVertical, fullScreenMesh, null);
     shadowMaterialHorizontal.uniforms.shadow_pass.value = shadow.mapPass.texture;
     shadowMaterialHorizontal.uniforms.resolution.value = shadow.mapSize;
     shadowMaterialHorizontal.uniforms.radius.value = shadow.radius;
     renderer.setRenderTarget(shadow.map);
     renderer.clear();
-    renderer.renderBufferDirect(camera, null, geometry, shadowMaterialHorizontal, fullScreenMesh, null);
+    renderer.renderBufferDirect(camera2, null, geometry2, shadowMaterialHorizontal, fullScreenMesh, null);
   }
   function getDepthMaterial(object, material, light, type) {
     let result = null;
@@ -25392,37 +25739,37 @@ function WebGLShadowMap(renderer, objects, capabilities) {
     }
     return result;
   }
-  function renderObject(object, camera, shadowCamera, light, type) {
+  function renderObject(object, camera2, shadowCamera, light, type) {
     if (object.visible === false) return;
-    const visible = object.layers.test(camera.layers);
+    const visible = object.layers.test(camera2.layers);
     if (visible && (object.isMesh || object.isLine || object.isPoints)) {
       if ((object.castShadow || object.receiveShadow && type === VSMShadowMap) && (!object.frustumCulled || _frustum.intersectsObject(object))) {
         object.modelViewMatrix.multiplyMatrices(shadowCamera.matrixWorldInverse, object.matrixWorld);
-        const geometry = objects.update(object);
+        const geometry2 = objects.update(object);
         const material = object.material;
         if (Array.isArray(material)) {
-          const groups = geometry.groups;
+          const groups = geometry2.groups;
           for (let k3 = 0, kl = groups.length; k3 < kl; k3++) {
             const group = groups[k3];
             const groupMaterial = material[group.materialIndex];
             if (groupMaterial && groupMaterial.visible) {
               const depthMaterial = getDepthMaterial(object, groupMaterial, light, type);
-              object.onBeforeShadow(renderer, object, camera, shadowCamera, geometry, depthMaterial, group);
-              renderer.renderBufferDirect(shadowCamera, null, geometry, depthMaterial, object, group);
-              object.onAfterShadow(renderer, object, camera, shadowCamera, geometry, depthMaterial, group);
+              object.onBeforeShadow(renderer, object, camera2, shadowCamera, geometry2, depthMaterial, group);
+              renderer.renderBufferDirect(shadowCamera, null, geometry2, depthMaterial, object, group);
+              object.onAfterShadow(renderer, object, camera2, shadowCamera, geometry2, depthMaterial, group);
             }
           }
         } else if (material.visible) {
           const depthMaterial = getDepthMaterial(object, material, light, type);
-          object.onBeforeShadow(renderer, object, camera, shadowCamera, geometry, depthMaterial, null);
-          renderer.renderBufferDirect(shadowCamera, null, geometry, depthMaterial, object, null);
-          object.onAfterShadow(renderer, object, camera, shadowCamera, geometry, depthMaterial, null);
+          object.onBeforeShadow(renderer, object, camera2, shadowCamera, geometry2, depthMaterial, null);
+          renderer.renderBufferDirect(shadowCamera, null, geometry2, depthMaterial, object, null);
+          object.onAfterShadow(renderer, object, camera2, shadowCamera, geometry2, depthMaterial, null);
         }
       }
     }
     const children = object.children;
     for (let i4 = 0, l3 = children.length; i4 < l3; i4++) {
-      renderObject(children[i4], camera, shadowCamera, light, type);
+      renderObject(children[i4], camera2, shadowCamera, light, type);
     }
   }
   function onMaterialDispose(event) {
@@ -25683,7 +26030,7 @@ function WebGLState(gl, extensions) {
   const viewportParam = gl.getParameter(gl.VIEWPORT);
   const currentScissor = new Vector4().fromArray(scissorParam);
   const currentViewport = new Vector4().fromArray(viewportParam);
-  function createTexture(type, target, count, dimensions) {
+  function createTexture(type, target2, count, dimensions) {
     const data = new Uint8Array(4);
     const texture = gl.createTexture();
     gl.bindTexture(type, texture);
@@ -25691,9 +26038,9 @@ function WebGLState(gl, extensions) {
     gl.texParameteri(type, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
     for (let i4 = 0; i4 < count; i4++) {
       if (type === gl.TEXTURE_3D || type === gl.TEXTURE_2D_ARRAY) {
-        gl.texImage3D(target, 0, gl.RGBA, 1, 1, dimensions, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
+        gl.texImage3D(target2, 0, gl.RGBA, 1, 1, dimensions, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
       } else {
-        gl.texImage2D(target + i4, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
+        gl.texImage2D(target2 + i4, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
       }
     }
     return texture;
@@ -25724,14 +26071,14 @@ function WebGLState(gl, extensions) {
       enabledCapabilities[id] = false;
     }
   }
-  function bindFramebuffer(target, framebuffer) {
-    if (currentBoundFramebuffers[target] !== framebuffer) {
-      gl.bindFramebuffer(target, framebuffer);
-      currentBoundFramebuffers[target] = framebuffer;
-      if (target === gl.DRAW_FRAMEBUFFER) {
+  function bindFramebuffer(target2, framebuffer) {
+    if (currentBoundFramebuffers[target2] !== framebuffer) {
+      gl.bindFramebuffer(target2, framebuffer);
+      currentBoundFramebuffers[target2] = framebuffer;
+      if (target2 === gl.DRAW_FRAMEBUFFER) {
         currentBoundFramebuffers[gl.FRAMEBUFFER] = framebuffer;
       }
-      if (target === gl.FRAMEBUFFER) {
+      if (target2 === gl.FRAMEBUFFER) {
         currentBoundFramebuffers[gl.DRAW_FRAMEBUFFER] = framebuffer;
       }
       return true;
@@ -26247,8 +26594,8 @@ function WebGLTextures(_gl, extensions, state, properties, capabilities, utils, 
   function textureNeedsGenerateMipmaps(texture) {
     return texture.generateMipmaps;
   }
-  function generateMipmap(target) {
-    _gl.generateMipmap(target);
+  function generateMipmap(target2) {
+    _gl.generateMipmap(target2);
   }
   function getTargetType(texture) {
     if (texture.isWebGLCubeRenderTarget) return _gl.TEXTURE_CUBE_MAP;
@@ -27874,7 +28221,7 @@ var WebXRManager = class extends EventDispatcher {
     }
     const cameraLPos = new Vector3();
     const cameraRPos = new Vector3();
-    function setProjectionFromUnion(camera, cameraL2, cameraR2) {
+    function setProjectionFromUnion(camera2, cameraL2, cameraR2) {
       cameraLPos.setFromMatrixPosition(cameraL2.matrixWorld);
       cameraRPos.setFromMatrixPosition(cameraR2.matrixWorld);
       const ipd = cameraLPos.distanceTo(cameraRPos);
@@ -27890,14 +28237,14 @@ var WebXRManager = class extends EventDispatcher {
       const right = near * rightFov;
       const zOffset = ipd / (-leftFov + rightFov);
       const xOffset = zOffset * -leftFov;
-      cameraL2.matrixWorld.decompose(camera.position, camera.quaternion, camera.scale);
-      camera.translateX(xOffset);
-      camera.translateZ(zOffset);
-      camera.matrixWorld.compose(camera.position, camera.quaternion, camera.scale);
-      camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
+      cameraL2.matrixWorld.decompose(camera2.position, camera2.quaternion, camera2.scale);
+      camera2.translateX(xOffset);
+      camera2.translateZ(zOffset);
+      camera2.matrixWorld.compose(camera2.position, camera2.quaternion, camera2.scale);
+      camera2.matrixWorldInverse.copy(camera2.matrixWorld).invert();
       if (projL[10] === -1) {
-        camera.projectionMatrix.copy(cameraL2.projectionMatrix);
-        camera.projectionMatrixInverse.copy(cameraL2.projectionMatrixInverse);
+        camera2.projectionMatrix.copy(cameraL2.projectionMatrix);
+        camera2.projectionMatrixInverse.copy(cameraL2.projectionMatrixInverse);
       } else {
         const near2 = near + zOffset;
         const far2 = far + zOffset;
@@ -27905,22 +28252,22 @@ var WebXRManager = class extends EventDispatcher {
         const right2 = right + (ipd - xOffset);
         const top2 = topFov * far / far2 * near2;
         const bottom2 = bottomFov * far / far2 * near2;
-        camera.projectionMatrix.makePerspective(left2, right2, top2, bottom2, near2, far2);
-        camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
+        camera2.projectionMatrix.makePerspective(left2, right2, top2, bottom2, near2, far2);
+        camera2.projectionMatrixInverse.copy(camera2.projectionMatrix).invert();
       }
     }
-    function updateCamera(camera, parent) {
+    function updateCamera(camera2, parent) {
       if (parent === null) {
-        camera.matrixWorld.copy(camera.matrix);
+        camera2.matrixWorld.copy(camera2.matrix);
       } else {
-        camera.matrixWorld.multiplyMatrices(parent.matrixWorld, camera.matrix);
+        camera2.matrixWorld.multiplyMatrices(parent.matrixWorld, camera2.matrix);
       }
-      camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
+      camera2.matrixWorldInverse.copy(camera2.matrixWorld).invert();
     }
-    this.updateCamera = function(camera) {
+    this.updateCamera = function(camera2) {
       if (session === null) return;
-      let depthNear = camera.near;
-      let depthFar = camera.far;
+      let depthNear = camera2.near;
+      let depthFar = camera2.far;
       if (depthSensing.texture !== null) {
         if (depthSensing.depthNear > 0) depthNear = depthSensing.depthNear;
         if (depthSensing.depthFar > 0) depthFar = depthSensing.depthFar;
@@ -27935,10 +28282,10 @@ var WebXRManager = class extends EventDispatcher {
         _currentDepthNear = cameraXR.near;
         _currentDepthFar = cameraXR.far;
       }
-      cameraL.layers.mask = camera.layers.mask | 2;
-      cameraR.layers.mask = camera.layers.mask | 4;
+      cameraL.layers.mask = camera2.layers.mask | 2;
+      cameraR.layers.mask = camera2.layers.mask | 4;
       cameraXR.layers.mask = cameraL.layers.mask | cameraR.layers.mask;
-      const parent = camera.parent;
+      const parent = camera2.parent;
       const cameras2 = cameraXR.cameras;
       updateCamera(cameraXR, parent);
       for (let i4 = 0; i4 < cameras2.length; i4++) {
@@ -27949,23 +28296,23 @@ var WebXRManager = class extends EventDispatcher {
       } else {
         cameraXR.projectionMatrix.copy(cameraL.projectionMatrix);
       }
-      updateUserCamera(camera, cameraXR, parent);
+      updateUserCamera(camera2, cameraXR, parent);
     };
-    function updateUserCamera(camera, cameraXR2, parent) {
+    function updateUserCamera(camera2, cameraXR2, parent) {
       if (parent === null) {
-        camera.matrix.copy(cameraXR2.matrixWorld);
+        camera2.matrix.copy(cameraXR2.matrixWorld);
       } else {
-        camera.matrix.copy(parent.matrixWorld);
-        camera.matrix.invert();
-        camera.matrix.multiply(cameraXR2.matrixWorld);
+        camera2.matrix.copy(parent.matrixWorld);
+        camera2.matrix.invert();
+        camera2.matrix.multiply(cameraXR2.matrixWorld);
       }
-      camera.matrix.decompose(camera.position, camera.quaternion, camera.scale);
-      camera.updateMatrixWorld(true);
-      camera.projectionMatrix.copy(cameraXR2.projectionMatrix);
-      camera.projectionMatrixInverse.copy(cameraXR2.projectionMatrixInverse);
-      if (camera.isPerspectiveCamera) {
-        camera.fov = RAD2DEG * 2 * Math.atan(1 / camera.projectionMatrix.elements[5]);
-        camera.zoom = 1;
+      camera2.matrix.decompose(camera2.position, camera2.quaternion, camera2.scale);
+      camera2.updateMatrixWorld(true);
+      camera2.projectionMatrix.copy(cameraXR2.projectionMatrix);
+      camera2.projectionMatrixInverse.copy(cameraXR2.projectionMatrixInverse);
+      if (camera2.isPerspectiveCamera) {
+        camera2.fov = RAD2DEG * 2 * Math.atan(1 / camera2.projectionMatrix.elements[5]);
+        camera2.zoom = 1;
       }
     }
     this.getCamera = function() {
@@ -28024,24 +28371,24 @@ var WebXRManager = class extends EventDispatcher {
               renderer.setRenderTarget(newRenderTarget);
             }
           }
-          let camera = cameras[i4];
-          if (camera === void 0) {
-            camera = new PerspectiveCamera();
-            camera.layers.enable(i4);
-            camera.viewport = new Vector4();
-            cameras[i4] = camera;
+          let camera2 = cameras[i4];
+          if (camera2 === void 0) {
+            camera2 = new PerspectiveCamera();
+            camera2.layers.enable(i4);
+            camera2.viewport = new Vector4();
+            cameras[i4] = camera2;
           }
-          camera.matrix.fromArray(view.transform.matrix);
-          camera.matrix.decompose(camera.position, camera.quaternion, camera.scale);
-          camera.projectionMatrix.fromArray(view.projectionMatrix);
-          camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
-          camera.viewport.set(viewport.x, viewport.y, viewport.width, viewport.height);
+          camera2.matrix.fromArray(view.transform.matrix);
+          camera2.matrix.decompose(camera2.position, camera2.quaternion, camera2.scale);
+          camera2.projectionMatrix.fromArray(view.projectionMatrix);
+          camera2.projectionMatrixInverse.copy(camera2.projectionMatrix).invert();
+          camera2.viewport.set(viewport.x, viewport.y, viewport.width, viewport.height);
           if (i4 === 0) {
-            cameraXR.matrix.copy(camera.matrix);
+            cameraXR.matrix.copy(camera2.matrix);
             cameraXR.matrix.decompose(cameraXR.position, cameraXR.quaternion, cameraXR.scale);
           }
           if (cameraXRNeedsUpdate === true) {
-            cameraXR.cameras.push(camera);
+            cameraXR.cameras.push(camera2);
           }
         }
         const enabledFeatures = session.enabledFeatures;
@@ -28782,8 +29129,8 @@ var WebGLRenderer = class {
       _pixelRatio = value;
       this.setSize(_width, _height, false);
     };
-    this.getSize = function(target) {
-      return target.set(_width, _height);
+    this.getSize = function(target2) {
+      return target2.set(_width, _height);
     };
     this.setSize = function(width, height, updateStyle = true) {
       if (xr3.isPresenting) {
@@ -28800,8 +29147,8 @@ var WebGLRenderer = class {
       }
       this.setViewport(0, 0, width, height);
     };
-    this.getDrawingBufferSize = function(target) {
-      return target.set(_width * _pixelRatio, _height * _pixelRatio).floor();
+    this.getDrawingBufferSize = function(target2) {
+      return target2.set(_width * _pixelRatio, _height * _pixelRatio).floor();
     };
     this.setDrawingBufferSize = function(width, height, pixelRatio) {
       _width = width;
@@ -28811,11 +29158,11 @@ var WebGLRenderer = class {
       canvas.height = Math.floor(height * pixelRatio);
       this.setViewport(0, 0, width, height);
     };
-    this.getCurrentViewport = function(target) {
-      return target.copy(_currentViewport);
+    this.getCurrentViewport = function(target2) {
+      return target2.copy(_currentViewport);
     };
-    this.getViewport = function(target) {
-      return target.copy(_viewport);
+    this.getViewport = function(target2) {
+      return target2.copy(_viewport);
     };
     this.setViewport = function(x3, y4, width, height) {
       if (x3.isVector4) {
@@ -28825,8 +29172,8 @@ var WebGLRenderer = class {
       }
       state.viewport(_currentViewport.copy(_viewport).multiplyScalar(_pixelRatio).round());
     };
-    this.getScissor = function(target) {
-      return target.copy(_scissor);
+    this.getScissor = function(target2) {
+      return target2.copy(_scissor);
     };
     this.setScissor = function(x3, y4, width, height) {
       if (x3.isVector4) {
@@ -28848,8 +29195,8 @@ var WebGLRenderer = class {
     this.setTransparentSort = function(method) {
       _transparentSort = method;
     };
-    this.getClearColor = function(target) {
-      return target.copy(background.getClearColor());
+    this.getClearColor = function(target2) {
+      return target2.copy(background.getClearColor());
     };
     this.setClearColor = function() {
       background.setClearColor(...arguments);
@@ -28973,20 +29320,20 @@ var WebGLRenderer = class {
         }
       }
     }
-    this.renderBufferDirect = function(camera, scene, geometry, material, object, group) {
+    this.renderBufferDirect = function(camera2, scene, geometry2, material, object, group) {
       if (scene === null) scene = _emptyScene;
       const frontFaceCW = object.isMesh && object.matrixWorld.determinant() < 0;
-      const program = setProgram(camera, scene, geometry, material, object);
+      const program = setProgram(camera2, scene, geometry2, material, object);
       state.setMaterial(material, frontFaceCW);
-      let index = geometry.index;
+      let index = geometry2.index;
       let rangeFactor = 1;
       if (material.wireframe === true) {
-        index = geometries.getWireframeAttribute(geometry);
+        index = geometries.getWireframeAttribute(geometry2);
         if (index === void 0) return;
         rangeFactor = 2;
       }
-      const drawRange = geometry.drawRange;
-      const position = geometry.attributes.position;
+      const drawRange = geometry2.drawRange;
+      const position = geometry2.attributes.position;
       let drawStart = drawRange.start * rangeFactor;
       let drawEnd = (drawRange.start + drawRange.count) * rangeFactor;
       if (group !== null) {
@@ -29002,7 +29349,7 @@ var WebGLRenderer = class {
       }
       const drawCount = drawEnd - drawStart;
       if (drawCount < 0 || drawCount === Infinity) return;
-      bindingStates.setup(object, material, program, geometry, index);
+      bindingStates.setup(object, material, program, geometry2, index);
       let attribute;
       let renderer = bufferRenderer;
       if (index !== null) {
@@ -29054,9 +29401,9 @@ var WebGLRenderer = class {
         }
       } else if (object.isInstancedMesh) {
         renderer.renderInstances(drawStart, drawCount, object.count);
-      } else if (geometry.isInstancedBufferGeometry) {
-        const maxInstanceCount = geometry._maxInstanceCount !== void 0 ? geometry._maxInstanceCount : Infinity;
-        const instanceCount = Math.min(geometry.instanceCount, maxInstanceCount);
+      } else if (geometry2.isInstancedBufferGeometry) {
+        const maxInstanceCount = geometry2._maxInstanceCount !== void 0 ? geometry2._maxInstanceCount : Infinity;
+        const instanceCount = Math.min(geometry2.instanceCount, maxInstanceCount);
         renderer.renderInstances(drawStart, drawCount, instanceCount);
       } else {
         renderer.render(drawStart, drawCount);
@@ -29075,13 +29422,13 @@ var WebGLRenderer = class {
         getProgram(material, scene, object);
       }
     }
-    this.compile = function(scene, camera, targetScene = null) {
+    this.compile = function(scene, camera2, targetScene = null) {
       if (targetScene === null) targetScene = scene;
       currentRenderState = renderStates.get(targetScene);
-      currentRenderState.init(camera);
+      currentRenderState.init(camera2);
       renderStateStack.push(currentRenderState);
       targetScene.traverseVisible(function(object) {
-        if (object.isLight && object.layers.test(camera.layers)) {
+        if (object.isLight && object.layers.test(camera2.layers)) {
           currentRenderState.pushLight(object);
           if (object.castShadow) {
             currentRenderState.pushShadow(object);
@@ -29090,7 +29437,7 @@ var WebGLRenderer = class {
       });
       if (scene !== targetScene) {
         scene.traverseVisible(function(object) {
-          if (object.isLight && object.layers.test(camera.layers)) {
+          if (object.isLight && object.layers.test(camera2.layers)) {
             currentRenderState.pushLight(object);
             if (object.castShadow) {
               currentRenderState.pushShadow(object);
@@ -29121,8 +29468,8 @@ var WebGLRenderer = class {
       currentRenderState = renderStateStack.pop();
       return materials2;
     };
-    this.compileAsync = function(scene, camera, targetScene = null) {
-      const materials2 = this.compile(scene, camera, targetScene);
+    this.compileAsync = function(scene, camera2, targetScene = null) {
+      const materials2 = this.compile(scene, camera2, targetScene);
       return new Promise((resolve) => {
         function checkMaterialsReady() {
           materials2.forEach(function(material) {
@@ -29165,23 +29512,23 @@ var WebGLRenderer = class {
     };
     xr3.addEventListener("sessionstart", onXRSessionStart);
     xr3.addEventListener("sessionend", onXRSessionEnd);
-    this.render = function(scene, camera) {
-      if (camera !== void 0 && camera.isCamera !== true) {
+    this.render = function(scene, camera2) {
+      if (camera2 !== void 0 && camera2.isCamera !== true) {
         console.error("THREE.WebGLRenderer.render: camera is not an instance of THREE.Camera.");
         return;
       }
       if (_isContextLost === true) return;
       if (scene.matrixWorldAutoUpdate === true) scene.updateMatrixWorld();
-      if (camera.parent === null && camera.matrixWorldAutoUpdate === true) camera.updateMatrixWorld();
+      if (camera2.parent === null && camera2.matrixWorldAutoUpdate === true) camera2.updateMatrixWorld();
       if (xr3.enabled === true && xr3.isPresenting === true) {
-        if (xr3.cameraAutoUpdate === true) xr3.updateCamera(camera);
-        camera = xr3.getCamera();
+        if (xr3.cameraAutoUpdate === true) xr3.updateCamera(camera2);
+        camera2 = xr3.getCamera();
       }
-      if (scene.isScene === true) scene.onBeforeRender(_this, scene, camera, _currentRenderTarget);
+      if (scene.isScene === true) scene.onBeforeRender(_this, scene, camera2, _currentRenderTarget);
       currentRenderState = renderStates.get(scene, renderStateStack.length);
-      currentRenderState.init(camera);
+      currentRenderState.init(camera2);
       renderStateStack.push(currentRenderState);
-      _projScreenMatrix2.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+      _projScreenMatrix2.multiplyMatrices(camera2.projectionMatrix, camera2.matrixWorldInverse);
       _frustum.setFromProjectionMatrix(_projScreenMatrix2);
       _localClippingEnabled = this.localClippingEnabled;
       _clippingEnabled = clipping.init(this.clippingPlanes, _localClippingEnabled);
@@ -29191,10 +29538,10 @@ var WebGLRenderer = class {
       if (xr3.enabled === true && xr3.isPresenting === true) {
         const depthSensingMesh = _this.xr.getDepthSensingMesh();
         if (depthSensingMesh !== null) {
-          projectObject(depthSensingMesh, camera, -Infinity, _this.sortObjects);
+          projectObject(depthSensingMesh, camera2, -Infinity, _this.sortObjects);
         }
       }
-      projectObject(scene, camera, 0, _this.sortObjects);
+      projectObject(scene, camera2, 0, _this.sortObjects);
       currentRenderList.finish();
       if (_this.sortObjects === true) {
         currentRenderList.sort(_opaqueSort, _transparentSort);
@@ -29206,35 +29553,35 @@ var WebGLRenderer = class {
       this.info.render.frame++;
       if (_clippingEnabled === true) clipping.beginShadows();
       const shadowsArray = currentRenderState.state.shadowsArray;
-      shadowMap.render(shadowsArray, scene, camera);
+      shadowMap.render(shadowsArray, scene, camera2);
       if (_clippingEnabled === true) clipping.endShadows();
       if (this.info.autoReset === true) this.info.reset();
       const opaqueObjects = currentRenderList.opaque;
       const transmissiveObjects = currentRenderList.transmissive;
       currentRenderState.setupLights();
-      if (camera.isArrayCamera) {
-        const cameras = camera.cameras;
+      if (camera2.isArrayCamera) {
+        const cameras = camera2.cameras;
         if (transmissiveObjects.length > 0) {
           for (let i4 = 0, l3 = cameras.length; i4 < l3; i4++) {
-            const camera2 = cameras[i4];
-            renderTransmissionPass(opaqueObjects, transmissiveObjects, scene, camera2);
+            const camera22 = cameras[i4];
+            renderTransmissionPass(opaqueObjects, transmissiveObjects, scene, camera22);
           }
         }
         if (_renderBackground) background.render(scene);
         for (let i4 = 0, l3 = cameras.length; i4 < l3; i4++) {
-          const camera2 = cameras[i4];
-          renderScene(currentRenderList, scene, camera2, camera2.viewport);
+          const camera22 = cameras[i4];
+          renderScene(currentRenderList, scene, camera22, camera22.viewport);
         }
       } else {
-        if (transmissiveObjects.length > 0) renderTransmissionPass(opaqueObjects, transmissiveObjects, scene, camera);
+        if (transmissiveObjects.length > 0) renderTransmissionPass(opaqueObjects, transmissiveObjects, scene, camera2);
         if (_renderBackground) background.render(scene);
-        renderScene(currentRenderList, scene, camera);
+        renderScene(currentRenderList, scene, camera2);
       }
       if (_currentRenderTarget !== null && _currentActiveMipmapLevel === 0) {
         textures.updateMultisampleRenderTarget(_currentRenderTarget);
         textures.updateRenderTargetMipmap(_currentRenderTarget);
       }
-      if (scene.isScene === true) scene.onAfterRender(_this, scene, camera);
+      if (scene.isScene === true) scene.onAfterRender(_this, scene, camera2);
       bindingStates.resetDefaultState();
       _currentMaterialId = -1;
       _currentCamera = null;
@@ -29252,14 +29599,14 @@ var WebGLRenderer = class {
         currentRenderList = null;
       }
     };
-    function projectObject(object, camera, groupOrder, sortObjects) {
+    function projectObject(object, camera2, groupOrder, sortObjects) {
       if (object.visible === false) return;
-      const visible = object.layers.test(camera.layers);
+      const visible = object.layers.test(camera2.layers);
       if (visible) {
         if (object.isGroup) {
           groupOrder = object.renderOrder;
         } else if (object.isLOD) {
-          if (object.autoUpdate === true) object.update(camera);
+          if (object.autoUpdate === true) object.update(camera2);
         } else if (object.isLight) {
           currentRenderState.pushLight(object);
           if (object.castShadow) {
@@ -29270,68 +29617,68 @@ var WebGLRenderer = class {
             if (sortObjects) {
               _vector4.setFromMatrixPosition(object.matrixWorld).applyMatrix4(_projScreenMatrix2);
             }
-            const geometry = objects.update(object);
+            const geometry2 = objects.update(object);
             const material = object.material;
             if (material.visible) {
-              currentRenderList.push(object, geometry, material, groupOrder, _vector4.z, null);
+              currentRenderList.push(object, geometry2, material, groupOrder, _vector4.z, null);
             }
           }
         } else if (object.isMesh || object.isLine || object.isPoints) {
           if (!object.frustumCulled || _frustum.intersectsObject(object)) {
-            const geometry = objects.update(object);
+            const geometry2 = objects.update(object);
             const material = object.material;
             if (sortObjects) {
               if (object.boundingSphere !== void 0) {
                 if (object.boundingSphere === null) object.computeBoundingSphere();
                 _vector4.copy(object.boundingSphere.center);
               } else {
-                if (geometry.boundingSphere === null) geometry.computeBoundingSphere();
-                _vector4.copy(geometry.boundingSphere.center);
+                if (geometry2.boundingSphere === null) geometry2.computeBoundingSphere();
+                _vector4.copy(geometry2.boundingSphere.center);
               }
               _vector4.applyMatrix4(object.matrixWorld).applyMatrix4(_projScreenMatrix2);
             }
             if (Array.isArray(material)) {
-              const groups = geometry.groups;
+              const groups = geometry2.groups;
               for (let i4 = 0, l3 = groups.length; i4 < l3; i4++) {
                 const group = groups[i4];
                 const groupMaterial = material[group.materialIndex];
                 if (groupMaterial && groupMaterial.visible) {
-                  currentRenderList.push(object, geometry, groupMaterial, groupOrder, _vector4.z, group);
+                  currentRenderList.push(object, geometry2, groupMaterial, groupOrder, _vector4.z, group);
                 }
               }
             } else if (material.visible) {
-              currentRenderList.push(object, geometry, material, groupOrder, _vector4.z, null);
+              currentRenderList.push(object, geometry2, material, groupOrder, _vector4.z, null);
             }
           }
         }
       }
       const children = object.children;
       for (let i4 = 0, l3 = children.length; i4 < l3; i4++) {
-        projectObject(children[i4], camera, groupOrder, sortObjects);
+        projectObject(children[i4], camera2, groupOrder, sortObjects);
       }
     }
-    function renderScene(currentRenderList2, scene, camera, viewport) {
+    function renderScene(currentRenderList2, scene, camera2, viewport) {
       const opaqueObjects = currentRenderList2.opaque;
       const transmissiveObjects = currentRenderList2.transmissive;
       const transparentObjects = currentRenderList2.transparent;
-      currentRenderState.setupLightsView(camera);
-      if (_clippingEnabled === true) clipping.setGlobalState(_this.clippingPlanes, camera);
+      currentRenderState.setupLightsView(camera2);
+      if (_clippingEnabled === true) clipping.setGlobalState(_this.clippingPlanes, camera2);
       if (viewport) state.viewport(_currentViewport.copy(viewport));
-      if (opaqueObjects.length > 0) renderObjects(opaqueObjects, scene, camera);
-      if (transmissiveObjects.length > 0) renderObjects(transmissiveObjects, scene, camera);
-      if (transparentObjects.length > 0) renderObjects(transparentObjects, scene, camera);
+      if (opaqueObjects.length > 0) renderObjects(opaqueObjects, scene, camera2);
+      if (transmissiveObjects.length > 0) renderObjects(transmissiveObjects, scene, camera2);
+      if (transparentObjects.length > 0) renderObjects(transparentObjects, scene, camera2);
       state.buffers.depth.setTest(true);
       state.buffers.depth.setMask(true);
       state.buffers.color.setMask(true);
       state.setPolygonOffset(false);
     }
-    function renderTransmissionPass(opaqueObjects, transmissiveObjects, scene, camera) {
+    function renderTransmissionPass(opaqueObjects, transmissiveObjects, scene, camera2) {
       const overrideMaterial = scene.isScene === true ? scene.overrideMaterial : null;
       if (overrideMaterial !== null) {
         return;
       }
-      if (currentRenderState.state.transmissionRenderTarget[camera.id] === void 0) {
-        currentRenderState.state.transmissionRenderTarget[camera.id] = new WebGLRenderTarget(1, 1, {
+      if (currentRenderState.state.transmissionRenderTarget[camera2.id] === void 0) {
+        currentRenderState.state.transmissionRenderTarget[camera2.id] = new WebGLRenderTarget(1, 1, {
           generateMipmaps: true,
           type: extensions.has("EXT_color_buffer_half_float") || extensions.has("EXT_color_buffer_float") ? HalfFloatType : UnsignedByteType,
           minFilter: LinearMipmapLinearFilter,
@@ -29342,8 +29689,8 @@ var WebGLRenderer = class {
           colorSpace: ColorManagement.workingColorSpace
         });
       }
-      const transmissionRenderTarget = currentRenderState.state.transmissionRenderTarget[camera.id];
-      const activeViewport = camera.viewport || _currentViewport;
+      const transmissionRenderTarget = currentRenderState.state.transmissionRenderTarget[camera2.id];
+      const activeViewport = camera2.viewport || _currentViewport;
       transmissionRenderTarget.setSize(activeViewport.z * _this.transmissionResolutionScale, activeViewport.w * _this.transmissionResolutionScale);
       const currentRenderTarget = _this.getRenderTarget();
       _this.setRenderTarget(transmissionRenderTarget);
@@ -29354,11 +29701,11 @@ var WebGLRenderer = class {
       if (_renderBackground) background.render(scene);
       const currentToneMapping = _this.toneMapping;
       _this.toneMapping = NoToneMapping;
-      const currentCameraViewport = camera.viewport;
-      if (camera.viewport !== void 0) camera.viewport = void 0;
-      currentRenderState.setupLightsView(camera);
-      if (_clippingEnabled === true) clipping.setGlobalState(_this.clippingPlanes, camera);
-      renderObjects(opaqueObjects, scene, camera);
+      const currentCameraViewport = camera2.viewport;
+      if (camera2.viewport !== void 0) camera2.viewport = void 0;
+      currentRenderState.setupLightsView(camera2);
+      if (_clippingEnabled === true) clipping.setGlobalState(_this.clippingPlanes, camera2);
+      renderObjects(opaqueObjects, scene, camera2);
       textures.updateMultisampleRenderTarget(transmissionRenderTarget);
       textures.updateRenderTargetMipmap(transmissionRenderTarget);
       if (extensions.has("WEBGL_multisampled_render_to_texture") === false) {
@@ -29366,14 +29713,14 @@ var WebGLRenderer = class {
         for (let i4 = 0, l3 = transmissiveObjects.length; i4 < l3; i4++) {
           const renderItem = transmissiveObjects[i4];
           const object = renderItem.object;
-          const geometry = renderItem.geometry;
+          const geometry2 = renderItem.geometry;
           const material = renderItem.material;
           const group = renderItem.group;
-          if (material.side === DoubleSide && object.layers.test(camera.layers)) {
+          if (material.side === DoubleSide && object.layers.test(camera2.layers)) {
             const currentSide = material.side;
             material.side = BackSide;
             material.needsUpdate = true;
-            renderObject(object, scene, camera, geometry, material, group);
+            renderObject(object, scene, camera2, geometry2, material, group);
             material.side = currentSide;
             material.needsUpdate = true;
             renderTargetNeedsUpdate = true;
@@ -29386,42 +29733,42 @@ var WebGLRenderer = class {
       }
       _this.setRenderTarget(currentRenderTarget);
       _this.setClearColor(_currentClearColor, _currentClearAlpha);
-      if (currentCameraViewport !== void 0) camera.viewport = currentCameraViewport;
+      if (currentCameraViewport !== void 0) camera2.viewport = currentCameraViewport;
       _this.toneMapping = currentToneMapping;
     }
-    function renderObjects(renderList, scene, camera) {
+    function renderObjects(renderList, scene, camera2) {
       const overrideMaterial = scene.isScene === true ? scene.overrideMaterial : null;
       for (let i4 = 0, l3 = renderList.length; i4 < l3; i4++) {
         const renderItem = renderList[i4];
         const object = renderItem.object;
-        const geometry = renderItem.geometry;
+        const geometry2 = renderItem.geometry;
         const group = renderItem.group;
         let material = renderItem.material;
         if (material.allowOverride === true && overrideMaterial !== null) {
           material = overrideMaterial;
         }
-        if (object.layers.test(camera.layers)) {
-          renderObject(object, scene, camera, geometry, material, group);
+        if (object.layers.test(camera2.layers)) {
+          renderObject(object, scene, camera2, geometry2, material, group);
         }
       }
     }
-    function renderObject(object, scene, camera, geometry, material, group) {
-      object.onBeforeRender(_this, scene, camera, geometry, material, group);
-      object.modelViewMatrix.multiplyMatrices(camera.matrixWorldInverse, object.matrixWorld);
+    function renderObject(object, scene, camera2, geometry2, material, group) {
+      object.onBeforeRender(_this, scene, camera2, geometry2, material, group);
+      object.modelViewMatrix.multiplyMatrices(camera2.matrixWorldInverse, object.matrixWorld);
       object.normalMatrix.getNormalMatrix(object.modelViewMatrix);
-      material.onBeforeRender(_this, scene, camera, geometry, object, group);
+      material.onBeforeRender(_this, scene, camera2, geometry2, object, group);
       if (material.transparent === true && material.side === DoubleSide && material.forceSinglePass === false) {
         material.side = BackSide;
         material.needsUpdate = true;
-        _this.renderBufferDirect(camera, scene, geometry, material, object, group);
+        _this.renderBufferDirect(camera2, scene, geometry2, material, object, group);
         material.side = FrontSide;
         material.needsUpdate = true;
-        _this.renderBufferDirect(camera, scene, geometry, material, object, group);
+        _this.renderBufferDirect(camera2, scene, geometry2, material, object, group);
         material.side = DoubleSide;
       } else {
-        _this.renderBufferDirect(camera, scene, geometry, material, object, group);
+        _this.renderBufferDirect(camera2, scene, geometry2, material, object, group);
       }
-      object.onAfterRender(_this, scene, camera, geometry, material, group);
+      object.onAfterRender(_this, scene, camera2, geometry2, material, group);
     }
     function getProgram(material, scene, object) {
       if (scene.isScene !== true) scene = _emptyScene;
@@ -29512,32 +29859,32 @@ var WebGLRenderer = class {
       materialProperties.vertexTangents = parameters2.vertexTangents;
       materialProperties.toneMapping = parameters2.toneMapping;
     }
-    function setProgram(camera, scene, geometry, material, object) {
+    function setProgram(camera2, scene, geometry2, material, object) {
       if (scene.isScene !== true) scene = _emptyScene;
       textures.resetTextureUnits();
       const fog = scene.fog;
       const environment = material.isMeshStandardMaterial ? scene.environment : null;
       const colorSpace = _currentRenderTarget === null ? _this.outputColorSpace : _currentRenderTarget.isXRRenderTarget === true ? _currentRenderTarget.texture.colorSpace : LinearSRGBColorSpace;
       const envMap = (material.isMeshStandardMaterial ? cubeuvmaps : cubemaps).get(material.envMap || environment);
-      const vertexAlphas = material.vertexColors === true && !!geometry.attributes.color && geometry.attributes.color.itemSize === 4;
-      const vertexTangents = !!geometry.attributes.tangent && (!!material.normalMap || material.anisotropy > 0);
-      const morphTargets = !!geometry.morphAttributes.position;
-      const morphNormals = !!geometry.morphAttributes.normal;
-      const morphColors = !!geometry.morphAttributes.color;
+      const vertexAlphas = material.vertexColors === true && !!geometry2.attributes.color && geometry2.attributes.color.itemSize === 4;
+      const vertexTangents = !!geometry2.attributes.tangent && (!!material.normalMap || material.anisotropy > 0);
+      const morphTargets = !!geometry2.morphAttributes.position;
+      const morphNormals = !!geometry2.morphAttributes.normal;
+      const morphColors = !!geometry2.morphAttributes.color;
       let toneMapping = NoToneMapping;
       if (material.toneMapped) {
         if (_currentRenderTarget === null || _currentRenderTarget.isXRRenderTarget === true) {
           toneMapping = _this.toneMapping;
         }
       }
-      const morphAttribute = geometry.morphAttributes.position || geometry.morphAttributes.normal || geometry.morphAttributes.color;
+      const morphAttribute = geometry2.morphAttributes.position || geometry2.morphAttributes.normal || geometry2.morphAttributes.color;
       const morphTargetsCount = morphAttribute !== void 0 ? morphAttribute.length : 0;
       const materialProperties = properties.get(material);
       const lights = currentRenderState.state.lights;
       if (_clippingEnabled === true) {
-        if (_localClippingEnabled === true || camera !== _currentCamera) {
-          const useCache = camera === _currentCamera && material.id === _currentMaterialId;
-          clipping.setState(material, camera, useCache);
+        if (_localClippingEnabled === true || camera2 !== _currentCamera) {
+          const useCache = camera2 === _currentCamera && material.id === _currentMaterialId;
+          clipping.setState(material, camera2, useCache);
         }
       }
       let needsProgramChange = false;
@@ -29612,33 +29959,33 @@ var WebGLRenderer = class {
         _currentMaterialId = material.id;
         refreshMaterial = true;
       }
-      if (refreshProgram || _currentCamera !== camera) {
+      if (refreshProgram || _currentCamera !== camera2) {
         const reverseDepthBuffer2 = state.buffers.depth.getReversed();
         if (reverseDepthBuffer2) {
-          _currentProjectionMatrix.copy(camera.projectionMatrix);
+          _currentProjectionMatrix.copy(camera2.projectionMatrix);
           toNormalizedProjectionMatrix(_currentProjectionMatrix);
           toReversedProjectionMatrix(_currentProjectionMatrix);
           p_uniforms.setValue(_gl, "projectionMatrix", _currentProjectionMatrix);
         } else {
-          p_uniforms.setValue(_gl, "projectionMatrix", camera.projectionMatrix);
+          p_uniforms.setValue(_gl, "projectionMatrix", camera2.projectionMatrix);
         }
-        p_uniforms.setValue(_gl, "viewMatrix", camera.matrixWorldInverse);
+        p_uniforms.setValue(_gl, "viewMatrix", camera2.matrixWorldInverse);
         const uCamPos = p_uniforms.map.cameraPosition;
         if (uCamPos !== void 0) {
-          uCamPos.setValue(_gl, _vector32.setFromMatrixPosition(camera.matrixWorld));
+          uCamPos.setValue(_gl, _vector32.setFromMatrixPosition(camera2.matrixWorld));
         }
         if (capabilities.logarithmicDepthBuffer) {
           p_uniforms.setValue(
             _gl,
             "logDepthBufFC",
-            2 / (Math.log(camera.far + 1) / Math.LN2)
+            2 / (Math.log(camera2.far + 1) / Math.LN2)
           );
         }
         if (material.isMeshPhongMaterial || material.isMeshToonMaterial || material.isMeshLambertMaterial || material.isMeshBasicMaterial || material.isMeshStandardMaterial || material.isShaderMaterial) {
-          p_uniforms.setValue(_gl, "isOrthographic", camera.isOrthographicCamera === true);
+          p_uniforms.setValue(_gl, "isOrthographic", camera2.isOrthographicCamera === true);
         }
-        if (_currentCamera !== camera) {
-          _currentCamera = camera;
+        if (_currentCamera !== camera2) {
+          _currentCamera = camera2;
           refreshMaterial = true;
           refreshLights = true;
         }
@@ -29662,9 +30009,9 @@ var WebGLRenderer = class {
           p_uniforms.setValue(_gl, "batchingColorTexture", object._colorsTexture, textures);
         }
       }
-      const morphAttributes = geometry.morphAttributes;
+      const morphAttributes = geometry2.morphAttributes;
       if (morphAttributes.position !== void 0 || morphAttributes.normal !== void 0 || morphAttributes.color !== void 0) {
-        morphtargets.update(object, geometry, program);
+        morphtargets.update(object, geometry2, program);
       }
       if (refreshMaterial || materialProperties.receiveShadow !== object.receiveShadow) {
         materialProperties.receiveShadow = object.receiveShadow;
@@ -29685,7 +30032,7 @@ var WebGLRenderer = class {
         if (fog && material.fog === true) {
           materials.refreshFogUniforms(m_uniforms, fog);
         }
-        materials.refreshMaterialUniforms(m_uniforms, material, _pixelRatio, _height, currentRenderState.state.transmissionRenderTarget[camera.id]);
+        materials.refreshMaterialUniforms(m_uniforms, material, _pixelRatio, _height, currentRenderState.state.transmissionRenderTarget[camera2.id]);
         WebGLUniforms.upload(_gl, getUniformList(materialProperties), m_uniforms, textures);
       }
       if (material.isShaderMaterial && material.uniformsNeedUpdate === true) {
@@ -30058,9 +30405,9 @@ var WebGLRenderer = class {
       warnOnce('WebGLRenderer: copyTextureToTexture3D function has been deprecated. Use "copyTextureToTexture" instead.');
       return this.copyTextureToTexture(srcTexture, dstTexture, srcRegion, dstPosition, level);
     };
-    this.initRenderTarget = function(target) {
-      if (properties.get(target).__webglFramebuffer === void 0) {
-        textures.setupRenderTarget(target);
+    this.initRenderTarget = function(target2) {
+      if (properties.get(target2).__webglFramebuffer === void 0) {
+        textures.setupRenderTarget(target2);
       }
     };
     this.initTexture = function(texture) {
@@ -30955,226 +31302,26 @@ function interceptControlUp(event) {
   }
 }
 
-// node_modules/three/examples/jsm/objects/Reflector.js
-var Reflector = class _Reflector extends Mesh {
-  /**
-   * Constructs a new reflector.
-   *
-   * @param {BufferGeometry} geometry - The reflector's geometry.
-   * @param {Reflector~Options} [options] - The configuration options.
-   */
-  constructor(geometry, options = {}) {
-    super(geometry);
-    this.isReflector = true;
-    this.type = "Reflector";
-    this.forceUpdate = false;
-    this.camera = new PerspectiveCamera();
-    const scope = this;
-    const color = options.color !== void 0 ? new Color(options.color) : new Color(8355711);
-    const textureWidth = options.textureWidth || 512;
-    const textureHeight = options.textureHeight || 512;
-    const clipBias = options.clipBias || 0;
-    const shader = options.shader || _Reflector.ReflectorShader;
-    const multisample = options.multisample !== void 0 ? options.multisample : 4;
-    const reflectorPlane = new Plane();
-    const normal = new Vector3();
-    const reflectorWorldPosition = new Vector3();
-    const cameraWorldPosition = new Vector3();
-    const rotationMatrix = new Matrix4();
-    const lookAtPosition = new Vector3(0, 0, -1);
-    const clipPlane = new Vector4();
-    const view = new Vector3();
-    const target = new Vector3();
-    const q3 = new Vector4();
-    const textureMatrix = new Matrix4();
-    const virtualCamera = this.camera;
-    const renderTarget = new WebGLRenderTarget(textureWidth, textureHeight, { samples: multisample, type: HalfFloatType });
-    const material = new ShaderMaterial({
-      name: shader.name !== void 0 ? shader.name : "unspecified",
-      uniforms: UniformsUtils.clone(shader.uniforms),
-      fragmentShader: shader.fragmentShader,
-      vertexShader: shader.vertexShader
-    });
-    material.uniforms["tDiffuse"].value = renderTarget.texture;
-    material.uniforms["color"].value = color;
-    material.uniforms["textureMatrix"].value = textureMatrix;
-    this.material = material;
-    this.onBeforeRender = function(renderer, scene, camera) {
-      reflectorWorldPosition.setFromMatrixPosition(scope.matrixWorld);
-      cameraWorldPosition.setFromMatrixPosition(camera.matrixWorld);
-      rotationMatrix.extractRotation(scope.matrixWorld);
-      normal.set(0, 0, 1);
-      normal.applyMatrix4(rotationMatrix);
-      view.subVectors(reflectorWorldPosition, cameraWorldPosition);
-      const isFacingAway = view.dot(normal) > 0;
-      if (isFacingAway === true && this.forceUpdate === false) return;
-      view.reflect(normal).negate();
-      view.add(reflectorWorldPosition);
-      rotationMatrix.extractRotation(camera.matrixWorld);
-      lookAtPosition.set(0, 0, -1);
-      lookAtPosition.applyMatrix4(rotationMatrix);
-      lookAtPosition.add(cameraWorldPosition);
-      target.subVectors(reflectorWorldPosition, lookAtPosition);
-      target.reflect(normal).negate();
-      target.add(reflectorWorldPosition);
-      virtualCamera.position.copy(view);
-      virtualCamera.up.set(0, 1, 0);
-      virtualCamera.up.applyMatrix4(rotationMatrix);
-      virtualCamera.up.reflect(normal);
-      virtualCamera.lookAt(target);
-      virtualCamera.far = camera.far;
-      virtualCamera.updateMatrixWorld();
-      virtualCamera.projectionMatrix.copy(camera.projectionMatrix);
-      textureMatrix.set(
-        0.5,
-        0,
-        0,
-        0.5,
-        0,
-        0.5,
-        0,
-        0.5,
-        0,
-        0,
-        0.5,
-        0.5,
-        0,
-        0,
-        0,
-        1
-      );
-      textureMatrix.multiply(virtualCamera.projectionMatrix);
-      textureMatrix.multiply(virtualCamera.matrixWorldInverse);
-      textureMatrix.multiply(scope.matrixWorld);
-      reflectorPlane.setFromNormalAndCoplanarPoint(normal, reflectorWorldPosition);
-      reflectorPlane.applyMatrix4(virtualCamera.matrixWorldInverse);
-      clipPlane.set(reflectorPlane.normal.x, reflectorPlane.normal.y, reflectorPlane.normal.z, reflectorPlane.constant);
-      const projectionMatrix = virtualCamera.projectionMatrix;
-      q3.x = (Math.sign(clipPlane.x) + projectionMatrix.elements[8]) / projectionMatrix.elements[0];
-      q3.y = (Math.sign(clipPlane.y) + projectionMatrix.elements[9]) / projectionMatrix.elements[5];
-      q3.z = -1;
-      q3.w = (1 + projectionMatrix.elements[10]) / projectionMatrix.elements[14];
-      clipPlane.multiplyScalar(2 / clipPlane.dot(q3));
-      projectionMatrix.elements[2] = clipPlane.x;
-      projectionMatrix.elements[6] = clipPlane.y;
-      projectionMatrix.elements[10] = clipPlane.z + 1 - clipBias;
-      projectionMatrix.elements[14] = clipPlane.w;
-      scope.visible = false;
-      const currentRenderTarget = renderer.getRenderTarget();
-      const currentXrEnabled = renderer.xr.enabled;
-      const currentShadowAutoUpdate = renderer.shadowMap.autoUpdate;
-      renderer.xr.enabled = false;
-      renderer.shadowMap.autoUpdate = false;
-      renderer.setRenderTarget(renderTarget);
-      renderer.state.buffers.depth.setMask(true);
-      if (renderer.autoClear === false) renderer.clear();
-      renderer.render(scene, virtualCamera);
-      renderer.xr.enabled = currentXrEnabled;
-      renderer.shadowMap.autoUpdate = currentShadowAutoUpdate;
-      renderer.setRenderTarget(currentRenderTarget);
-      const viewport = camera.viewport;
-      if (viewport !== void 0) {
-        renderer.state.viewport(viewport);
-      }
-      scope.visible = true;
-      this.forceUpdate = false;
-    };
-    this.getRenderTarget = function() {
-      return renderTarget;
-    };
-    this.dispose = function() {
-      renderTarget.dispose();
-      scope.material.dispose();
-    };
-  }
-};
-Reflector.ReflectorShader = {
-  name: "ReflectorShader",
-  uniforms: {
-    "color": {
-      value: null
-    },
-    "tDiffuse": {
-      value: null
-    },
-    "textureMatrix": {
-      value: null
-    }
-  },
-  vertexShader: (
-    /* glsl */
-    `
-		uniform mat4 textureMatrix;
-		varying vec4 vUv;
-
-		#include <common>
-		#include <logdepthbuf_pars_vertex>
-
-		void main() {
-
-			vUv = textureMatrix * vec4( position, 1.0 );
-
-			gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-
-			#include <logdepthbuf_vertex>
-
-		}`
-  ),
-  fragmentShader: (
-    /* glsl */
-    `
-		uniform vec3 color;
-		uniform sampler2D tDiffuse;
-		varying vec4 vUv;
-
-		#include <logdepthbuf_pars_fragment>
-
-		float blendOverlay( float base, float blend ) {
-
-			return( base < 0.5 ? ( 2.0 * base * blend ) : ( 1.0 - 2.0 * ( 1.0 - base ) * ( 1.0 - blend ) ) );
-
-		}
-
-		vec3 blendOverlay( vec3 base, vec3 blend ) {
-
-			return vec3( blendOverlay( base.r, blend.r ), blendOverlay( base.g, blend.g ), blendOverlay( base.b, blend.b ) );
-
-		}
-
-		void main() {
-
-			#include <logdepthbuf_fragment>
-
-			vec4 base = texture2DProj( tDiffuse, vUv );
-			gl_FragColor = vec4( blendOverlay( base.rgb, color ), 1.0 );
-
-			#include <tonemapping_fragment>
-			#include <colorspace_fragment>
-
-		}`
-  )
-};
-
 // node_modules/three/examples/jsm/utils/BufferGeometryUtils.js
-function toTrianglesDrawMode(geometry, drawMode) {
+function toTrianglesDrawMode(geometry2, drawMode) {
   if (drawMode === TrianglesDrawMode) {
     console.warn("THREE.BufferGeometryUtils.toTrianglesDrawMode(): Geometry already defined as triangles.");
-    return geometry;
+    return geometry2;
   }
   if (drawMode === TriangleFanDrawMode || drawMode === TriangleStripDrawMode) {
-    let index = geometry.getIndex();
+    let index = geometry2.getIndex();
     if (index === null) {
       const indices = [];
-      const position = geometry.getAttribute("position");
+      const position = geometry2.getAttribute("position");
       if (position !== void 0) {
         for (let i4 = 0; i4 < position.count; i4++) {
           indices.push(i4);
         }
-        geometry.setIndex(indices);
-        index = geometry.getIndex();
+        geometry2.setIndex(indices);
+        index = geometry2.getIndex();
       } else {
         console.error("THREE.BufferGeometryUtils.toTrianglesDrawMode(): Undefined position attribute. Processing not possible.");
-        return geometry;
+        return geometry2;
       }
     }
     const numberOfTriangles = index.count - 2;
@@ -31201,13 +31348,13 @@ function toTrianglesDrawMode(geometry, drawMode) {
     if (newIndices.length / 3 !== numberOfTriangles) {
       console.error("THREE.BufferGeometryUtils.toTrianglesDrawMode(): Unable to generate correct amount of triangles.");
     }
-    const newGeometry = geometry.clone();
+    const newGeometry = geometry2.clone();
     newGeometry.setIndex(newIndices);
     newGeometry.clearGroups();
     return newGeometry;
   } else {
     console.error("THREE.BufferGeometryUtils.toTrianglesDrawMode(): Unknown draw mode:", drawMode);
-    return geometry;
+    return geometry2;
   }
 }
 
@@ -32098,7 +32245,7 @@ var GLTFMeshGpuInstancing = class {
       for (const mesh of meshes) {
         const m3 = new Matrix4();
         const p4 = new Vector3();
-        const q3 = new Quaternion();
+        const q4 = new Quaternion();
         const s2 = new Vector3(1, 1, 1);
         const instancedMesh = new InstancedMesh(mesh.geometry, mesh.material, count);
         for (let i4 = 0; i4 < count; i4++) {
@@ -32106,12 +32253,12 @@ var GLTFMeshGpuInstancing = class {
             p4.fromBufferAttribute(attributes.TRANSLATION, i4);
           }
           if (attributes.ROTATION) {
-            q3.fromBufferAttribute(attributes.ROTATION, i4);
+            q4.fromBufferAttribute(attributes.ROTATION, i4);
           }
           if (attributes.SCALE) {
             s2.fromBufferAttribute(attributes.SCALE, i4);
           }
-          instancedMesh.setMatrixAt(i4, m3.compose(p4, q3, s2));
+          instancedMesh.setMatrixAt(i4, m3.compose(p4, q4, s2));
         }
         for (const attributeName in attributes) {
           if (attributeName === "_COLOR_0") {
@@ -32209,13 +32356,13 @@ var GLTFDracoMeshCompressionExtension = class {
     }
     return parser.getDependency("bufferView", bufferViewIndex).then(function(bufferView) {
       return new Promise(function(resolve, reject) {
-        dracoLoader.decodeDracoFile(bufferView, function(geometry) {
-          for (const attributeName in geometry.attributes) {
-            const attribute = geometry.attributes[attributeName];
+        dracoLoader.decodeDracoFile(bufferView, function(geometry2) {
+          for (const attributeName in geometry2.attributes) {
+            const attribute = geometry2.attributes[attributeName];
             const normalized = attributeNormalizedMap[attributeName];
             if (normalized !== void 0) attribute.normalized = normalized;
           }
-          resolve(geometry);
+          resolve(geometry2);
         }, threeAttributeMap, attributeTypeMap, LinearSRGBColorSpace, reject);
       });
     });
@@ -32408,33 +32555,33 @@ function assignExtrasToUserData(object, gltfDef) {
     }
   }
 }
-function addMorphTargets(geometry, targets, parser) {
+function addMorphTargets(geometry2, targets, parser) {
   let hasMorphPosition = false;
   let hasMorphNormal = false;
   let hasMorphColor = false;
   for (let i4 = 0, il = targets.length; i4 < il; i4++) {
-    const target = targets[i4];
-    if (target.POSITION !== void 0) hasMorphPosition = true;
-    if (target.NORMAL !== void 0) hasMorphNormal = true;
-    if (target.COLOR_0 !== void 0) hasMorphColor = true;
+    const target2 = targets[i4];
+    if (target2.POSITION !== void 0) hasMorphPosition = true;
+    if (target2.NORMAL !== void 0) hasMorphNormal = true;
+    if (target2.COLOR_0 !== void 0) hasMorphColor = true;
     if (hasMorphPosition && hasMorphNormal && hasMorphColor) break;
   }
-  if (!hasMorphPosition && !hasMorphNormal && !hasMorphColor) return Promise.resolve(geometry);
+  if (!hasMorphPosition && !hasMorphNormal && !hasMorphColor) return Promise.resolve(geometry2);
   const pendingPositionAccessors = [];
   const pendingNormalAccessors = [];
   const pendingColorAccessors = [];
   for (let i4 = 0, il = targets.length; i4 < il; i4++) {
-    const target = targets[i4];
+    const target2 = targets[i4];
     if (hasMorphPosition) {
-      const pendingAccessor = target.POSITION !== void 0 ? parser.getDependency("accessor", target.POSITION) : geometry.attributes.position;
+      const pendingAccessor = target2.POSITION !== void 0 ? parser.getDependency("accessor", target2.POSITION) : geometry2.attributes.position;
       pendingPositionAccessors.push(pendingAccessor);
     }
     if (hasMorphNormal) {
-      const pendingAccessor = target.NORMAL !== void 0 ? parser.getDependency("accessor", target.NORMAL) : geometry.attributes.normal;
+      const pendingAccessor = target2.NORMAL !== void 0 ? parser.getDependency("accessor", target2.NORMAL) : geometry2.attributes.normal;
       pendingNormalAccessors.push(pendingAccessor);
     }
     if (hasMorphColor) {
-      const pendingAccessor = target.COLOR_0 !== void 0 ? parser.getDependency("accessor", target.COLOR_0) : geometry.attributes.color;
+      const pendingAccessor = target2.COLOR_0 !== void 0 ? parser.getDependency("accessor", target2.COLOR_0) : geometry2.attributes.color;
       pendingColorAccessors.push(pendingAccessor);
     }
   }
@@ -32446,11 +32593,11 @@ function addMorphTargets(geometry, targets, parser) {
     const morphPositions = accessors[0];
     const morphNormals = accessors[1];
     const morphColors = accessors[2];
-    if (hasMorphPosition) geometry.morphAttributes.position = morphPositions;
-    if (hasMorphNormal) geometry.morphAttributes.normal = morphNormals;
-    if (hasMorphColor) geometry.morphAttributes.color = morphColors;
-    geometry.morphTargetsRelative = true;
-    return geometry;
+    if (hasMorphPosition) geometry2.morphAttributes.position = morphPositions;
+    if (hasMorphNormal) geometry2.morphAttributes.normal = morphNormals;
+    if (hasMorphColor) geometry2.morphAttributes.color = morphColors;
+    geometry2.morphTargetsRelative = true;
+    return geometry2;
   });
 }
 function updateMorphTargets(mesh, meshDef) {
@@ -33043,11 +33190,11 @@ var GLTFParser = class {
    * @param {Object3D} mesh Mesh, Line, or Points instance.
    */
   assignFinalMaterial(mesh) {
-    const geometry = mesh.geometry;
+    const geometry2 = mesh.geometry;
     let material = mesh.material;
-    const useDerivativeTangents = geometry.attributes.tangent === void 0;
-    const useVertexColors = geometry.attributes.color !== void 0;
-    const useFlatShading = geometry.attributes.normal === void 0;
+    const useDerivativeTangents = geometry2.attributes.tangent === void 0;
+    const useVertexColors = geometry2.attributes.color !== void 0;
+    const useFlatShading = geometry2.attributes.normal === void 0;
     if (mesh.isPoints) {
       const cacheKey = "PointsMaterial:" + material.uuid;
       let pointsMaterial = this.cache.get(cacheKey);
@@ -33214,8 +33361,8 @@ var GLTFParser = class {
     const extensions = this.extensions;
     const cache = this.primitiveCache;
     function createDracoPrimitive(primitive) {
-      return extensions[EXTENSIONS.KHR_DRACO_MESH_COMPRESSION].decodePrimitive(primitive, parser).then(function(geometry) {
-        return addPrimitiveAttributes(geometry, primitive, parser);
+      return extensions[EXTENSIONS.KHR_DRACO_MESH_COMPRESSION].decodePrimitive(primitive, parser).then(function(geometry2) {
+        return addPrimitiveAttributes(geometry2, primitive, parser);
       });
     }
     const pending = [];
@@ -33262,12 +33409,12 @@ var GLTFParser = class {
       const geometries = results[results.length - 1];
       const meshes = [];
       for (let i4 = 0, il = geometries.length; i4 < il; i4++) {
-        const geometry = geometries[i4];
+        const geometry2 = geometries[i4];
         const primitive = primitives[i4];
         let mesh;
         const material = materials[i4];
         if (primitive.mode === WEBGL_CONSTANTS.TRIANGLES || primitive.mode === WEBGL_CONSTANTS.TRIANGLE_STRIP || primitive.mode === WEBGL_CONSTANTS.TRIANGLE_FAN || primitive.mode === void 0) {
-          mesh = meshDef.isSkinnedMesh === true ? new SkinnedMesh(geometry, material) : new Mesh(geometry, material);
+          mesh = meshDef.isSkinnedMesh === true ? new SkinnedMesh(geometry2, material) : new Mesh(geometry2, material);
           if (mesh.isSkinnedMesh === true) {
             mesh.normalizeSkinWeights();
           }
@@ -33277,13 +33424,13 @@ var GLTFParser = class {
             mesh.geometry = toTrianglesDrawMode(mesh.geometry, TriangleFanDrawMode);
           }
         } else if (primitive.mode === WEBGL_CONSTANTS.LINES) {
-          mesh = new LineSegments(geometry, material);
+          mesh = new LineSegments(geometry2, material);
         } else if (primitive.mode === WEBGL_CONSTANTS.LINE_STRIP) {
-          mesh = new Line(geometry, material);
+          mesh = new Line(geometry2, material);
         } else if (primitive.mode === WEBGL_CONSTANTS.LINE_LOOP) {
-          mesh = new LineLoop(geometry, material);
+          mesh = new LineLoop(geometry2, material);
         } else if (primitive.mode === WEBGL_CONSTANTS.POINTS) {
-          mesh = new Points(geometry, material);
+          mesh = new Points(geometry2, material);
         } else {
           throw new Error("THREE.GLTFLoader: Primitive mode unsupported: " + primitive.mode);
         }
@@ -33323,7 +33470,7 @@ var GLTFParser = class {
    * @return {Promise<THREE.Camera>}
    */
   loadCamera(cameraIndex) {
-    let camera;
+    let camera2;
     const cameraDef = this.json.cameras[cameraIndex];
     const params = cameraDef[cameraDef.type];
     if (!params) {
@@ -33331,13 +33478,13 @@ var GLTFParser = class {
       return;
     }
     if (cameraDef.type === "perspective") {
-      camera = new PerspectiveCamera(MathUtils.radToDeg(params.yfov), params.aspectRatio || 1, params.znear || 1, params.zfar || 2e6);
+      camera2 = new PerspectiveCamera(MathUtils.radToDeg(params.yfov), params.aspectRatio || 1, params.znear || 1, params.zfar || 2e6);
     } else if (cameraDef.type === "orthographic") {
-      camera = new OrthographicCamera(-params.xmag, params.xmag, params.ymag, -params.ymag, params.znear, params.zfar);
+      camera2 = new OrthographicCamera(-params.xmag, params.xmag, params.ymag, -params.ymag, params.znear, params.zfar);
     }
-    if (cameraDef.name) camera.name = this.createUniqueName(cameraDef.name);
-    assignExtrasToUserData(camera, cameraDef);
-    return Promise.resolve(camera);
+    if (cameraDef.name) camera2.name = this.createUniqueName(cameraDef.name);
+    assignExtrasToUserData(camera2, cameraDef);
+    return Promise.resolve(camera2);
   }
   /**
    * Specification: https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#skins
@@ -33398,16 +33545,16 @@ var GLTFParser = class {
     for (let i4 = 0, il = animationDef.channels.length; i4 < il; i4++) {
       const channel = animationDef.channels[i4];
       const sampler = animationDef.samplers[channel.sampler];
-      const target = channel.target;
-      const name = target.node;
+      const target2 = channel.target;
+      const name = target2.node;
       const input = animationDef.parameters !== void 0 ? animationDef.parameters[sampler.input] : sampler.input;
       const output = animationDef.parameters !== void 0 ? animationDef.parameters[sampler.output] : sampler.output;
-      if (target.node === void 0) continue;
+      if (target2.node === void 0) continue;
       pendingNodes.push(this.getDependency("node", name));
       pendingInputAccessors.push(this.getDependency("accessor", input));
       pendingOutputAccessors.push(this.getDependency("accessor", output));
       pendingSamplers.push(sampler);
-      pendingTargets.push(target);
+      pendingTargets.push(target2);
     }
     return Promise.all([
       Promise.all(pendingNodes),
@@ -33427,12 +33574,12 @@ var GLTFParser = class {
         const inputAccessor = inputAccessors[i4];
         const outputAccessor = outputAccessors[i4];
         const sampler = samplers[i4];
-        const target = targets[i4];
+        const target2 = targets[i4];
         if (node === void 0) continue;
         if (node.updateMatrix) {
           node.updateMatrix();
         }
-        const createdTracks = parser._createAnimationTracks(node, inputAccessor, outputAccessor, sampler, target);
+        const createdTracks = parser._createAnimationTracks(node, inputAccessor, outputAccessor, sampler, target2);
         if (createdTracks) {
           for (let k3 = 0; k3 < createdTracks.length; k3++) {
             tracks.push(createdTracks[k3]);
@@ -33517,8 +33664,8 @@ var GLTFParser = class {
       pending.push(meshPromise);
     }
     if (nodeDef.camera !== void 0) {
-      pending.push(parser.getDependency("camera", nodeDef.camera).then(function(camera) {
-        return parser._getNodeRef(parser.cameraCache, nodeDef.camera, camera);
+      pending.push(parser.getDependency("camera", nodeDef.camera).then(function(camera2) {
+        return parser._getNodeRef(parser.cameraCache, nodeDef.camera, camera2);
       }));
     }
     parser._invokeAll(function(ext) {
@@ -33617,11 +33764,11 @@ var GLTFParser = class {
       return scene;
     });
   }
-  _createAnimationTracks(node, inputAccessor, outputAccessor, sampler, target) {
+  _createAnimationTracks(node, inputAccessor, outputAccessor, sampler, target2) {
     const tracks = [];
     const targetName = node.name ? node.name : node.uuid;
     const targetNames = [];
-    if (PATH_PROPERTIES[target.path] === PATH_PROPERTIES.weights) {
+    if (PATH_PROPERTIES[target2.path] === PATH_PROPERTIES.weights) {
       node.traverse(function(object) {
         if (object.morphTargetInfluences) {
           targetNames.push(object.name ? object.name : object.uuid);
@@ -33631,7 +33778,7 @@ var GLTFParser = class {
       targetNames.push(targetName);
     }
     let TypedKeyframeTrack;
-    switch (PATH_PROPERTIES[target.path]) {
+    switch (PATH_PROPERTIES[target2.path]) {
       case PATH_PROPERTIES.weights:
         TypedKeyframeTrack = NumberKeyframeTrack;
         break;
@@ -33659,7 +33806,7 @@ var GLTFParser = class {
     const outputArray = this._getArrayFromAccessor(outputAccessor);
     for (let j3 = 0, jl = targetNames.length; j3 < jl; j3++) {
       const track = new TypedKeyframeTrack(
-        targetNames[j3] + "." + PATH_PROPERTIES[target.path],
+        targetNames[j3] + "." + PATH_PROPERTIES[target2.path],
         inputAccessor.array,
         outputArray,
         interpolation
@@ -33691,7 +33838,7 @@ var GLTFParser = class {
     track.createInterpolant.isInterpolantFactoryMethodGLTFCubicSpline = true;
   }
 };
-function computeBounds(geometry, primitiveDef, parser) {
+function computeBounds(geometry2, primitiveDef, parser) {
   const attributes = primitiveDef.attributes;
   const box = new Box3();
   if (attributes.POSITION !== void 0) {
@@ -33720,9 +33867,9 @@ function computeBounds(geometry, primitiveDef, parser) {
     const maxDisplacement = new Vector3();
     const vector = new Vector3();
     for (let i4 = 0, il = targets.length; i4 < il; i4++) {
-      const target = targets[i4];
-      if (target.POSITION !== void 0) {
-        const accessor = parser.json.accessors[target.POSITION];
+      const target2 = targets[i4];
+      if (target2.POSITION !== void 0) {
+        const accessor = parser.json.accessors[target2.POSITION];
         const min = accessor.min;
         const max2 = accessor.max;
         if (min !== void 0 && max2 !== void 0) {
@@ -33741,38 +33888,38 @@ function computeBounds(geometry, primitiveDef, parser) {
     }
     box.expandByVector(maxDisplacement);
   }
-  geometry.boundingBox = box;
+  geometry2.boundingBox = box;
   const sphere = new Sphere();
   box.getCenter(sphere.center);
   sphere.radius = box.min.distanceTo(box.max) / 2;
-  geometry.boundingSphere = sphere;
+  geometry2.boundingSphere = sphere;
 }
-function addPrimitiveAttributes(geometry, primitiveDef, parser) {
+function addPrimitiveAttributes(geometry2, primitiveDef, parser) {
   const attributes = primitiveDef.attributes;
   const pending = [];
   function assignAttributeAccessor(accessorIndex, attributeName) {
     return parser.getDependency("accessor", accessorIndex).then(function(accessor) {
-      geometry.setAttribute(attributeName, accessor);
+      geometry2.setAttribute(attributeName, accessor);
     });
   }
   for (const gltfAttributeName in attributes) {
     const threeAttributeName = ATTRIBUTES[gltfAttributeName] || gltfAttributeName.toLowerCase();
-    if (threeAttributeName in geometry.attributes) continue;
+    if (threeAttributeName in geometry2.attributes) continue;
     pending.push(assignAttributeAccessor(attributes[gltfAttributeName], threeAttributeName));
   }
-  if (primitiveDef.indices !== void 0 && !geometry.index) {
+  if (primitiveDef.indices !== void 0 && !geometry2.index) {
     const accessor = parser.getDependency("accessor", primitiveDef.indices).then(function(accessor2) {
-      geometry.setIndex(accessor2);
+      geometry2.setIndex(accessor2);
     });
     pending.push(accessor);
   }
   if (ColorManagement.workingColorSpace !== LinearSRGBColorSpace && "COLOR_0" in attributes) {
     console.warn(`THREE.GLTFLoader: Converting vertex colors from "srgb-linear" to "${ColorManagement.workingColorSpace}" not supported.`);
   }
-  assignExtrasToUserData(geometry, primitiveDef);
-  computeBounds(geometry, primitiveDef, parser);
+  assignExtrasToUserData(geometry2, primitiveDef);
+  computeBounds(geometry2, primitiveDef, parser);
   return Promise.all(pending).then(function() {
-    return primitiveDef.targets !== void 0 ? addMorphTargets(geometry, primitiveDef.targets, parser) : geometry;
+    return primitiveDef.targets !== void 0 ? addMorphTargets(geometry2, primitiveDef.targets, parser) : geometry2;
   });
 }
 
@@ -33913,9 +34060,9 @@ var DRACOLoader = class extends Loader {
     return geometryPending;
   }
   _createGeometry(geometryData) {
-    const geometry = new BufferGeometry();
+    const geometry2 = new BufferGeometry();
     if (geometryData.index) {
-      geometry.setIndex(new BufferAttribute(geometryData.index.array, 1));
+      geometry2.setIndex(new BufferAttribute(geometryData.index.array, 1));
     }
     for (let i4 = 0; i4 < geometryData.attributes.length; i4++) {
       const result = geometryData.attributes[i4];
@@ -33927,9 +34074,9 @@ var DRACOLoader = class extends Loader {
         this._assignVertexColorSpace(attribute, result.vertexColorSpace);
         attribute.normalized = array instanceof Float32Array === false;
       }
-      geometry.setAttribute(name, attribute);
+      geometry2.setAttribute(name, attribute);
     }
-    return geometry;
+    return geometry2;
   }
   _assignVertexColorSpace(attribute, inputColorSpace) {
     if (inputColorSpace !== SRGBColorSpace) return;
@@ -34054,10 +34201,10 @@ function DRACOWorker() {
           const draco = module.draco;
           const decoder = new draco.Decoder();
           try {
-            const geometry = decodeGeometry(draco, decoder, new Int8Array(buffer), taskConfig);
-            const buffers = geometry.attributes.map((attr) => attr.array.buffer);
-            if (geometry.index) buffers.push(geometry.index.array.buffer);
-            self.postMessage({ type: "decode", id: message.id, geometry }, buffers);
+            const geometry2 = decodeGeometry(draco, decoder, new Int8Array(buffer), taskConfig);
+            const buffers = geometry2.attributes.map((attr) => attr.array.buffer);
+            if (geometry2.index) buffers.push(geometry2.index.array.buffer);
+            self.postMessage({ type: "decode", id: message.id, geometry: geometry2 }, buffers);
           } catch (error) {
             console.error(error);
             self.postMessage({ type: "error", id: message.id, error: error.message });
@@ -34086,7 +34233,7 @@ function DRACOWorker() {
     if (!decodingStatus.ok() || dracoGeometry.ptr === 0) {
       throw new Error("THREE.DRACOLoader: Decoding failed: " + decodingStatus.error_msg());
     }
-    const geometry = { index: null, attributes: [] };
+    const geometry2 = { index: null, attributes: [] };
     for (const attributeName in attributeIDs) {
       const attributeType = self[attributeTypes[attributeName]];
       let attribute;
@@ -34103,13 +34250,13 @@ function DRACOWorker() {
       if (attributeName === "color") {
         attributeResult.vertexColorSpace = taskConfig.vertexColorSpace;
       }
-      geometry.attributes.push(attributeResult);
+      geometry2.attributes.push(attributeResult);
     }
     if (geometryType === draco.TRIANGULAR_MESH) {
-      geometry.index = decodeIndex(draco, decoder, dracoGeometry);
+      geometry2.index = decodeIndex(draco, decoder, dracoGeometry);
     }
     draco.destroy(dracoGeometry);
-    return geometry;
+    return geometry2;
   }
   function decodeIndex(draco, decoder, dracoGeometry) {
     const numFaces = dracoGeometry.num_faces();
@@ -34186,92 +34333,6 @@ function parallelTraverse(a3, b6, callback) {
     parallelTraverse(a3.children[i4], b6.children[i4], callback);
   }
 }
-
-// src/ocean/foam.ts
-var foamFragment = (
-  /* glsl */
-  `
-/** \u4E24\u5C42\u65CB\u8F6C\u91C7\u6837\uFF0C\u7528\u4F4E\u9891\u632F\u8361\u5728\u4E24\u8005\u95F4\u8FC7\u6E21\uFF0C\u6D88\u9664\u91CD\u590D\u8D34\u56FE\u611F */
-float foamBreakup(sampler2D tex, vec2 uv, float time, float seed){
-  float a = texture2D(tex, uv).r;
-  float b = texture2D(tex, uv * vec2(.63, .71) + vec2(.37, .19) + vec2(time * .004, -time * .003)).r;
-  return mix(a, b, .3 + .25 * sin(time * .11 + seed));
-}
-
-/**
- * \u6D6A\u5CF0\u767D\u5E3D\uFF1A\u53EA\u5728\u5CF0\u5C16\u4E0E\u5CF0\u5C16\u9644\u8FD1\u5F88\u7A84\u7684\u533A\u57DF\u51FA\u73B0\u3002
- * @param peakProx  \u5CF0\u9876\u90BB\u8FD1\u5EA6\uFF08\u5C40\u90E8\u6781\u5927 \xD7 \u51F8\u66F2\u7387 / \u5377\u66F2 / \u5761\u5EA6\uFF09\uFF0C0\u20131
- * @param peakDelta \u5CF0\u9876\u76F8\u5BF9 8 \u90BB\u57DF\u6700\u5927\u503C\u7684\u51F8\u51FA\u91CF\uFF08\u6309\u6CE2\u9AD8 RMS \u5F52\u4E00\u5316\uFF09
- * @param trough    \u6D6A\u8C37\u6743\u91CD 0\u20131
- */
-float crestFoam(vec2 surfacePosition, float peakProx, float peakDelta, float trough, vec2 flow, float t){
-  // \u5F52\u4E00\u5316\uFF1A\u771F\u5B9E\u6D6A\u5C16\u7684 peakProx \u53EA\u6709 0.35 \u5DE6\u53F3\uFF0C\u9664\u4EE5 0.55 \u8BA9\u5CF0\u9876\u7EA6\u7B49\u4E8E 0.6\uFF0C
-  // \u8FD9\u6837\u56DB\u4E2A\u53C2\u6570\u90FD\u843D\u5728\u6709\u54CD\u5E94\u7684\u533A\u95F4\u91CC\uFF08\u4E58 2.8 \u518D clamp \u4F1A\u63D0\u524D\u9971\u548C\uFF0C\u8C03\u4EC0\u4E48\u90FD\u6CA1\u611F\u89C9\uFF09\u3002
-  float prox = clamp(peakProx / .55, 0., 1.);
-  // \u5E42\u8870\u51CF\uFF1A\u6307\u6570\u76F4\u63A5\u4F5C\u7528\u5728 0\u20131 \u7684\u90BB\u8FD1\u5EA6\u4E0A\uFF0C1 \u4E0E 10 \u7684\u5DEE\u522B\u4E00\u773C\u53EF\u89C1
-  float falloff = pow(prox, max(uPeakFalloff, 1.));
-  // \u5CF0\u9876\u9608\u503C\uFF1A\u95E8\u9650\u5BBD\u5EA6\u56FA\u5B9A 0.04\uFF0C\u9608\u503C\u8D8A\u9AD8\u8D8A\u591A\u5E73\u7F13\u6D6A\u5C16\u88AB\u6392\u9664
-  float gate = smoothstep(uPeakThreshold, uPeakThreshold + .04, peakDelta);
-  // \u589E\u76CA\u653E\u5728\u6700\u540E\uFF0C\u76F4\u63A5\u7F29\u653E\u53EF\u89C1\u7684\u6CE1\u6CAB\u91CF\uFF0C0.2 \u4E0E 2.5 \u662F 12 \u500D\u5DEE\u8DDD
-  float band = clamp(falloff * uCrestFoamMix, 0., 1.);
-  // \u6DF1\u6D6A\u8C37\u5F3A\u5236\u6291\u5236\uFF0C\u907F\u514D\u6574\u7247\u53D1\u767D
-  band *= gate * (1. - clamp(uTroughSuppress, 0., 1.) * trough);
-  if (band < .002) return 0.;
-
-  // \u4E24\u5C42\u5404\u8D70\u5404\u7684\uFF1Afoam1 \u5FEB\u800C\u7EC6\uFF0Cfoam4 \u6162\u800C\u5927
-  vec2 uvFine  = (surfacePosition - flow * t * uFoamFlow1) * .135;
-  vec2 uvWhite = (surfacePosition - flow * t * uFoamFlow2) * .045;
-  float fine  = foamBreakup(uFoam1, uvFine,  t * (.7 + uFoamFlow1 * .45), 1.7);
-  // foam-2 \u672C\u8EAB\u5C31\u662F\u9ED1\u5E95\u767D\u6CE1\uFF0Cr \u901A\u9053\u76F4\u63A5\u5F53\u8986\u76D6\u5EA6\uFF1B\u8F7B\u5FAE\u63D0\u4EAE\u8BA9\u767D\u51A0\u66F4\u5B9E
-  float white = pow(foamBreakup(uFoam2, uvWhite, t * (.45 + uFoamFlow2 * .3), 4.1), .52);
-
-  // \u5CF0\u9876\u8D8A\u63A5\u8FD1\u7FFB\u5377\uFF0C\u8D8A\u504F\u5411 foam4 \u7684\u5927\u5757\u767D\u51A0
-  float curl = smoothstep(.02, .45, peakProx);
-  float blended = mix(fine, white, curl);
-  return blended * band * uFoamCrestOpacity;
-}
-
-/**
- * \u5CB8\u7EBF\u6CE1\u6CAB\uFF1A0 ~ uShoreFoamRange \u7C73\u7684\u6D45\u6C34\u5E26\u3002
- * \u4E24\u6761\u63A8\u8FDB / \u56DE\u9000\u7684\u6D6A\u7EBF\u8BA9\u6CE1\u6CAB\u4E0D\u662F\u4E00\u6761\u5747\u5300\u767D\u8FB9\u3002
- */
-float shoreFoam(vec2 surfacePosition, float shore, float waterDepth, vec2 flow, float t){
-  float range = max(uShoreFoamRange, .25);
-  float surfLine = .55 + .45 * sin(waterDepth * (7.0 / range) + t * .7)
-                        * sin(waterDepth * (2.8 / range) - t * .45 + 1.7);
-  float shallow = smoothstep(range, .04, waterDepth) * smoothstep(.02, range * .09, waterDepth);
-  float mask = shallow * shore * (.5 + .8 * surfLine);
-
-  vec2 uvA = (surfacePosition - flow * t * 1.9) * .145;
-  float s1 = texture2D(uFoam4, uvA + vec2(.13, .71)).r;
-  float s2 = texture2D(uFoam4, uvA * .61 + vec2(.52, .27) + vec2(t * .012, -t * .009)).r;
-  return mask * mix(s1, s2, .5) * 2.2 * uFoamShoreOpacity;
-}
-
-/**
- * @param surfacePosition \u6C34\u9762\u4E16\u754C\u5750\u6807 xz
- * @param peakProx \u5CF0\u9876\u90BB\u8FD1\u5EA6
- * @param peakDelta \u5CF0\u9876\u51F8\u51FA\u91CF\uFF08\u5F52\u4E00\u5316\uFF09
- * @param trough \u6D6A\u8C37\u6743\u91CD
- * @param shore \u6D45\u6C34\u8FC7\u6E21 0\u20131
- * @param waterDepth \u7531\u6DF1\u5EA6\u91CD\u5EFA\u5F97\u5230\u7684\u5782\u76F4\u6C34\u6DF1\uFF08\u7C73\uFF09
- */
-float foamCoverage(vec2 surfacePosition, float peakProx, float peakDelta, float trough, float shore, float waterDepth){
-  vec2 windDir = normalize(vec2(.94, .342));
-  vec2 flow = windDir * max(uWind, .5) * .055;
-  float t = uTime;
-
-  // \u4E24\u7C7B\u6CE1\u6CAB\u5404\u81EA\u72EC\u7ACB\u8BA1\u7B97\u540E\u76F8\u52A0\uFF0C\u4E92\u4E0D\u5E72\u6270
-  float crest = crestFoam(surfacePosition, peakProx, peakDelta, trough, flow, t);
-  float shoreBand = shoreFoam(surfacePosition, shore, waterDepth, flow, t);
-
-  // \u7EC6\u7EB9\u53EA\u505A\u8C03\u5236\uFF0C\u4E0D\u4F5C\u4E3A\u72EC\u7ACB\u767D\u5C42\uFF1A\u628A\u8986\u76D6\u5EA6\u6253\u6563\u6210\u900F\u6C14\u7684\u5C0F\u6CE1
-  float fine = foamBreakup(uFoam1, (surfacePosition - flow * t * 1.15) * .125, t, 2.9);
-  float coverage = (crest + shoreBand) * mix(.8, 1.12, fine);
-  return clamp(coverage, 0., 1.);
-}
-`
-);
 
 // src/weather/ice.ts
 var iceMaskChunk = (
@@ -34367,298 +34428,6 @@ async function loadIceMaps(assetBase) {
   return { cracks, perlin };
 }
 
-// src/ocean/oceanShader.ts
-var oceanVertex = (
-  /* glsl */
-  `
-uniform sampler2D uDisplacement0,uDisplacement1,uDisplacement2;
-uniform float uTexelOffset;
-uniform mat4 textureMatrix;
-varying vec3 vWorld;
-varying vec2 vOceanUV;
-varying vec4 vMirror;
-varying float vViewDepth;
-${iceMaskChunk}
-void main(){
-  vec4 world=modelMatrix*vec4(position,1.);
-  vOceanUV=world.xz;
-  vec3 displacement=texture2D(uDisplacement0,world.xz/256.+uTexelOffset).xyz
-    +texture2D(uDisplacement1,world.xz/32.+uTexelOffset).xyz+texture2D(uDisplacement2,world.xz/4.+uTexelOffset).xyz;
-  // \u51BB\u7ED3\u7684\u6C34\u9762\u662F\u9759\u6B62\u7684\uFF1A\u51B0\u5C42\u8303\u56F4\u5185\u7684\u6D8C\u6D6A\u88AB\u538B\u5236\u3002
-  float ice=iceCoverage(world.xz);
-  displacement*=(1.-ice);
-  world.xyz+=displacement;
-  vWorld=world.xyz;
-  // Reflector \u5305\u542B\u6A21\u578B\u77E9\u9635\uFF1B\u5E73\u9762\u7684\u5C40\u90E8 Y \u8F74\u5BF9\u5E94\u4E16\u754C\u5750\u6807\u7684 -Z\u3002
-  vMirror=textureMatrix*vec4(position+vec3(displacement.x,-displacement.z,displacement.y),1.);
-  vec4 mvPosition=viewMatrix*world;
-  vViewDepth=-mvPosition.z;
-  gl_Position=projectionMatrix*mvPosition;
-}`
-);
-var oceanFragment = (
-  /* glsl */
-  `
-uniform sampler2D tDiffuse,uRefraction,uDepth;
-uniform sampler2D uFoam1,uFoam2,uFoam3,uFoam4;
-uniform sampler2D uReflectionDepth;
-uniform samplerCube uSkyEnvironment;
-uniform sampler2D uNormal0,uNormal1,uNormal2;
-uniform sampler2D uDisplacement0;
-uniform float uTime,uWind,uTexelOffset;
-uniform vec2 uResolution;
-uniform vec3 uEye,uSun,uSunColor,uWaterColor,uFogColor;
-uniform float uFog,uDaylight,uNear,uFar;
-uniform float uFoamCrestOpacity,uFoamShoreOpacity;
-uniform float uCrestFoamMix,uFoamFlow1,uFoamFlow2,uShoreFoamRange;
-uniform float uCurvatureWeight,uTroughNoise,uTroughSpecular;
-uniform float uPeakThreshold,uPeakFalloff,uTroughSuppress;
-uniform float uWaveShadowAbove,uWaveShadowUnder,uFoamBrightness,uDeepWater;
-uniform float uSpecAnisotropy,uSpecAnisoX,uSpecAnisoY,uSpecCurvature,uReflRoughness;
-uniform vec3 uSpecColor;
-uniform float uHeightRms;
-uniform mat4 uInverseProjection,uCameraMatrix;
-uniform float uRain,uOvercast,uFlash;
-varying vec3 vWorld;
-varying vec2 vOceanUV;
-varying vec4 vMirror;
-varying float vViewDepth;
-#include <common>
-#include <packing>
-${foamFragment}
-${iceMaskChunk}
-${iceSurfaceChunk}
-/** \u5206\u6BB5\u5438\u6536\u8272\uFF1A\u6D45\u90E8\u504F\u9752\u7EFF\uFF0C\u6D6A\u8C37\u662F\u901A\u900F\u6697\u84DD\uFF1B\u4E0D\u7528\u52A0\u9ED1\uFF0C\u907F\u514D\u6DF1\u8272\u53D1\u810F */
-vec3 waterLut(float depth){
-  float t=clamp(depth/55.,0.,1.);
-  vec3 shallowTint=vec3(.98,1.02,1.0);
-  vec3 midTint=vec3(.74,.92,1.0);
-  vec3 deepTint=vec3(.36,.58,.88);
-  vec3 c=mix(shallowTint,midTint,smoothstep(0.,.42,t));
-  return mix(c,deepTint,smoothstep(.42,1.,t));
-}
-
-void main(){
-  float dist=distance(uEye,vWorld);
-  vec4 n0=texture2D(uNormal0,vOceanUV/256.+uTexelOffset);
-  vec4 n1=texture2D(uNormal1,vOceanUV/32.+uTexelOffset);
-  vec4 n2=texture2D(uNormal2,vOceanUV/4.+uTexelOffset,1.);
-  vec2 slope=n0.xz/max(n0.y,.25)+n1.xz/max(n1.y,.25)*exp(-dist*.0004)
-    +n2.xz/max(n2.y,.25)*exp(-dist*.0015);
-  vec3 normal=normalize(vec3(slope.x,1.,slope.y));
-  vec3 viewDir=normalize(uEye-vWorld);
-
-  // \u2500\u2500 \u6D6A\u9762\u51E0\u4F55\uFF1A\u5377\u66F2\u6298\u53E0\u503C + \u66F2\u7387 \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-  // \u5168\u90E8\u4ECE\u4F4D\u79FB\u8D34\u56FE\u5DEE\u5206\u5F97\u5230\uFF0C\u4E0D\u6539\u52A8 FFT \u672C\u8EAB\u7684\u63A8\u8FDB\u903B\u8F91\u3002
-  vec2 uvD=vOceanUV/256.+uTexelOffset;
-  vec3 hC=texture2D(uDisplacement0,uvD).xyz;
-  vec3 hL=texture2D(uDisplacement0,uvD-vec2(uTexelOffset,0.)).xyz;
-  vec3 hR=texture2D(uDisplacement0,uvD+vec2(uTexelOffset,0.)).xyz;
-  vec3 hD=texture2D(uDisplacement0,uvD-vec2(0.,uTexelOffset)).xyz;
-  vec3 hU=texture2D(uDisplacement0,uvD+vec2(0.,uTexelOffset)).xyz;
-  // \u56DB\u4E2A\u5BF9\u89D2\u70B9\uFF1A\u4E0E\u4E0A\u4E0B\u5DE6\u53F3\u4E00\u8D77\u6784\u6210 8 \u90BB\u57DF\uFF0C\u7528\u6765\u5224\u5C40\u90E8\u6781\u5927
-  float hDL=texture2D(uDisplacement0,uvD+vec2(-uTexelOffset,-uTexelOffset)).y;
-  float hDR=texture2D(uDisplacement0,uvD+vec2(uTexelOffset,-uTexelOffset)).y;
-  float hUL=texture2D(uDisplacement0,uvD+vec2(-uTexelOffset,uTexelOffset)).y;
-  float hUR=texture2D(uDisplacement0,uvD+vec2(uTexelOffset,uTexelOffset)).y;
-  float gridStep=1./(uTexelOffset*256.);       // \u4E00\u4E2A texel \u5BF9\u5E94\u7684\u4E16\u754C\u8DDD\u79BB\uFF08\u7C73\uFF09
-  vec3 ddx=(hR-hL)*gridStep*.5;
-  vec3 ddz=(hU-hD)*gridStep*.5;
-  // Jacobian\uFF1A\u6C34\u5E73\u4F4D\u79FB\u628A\u6C34\u9762\u6324\u538B / \u6298\u53E0\u7684\u7A0B\u5EA6\uFF0C1 \u4EE5\u4E0B\u5C31\u662F\u5F00\u59CB\u5377\u66F2
-  float jacobian=(1.+ddx.x)*(1.+ddz.z)-ddx.z*ddz.x;
-  float fold=clamp(1.-jacobian,0.,1.6);
-  // \u62C9\u666E\u62C9\u65AF\u8FD1\u4F3C\u66F2\u7387\uFF1A>0 \u51F9\uFF08\u6D6A\u8C37\uFF09\uFF0C<0 \u51F8\uFF08\u6D6A\u5CF0\uFF09
-  float laplacian=(hR.y+hL.y+hU.y+hD.y-4.*hC.y)*gridStep*gridStep;
-  float curv=laplacian*26.*uCurvatureWeight;
-  float trough=smoothstep(0.,.55,curv);
-  float crestShape=smoothstep(0.,.55,-curv);
-  float heightNorm=hC.y/max(uHeightRms,.15);
-
-  // \u2500\u2500 \u5C40\u90E8\u5CF0\u9876\u68C0\u6D4B \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-  // 8 \u90BB\u57DF\u6700\u5927\u503C\uFF1A\u53EA\u6709\u4E2D\u5FC3\u9AD8\u4E8E\u5168\u90E8\u90BB\u5C45\uFF0C\u624D\u662F\u5C40\u90E8\u9AD8\u70B9
-  float neighbourMax=max(max(max(hL.y,hR.y),max(hD.y,hU.y)),
-                         max(max(hDL,hDR),max(hUL,hUR)));
-  // \u5CF0\u9876\u51F8\u51FA\u91CF\uFF08\u6309\u6CE2\u9AD8 RMS \u5F52\u4E00\u5316\uFF09\uFF1A\u771F\u6B63\u7684\u5CF0\u5C16\u624D\u6709\u6B63\u503C
-  float peakDelta=(hC.y-neighbourMax)/max(uHeightRms,.15);
-  // \u8F6F\u5316\u7684\u300C\u662F\u5C40\u90E8\u6781\u5927\u300D\u5224\u636E\uFF1A
-  // \u5224\u636E\u8FC7\u4E25\uFF08\u66FE\u7ECF\u662F \xB10.004\uFF09\u65F6\u6CE1\u6CAB\u53EA\u5269\u4E00\u4E24\u4E2A texel \u5BBD\uFF0C\u770B\u8D77\u6765\u5C31\u50CF\u5B8C\u5168\u6CA1\u6709\u3002
-  float isPeak=smoothstep(-.08,.012,peakDelta);
-  // \u5761\u5EA6\uFF1A\u9AD8\u5EA6\u68AF\u5EA6\uFF0C\u9661\u5CED\u5904\u66F4\u5927
-  float steep=clamp(length(vec2(ddx.y,ddz.y))*2.2,0.,1.);
-  // \u5CF0\u9876\u90BB\u8FD1\u5EA6\uFF1A\u5C40\u90E8\u6781\u5927 \xD7\uFF08\u51F8\u66F2\u7387 + \u5377\u66F2 + \u5761\u5EA6\uFF09\uFF0C\u4E0A\u9650\u7559\u5230 1.4 \u4EE5\u4FBF\u540E\u9762\u5F52\u4E00\u5316
-  float convex=clamp(-laplacian*42.*uCurvatureWeight,0.,1.);
-  float peakScore=clamp(convex*.75+clamp(fold,0.,1.)*.55+steep*.35,0.,1.4);
-  float peakProx=clamp(isPeak*peakScore,0.,1.4);
-
-  // \u6D6A\u8C37\u5185\u90E8\u53E0\u4E00\u70B9\u7EC6\u5C0F\u6CD5\u7EBF\u6270\u52A8\uFF0C\u524A\u5F31 FFT \u7684\u5468\u671F\u611F
-  float micro=texture2D(uFoam2,vOceanUV*.11+vec2(uTime*.02,-uTime*.013)).r-.5;
-  normal=normalize(normal+vec3(micro,0.,micro*.75)*trough*(.05+.12*uTroughNoise));
-  bool underwater=uEye.y<vWorld.y-.12;
-  if(underwater)normal=-normal;
-  vec2 screenUV=gl_FragCoord.xy/uResolution;
-  float sceneDepth=-perspectiveDepthToViewZ(texture2D(uDepth,screenUV).x,uNear,uFar);
-  float thickness=max(sceneDepth-vViewDepth,0.);
-  vec2 distortion=normal.xz*min(thickness*.0015,.025);
-  vec2 refractUV=clamp(screenUV+distortion,.002,.998);
-  float distortedDepth=-perspectiveDepthToViewZ(texture2D(uDepth,refractUV).x,uNear,uFar);
-  if(distortedDepth<vViewDepth)refractUV=screenUV;
-  vec3 refraction=texture2D(uRefraction,refractUV).rgb;
-  // \u5438\u6536\u539A\u5EA6\uFF1A\u7531\u300C\u66F2\u7387 + \u9AD8\u5EA6\u300D\u5171\u540C\u8C03\u5236\uFF0C\u518D\u53E0\u6E4D\u6D41\u566A\u58F0\u6253\u6563\u957F\u6761\u6697\u7EB9
-  float turbulence=texture2D(uFoam1,vOceanUV*.017+vec2(uTime*.006,-uTime*.004)).r;
-  // \u6CE2\u6D6A\u81EA\u9634\u5F71\uFF08\u6C34\u4E0A\uFF09\uFF1A\u8C37\u5E95\u6309\u66F2\u7387\u52A0\u6DF1\uFF0C0 = \u4E0D\u52A0\u6697\uFF0C1 = \u5B8C\u6574\u660E\u6697
-  float pathMod=1.+heightNorm*.3+curv*.55*clamp(uWaveShadowAbove,0.,1.);
-  pathMod*=mix(1.,.7+.62*turbulence,uTroughNoise);
-  float absorbThickness=clamp(thickness*pathMod,0.,320.);
-  vec3 absorption=exp(-vec3(.34,.085,.062)*absorbThickness)*waterLut(absorbThickness);
-  vec3 scatter=uWaterColor*(.12+uDaylight*.7);
-  scatter=mix(scatter,uWaterColor*vec3(.25,.32,.5)*(.1+.9*uDaylight),smoothstep(10.,65.,absorbThickness));
-  vec3 water=refraction*absorption+scatter*(1.-absorption);
-  // \u8FDC\u6D77\u6DF1\u84DD\uFF1A\u4EE5\u76F8\u673A\u4E3A\u4E2D\u5FC3\uFF0C\u8DDD\u79BB\u8D8A\u8FDC\u8D8A\u6C89\u3001\u8D8A\u504F\u84DD\uFF08\u8FD1\u5904\u4ECD\u900F\u4EAE\uFF09
-  float distanceDeep=smoothstep(55.,520.,dist)*clamp(uDeepWater,0.,1.);
-  vec3 deepTint=uWaterColor*.42+vec3(.012,.048,.10);
-  water=mix(water,deepTint,distanceDeep*.62);
-  vec3 reflectionPerturbation=mat3(viewMatrix)*(normal-vec3(0.,1.,0.));
-  vec2 reflectionUV=vMirror.xy/vMirror.w+reflectionPerturbation.xy*(.035+.18/max(dist,8.));
-  vec2 mirrorUV=clamp(reflectionUV,.001,.999);
-  // \u52A8\u6001\u7C97\u7CD9\u5EA6\uFF1A\u5377\u66F2\u8D8A\u5F3A\uFF08\u8D8A\u63A5\u8FD1\u7834\u788E\uFF09\u53CD\u5C04\u8D8A\u6A21\u7CCA\uFF0C\u5E73\u9759\u533A\u66F4\u6E05\u6670
-  float reflRough=clamp(uReflRoughness*(clamp(fold*.85,0.,1.)*.9+.12),0.,1.);
-  float blur=reflRough*(.0045+.014/max(dist*.02,1.));
-  vec2 blurStep=vec2(blur,blur*.62);
-  // \u56DB\u70B9\u6A21\u7CCA\uFF1A\u7C97\u7CD9\u5EA6\u5230 0 \u65F6\u56DB\u6B21\u91C7\u6837\u5B8C\u5168\u91CD\u5408\uFF0C\u7B49\u4E8E\u6CA1\u6709\u989D\u5916\u4EE3\u4EF7
-  vec3 planarReflection=(
-    texture2D(tDiffuse,mirrorUV).rgb+
-    texture2D(tDiffuse,clamp(mirrorUV+blurStep,.001,.999)).rgb+
-    texture2D(tDiffuse,clamp(mirrorUV-blurStep,.001,.999)).rgb+
-    texture2D(tDiffuse,clamp(mirrorUV+vec2(-blurStep.x,blurStep.y),.001,.999)).rgb
-  )*.25*.82;
-  float reflectionDepth=texture2D(uReflectionDepth,mirrorUV).r;
-  // \u8FC7\u6E21\u5E26\u653E\u5BBD\uFF0C\u53CD\u5C04\u4E0E\u6C34\u4F53\u4E4B\u95F4\u4E0D\u518D\u6709\u786C\u8FB9
-  float objectReflection=1.-smoothstep(.9986,.99995,reflectionDepth);
-  vec3 reflectionDirection=reflect(-viewDir,normal);
-  // \u5929\u7A7A\u53CD\u5C04\uFF1A\u4E09\u4E2A\u65B9\u5411\u53D6\u5E73\u5747\u5F53\u4F5C\u7B80\u6613\u7C97\u7CD9\u5EA6\u5377\u79EF\uFF0C\u4E91\u5C42\u8FB9\u754C\u4E0D\u518D\u751F\u786C
-  vec3 skyReflection=(
-    textureCube(uSkyEnvironment,reflectionDirection).rgb+
-    textureCube(uSkyEnvironment,normalize(reflectionDirection+normal*.07)).rgb+
-    textureCube(uSkyEnvironment,normalize(reflectionDirection-normal*.07)).rgb
-  )/3.;
-  // \u6307\u5411\u5730\u5E73\u7EBF\u4EE5\u4E0B\u7684\u5149\u7EBF\u4F1A\u6253\u5230\u90BB\u8FD1\u7684\u6CE2\u9762\uFF0C\u800C\u4E0D\u662F\u660E\u4EAE\u7684\u5929\u7A7A\uFF1B\u8FC7\u6E21\u5E26\u540C\u6837\u653E\u5BBD\u3002
-  skyReflection=mix(uWaterColor*(.08+.2*uDaylight),skyReflection,smoothstep(-.22,.3,reflectionDirection.y));
-  vec3 reflected=mix(skyReflection,planarReflection,objectReflection);
-  float facing=clamp(dot(viewDir,normal),0.,1.);
-  float fresnel=(.0204+.9796*pow(1.-facing,5.))*smoothstep(0.,.18,dot(viewDir,normal));
-  // \u5149\u5F71\u8DDF\u66F2\u7387\u8D70\uFF1A\u6D6A\u8C37\u538B\u53CD\u5C04\u3001\u6D6A\u5CF0\u62AC\u53CD\u5C04
-  float curveGain=1.+crestShape*.3-trough*uTroughSpecular;
-  fresnel=clamp(fresnel*curveGain,0.,1.);
-  // \u5728\u660E\u4EAE\u7684\u6D45\u6C34\u91CC\u4ECD\u4FDD\u7559\u8239\u4F53\u53D1\u6697\u3001\u7834\u788E\u7684\u5012\u5F71\u3002
-  float reflectionWeight=max(fresnel,objectReflection*.48*exp(-dist*.002));
-  vec3 color=mix(water,reflected,reflectionWeight);
-  // \u5404\u5411\u5F02\u6027\u592A\u9633\u6CE2\u5149\uFF1A\u62C9\u4F38\u8F74 = \u98CE\u5411\u6295\u5F71\u5230\u5207\u5E73\u9762\uFF08\u4E0E\u6CE1\u6CAB\u6D41\u5411\u4E00\u81F4\uFF09\uFF0C
-  // \u5207\u7EBF\u968F\u6CD5\u7EBF\u9010\u5E27\u53D8\u5316\uFF0C\u6240\u4EE5\u957F\u6761\u4F1A\u8DDF\u7740\u6D6A\u4E00\u8D77\u6D41\u52A8\u3002
-  vec3 halfDir=normalize(viewDir+uSun);
-  float ndh=max(dot(normal,halfDir),0.), ndl=max(dot(normal,uSun),0.);
-  vec3 windAxis=normalize(vec3(.94,0.,.342));
-  // \u6D6A\u810A\u65B9\u5411\uFF1A\u5761\u5411\u7684\u6C34\u5E73\u5782\u7EBF\uFF1B\u4E0E\u98CE\u5411\u6DF7\u5408\uFF0C\u957F\u6761\u65E2\u987A\u7740\u98CE\u4E5F\u987A\u7740\u6D6A
-  vec3 crestAxis=normalize(cross(vec3(0.,1.,0.),normalize(vec3(normal.x,0.,normal.z)+vec3(1e-4,0.,0.))));
-  vec3 stretchAxis=normalize(mix(windAxis,crestAxis,.45));
-  vec3 tangent=normalize(stretchAxis-normal*dot(normal,stretchAxis)+vec3(1e-4,0.,0.));
-  vec3 bitangent=cross(normal,tangent);
-  float tdh=dot(tangent,halfDir), bdh=dot(bitangent,halfDir);
-  // \u53CC\u6307\u6570\uFF1A\u6CBF\u5207\u7EBF\u65B9\u5411\u7F13\uFF08\u6307\u6570\u5C0F \u2192 \u6761\u957F\uFF09\uFF0C\u5782\u76F4\u5207\u7EBF\u65B9\u5411\u9661\uFF08\u6307\u6570\u5927 \u2192 \u6761\u7EC6\uFF09
-  float lobeAlong=pow(max(1.-tdh*tdh,0.),uSpecAnisoX);
-  float lobeAcross=pow(max(1.-bdh*bdh,0.),uSpecAnisoY);
-  // \u5F52\u4E00\u5316\uFF0C\u907F\u514D\u6362\u6307\u6570\u65F6\u6574\u4F53\u4EAE\u5EA6\u8DF3\u53D8
-  float anisoNorm=(uSpecAnisoX+2.)*(uSpecAnisoY+2.)/25.133;
-  float sunF=.0204+.9796*pow(1.-max(dot(viewDir,halfDir),0.),5.);
-  float sunLift=smoothstep(.02,.42,uSun.y);
-  float slopeGain=clamp(length(normal.xz)*2.6,.12,1.);
-  // \u5F3A\u5EA6\u7ED1\u5B9A\u66F2\u7387\uFF1A\u6D6A\u5CF0\u51F8\u8D77\u589E\u5F3A\u3001\u6D6A\u8C37\u51F9\u9677\u51CF\u5F31
-  float specCurvature=1.+(crestShape-trough)*uSpecCurvature;
-  // \u8FDC\u5904\u8870\u51CF 28%\uFF0C\u538B\u6389\u7EC6\u788E\u4EAE\u70B9
-  float distanceFade=mix(1.,.72,smoothstep(40.,420.,dist));
-  float specStrength=uSpecAnisotropy*sunF*sunLift*slopeGain
-                    *max(specCurvature,.05)*distanceFade*(1.-uRain*.65);
-  color+=uSpecColor*min(lobeAlong*lobeAcross*anisoNorm*specStrength*.9,2.4)
-        *uDaylight*(.35+.65*ndh);
-  float backlight=pow(max(dot(viewDir,-uSun),0.),4.);
-  float crest=max(vWorld.y+.15,0.);
-  color+=vec3(.008,.16,.13)*backlight*crest*uDaylight*(1.-facing);
-  float shore=(1.-smoothstep(.0,1.15,thickness))*smoothstep(.04,.25,thickness);
-  // \u5CB8\u7EBF/\u6C34\u6DF1\u4EA4\u754C\u8DDF\u968F\u771F\u5B9E\u8239\u4F53\uFF0C\u4E0D\u5728\u8239\u8EAB\u5468\u56F4\u753B\u89E3\u6790\u7684\u5706\u73AF\u3002
-  // \u7531\u6DF1\u5EA6\u7F13\u51B2\u91CD\u5EFA\u6D77\u5E95\u7684\u4E16\u754C\u9AD8\u5EA6\uFF0C\u5F97\u5230\u771F\u5B9E\u5782\u76F4\u6C34\u6DF1\uFF1A
-  // \u89C6\u7EBF\u539A\u5EA6\u5728\u63A0\u5C04\u89D2\u4E0B\u4F1A\u628A\u6D45\u6EE9\u7B97\u6210\u6DF1\u6C34\uFF0C\u5CB8\u7EBF\u6CE1\u6CAB\u5C31\u6D88\u5931\u4E86
-  vec4 bottomClip=vec4(refractUV*2.-1.,texture2D(uDepth,refractUV).x*2.-1.,1.);
-  vec4 bottomView=uInverseProjection*bottomClip;
-  bottomView/=bottomView.w;
-  float bottomY=(uCameraMatrix*bottomView).y;
-  float waterDepth=max(vWorld.y-bottomY,0.);
-  // \u5CF0\u9876\u6CE1\u6CAB\u7684\u9608\u503C / \u5E42\u8870\u51CF / \u6D6A\u8C37\u6291\u5236\u90FD\u5728 foamCoverage \u5185\u90E8\u5B8C\u6210
-  float foam=foamCoverage(vOceanUV,peakProx,peakDelta,trough,shore,waterDepth);
-  // \u6CE1\u6CAB\u4EAE\u5EA6\uFF1A\u53D7\u65E5\u7167\u5F3A\u5EA6\u4E0E\u592A\u9633\u9AD8\u5EA6\u5171\u540C\u5F71\u54CD\uFF08\u9634\u5929 / \u4F4E\u592A\u9633\u65F6\u6CE1\u6CAB\u53D1\u7070\uFF09
-  float sunOnFoam=mix(.55,1.,smoothstep(-.02,.45,uSun.y));
-  vec3 foamColor=vec3(.88,.93,.94)*(.12+uDaylight*.88)*uFoamBrightness*sunOnFoam;
-  color=mix(color,foamColor,foam);
-  // \u9634\u5929\u628A\u6F2B\u5C04\u5149\u538B\u6210\u7070\u8272\uFF0C\u4E0B\u96E8\u5219\u8BA9\u6D77\u9762\u66F4\u7070\u3002
-  float grey=dot(color,vec3(.299,.587,.114));
-  color=mix(color,vec3(grey)*vec3(.8,.86,.95),clamp(uOvercast*.55+uRain*.18,0.,.7));
-  color+=uFlash*vec3(.1,.13,.2);
-  if(underwater){
-    // \u65AF\u6D85\u5C14\u7A97\uFF1A\u6C34 -> \u7A7A\u6C14\u7684\u4E34\u754C\u89D2\u4E3A 48.6 \u5EA6\u3002
-    // \u65E7\u9608\u503C\u5728\u63A0\u5C04\u89D2\u5C31\u9732\u51FA\u5929\u7A7A\uFF0C\u5F62\u6210\u4E00\u5C42\u9752\u8272\u7684\u5929\u82B1\u677F\u3002
-    float sinTransmitted2=1.333*1.333*(1.-facing*facing);
-    // \u8FC7\u6E21\u5E26\u653E\u5BBD\uFF0C\u65AF\u6D85\u5C14\u7A97\u8FB9\u7F18\u4E0D\u518D\u662F\u4E00\u5708\u786C\u5757
-    float totalReflection=smoothstep(.9,1.1,sinTransmitted2);
-    // \u2500\u2500 \u6CE2\u6D6A\u900F\u5C04\u81EA\u9634\u5F71 \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
-    // \u9661\u5CED\u7684\u6D6A\u5CF0\u6321\u4F4F\u5C04\u5165\u6C34\u4E0B\u7684\u9633\u5149\uFF08\u6697\u3001\u504F\u6DF1\u84DD\uFF09\uFF0C\u5E73\u7F13\u6D6A\u8C37\u900F\u5149\u66F4\u4EAE\u3002
-    // \u9A71\u52A8\u91CF\u5168\u90E8\u6765\u81EA\u540C\u4E00\u5957 FFT \u51E0\u4F55\u91CF\uFF0C\u6240\u4EE5\u6591\u9A73\u5929\u7136\u8DDF\u7740\u6D6A\u8D70\u3002
-    vec3 transmittedDirection=refract(-viewDir,normal,1.333);
-    vec3 skyThroughWater=textureCube(uSkyEnvironment,normalize(transmittedDirection+vec3(0.,.0001,0.))).rgb;
-    float geometryInRefraction=1.-smoothstep(uFar*.94,uFar*.99,distortedDepth);
-    vec3 transmitted=mix(skyThroughWater,refraction,geometryInRefraction);
-
-    // \u592A\u9633\u8D8A\u4F4E\uFF0C\u63A0\u5C04\u5149\u88AB\u6D6A\u5CF0\u906E\u6321\u8D8A\u660E\u663E\uFF0C\u6591\u9A73\u5BF9\u6BD4\u8D8A\u5F3A\uFF1B\u6B63\u5348\u63A5\u8FD1\u9876\u5149\u65F6\u51CF\u5F31
-    float sunContrast=mix(.62,1.,1.-smoothstep(.12,.72,uSun.y));
-    // \u906E\u6321\u91CF\uFF1A\u51F8\u66F2\u7387 + \u5761\u5EA6 + \u5377\u66F2\uFF0C\u5E73\u7F13\u5904\u81EA\u7136\u4E3A 0
-    float slopeTerm=clamp(length(normal.xz)*1.35,0.,1.);
-    float occl=clamp(crestShape*.7+slopeTerm*.42+clamp(fold,0.,1.)*.34,0.,1.);
-    // \u4E24\u5C42\u7EC6\u8282\u6CD5\u7EBF\u505A\u300C\u5F31\u6270\u52A8\u300D\uFF1A\u53EA\u8C03\u660E\u6697\uFF0C\u5E45\u5EA6\u5F88\u5C0F\uFF0C\u4E0D\u626D\u66F2\u753B\u9762
-    float rippleA=texture2D(uNormal1,vOceanUV/32.+uTexelOffset).y-1.;
-    float rippleB=texture2D(uNormal2,vOceanUV/4.+uTexelOffset).y-1.;
-    float mottle=(rippleA*2.4+rippleB*1.6);
-    // \u900F\u5149\u7CFB\u6570\uFF1A\u8C37\u5E95\u63D0\u4EAE\u3001\u5CF0\u9876\u538B\u6697\uFF0C\u53E0\u4E0A\u7EC6\u8282\u8D77\u4F0F
-    float transmit=clamp(1.-occl*sunContrast+trough*.22+mottle*.1,0.,1.2);
-    // \u6697\u90E8\u5F80\u6C34\u4F53\u8272\u504F\uFF0C\u4EAE\u90E8\u4FDD\u6301\u539F\u6837\uFF1A\u6591\u9A73\u4E0E\u6C34\u4F53\u96FE\u81EA\u7136\u878D\u5728\u4E00\u8D77
-    vec3 shadeTint=mix(uWaterColor*1.3,vec3(1.),clamp(transmit,0.,1.));
-    float shadeGain=mix(.45,1.12,clamp(transmit,0.,1.));
-    vec3 internalReflection=vec3(.008,.105,.135)*(.035+.965*uDaylight);
-    internalReflection*=.72+.28*normal.y*normal.y;
-    float internalFresnel=.0204+.9796*pow(1.-facing,5.);
-    // \u6CE2\u6D6A\u81EA\u9634\u5F71\uFF1A\u6697\u8272\u80CC\u9762\uFF08\u5185\u90E8\u53CD\u5C04 + \u6591\u9A73\uFF09\u6309\u900F\u660E\u5EA6\u4E0E\u300C\u900F\u8FC7\u53BB\u7684\u6C34\u8272\u300D\u6DF7\u5408\u3002
-    // 0 = \u51E0\u4E4E\u900F\u660E\uFF0C\u80FD\u770B\u6E05\u4E0A\u65B9\uFF1B1 = \u5B8C\u6574\u7684\u6697\u9752\u84DD\u53CD\u5C04\u9762\u3002
-    float shadowOpacity=clamp(uWaveShadowUnder,0.,1.);
-    color=mix(transmitted,internalReflection,max(totalReflection,internalFresnel)*shadowOpacity);
-    // \u81EA\u9634\u5F71\u4F5C\u7528\u5728\u6574\u4E2A\u6C34\u9762\u80CC\u9762\uFF08\u65AF\u6D85\u5C14\u7A97\u4E0E\u5168\u53CD\u5C04\u533A\u90FD\u7B97\uFF09\uFF0C
-    // \u5426\u5219\u6591\u9A73\u53EA\u51FA\u73B0\u5728\u7A97\u53E3\u91CC\uFF0C\u5176\u4F59\u533A\u57DF\u4ECD\u662F\u4E00\u5757\u5E73\u8272\u3002
-    color*=mix(vec3(1.),shadeTint,shadowOpacity)*mix(1.,shadeGain,shadowOpacity);
-    vec3 refractedSun=-refract(-uSun,vec3(0.,1.,0.),1./1.333);
-    float sunWindow=pow(max(dot(-viewDir,refractedSun),0.),96.);
-    color+=uSunColor*sunWindow*.75*(1.-totalReflection);
-  }
-  // \u51B0\u9762\u5728\u63A8\u8FDB\u7684\u950B\u9762\u5185\u53D6\u4EE3\u6D77\u9762\u3002
-  float ice=iceCoverage(vWorld.xz);
-  if(ice>.002){
-    vec3 iceColor=iceSurface(vWorld.xz,normalize(uEye-vWorld).xz*.06);
-    // \u63A0\u5C04\u5149\u6CFD\uFF0C\u8BA9\u51B0\u9762\u770B\u8D77\u6765\u662F\u5B9E\u5FC3\u51B0\u800C\u4E0D\u662F\u8D34\u7247\u3002\u523B\u610F\u538B\u5F97\u5F88\u4F4E\uFF0C
-    // \u5426\u5219\u4F1A\u628A\u8FDC\u5904\u51B0\u9762\u5237\u767D\u3001\u628A\u88C2\u7F1D\u56FE\u6848\u6D17\u6389\u3002
-    iceColor+=vec3(.055,.07,.085)*pow(1.-facing,3.);
-    color=mix(color,iceColor,ice);
-  }
-  color=mix(color,uFogColor,1.-exp(-pow(dist*uFog,1.3)));
-  gl_FragColor=vec4(color,1.);
-  #include <tonemapping_fragment>
-  #include <colorspace_fragment>
-}`
-);
-
 // src/weather/snow.ts
 var counts = { Low: 3200, Medium: 5600, High: 8500, Ultra: 12e3 };
 var snowVertex = (
@@ -34737,15 +34506,15 @@ var SnowSystem = class {
       params[i4 * 4 + 2] = Math.random();
       params[i4 * 4 + 3] = Math.random();
     }
-    const geometry = new InstancedBufferGeometry();
-    geometry.setAttribute("position", new BufferAttribute(new Float32Array([-0.5, -0.5, 0, 0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, 0.5, 0]), 3));
-    geometry.setAttribute("uv", new BufferAttribute(new Float32Array([0, 0, 1, 0, 1, 1, 0, 1]), 2));
-    geometry.setAttribute("aOffset", new InstancedBufferAttribute(offsets, 3));
-    geometry.setAttribute("aParams", new InstancedBufferAttribute(params, 4));
-    geometry.setIndex([0, 1, 2, 0, 2, 3]);
-    geometry.instanceCount = count;
-    geometry.boundingSphere = new Sphere(new Vector3(), 1e6);
-    return geometry;
+    const geometry2 = new InstancedBufferGeometry();
+    geometry2.setAttribute("position", new BufferAttribute(new Float32Array([-0.5, -0.5, 0, 0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, 0.5, 0]), 3));
+    geometry2.setAttribute("uv", new BufferAttribute(new Float32Array([0, 0, 1, 0, 1, 1, 0, 1]), 2));
+    geometry2.setAttribute("aOffset", new InstancedBufferAttribute(offsets, 3));
+    geometry2.setAttribute("aParams", new InstancedBufferAttribute(params, 4));
+    geometry2.setIndex([0, 1, 2, 0, 2, 3]);
+    geometry2.instanceCount = count;
+    geometry2.boundingSphere = new Sphere(new Vector3(), 1e6);
+    return geometry2;
   }
   setQuality(quality) {
     if (quality === this.quality) return;
@@ -34757,10 +34526,10 @@ var SnowSystem = class {
     this.material.uniforms.uIntensity.value = MathUtils.clamp(intensity, 0, 1);
     this.mesh.visible = intensity > 4e-3;
   }
-  update(time, camera, daylight) {
+  update(time, camera2, daylight) {
     this.material.uniforms.uTime.value = time;
     this.material.uniforms.uDaylight.value = daylight;
-    this.material.uniforms.uEye.value.copy(camera.position);
+    this.material.uniforms.uEye.value.copy(camera2.position);
   }
   dispose() {
     this.mesh.geometry.dispose();
@@ -34841,327 +34610,6 @@ ${snowInjection.fragmentCode}`).replace("#include <dithering_fragment>", `#inclu
 ${snowInjection.fragmentBody}`);
     };
     standard.needsUpdate = true;
-  }
-};
-
-// src/ocean/spectrum.ts
-var cascadeLengths = [256, 32, 4];
-function createSpectrum(size, length, cascade, wind, wavelength) {
-  let seed = 73013 + cascade * 9749;
-  const random = () => {
-    seed = Math.imul(seed, 1664525) + 1013904223 >>> 0;
-    return (seed + 1) / 4294967297;
-  };
-  const data = new Float32Array(size * size * 4);
-  const modes = [];
-  const dk = 2 * Math.PI / length;
-  const peak = Math.sqrt(9.81 * 2 * Math.PI / wavelength);
-  const minK = [0, 2 * Math.PI / 18, 2 * Math.PI / 2][cascade];
-  const maxK = [2 * Math.PI / 18, 2 * Math.PI / 2, Infinity][cascade];
-  let variance = 0;
-  for (let z4 = 0; z4 < size; z4++) for (let x3 = 0; x3 < size; x3++) {
-    const kx = (x3 - size / 2) * dk, kz = (z4 - size / 2) * dk;
-    const k3 = Math.hypot(kx, kz);
-    if (k3 < Math.max(minK, 1e-5) || k3 >= maxK || x3 === 0 || z4 === 0) continue;
-    const omega = Math.sqrt(9.81 * k3);
-    const sigma = omega <= peak ? 0.07 : 0.09;
-    const enhancement = Math.exp(-((omega - peak) ** 2) / (2 * sigma * sigma * peak * peak));
-    const jonswap = 81e-4 * 9.81 ** 2 / omega ** 5 * Math.exp(-1.25 * (peak / omega) ** 4) * 3.3 ** enhancement;
-    const alignment = (kx * 0.94 + kz * 0.342) / k3;
-    const direction = 0.12 + 0.88 * Math.max(alignment, 0) ** 4;
-    const capillaryDamping = cascade === 2 ? Math.exp(-((k3 / 18) ** 2)) : 1;
-    const density = jonswap * 0.5 * Math.sqrt(9.81 / k3) / k3 * direction * capillaryDamping;
-    const amplitude = Math.sqrt(density * dk * dk * 0.5);
-    const gaussian = Math.sqrt(-2 * Math.log(random()));
-    const phase = 2 * Math.PI * random();
-    const re2 = gaussian * Math.cos(phase) * amplitude, im = gaussian * Math.sin(phase) * amplitude;
-    const offset = (z4 * size + x3) * 4;
-    data[offset] = re2;
-    data[offset + 1] = im;
-    modes.push({ kx, kz, omega, re: re2, im });
-    variance += 2 * (re2 * re2 + im * im);
-  }
-  const rms = [0.7, 0.23, 0.045][cascade] * (0.035 + (wind / 15) ** 1.2);
-  const scale = variance > 0 ? rms / Math.sqrt(variance) : 0;
-  for (let i4 = 0; i4 < data.length; i4 += 4) {
-    data[i4] *= scale;
-    data[i4 + 1] *= scale;
-  }
-  modes.forEach((mode) => {
-    mode.re *= scale;
-    mode.im *= scale;
-  });
-  for (let z4 = 0; z4 < size; z4++) for (let x3 = 0; x3 < size; x3++) {
-    const i4 = (z4 * size + x3) * 4;
-    const partner = ((size - z4) % size * size + (size - x3) % size) * 4;
-    data[i4 + 2] = data[partner];
-    data[i4 + 3] = -data[partner + 1];
-  }
-  return { data, modes, variance: rms * rms };
-}
-function sampleSpectrum(modes, x3, z4, time) {
-  let height = 0;
-  for (const m3 of modes) {
-    const phase = m3.kx * x3 + m3.kz * z4 - m3.omega * time;
-    height += 2 * (m3.re * Math.cos(phase) - m3.im * Math.sin(phase));
-  }
-  return height;
-}
-
-// src/ocean/SpectralOcean.ts
-var referenceWind = 15;
-var vertex2 = `varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position.xy,0.,1.); }`;
-var evolve = (
-  /* glsl */
-  `
-uniform sampler2D uInitial;
-uniform float uTime, uSize, uLength,uChoppiness,uAmplitude;
-varying vec2 vUv;
-vec2 mul(vec2 a,vec2 b){return vec2(a.x*b.x-a.y*b.y,a.x*b.y+a.y*b.x);}
-void main(){
-  vec2 k=(floor(vUv*uSize)-uSize*.5)*6.283185307/uLength;
-  float km=length(k), w=sqrt(9.81*km);
-  vec4 h0=texture2D(uInitial,vUv);
-  vec2 phase=vec2(cos(w*uTime),-sin(w*uTime));
-  // \u9891\u8C31\u5F62\u72B6\u4E0E\u98CE\u901F\u65E0\u5173\uFF0C\u98CE\u901F\u53EA\u6574\u4F53\u7F29\u653E\u632F\u5E45\uFF1A\u8FD9\u91CC\u7528 uAmplitude \u5B9E\u65F6\u7F29\u653E\uFF0C
-  // \u5C31\u80FD\u514D\u53BB\u6362\u98CE\u901F\u65F6\u91CD\u5EFA\u6574\u5957 FFT \u8D34\u56FE\uFF08\u90A3\u662F\u6700\u8D35\u7684\u4E00\u6B21\u6027\u5F00\u9500\uFF09\u3002
-  vec2 h=(mul(h0.xy,phase)+mul(h0.zw,vec2(phase.x,-phase.y)))*uSize*uSize*uAmplitude;
-  vec2 ih=vec2(-h.y,h.x)/max(km,.00001)*uChoppiness;
-  vec2 dx=ih*k.x, dz=ih*k.y;
-  // \u4E24\u4E2A\u771F\u5B9E\u7684\u7A7A\u95F4\u573A\u6253\u5305\u8FDB\u4E00\u6B21\u590D\u6570\u53D8\u6362\uFF1A\u9AD8\u5EA6 + i*Dx\u3002
-  gl_FragColor=vec4(h+vec2(-dx.y,dx.x),dz);
-}`
-);
-var butterfly = (
-  /* glsl */
-  `
-uniform sampler2D uInput;
-uniform float uSize, uHalf, uAxis, uFirst;
-varying vec2 vUv;
-float reverseBits(float n){
-  float result=0.;
-  for(int i=0;i<9;i++){if(exp2(float(i))>=uSize)break; result=result*2.+mod(n,2.); n=floor(n*.5);}
-  return result;
-}
-vec4 fetchIndex(float j){
-  vec2 uv=vUv; if(uAxis<.5)uv.x=(j+.5)/uSize;else uv.y=(j+.5)/uSize;
-  return texture2D(uInput,uv);
-}
-vec2 mul(vec2 a,vec2 b){return vec2(a.x*b.x-a.y*b.y,a.x*b.y+a.y*b.x);}
-void main(){
-  float j=floor((uAxis<.5?vUv.x:vUv.y)*uSize);
-  float sub=mod(j,uHalf), a=floor(j/(2.*uHalf))*2.*uHalf+sub, b=a+uHalf;
-  if(uFirst>.5){a=reverseBits(a);b=reverseBits(b);}
-  vec4 av=fetchIndex(a), bv=fetchIndex(b);
-  float angle=3.141592654*sub/uHalf;
-  vec2 twiddle=vec2(cos(angle),sin(angle));
-  vec4 rotated=vec4(mul(bv.xy,twiddle),mul(bv.zw,twiddle));
-  gl_FragColor=(av+(mod(j,2.*uHalf)<uHalf?rotated:-rotated))*.5;
-}`
-);
-var unpack = (
-  /* glsl */
-  `
-uniform sampler2D uInput; uniform float uSize; varying vec2 vUv;
-void main(){
-  vec2 p=floor(vUv*uSize);
-  vec4 v=texture2D(uInput,vUv)*(mod(p.x+p.y,2.)<.5?1.:-1.);
-  gl_FragColor=vec4(v.y,v.x,v.z,1.);
-}`
-);
-var derivatives = (
-  /* glsl */
-  `
-uniform sampler2D uDisplacement, uHistory;
-uniform float uSize,uLength,uDelta,uWind,uHeightRms;
-varying vec2 vUv;
-void main(){
-  vec2 texel=vec2(1./uSize,0.);
-  vec3 dx=(texture2D(uDisplacement,vUv+texel).xyz-texture2D(uDisplacement,vUv-texel).xyz)*uSize/(2.*uLength);
-  vec3 dz=(texture2D(uDisplacement,vUv+texel.yx).xyz-texture2D(uDisplacement,vUv-texel.yx).xyz)*uSize/(2.*uLength);
-  float jacobian=(1.+dx.x)*(1.+dz.z)-dx.z*dz.x;
-  vec3 normal=normalize(cross(vec3(dz.x,dz.y,1.+dz.z),vec3(1.+dx.x,dx.y,dx.z)));
-  float height=texture2D(uDisplacement,vUv).y;
-  vec2 drift=vec2(.94,.342)*uWind*.035*uDelta/uLength;
-  float previous=texture2D(uHistory,vUv-drift).a*exp(-uDelta*1.6);
-  // \u8FD9\u662F\u7834\u788E\u6D3B\u52A8\uFF0C\u800C\u4E0D\u662F\u4E0D\u900F\u660E\u7684\u8986\u76D6\u3002\u8BA9\u5B83\u4FDD\u6301\u5728\u88AB\u538B\u6241\u7684\u9AD8\u6D6A\u5CF0\u4E0A\uFF1B
-  // \u4F4E\u4E8E FFT \u7F51\u683C\u5C3A\u5EA6\u7684\u591A\u5B54\u4E1D\u72B6\u7ED3\u6784\u4EA4\u7ED9\u8868\u9762\u7740\u8272\u5668\u89E3\u6790\u3002
-  float elevated=smoothstep(.86,1.95,height/max(uHeightRms,.001));
-  float compression=1.-smoothstep(.62,.95,jacobian);
-  float breaking=smoothstep(.18,.62,elevated*compression)*smoothstep(3.,10.,uWind);
-  if(uLength<10.)breaking=0.;
-  gl_FragColor=vec4(normal,max(previous,breaking));
-}`
-);
-var SpectralOcean = class {
-  constructor(renderer) {
-    this.renderer = renderer;
-    this.scene = new Scene();
-    this.camera = new Camera();
-    this.quad = new Mesh(new PlaneGeometry(2, 2));
-    this.cascades = [];
-    this.buffers = [];
-    this.modes = [];
-    this.size = 128;
-    this.lastTime = -1;
-    this.signature = "";
-    this.wind = referenceWind;
-    this.amplitude = 1;
-    /** 浪尖锐度系数：1 为基准，调大浪尖更尖、破碎更早 */
-    this.choppiness = 1;
-    // 浮力取样用的波模基准值，叠加振幅缩放后得到当前风速下的高度场。
-    this.modeBase = new Float32Array(0);
-    const material = (fragmentShader, uniforms) => new ShaderMaterial({
-      vertexShader: vertex2,
-      fragmentShader,
-      uniforms,
-      depthWrite: false,
-      depthTest: false,
-      toneMapped: false
-    });
-    this.evolution = material(evolve, { uInitial: { value: null }, uTime: { value: 0 }, uSize: { value: 128 }, uLength: { value: 256 }, uChoppiness: { value: 1.18 }, uAmplitude: { value: 1 } });
-    this.fft = material(butterfly, { uInput: { value: null }, uSize: { value: 128 }, uHalf: { value: 1 }, uAxis: { value: 0 }, uFirst: { value: 1 } });
-    this.unpack = material(unpack, { uInput: { value: null }, uSize: { value: 128 } });
-    this.derivatives = material(derivatives, { uDisplacement: { value: null }, uHistory: { value: null }, uSize: { value: 128 }, uLength: { value: 256 }, uDelta: { value: 0.016 }, uWind: { value: 15 }, uHeightRms: { value: 0.7 } });
-    this.materials = [this.evolution, this.fft, this.unpack, this.derivatives];
-    this.quad.frustumCulled = false;
-    this.scene.add(this.quad);
-  }
-  configure(wind, wavelength, quality) {
-    const size = quality === "Ultra" ? 256 : quality === "Low" ? 64 : 128;
-    const signature = `${wavelength}/${size}`;
-    if (signature === this.signature) {
-      this.setWind(wind);
-      return;
-    }
-    this.signature = signature;
-    this.releaseTargets();
-    this.size = size;
-    const target = (linear = false) => new WebGLRenderTarget(size, size, {
-      type: FloatType,
-      depthBuffer: false,
-      minFilter: linear ? LinearMipmapLinearFilter : NearestFilter,
-      magFilter: linear ? LinearFilter : NearestFilter,
-      wrapS: RepeatWrapping,
-      wrapT: RepeatWrapping,
-      generateMipmaps: linear
-    });
-    this.buffers = [target(), target()];
-    this.modes = [];
-    this.cascades = cascadeLengths.map((length, index) => {
-      const spectrum = createSpectrum(size, length, index, referenceWind, wavelength);
-      this.modes.push(...spectrum.modes.filter((m3) => Math.hypot(m3.kx, m3.kz) < 1.5).sort((a3, b6) => b6.re ** 2 + b6.im ** 2 - a3.re ** 2 - a3.im ** 2).slice(0, 192));
-      const initial = new DataTexture(spectrum.data, size, size, RGBAFormat, FloatType);
-      initial.needsUpdate = true;
-      return { initial, displacement: target(true), normal: target(true), history: target(true), heightRms: Math.sqrt(spectrum.variance) };
-    });
-    this.modeBase = new Float32Array(this.modes.length * 2);
-    this.modes.forEach((mode, index) => {
-      this.modeBase[index * 2] = mode.re;
-      this.modeBase[index * 2 + 1] = mode.im;
-    });
-    for (const material of this.materials) material.uniforms.uSize.value = size;
-    const previous = this.renderer.getRenderTarget();
-    const previousAlpha = this.renderer.getClearAlpha();
-    const previousColor = this.renderer.getClearColor(new Color());
-    this.renderer.setClearColor(0, 0);
-    for (const cascade of this.cascades) {
-      this.renderer.setRenderTarget(cascade.history);
-      this.renderer.clearColor();
-      this.renderer.setRenderTarget(cascade.normal);
-      this.renderer.clearColor();
-    }
-    this.renderer.setRenderTarget(previous);
-    this.renderer.setClearColor(previousColor, previousAlpha);
-    this.lastTime = -1;
-    this.applyWind(wind);
-  }
-  /** 风速只改振幅：GPU 侧走 uAmplitude，CPU 侧同步缩放浮力用的波模。 */
-  setWind(wind) {
-    if (wind === this.wind && this.modeBase.length > 0) return;
-    this.applyWind(wind);
-  }
-  applyWind(wind) {
-    this.wind = wind;
-    this.amplitude = (0.035 + Math.pow(Math.max(wind, 0) / 15, 1.2)) / (0.035 + 1);
-    this.evolution.uniforms.uAmplitude.value = this.amplitude;
-    this.derivatives.uniforms.uWind.value = wind;
-    for (let i4 = 0; i4 < this.modes.length; i4++) {
-      this.modes[i4].re = this.modeBase[i4 * 2] * this.amplitude;
-      this.modes[i4].im = this.modeBase[i4 * 2 + 1] * this.amplitude;
-    }
-  }
-  update(time, uniforms) {
-    if (this.lastTime === time) return;
-    if (uniforms.uTexelOffset) uniforms.uTexelOffset.value = 0.5 / this.size;
-    const previous = this.renderer.getRenderTarget();
-    const delta = this.lastTime < 0 ? 1 / 60 : Math.min(time - this.lastTime, 0.1);
-    this.lastTime = time;
-    const draw = (material, target) => {
-      this.quad.material = material;
-      this.renderer.setRenderTarget(target);
-      this.renderer.render(this.scene, this.camera);
-    };
-    this.cascades.forEach((cascade, index) => {
-      this.evolution.uniforms.uInitial.value = cascade.initial;
-      this.evolution.uniforms.uTime.value = time;
-      this.evolution.uniforms.uLength.value = cascadeLengths[index];
-      this.evolution.uniforms.uChoppiness.value = [1.18, 1.08, 0.42][index] * this.choppiness;
-      draw(this.evolution, this.buffers[0]);
-      let source = 0;
-      for (let axis = 0; axis < 2; axis++) for (let half = 1; half < this.size; half *= 2) {
-        Object.assign(this.fft.uniforms.uInput, { value: this.buffers[source].texture });
-        this.fft.uniforms.uAxis.value = axis;
-        this.fft.uniforms.uHalf.value = half;
-        this.fft.uniforms.uFirst.value = half === 1 ? 1 : 0;
-        source = 1 - source;
-        draw(this.fft, this.buffers[source]);
-      }
-      this.unpack.uniforms.uInput.value = this.buffers[source].texture;
-      draw(this.unpack, cascade.displacement);
-      this.derivatives.uniforms.uDisplacement.value = cascade.displacement.texture;
-      this.derivatives.uniforms.uHistory.value = cascade.history.texture;
-      this.derivatives.uniforms.uLength.value = cascadeLengths[index];
-      this.derivatives.uniforms.uDelta.value = delta;
-      this.derivatives.uniforms.uWind.value = this.wind;
-      this.derivatives.uniforms.uHeightRms.value = cascade.heightRms * this.amplitude;
-      draw(this.derivatives, cascade.normal);
-      uniforms[`uDisplacement${index}`].value = cascade.displacement.texture;
-      uniforms[`uNormal${index}`].value = cascade.normal.texture;
-      const swap = cascade.history;
-      cascade.history = cascade.normal;
-      cascade.normal = swap;
-    });
-    this.renderer.setRenderTarget(previous);
-  }
-  heightAt(x3, z4, time) {
-    return sampleSpectrum(this.modes, x3, z4, time);
-  }
-  /** 当前风速下主级联的波面均方根高度，浪花阈值按它归一化 */
-  get heightRms() {
-    const main = this.cascades[0];
-    return main ? main.heightRms * this.amplitude : 0.5;
-  }
-  /**
-   * 浪尖锐度：直接乘在每一级 cascades 的 choppiness 上。
-   * 只影响水平位移与破碎阈值，不重建频谱，可以实时拖动。
-   */
-  setChoppiness(value) {
-    this.choppiness = Math.min(2, Math.max(0, Number.isFinite(value) ? value : 1));
-  }
-  releaseTargets() {
-    this.buffers.forEach((target) => target.dispose());
-    this.cascades.forEach((c5) => {
-      c5.initial.dispose();
-      c5.displacement.dispose();
-      c5.normal.dispose();
-      c5.history.dispose();
-    });
-  }
-  dispose() {
-    this.releaseTargets();
-    this.materials.forEach((m3) => m3.dispose());
-    this.quad.geometry.dispose();
   }
 };
 
@@ -35342,11 +34790,11 @@ var SplashSystem = class {
     this.slots.length = 0;
   }
   createSlot(texture) {
-    const geometry = new InstancedBufferGeometry();
+    const geometry2 = new InstancedBufferGeometry();
     const quad = new PlaneGeometry(1, 1);
-    geometry.index = quad.index;
-    geometry.attributes.position = quad.attributes.position;
-    geometry.attributes.uv = quad.attributes.uv;
+    geometry2.index = quad.index;
+    geometry2.attributes.position = quad.attributes.position;
+    geometry2.attributes.uv = quad.attributes.uv;
     const capacity = this.capacity;
     const origin = new InstancedBufferAttribute(new Float32Array(capacity * 3), 3);
     const velocity = new InstancedBufferAttribute(new Float32Array(capacity * 3), 3);
@@ -35354,14 +34802,14 @@ var SplashSystem = class {
     const life = new InstancedBufferAttribute(new Float32Array(capacity).fill(this.life), 1);
     const scale = new InstancedBufferAttribute(new Float32Array(capacity).fill(1), 1);
     const row = new InstancedBufferAttribute(new Float32Array(capacity), 1);
-    geometry.setAttribute("aOrigin", origin);
-    geometry.setAttribute("aVelocity", velocity);
-    geometry.setAttribute("aStart", start);
-    geometry.setAttribute("aLife", life);
-    geometry.setAttribute("aScale", scale);
-    geometry.setAttribute("aRow", row);
-    geometry.instanceCount = capacity;
-    geometry.boundingSphere = new Sphere(new Vector3(), 1e5);
+    geometry2.setAttribute("aOrigin", origin);
+    geometry2.setAttribute("aVelocity", velocity);
+    geometry2.setAttribute("aStart", start);
+    geometry2.setAttribute("aLife", life);
+    geometry2.setAttribute("aScale", scale);
+    geometry2.setAttribute("aRow", row);
+    geometry2.instanceCount = capacity;
+    geometry2.boundingSphere = new Sphere(new Vector3(), 1e5);
     const material = new ShaderMaterial({
       uniforms: {
         uAtlas: { value: texture },
@@ -35378,12 +34826,12 @@ var SplashSystem = class {
       depthWrite: false,
       side: DoubleSide
     });
-    const mesh = new Mesh(geometry, material);
+    const mesh = new Mesh(geometry2, material);
     mesh.frustumCulled = false;
     mesh.renderOrder = 12;
     mesh.name = "splash-particles";
     this.group.add(mesh);
-    this.slots.push({ geometry, mesh, material, cursor: 0, capacity });
+    this.slots.push({ geometry: geometry2, mesh, material, cursor: 0, capacity });
   }
 };
 
@@ -35512,8 +34960,8 @@ var WakeTrail = class {
     if (!this.loaded || this.disposed) return;
     const absSpeed = Math.abs(speed);
     this.speedSmooth += (absSpeed - this.speedSmooth) * Math.min(1, dt3 * 1.8);
-    const target = Math.min(1, this.speedSmooth / 4.5);
-    this.intensity += (target - this.intensity) * Math.min(1, dt3 * (target > this.intensity ? 1.1 : 0.55));
+    const target2 = Math.min(1, this.speedSmooth / 4.5);
+    this.intensity += (target2 - this.intensity) * Math.min(1, dt3 * (target2 > this.intensity ? 1.1 : 0.55));
     const head = this.points[this.points.length - 1];
     const moved = head ? Math.hypot(stern.x - head.x, stern.z - head.z) : Number.POSITIVE_INFINITY;
     if (moved >= this.spacing) {
@@ -35663,15 +35111,15 @@ var RainSystem = class {
       params[i4 * 3 + 1] = 0.5 + Math.random() * 0.95;
       params[i4 * 3 + 2] = Math.random();
     }
-    const geometry = new InstancedBufferGeometry();
-    geometry.setAttribute("position", new BufferAttribute(new Float32Array([-0.5, -0.5, 0, 0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, 0.5, 0]), 3));
-    geometry.setAttribute("uv", new BufferAttribute(new Float32Array([0, 0, 1, 0, 1, 1, 0, 1]), 2));
-    geometry.setAttribute("aOffset", new InstancedBufferAttribute(offsets, 3));
-    geometry.setAttribute("aParams", new InstancedBufferAttribute(params, 3));
-    geometry.setIndex([0, 1, 2, 0, 2, 3]);
-    geometry.instanceCount = count;
-    geometry.boundingSphere = new Sphere(new Vector3(), 1e6);
-    return geometry;
+    const geometry2 = new InstancedBufferGeometry();
+    geometry2.setAttribute("position", new BufferAttribute(new Float32Array([-0.5, -0.5, 0, 0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, 0.5, 0]), 3));
+    geometry2.setAttribute("uv", new BufferAttribute(new Float32Array([0, 0, 1, 0, 1, 1, 0, 1]), 2));
+    geometry2.setAttribute("aOffset", new InstancedBufferAttribute(offsets, 3));
+    geometry2.setAttribute("aParams", new InstancedBufferAttribute(params, 3));
+    geometry2.setIndex([0, 1, 2, 0, 2, 3]);
+    geometry2.instanceCount = count;
+    geometry2.boundingSphere = new Sphere(new Vector3(), 1e6);
+    return geometry2;
   }
   setQuality(quality) {
     if (quality === this.quality) return;
@@ -35686,10 +35134,10 @@ var RainSystem = class {
   setWind(wind) {
     this.material.uniforms.uSlant.value = MathUtils.clamp(wind, 0, 30) * 0.13;
   }
-  update(time, camera, daylight) {
+  update(time, camera2, daylight) {
     this.material.uniforms.uTime.value = time;
     this.material.uniforms.uDaylight.value = daylight;
-    this.material.uniforms.uEye.value.copy(camera.position);
+    this.material.uniforms.uEye.value.copy(camera2.position);
   }
   dispose() {
     this.mesh.geometry.dispose();
@@ -35752,7 +35200,7 @@ var LightningSystem = class {
     this.bolt.visible = false;
     this.bolt.renderOrder = -5;
   }
-  update(delta, enabled, overcast, rain, camera) {
+  update(delta, enabled, overcast, rain, camera2) {
     const stormy = enabled && (overcast > 0.18 || rain > 0.12);
     if (!stormy) {
       this.elapsed = -1;
@@ -35765,7 +35213,7 @@ var LightningSystem = class {
       this.wait -= delta;
       if (this.wait <= 0) {
         this.elapsed = 0;
-        this.build(camera);
+        this.build(camera2);
         this.wait = (3.5 + Math.random() * 8) * (1 - rain * 0.4);
       }
       this.flash *= Math.exp(-delta * 6);
@@ -35788,8 +35236,8 @@ var LightningSystem = class {
     }
     return this.flash;
   }
-  build(camera) {
-    const forward = camera.getWorldDirection(new Vector3());
+  build(camera2) {
+    const forward = camera2.getWorldDirection(new Vector3());
     const angle = Math.atan2(forward.z, forward.x) + (Math.random() - 0.5) * 1.6;
     const distance = 380 + Math.random() * 420;
     const direction = new Vector3(Math.cos(angle), 0, Math.sin(angle));
@@ -35842,16 +35290,16 @@ var LightningSystem = class {
         grow(anchor, outward, length * (0.3 + Math.random() * 0.3), width * 0.55, depth - 1, birth + 0.06 + Math.random() * 0.25);
       }
     };
-    const origin = new Vector3(camera.position.x, top, camera.position.z).addScaledVector(direction, distance);
+    const origin = new Vector3(camera2.position.x, top, camera2.position.z).addScaledVector(direction, distance);
     grow(origin, new Vector3(0, -1, 0), top - 8, 7 * (0.7 + Math.random() * 0.6), 3, 0);
     this.bolt.geometry.dispose();
-    const geometry = new BufferGeometry();
-    geometry.setAttribute("position", new Float32BufferAttribute(buffer.positions, 3));
-    geometry.setAttribute("uv", new Float32BufferAttribute(buffer.uvs, 2));
-    geometry.setAttribute("aBirth", new Float32BufferAttribute(buffer.births, 1));
-    geometry.setAttribute("aHeight", new Float32BufferAttribute(buffer.heights, 1));
-    geometry.computeBoundingSphere();
-    this.bolt.geometry = geometry;
+    const geometry2 = new BufferGeometry();
+    geometry2.setAttribute("position", new Float32BufferAttribute(buffer.positions, 3));
+    geometry2.setAttribute("uv", new Float32BufferAttribute(buffer.uvs, 2));
+    geometry2.setAttribute("aBirth", new Float32BufferAttribute(buffer.births, 1));
+    geometry2.setAttribute("aHeight", new Float32BufferAttribute(buffer.heights, 1));
+    geometry2.computeBoundingSphere();
+    this.bolt.geometry = geometry2;
     this.material.uniforms.uProgress.value = 0;
   }
   dispose() {
@@ -35864,10 +35312,10 @@ var LightningSystem = class {
 var fullscreenGeometry = /* @__PURE__ */ (() => {
   const vertices = new Float32Array([-1, -1, 0, 3, -1, 0, -1, 3, 0]);
   const uvs = new Float32Array([0, 0, 2, 0, 0, 2]);
-  const geometry = new BufferGeometry();
-  geometry.setAttribute("position", new BufferAttribute(vertices, 3));
-  geometry.setAttribute("uv", new BufferAttribute(uvs, 2));
-  return geometry;
+  const geometry2 = new BufferGeometry();
+  geometry2.setAttribute("position", new BufferAttribute(vertices, 3));
+  geometry2.setAttribute("uv", new BufferAttribute(uvs, 2));
+  return geometry2;
 })();
 var Pass = class _Pass {
   /**
@@ -35888,11 +35336,11 @@ var Pass = class _Pass {
    * @param {Scene} [scene] - The scene to render. The default scene contains a single mesh that fills the screen.
    * @param {Camera} [camera] - A camera. Fullscreen effect passes don't require a camera.
    */
-  constructor(name = "Pass", scene = new Scene(), camera = new OrthographicCamera()) {
+  constructor(name = "Pass", scene = new Scene(), camera2 = new OrthographicCamera()) {
     this.name = name;
     this.renderer = null;
     this.scene = scene;
-    this.camera = camera;
+    this.camera = camera2;
     this.screen = null;
     this.rtt = true;
     this.needsSwap = true;
@@ -36978,7 +36426,7 @@ var EffectMaterial = class extends ShaderMaterial {
    * @param {Camera} [camera] - A camera.
    * @param {Boolean} [dithering=false] - Deprecated.
    */
-  constructor(shaderParts, defines, uniforms, camera, dithering = false) {
+  constructor(shaderParts, defines, uniforms, camera2, dithering = false) {
     super({
       name: "EffectMaterial",
       defines: {
@@ -37011,7 +36459,7 @@ var EffectMaterial = class extends ShaderMaterial {
     if (uniforms) {
       this.setUniforms(uniforms);
     }
-    this.copyCameraSettings(camera);
+    this.copyCameraSettings(camera2);
   }
   /**
    * The input buffer.
@@ -37192,19 +36640,19 @@ var EffectMaterial = class extends ShaderMaterial {
    * @deprecated Use copyCameraSettings instead.
    * @param {Camera} camera - A camera.
    */
-  adoptCameraSettings(camera) {
-    this.copyCameraSettings(camera);
+  adoptCameraSettings(camera2) {
+    this.copyCameraSettings(camera2);
   }
   /**
    * Copies the settings of the given camera.
    *
    * @param {Camera} camera - A camera.
    */
-  copyCameraSettings(camera) {
-    if (camera) {
-      this.uniforms.cameraNear.value = camera.near;
-      this.uniforms.cameraFar.value = camera.far;
-      if (camera instanceof PerspectiveCamera) {
+  copyCameraSettings(camera2) {
+    if (camera2) {
+      this.uniforms.cameraNear.value = camera2.near;
+      this.uniforms.cameraFar.value = camera2.far;
+      if (camera2 instanceof PerspectiveCamera) {
         this.defines.PERSPECTIVE_CAMERA = "1";
       } else {
         delete this.defines.PERSPECTIVE_CAMERA;
@@ -37370,9 +36818,9 @@ var EffectPass = class extends Pass {
    * @param {Camera} camera - The main camera.
    * @param {...Effect} effects - The effects that will be rendered by this pass.
    */
-  constructor(camera, ...effects) {
+  constructor(camera2, ...effects) {
     super("EffectPass");
-    this.fullscreenMaterial = new EffectMaterial(null, null, null, camera);
+    this.fullscreenMaterial = new EffectMaterial(null, null, null, camera2);
     this.listener = (event) => this.handleEvent(event);
     this.effects = [];
     this.setEffects(effects);
@@ -37750,19 +37198,19 @@ var A = class extends Loader {
 
 // node_modules/@takram/three-geospatial/build/shared3.js
 var $ = /* @__PURE__ */ new Vector3();
-function D(q3, t3, i4 = new Vector3(), s2) {
-  const { x: r3, y: e4, z: n4 } = q3, o2 = t3.x, h3 = t3.y, u4 = t3.z, d3 = r3 * r3 * o2, m3 = e4 * e4 * h3, c5 = n4 * n4 * u4, l3 = d3 + m3 + c5, p4 = Math.sqrt(1 / l3);
+function D(q4, t3, i4 = new Vector3(), s2) {
+  const { x: r3, y: e4, z: n4 } = q4, o2 = t3.x, h3 = t3.y, u4 = t3.z, d3 = r3 * r3 * o2, m3 = e4 * e4 * h3, c5 = n4 * n4 * u4, l3 = d3 + m3 + c5, p4 = Math.sqrt(1 / l3);
   if (!Number.isFinite(p4))
     return;
-  const w4 = $.copy(q3).multiplyScalar(p4);
+  const w4 = $.copy(q4).multiplyScalar(p4);
   if (l3 < (s2?.centerTolerance ?? 0.1))
     return i4.copy(w4);
-  const f3 = w4.multiply(t3).multiplyScalar(2);
-  let y4 = (1 - p4) * q3.length() / (f3.length() / 2), I4 = 0, x3, M3, g6, v3;
+  const f4 = w4.multiply(t3).multiplyScalar(2);
+  let y4 = (1 - p4) * q4.length() / (f4.length() / 2), I4 = 0, x3, M3, g6, v3;
   do {
     y4 -= I4, x3 = 1 / (1 + y4 * o2), M3 = 1 / (1 + y4 * h3), g6 = 1 / (1 + y4 * u4);
-    const V2 = x3 * x3, F3 = M3 * M3, L3 = g6 * g6, G4 = V2 * x3, j3 = F3 * M3, B2 = L3 * g6;
-    v3 = d3 * V2 + m3 * F3 + c5 * L3 - 1, I4 = v3 / ((d3 * G4 * o2 + m3 * j3 * h3 + c5 * B2 * u4) * -2);
+    const V2 = x3 * x3, F3 = M3 * M3, L3 = g6 * g6, G5 = V2 * x3, j3 = F3 * M3, B2 = L3 * g6;
+    v3 = d3 * V2 + m3 * F3 + c5 * L3 - 1, I4 = v3 / ((d3 * G5 * o2 + m3 * j3 * h3 + c5 * B2 * u4) * -2);
   } while (Math.abs(v3) > 1e-12);
   return i4.set(r3 * x3, e4 * M3, n4 * g6);
 }
@@ -38925,7 +38373,7 @@ var EXRLoader = class extends DataTextureLoader {
       const c5 = 0.5 * Math.cos(3.14159 / 8);
       const d3 = 0.5 * Math.cos(3 * 3.14159 / 16);
       const e4 = 0.5 * Math.cos(5 * 3.14159 / 16);
-      const f3 = 0.5 * Math.cos(3 * 3.14159 / 8);
+      const f4 = 0.5 * Math.cos(3 * 3.14159 / 8);
       const g6 = 0.5 * Math.cos(7 * 3.14159 / 16);
       const alpha = new Array(4);
       const beta = new Array(4);
@@ -38934,9 +38382,9 @@ var EXRLoader = class extends DataTextureLoader {
       for (let row = 0; row < 8; ++row) {
         const rowPtr = row * 8;
         alpha[0] = c5 * data[rowPtr + 2];
-        alpha[1] = f3 * data[rowPtr + 2];
+        alpha[1] = f4 * data[rowPtr + 2];
         alpha[2] = c5 * data[rowPtr + 6];
-        alpha[3] = f3 * data[rowPtr + 6];
+        alpha[3] = f4 * data[rowPtr + 6];
         beta[0] = b6 * data[rowPtr + 1] + d3 * data[rowPtr + 3] + e4 * data[rowPtr + 5] + g6 * data[rowPtr + 7];
         beta[1] = d3 * data[rowPtr + 1] - g6 * data[rowPtr + 3] - b6 * data[rowPtr + 5] - e4 * data[rowPtr + 7];
         beta[2] = e4 * data[rowPtr + 1] - b6 * data[rowPtr + 3] + g6 * data[rowPtr + 5] + d3 * data[rowPtr + 7];
@@ -38960,9 +38408,9 @@ var EXRLoader = class extends DataTextureLoader {
       }
       for (let column = 0; column < 8; ++column) {
         alpha[0] = c5 * data[16 + column];
-        alpha[1] = f3 * data[16 + column];
+        alpha[1] = f4 * data[16 + column];
         alpha[2] = c5 * data[48 + column];
-        alpha[3] = f3 * data[48 + column];
+        alpha[3] = f4 * data[48 + column];
         beta[0] = b6 * data[8 + column] + d3 * data[24 + column] + e4 * data[40 + column] + g6 * data[56 + column];
         beta[1] = d3 * data[8 + column] - g6 * data[24 + column] - b6 * data[40 + column] - e4 * data[56 + column];
         beta[2] = e4 * data[8 + column] - b6 * data[24 + column] + g6 * data[40 + column] + d3 * data[56 + column];
@@ -38997,10 +38445,10 @@ var EXRLoader = class extends DataTextureLoader {
     }
     function convertToHalf(src, dst, idx) {
       for (let i4 = 0; i4 < 64; ++i4) {
-        dst[idx + i4] = DataUtils.toHalfFloat(toLinear(src[i4]));
+        dst[idx + i4] = DataUtils.toHalfFloat(toLinear2(src[i4]));
       }
     }
-    function toLinear(float) {
+    function toLinear2(float) {
       if (float <= 1) {
         return Math.sign(float) * Math.pow(Math.abs(float), 2.2);
       } else {
@@ -40333,10 +39781,10 @@ var A3 = class _A {
       );
     if (r3 === _A) {
       if (D2(t3) && n4.length === 0) {
-        const f3 = l(t3), d3 = new m(
-          T2(f3),
-          C3(f3),
-          y2(f3)
+        const f4 = l(t3), d3 = new m(
+          T2(f4),
+          C3(f4),
+          y2(f4)
         );
         return new _A(
           T2(Y(d3))
@@ -40351,9 +39799,9 @@ var A3 = class _A {
       const a3 = n4[0], h3 = n4[1];
       return new _A(
         T2(
-          ne(t3, function(f3, ...d3) {
+          ne(t3, function(f4, ...d3) {
             return P3(
-              S2(a3, this, [f3, ...k(d3)])
+              S2(a3, this, [f4, ...k(d3)])
             );
           }, h3)
         )
@@ -40379,8 +39827,8 @@ var A3 = class _A {
         o2[a3];
     else {
       const a3 = n4[0], h3 = n4[1];
-      for (let f3 = 0; f3 < s2; ++f3)
-        c5[f3] = S2(a3, h3, [o2[f3], f3]);
+      for (let f4 = 0; f4 < s2; ++f4)
+        c5[f4] = S2(a3, h3, [o2[f4], f4]);
     }
     return c5;
   }
@@ -40460,8 +39908,8 @@ var A3 = class _A {
       T2(
         Y(a3)
       )
-    ), f3 = l(h3);
-    return f3[i4] = P3(c5), h3;
+    ), f4 = l(h3);
+    return f4[i4] = P3(c5), h3;
   }
   /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.map */
   map(t3, ...n4) {
@@ -40469,10 +39917,10 @@ var A3 = class _A {
     const r3 = l(this), o2 = y2(r3), s2 = n4[0], i4 = rt(r3, _A);
     if (i4 === _A) {
       const a3 = new _A(o2), h3 = l(a3);
-      for (let f3 = 0; f3 < o2; ++f3) {
-        const d3 = p(r3[f3]);
-        h3[f3] = P3(
-          S2(t3, s2, [d3, f3, this])
+      for (let f4 = 0; f4 < o2; ++f4) {
+        const d3 = p(r3[f4]);
+        h3[f4] = P3(
+          S2(t3, s2, [d3, f4, this])
         );
       }
       return a3;
@@ -40493,8 +39941,8 @@ var A3 = class _A {
     u(this);
     const r3 = l(this), o2 = y2(r3), s2 = n4[0], i4 = [];
     for (let h3 = 0; h3 < o2; ++h3) {
-      const f3 = p(r3[h3]);
-      S2(t3, s2, [f3, h3, this]) && wn(i4, f3);
+      const f4 = p(r3[h3]);
+      S2(t3, s2, [f4, h3, this]) && wn(i4, f4);
     }
     const c5 = rt(r3, _A), a3 = new c5(i4);
     return st(a3), /** @type {any} */
@@ -40724,8 +40172,8 @@ var A3 = class _A {
     i4 === -1 / 0 ? a3 = 0 : i4 < 0 ? a3 = s2 + i4 > 0 ? s2 + i4 : 0 : a3 = s2 < i4 ? s2 : i4;
     let h3;
     c5 === -1 / 0 ? h3 = 0 : c5 < 0 ? h3 = s2 + c5 > 0 ? s2 + c5 : 0 : h3 = s2 < c5 ? s2 : c5;
-    const f3 = h3 - a3 > 0 ? h3 - a3 : 0, d3 = new o2(f3);
-    if (st(d3, f3), f3 === 0)
+    const f4 = h3 - a3 > 0 ? h3 - a3 : 0, d3 = new o2(f4);
+    if (st(d3, f4), f4 === 0)
       return d3;
     const O2 = T2(r3);
     if ($2(O2))
@@ -40878,8 +40326,8 @@ var br = class extends Loader {
       t3,
       (c5) => {
         s2.image.data = c5 instanceof A3 ? new Uint16Array(c5.buffer) : c5;
-        const { width: a3, height: h3, depth: f3, ...d3 } = this.options;
-        a3 != null && (s2.image.width = a3), h3 != null && (s2.image.height = h3), "depth" in s2.image && f3 != null && (s2.image.depth = f3), s2.type = nr(c5), Object.assign(s2, d3), s2.needsUpdate = true, n4?.(s2);
+        const { width: a3, height: h3, depth: f4, ...d3 } = this.options;
+        a3 != null && (s2.image.width = a3), h3 != null && (s2.image.height = h3), "depth" in s2.image && f4 != null && (s2.image.depth = f4), s2.type = nr(c5), Object.assign(s2, d3), s2.needsUpdate = true, n4?.(s2);
       },
       r3,
       o2
@@ -41054,14 +40502,14 @@ var zr = class extends Loader {
     const { width: s2, height: i4, depth: c5 } = this.options, a3 = new Data3DTexture(null, s2, i4, c5), h3 = new EXRLoader(this.manager);
     return h3.setRequestHeader(this.requestHeader), h3.setPath(this.path), h3.setWithCredentials(this.withCredentials), h3.load(
       t3,
-      (f3) => {
-        const { image: d3 } = f3;
+      (f4) => {
+        const { image: d3 } = f4;
         a3.image = {
           data: d3.data,
           width: s2 ?? d3.width,
           height: i4 ?? d3.height,
           depth: c5 ?? Math.sqrt(d3.height)
-        }, a3.type = f3.type, a3.format = f3.format, a3.colorSpace = f3.colorSpace, a3.needsUpdate = true;
+        }, a3.type = f4.type, a3.format = f4.format, a3.colorSpace = f4.colorSpace, a3.needsUpdate = true;
         try {
           n4?.(a3);
         } catch (O2) {
@@ -41082,11 +40530,11 @@ var Hr = class extends Loader {
     return a3.setRequestHeader(this.requestHeader), a3.setPath(this.path), a3.setWithCredentials(this.withCredentials), a3.load(
       t3,
       (h3) => {
-        const { image: f3 } = h3;
+        const { image: f4 } = h3;
         c5.image = {
-          data: f3.data,
-          width: s2 ?? f3.width,
-          height: i4 ?? f3.height
+          data: f4.data,
+          width: s2 ?? f4.width,
+          height: i4 ?? f4.height
         }, c5.type = h3.type, c5.format = h3.format, c5.colorSpace = h3.colorSpace, c5.needsUpdate = true;
         try {
           n4?.(c5);
@@ -43193,19 +42641,19 @@ var H3 = class extends Effect {
       scatteringTexture: l3 = null,
       transmittanceTexture: h3 = null,
       singleMieScatteringTexture: m3 = null,
-      higherOrderScatteringTexture: f3 = null,
+      higherOrderScatteringTexture: f4 = null,
       ellipsoid: v3,
       correctAltitude: T5,
       correctGeometricError: E4,
       sunDirection: x3,
       sunLight: y4,
       skyLight: I4,
-      transmittance: N4,
+      transmittance: N5,
       inscatter: b6,
       albedoScale: U5,
       sky: z4,
       sun: F3,
-      moon: q3,
+      moon: q4,
       moonDirection: Z2,
       moonAngularRadius: i0,
       lunarRadianceScale: a0,
@@ -43296,7 +42744,7 @@ var H3 = class extends Effect {
           ["METER_TO_LENGTH_UNIT", w2.toFixed(7)]
         ])
       }
-    ), this.camera = e4, this.atmosphere = r3, this.overlay = null, this.shadow = null, this.shadowLength = null, this.lightingMask = null, this.hasNormals = false, this.combinedScatteringTextures = false, this.hasHigherOrderScatteringTexture = false, this.shadowSampleCount = 8, this.octEncodedNormal = o2, this.reconstructNormal = c5, this.singleMieScatteringTexture = m3, this.higherOrderScatteringTexture = f3, this.ellipsoid = v3, this.correctAltitude = T5, this.correctGeometricError = E4, this.sunLight = y4, this.skyLight = I4, this.transmittance = N4, this.inscatter = b6, this.sky = z4, this.sun = F3, this.moon = q3, this.ground = J3;
+    ), this.camera = e4, this.atmosphere = r3, this.overlay = null, this.shadow = null, this.shadowLength = null, this.lightingMask = null, this.hasNormals = false, this.combinedScatteringTextures = false, this.hasHigherOrderScatteringTexture = false, this.shadowSampleCount = 8, this.octEncodedNormal = o2, this.reconstructNormal = c5, this.singleMieScatteringTexture = m3, this.higherOrderScatteringTexture = f4, this.ellipsoid = v3, this.correctAltitude = T5, this.correctGeometricError = E4, this.sunLight = y4, this.skyLight = I4, this.transmittance = N5, this.inscatter = b6, this.sky = z4, this.sun = F3, this.moon = q4, this.ground = J3;
   }
   get mainCamera() {
     return this.camera;
@@ -43316,9 +42764,9 @@ var H3 = class extends Effect {
       o2.get("cameraPosition").value
     ), s2 = o2.get("worldToECEFMatrix").value, l3 = jn2.copy(c5).applyMatrix4(s2);
     try {
-      const m3 = Yn2.setFromECEF(l3).height, f3 = Xn2.set(0, this.ellipsoid.maximumRadius, -Math.max(0, m3)).applyMatrix4(t3);
+      const m3 = Yn2.setFromECEF(l3).height, f4 = Xn2.set(0, this.ellipsoid.maximumRadius, -Math.max(0, m3)).applyMatrix4(t3);
       o2.get("geometricErrorCorrectionAmount").value = Cr(
-        Lr(f3.y, 41.5, 13.8, 0, 1)
+        Lr(f4.y, 41.5, 13.8, 0, 1)
       );
     } catch {
       return;
@@ -43530,7 +42978,7 @@ var se2 = class extends RawShaderMaterial {
       correctAltitude: l3,
       sunDirection: h3,
       sunAngularRadius: m3,
-      renderTargetCount: f3,
+      renderTargetCount: f4,
       ...v3
     } = { ...Be2, ...e4 };
     super({
@@ -43569,7 +43017,7 @@ var se2 = class extends RawShaderMaterial {
         METER_TO_LENGTH_UNIT: w2.toFixed(7),
         ...v3.defines
       }
-    }), this.atmosphere = t3, this.combinedScatteringTextures = false, this.hasHigherOrderScatteringTexture = false, this.singleMieScatteringTexture = o2, this.higherOrderScatteringTexture = c5, this.ellipsoid = s2, this.correctAltitude = l3, m3 != null && (this.sunAngularRadius = m3), this.renderTargetCount = f3;
+    }), this.atmosphere = t3, this.combinedScatteringTextures = false, this.hasHigherOrderScatteringTexture = false, this.singleMieScatteringTexture = o2, this.higherOrderScatteringTexture = c5, this.ellipsoid = s2, this.correctAltitude = l3, m3 != null && (this.sunAngularRadius = m3), this.renderTargetCount = f4;
   }
   copyCameraSettings(e4) {
     const t3 = this.uniforms, r3 = e4.getWorldPosition(
@@ -44432,8 +43880,8 @@ function r0(n4) {
   return n4 instanceof t0 ? n4 : new t0(n4);
 }
 function lr2(n4) {
-  function e4(f3) {
-    return f3 % tr2 * x0;
+  function e4(f4) {
+    return f4 % tr2 * x0;
   }
   const t3 = n4.tt / 36525, r3 = e4(128710479305e-5 + t3 * 1295965810481e-4), i4 = e4(335779.526232 + t3 * 17395272628478e-4), a3 = e4(107226070369e-5 + t3 * 1602961601209e-3), o2 = e4(450160.398036 - t3 * 69628905431e-4);
   let c5 = Math.sin(o2), s2 = Math.cos(o2), l3 = (-172064161 - 174666 * t3) * c5 + 33386 * s2, h3 = (92052331 + 9086 * t3) * s2 + 15377 * c5, m3 = 2 * (i4 - a3 + o2);
@@ -44495,7 +43943,7 @@ function mr2(n4) {
     const P4 = R6.array[_5 - R6.min];
     P4.array[A6 - P4.min] = C5;
   }
-  let o2, c5, s2, l3, h3, m3, f3, v3, T5, E4, x3, y4, I4, N4, b6, U5, z4, F3, q3, Z2, i0, a0, J3, N0 = r3(-6, 6, 1, 4), p0 = r3(-6, 6, 1, 4);
+  let o2, c5, s2, l3, h3, m3, f4, v3, T5, E4, x3, y4, I4, N5, b6, U5, z4, F3, q4, Z2, i0, a0, J3, N0 = r3(-6, 6, 1, 4), p0 = r3(-6, 6, 1, 4);
   function z0(R6, _5) {
     return i4(N0, R6, _5);
   }
@@ -44514,12 +43962,12 @@ function mr2(n4) {
   function M3(R6) {
     return Math.sin(X2 * R6);
   }
-  f3 = e4 * e4, T5 = 0, J3 = 0, x3 = 0, y4 = 3422.7;
+  f4 = e4 * e4, T5 = 0, J3 = 0, x3 = 0, y4 = 3422.7;
   var W0 = M3(0.19833 + 0.05611 * e4), le = M3(0.27869 + 0.04508 * e4), de = M3(0.16827 - 0.36903 * e4), he2 = M3(0.34734 - 5.37261 * e4), me3 = M3(0.10498 - 5.37899 * e4), j0 = M3(0.42681 - 0.41855 * e4), qt3 = M3(0.14943 - 5.37511 * e4);
-  for (F3 = 0.84 * W0 + 0.31 * le + 14.27 * de + 7.26 * he2 + 0.28 * me3 + 0.24 * j0, q3 = 2.94 * W0 + 0.31 * le + 14.27 * de + 9.34 * he2 + 1.12 * me3 + 0.83 * j0, Z2 = -6.4 * W0 - 1.89 * j0, i0 = 0.21 * W0 + 0.31 * le + 14.27 * de - 88.7 * he2 - 15.3 * me3 + 0.24 * j0 - 1.86 * qt3, a0 = F3 - Z2, v3 = -3332e-9 * M3(0.59734 - 5.37261 * e4) - 539e-9 * M3(0.35498 - 5.37899 * e4) - 64e-9 * M3(0.39943 - 5.37511 * e4), I4 = X2 * E0(0.60643382 + 1336.85522467 * e4 - 313e-8 * f3) + F3 / e0, N4 = X2 * E0(0.37489701 + 1325.55240982 * e4 + 2565e-8 * f3) + q3 / e0, b6 = X2 * E0(0.99312619 + 99.99735956 * e4 - 44e-8 * f3) + Z2 / e0, U5 = X2 * E0(0.25909118 + 1342.2278298 * e4 - 892e-8 * f3) + i0 / e0, z4 = X2 * E0(0.82736186 + 1236.85308708 * e4 - 397e-8 * f3) + a0 / e0, h3 = 1; h3 <= 4; ++h3) {
+  for (F3 = 0.84 * W0 + 0.31 * le + 14.27 * de + 7.26 * he2 + 0.28 * me3 + 0.24 * j0, q4 = 2.94 * W0 + 0.31 * le + 14.27 * de + 9.34 * he2 + 1.12 * me3 + 0.83 * j0, Z2 = -6.4 * W0 - 1.89 * j0, i0 = 0.21 * W0 + 0.31 * le + 14.27 * de - 88.7 * he2 - 15.3 * me3 + 0.24 * j0 - 1.86 * qt3, a0 = F3 - Z2, v3 = -3332e-9 * M3(0.59734 - 5.37261 * e4) - 539e-9 * M3(0.35498 - 5.37899 * e4) - 64e-9 * M3(0.39943 - 5.37511 * e4), I4 = X2 * E0(0.60643382 + 1336.85522467 * e4 - 313e-8 * f4) + F3 / e0, N5 = X2 * E0(0.37489701 + 1325.55240982 * e4 + 2565e-8 * f4) + q4 / e0, b6 = X2 * E0(0.99312619 + 99.99735956 * e4 - 44e-8 * f4) + Z2 / e0, U5 = X2 * E0(0.25909118 + 1342.2278298 * e4 - 892e-8 * f4) + i0 / e0, z4 = X2 * E0(0.82736186 + 1236.85308708 * e4 - 397e-8 * f4) + a0 / e0, h3 = 1; h3 <= 4; ++h3) {
     switch (h3) {
       case 1:
-        s2 = N4, c5 = 4, l3 = 1.000002208;
+        s2 = N5, c5 = 4, l3 = 1.000002208;
         break;
       case 2:
         s2 = b6, c5 = 3, l3 = 0.997504612 - 2495388e-9 * e4;
@@ -44574,17 +44022,17 @@ function bt2(n4, e4) {
   const t3 = n4.tt / 36525;
   let r3 = 84381.406, i4 = ((((-951e-10 * t3 + 132851e-9) * t3 - 114045e-8) * t3 - 1.0790069) * t3 + 5038.481507) * t3, a3 = ((((3337e-10 * t3 - 467e-9) * t3 - 772503e-8) * t3 + 0.0512623) * t3 - 0.025754) * t3 + r3, o2 = ((((-56e-9 * t3 + 170663e-9) * t3 - 121197e-8) * t3 - 2.3814292) * t3 + 10.556403) * t3;
   r3 *= x0, i4 *= x0, a3 *= x0, o2 *= x0;
-  const c5 = Math.sin(r3), s2 = Math.cos(r3), l3 = Math.sin(-i4), h3 = Math.cos(-i4), m3 = Math.sin(-a3), f3 = Math.cos(-a3), v3 = Math.sin(o2), T5 = Math.cos(o2), E4 = T5 * h3 - l3 * v3 * f3, x3 = T5 * l3 * s2 + v3 * f3 * h3 * s2 - c5 * v3 * m3, y4 = T5 * l3 * c5 + v3 * f3 * h3 * c5 + s2 * v3 * m3, I4 = -v3 * h3 - l3 * T5 * f3, N4 = -v3 * l3 * s2 + T5 * f3 * h3 * s2 - c5 * T5 * m3, b6 = -v3 * l3 * c5 + T5 * f3 * h3 * c5 + s2 * T5 * m3, U5 = l3 * m3, z4 = -m3 * h3 * s2 - c5 * f3, F3 = -m3 * h3 * c5 + f3 * s2;
+  const c5 = Math.sin(r3), s2 = Math.cos(r3), l3 = Math.sin(-i4), h3 = Math.cos(-i4), m3 = Math.sin(-a3), f4 = Math.cos(-a3), v3 = Math.sin(o2), T5 = Math.cos(o2), E4 = T5 * h3 - l3 * v3 * f4, x3 = T5 * l3 * s2 + v3 * f4 * h3 * s2 - c5 * v3 * m3, y4 = T5 * l3 * c5 + v3 * f4 * h3 * c5 + s2 * v3 * m3, I4 = -v3 * h3 - l3 * T5 * f4, N5 = -v3 * l3 * s2 + T5 * f4 * h3 * s2 - c5 * T5 * m3, b6 = -v3 * l3 * c5 + T5 * f4 * h3 * c5 + s2 * T5 * m3, U5 = l3 * m3, z4 = -m3 * h3 * s2 - c5 * f4, F3 = -m3 * h3 * c5 + f4 * s2;
   if (e4 === V.Into2000)
     return new I0([
       [E4, x3, y4],
-      [I4, N4, b6],
+      [I4, N5, b6],
       [U5, z4, F3]
     ]);
   if (e4 === V.From2000)
     return new I0([
       [E4, I4, U5],
-      [x3, N4, z4],
+      [x3, N5, z4],
       [y4, b6, F3]
     ]);
   throw "Invalid precess direction";
@@ -44613,18 +44061,18 @@ function pr(n4) {
   return gr(e4);
 }
 function Ut2(n4, e4) {
-  const t3 = Ot(n4), r3 = t3.mobl * g4, i4 = t3.tobl * g4, a3 = t3.dpsi * x0, o2 = Math.cos(r3), c5 = Math.sin(r3), s2 = Math.cos(i4), l3 = Math.sin(i4), h3 = Math.cos(a3), m3 = Math.sin(a3), f3 = h3, v3 = -m3 * o2, T5 = -m3 * c5, E4 = m3 * s2, x3 = h3 * o2 * s2 + c5 * l3, y4 = h3 * c5 * s2 - o2 * l3, I4 = m3 * l3, N4 = h3 * o2 * l3 - c5 * s2, b6 = h3 * c5 * l3 + o2 * s2;
+  const t3 = Ot(n4), r3 = t3.mobl * g4, i4 = t3.tobl * g4, a3 = t3.dpsi * x0, o2 = Math.cos(r3), c5 = Math.sin(r3), s2 = Math.cos(i4), l3 = Math.sin(i4), h3 = Math.cos(a3), m3 = Math.sin(a3), f4 = h3, v3 = -m3 * o2, T5 = -m3 * c5, E4 = m3 * s2, x3 = h3 * o2 * s2 + c5 * l3, y4 = h3 * c5 * s2 - o2 * l3, I4 = m3 * l3, N5 = h3 * o2 * l3 - c5 * s2, b6 = h3 * c5 * l3 + o2 * s2;
   if (e4 === V.From2000)
     return new I0([
-      [f3, E4, I4],
-      [v3, x3, N4],
+      [f4, E4, I4],
+      [v3, x3, N5],
       [T5, y4, b6]
     ]);
   if (e4 === V.Into2000)
     return new I0([
-      [f3, v3, T5],
+      [f4, v3, T5],
       [E4, x3, y4],
-      [I4, N4, b6]
+      [I4, N5, b6]
     ]);
   throw "Invalid precess direction";
 }
@@ -44679,8 +44127,8 @@ function Se2(n4, e4) {
   for (let o2 of n4) {
     let c5 = 0, s2 = 0;
     for (let [l3, h3, m3] of o2) {
-      let f3 = h3 + e4 * m3;
-      c5 += l3 * m3 * Math.sin(f3), a3 > 0 && (s2 += l3 * Math.cos(f3));
+      let f4 = h3 + e4 * m3;
+      c5 += l3 * m3 * Math.sin(f4), a3 > 0 && (s2 += l3 * Math.cos(f4));
     }
     i4 += a3 * r3 * s2 - t3 * c5, r3 = t3, t3 *= e4, ++a3;
   }
@@ -44706,12 +44154,12 @@ function Q0(n4, e4) {
   return Pe2(o2).ToAstroVector(e4);
 }
 function Er2(n4, e4) {
-  const t3 = e4 / b0, r3 = y0(n4[Ce2], t3, true), i4 = y0(n4[De], t3, false), a3 = y0(n4[Ie2], t3, false), o2 = Se2(n4[Ce2], t3), c5 = Se2(n4[De], t3), s2 = Se2(n4[Ie2], t3), l3 = Math.cos(r3), h3 = Math.sin(r3), m3 = Math.cos(i4), f3 = Math.sin(i4), v3 = +(s2 * m3 * l3) - a3 * f3 * l3 * c5 - a3 * m3 * h3 * o2, T5 = +(s2 * m3 * h3) - a3 * f3 * h3 * c5 + a3 * m3 * l3 * o2, E4 = +(s2 * f3) + a3 * m3 * c5, x3 = Ft2(r3, i4, a3), y4 = [
+  const t3 = e4 / b0, r3 = y0(n4[Ce2], t3, true), i4 = y0(n4[De], t3, false), a3 = y0(n4[Ie2], t3, false), o2 = Se2(n4[Ce2], t3), c5 = Se2(n4[De], t3), s2 = Se2(n4[Ie2], t3), l3 = Math.cos(r3), h3 = Math.sin(r3), m3 = Math.cos(i4), f4 = Math.sin(i4), v3 = +(s2 * m3 * l3) - a3 * f4 * l3 * c5 - a3 * m3 * h3 * o2, T5 = +(s2 * m3 * h3) - a3 * f4 * h3 * c5 + a3 * m3 * l3 * o2, E4 = +(s2 * f4) + a3 * m3 * c5, x3 = Ft2(r3, i4, a3), y4 = [
     v3 / b0,
     T5 / b0,
     E4 / b0
-  ], I4 = Pe2(x3), N4 = Pe2(y4);
-  return new d0(e4, I4, N4);
+  ], I4 = Pe2(x3), N5 = Pe2(y4);
+  return new d0(e4, I4, N5);
 }
 function q0(n4, e4, t3, r3) {
   const i4 = r3 / (r3 + We), a3 = Q0(M0[t3], e4);
@@ -44917,8 +44365,8 @@ function wr2(n4, e4) {
   let t3, r3, i4;
   const a3 = Ar(Mr, n4.tt);
   if (a3) {
-    const o2 = kt2((n4.tt - a3[0].tt) / A0, Y2 - 1), c5 = a3[o2], s2 = a3[o2 + 1], l3 = c5.a.mean(s2.a), h3 = te2(n4.tt - c5.tt, c5.r, c5.v, l3), m3 = ct2(n4.tt - c5.tt, c5.v, l3), f3 = te2(n4.tt - s2.tt, s2.r, s2.v, l3), v3 = ct2(n4.tt - s2.tt, s2.v, l3), T5 = (n4.tt - c5.tt) / A0;
-    t3 = h3.mul(1 - T5).add(f3.mul(T5)), r3 = m3.mul(1 - T5).add(v3.mul(T5));
+    const o2 = kt2((n4.tt - a3[0].tt) / A0, Y2 - 1), c5 = a3[o2], s2 = a3[o2 + 1], l3 = c5.a.mean(s2.a), h3 = te2(n4.tt - c5.tt, c5.r, c5.v, l3), m3 = ct2(n4.tt - c5.tt, c5.v, l3), f4 = te2(n4.tt - s2.tt, s2.r, s2.v, l3), v3 = ct2(n4.tt - s2.tt, s2.v, l3), T5 = (n4.tt - c5.tt) / A0;
+    t3 = h3.mul(1 - T5).add(f4.mul(T5)), r3 = m3.mul(1 - T5).add(v3.mul(T5));
   } else {
     let o2;
     n4.tt < o0[0][0] ? o2 = ut2(o0[0], n4.tt, -A0) : o2 = ut2(o0[Ne2 - 1], n4.tt, +A0), t3 = o2.grav.r, r3 = o2.grav.v, i4 = o2.bary;
@@ -45144,14 +44592,14 @@ function Yt(n4, e4, t3) {
   if (r3 == null)
     return t3.setScalar(0);
   Zr(n4.image);
-  const { width: i4, height: a3 } = n4.image, o2 = z3(e4.x, 0, 1) * (i4 - 1), c5 = z3(e4.y, 0, 1) * (a3 - 1), s2 = Math.floor(o2), l3 = Math.floor(c5), h3 = o2 - s2, m3 = c5 - l3, f3 = h3, v3 = m3, T5 = s2 % i4, E4 = (T5 + 1) % i4, x3 = l3 % a3, y4 = (x3 + 1) % a3, I4 = J0(r3, x3 * i4 + T5, Kr2), N4 = J0(r3, x3 * i4 + E4, mt2), b6 = I4.lerp(N4, f3), U5 = J0(r3, y4 * i4 + T5, mt2), z4 = J0(r3, y4 * i4 + E4, $r), F3 = U5.lerp(z4, f3);
+  const { width: i4, height: a3 } = n4.image, o2 = z3(e4.x, 0, 1) * (i4 - 1), c5 = z3(e4.y, 0, 1) * (a3 - 1), s2 = Math.floor(o2), l3 = Math.floor(c5), h3 = o2 - s2, m3 = c5 - l3, f4 = h3, v3 = m3, T5 = s2 % i4, E4 = (T5 + 1) % i4, x3 = l3 % a3, y4 = (x3 + 1) % a3, I4 = J0(r3, x3 * i4 + T5, Kr2), N5 = J0(r3, x3 * i4 + E4, mt2), b6 = I4.lerp(N5, f4), U5 = J0(r3, y4 * i4 + T5, mt2), z4 = J0(r3, y4 * i4 + E4, $r), F3 = U5.lerp(z4, f4);
   return t3.copy(b6.lerp(F3, v3));
 }
 function Zr2(n4, e4, t3, r3) {
-  const { topRadius: i4, bottomRadius: a3 } = n4, o2 = Math.sqrt(i4 ** 2 - a3 ** 2), c5 = Xt(e4 ** 2 - a3 ** 2), s2 = Yr(n4, e4, t3), l3 = i4 - e4, h3 = c5 + o2, m3 = (s2 - l3) / (h3 - l3), f3 = c5 / o2;
+  const { topRadius: i4, bottomRadius: a3 } = n4, o2 = Math.sqrt(i4 ** 2 - a3 ** 2), c5 = Xt(e4 ** 2 - a3 ** 2), s2 = Yr(n4, e4, t3), l3 = i4 - e4, h3 = c5 + o2, m3 = (s2 - l3) / (h3 - l3), f4 = c5 / o2;
   return r3.set(
     ne2(m3, C4),
-    ne2(f3, p3)
+    ne2(f4, p3)
   );
 }
 var Jr2 = /* @__PURE__ */ new Vector3();
@@ -45177,8 +44625,8 @@ function ei(n4, e4, t3, r3 = new Color(), {
   }
   const s2 = ve;
   let l3 = c5.length(), h3 = c5.dot(t3);
-  const { topRadius: m3 } = o2, f3 = -h3 - Math.sqrt(h3 ** 2 - l3 ** 2 + m3 ** 2);
-  if (f3 > 0 && (l3 = m3, h3 += f3), l3 > m3)
+  const { topRadius: m3 } = o2, f4 = -h3 - Math.sqrt(h3 ** 2 - l3 ** 2 + m3 ** 2);
+  if (f4 > 0 && (l3 = m3, h3 += f4), l3 > m3)
     s2.set(1, 1, 1);
   else {
     const T5 = h3 / l3;
@@ -45581,8 +45029,8 @@ var Ke = class extends se2 {
     c5.inverseProjectionMatrix.value.copy(r3.projectionMatrixInverse), c5.inverseViewMatrix.value.copy(r3.matrixWorld);
     const l3 = s2.PERSPECTIVE_CAMERA != null, h3 = r3.isPerspectiveCamera === true;
     h3 !== l3 && (h3 ? s2.PERSPECTIVE_CAMERA = "1" : delete s2.PERSPECTIVE_CAMERA, this.needsUpdate = true);
-    const m3 = this.groundAlbedo, f3 = s2.GROUND_ALBEDO != null, v3 = m3.r !== 0 || m3.g !== 0 || m3.b !== 0;
-    v3 !== f3 && (v3 ? this.defines.GROUND_ALBEDO = "1" : delete this.defines.GROUND_ALBEDO, this.needsUpdate = true);
+    const m3 = this.groundAlbedo, f4 = s2.GROUND_ALBEDO != null, v3 = m3.r !== 0 || m3.g !== 0 || m3.b !== 0;
+    v3 !== f4 && (v3 ? this.defines.GROUND_ALBEDO = "1" : delete this.defines.GROUND_ALBEDO, this.needsUpdate = true);
     const T5 = this.shadowLength, E4 = s2.HAS_SHADOW_LENGTH != null, x3 = T5 != null;
     x3 !== E4 && (x3 ? s2.HAS_SHADOW_LENGTH = "1" : (delete s2.HAS_SHADOW_LENGTH, c5.shadowLengthBuffer.value = null), this.needsUpdate = true), x3 && (c5.shadowLengthBuffer.value = T5.map);
   }
@@ -49724,11 +49172,11 @@ var overcastTint = (
 `
 );
 var SkyPass = class {
-  constructor(camera) {
+  constructor(camera2) {
     this.input = new WebGLRenderTarget(1, 1, { type: HalfFloatType });
     this.output = new WebGLRenderTarget(1, 1, { type: HalfFloatType, depthBuffer: false });
-    this.clouds = new Xt2(camera);
-    this.atmosphere = new H3(camera, { sky: true, sunLight: false, skyLight: false });
+    this.clouds = new Xt2(camera2);
+    this.atmosphere = new H3(camera2, { sky: true, sunLight: false, skyLight: false });
     this.clouds.worldToECEFMatrix.copy(worldToECEF);
     this.atmosphere.worldToECEFMatrix.copy(worldToECEF);
     this.clouds.events.addEventListener("change", () => {
@@ -49736,7 +49184,7 @@ var SkyPass = class {
       this.atmosphere.shadowLength = this.clouds.atmosphereShadowLength;
     });
     this.input.depthTexture = new DepthTexture(1, 1, UnsignedIntType);
-    this.pass = new EffectPass(camera, this.clouds, this.atmosphere);
+    this.pass = new EffectPass(camera2, this.clouds, this.atmosphere);
     this.pass.renderToScreen = false;
     this.pass.encodeOutput = false;
     this.pass.fullscreenMaterial.toneMapped = false;
@@ -49758,8 +49206,8 @@ var SkyPass = class {
     this.output.setSize(width, height);
     this.pass.setSize(width, height);
   }
-  render(renderer, camera, sun, moon, coverage, time) {
-    this.pass.mainCamera = camera;
+  render(renderer, camera2, sun, moon, coverage, time) {
+    this.pass.mainCamera = camera2;
     this.clouds.sunDirection.copy(sun);
     this.atmosphere.sunDirection.copy(sun);
     this.atmosphere.moonDirection.copy(moon);
@@ -49780,15 +49228,15 @@ var SkyPass = class {
   }
 };
 var VolumetricSky = class {
-  constructor(renderer, camera, assetsRoot) {
+  constructor(renderer, camera2, assetsRoot) {
     this.renderer = renderer;
-    this.camera = camera;
+    this.camera = camera2;
     this.assetsRoot = assetsRoot;
     this.cubeTarget = new WebGLCubeRenderTarget(256, {
       type: HalfFloatType,
       depthBuffer: false,
-      generateMipmaps: false,
-      minFilter: LinearFilter,
+      generateMipmaps: true,
+      minFilter: LinearMipmapLinearFilter,
       magFilter: LinearFilter
     });
     this.cubeCamera = new CubeCamera(0.1, 2e5, this.cubeTarget);
@@ -49815,8 +49263,8 @@ var VolumetricSky = class {
     this.lastReflectionTime = -1;
     this.cubeSweep = 0;
     this.nextFace = 0;
-    this.view = new SkyPass(camera);
-    this.reflection = new SkyPass(camera);
+    this.view = new SkyPass(camera2);
+    this.reflection = new SkyPass(camera2);
     this.reflection.atmosphere.sun = false;
     this.cubeCamera.coordinateSystem = renderer.coordinateSystem;
     this.cubeCamera.updateCoordinateSystem();
@@ -50031,7 +49479,7 @@ var VolumetricSky = class {
     if (this.settleFrames <= 0) return;
     this.settleFrames--;
     const renderer = this.renderer;
-    const target = renderer.getRenderTarget(), face = renderer.getActiveCubeFace(), mip = renderer.getActiveMipmapLevel();
+    const target2 = renderer.getRenderTarget(), face = renderer.getActiveCubeFace(), mip = renderer.getActiveMipmapLevel();
     const alpha = renderer.getClearAlpha(), scissorTest = renderer.getScissorTest();
     renderer.getClearColor(this.clearColor);
     renderer.getViewport(this.viewport);
@@ -50058,7 +49506,7 @@ var VolumetricSky = class {
       this.dirty = false;
       this.lightingChanged = false;
     } finally {
-      renderer.setRenderTarget(target, face, mip);
+      renderer.setRenderTarget(target2, face, mip);
       renderer.setClearColor(this.clearColor, alpha);
       renderer.setViewport(this.viewport);
       renderer.setScissor(this.scissor);
@@ -50077,8 +49525,476 @@ var VolumetricSky = class {
   }
 };
 
+// src/sky/HdriCrossfade.ts
+var VERT = (
+  /* glsl */
+  `
+varying vec2 vUv;
+void main() {
+  vUv = position.xy * 0.5 + 0.5;
+  // z = 1\uFF1A\u6B63\u597D\u5728\u8FDC\u5E73\u9762\uFF0C\u573A\u666F\u91CC\u753B\u8FC7\u4E1C\u897F\u7684\u50CF\u7D20 depth < 1\uFF0C\u4F1A\u628A\u5B83\u6321\u6389
+  gl_Position = vec4(position.xy, 1.0, 1.0);
+}
+`
+);
+var FRAG = (
+  /* glsl */
+  `
+uniform sampler2D uFrom;
+uniform mat4 uInvVP;
+uniform float uStrength;
+uniform float uRotation;
+uniform float uIntensity;
+uniform float uExposure;
+varying vec2 vUv;
+
+vec3 rrt(vec3 v) {
+  vec3 a = v * (v + 0.0245786) - 0.000090537;
+  vec3 b = v * (0.983729 * v + 0.4329510) + 0.238081;
+  return a / b;
+}
+vec3 aces(vec3 color) {
+  const mat3 IN = mat3(
+    vec3(0.59719, 0.07600, 0.02840),
+    vec3(0.35458, 0.90834, 0.13383),
+    vec3(0.04823, 0.01566, 0.83777)
+  );
+  const mat3 OUT = mat3(
+    vec3( 1.60475, -0.10208, -0.00327),
+    vec3(-0.53108,  1.10813, -0.07276),
+    vec3(-0.07367, -0.00605,  1.07602)
+  );
+  color = IN * color;
+  color = rrt(color);
+  color = OUT * color;
+  return clamp(color, 0.0, 1.0);
+}
+vec3 toSRGB(vec3 c) {
+  return mix(pow(c, vec3(0.41666)) * 1.055 - 0.055, c * 12.92, vec3(lessThanEqual(c, vec3(0.0031308))));
+}
+
+void main() {
+  vec4 world = uInvVP * vec4(vUv * 2.0 - 1.0, 1.0, 1.0);
+  vec3 dir = normalize(world.xyz / world.w - cameraPosition);
+  float az = atan(dir.z, dir.x) - uRotation;
+  vec2 uv = vec2(az / 6.2831853 + 0.5, asin(clamp(dir.y, -1.0, 1.0)) / 3.14159265 + 0.5);
+  vec3 color = texture2D(uFrom, uv).rgb * uIntensity;
+  // \u4E0E three \u7684 ACESFilmicToneMapping \u540C\u4E00\u66DD\u5149\u4E0E\u89C2\u770B\u73AF\u5883\u7CFB\u6570\uFF0C\u5207\u6362\u65F6\u6CA1\u6709\u4EAE\u5EA6\u53F0\u9636\u3002
+  color = toSRGB(aces(color * uExposure / 0.6));
+  gl_FragColor = vec4(color, uStrength);
+}
+`
+);
+var HdriCrossfade = class {
+  constructor() {
+    this.remaining = 0;
+    this.duration = 1;
+    this.material = new ShaderMaterial({
+      vertexShader: VERT,
+      fragmentShader: FRAG,
+      uniforms: {
+        uFrom: { value: null },
+        uInvVP: { value: new Matrix4() },
+        uStrength: { value: 0 },
+        uRotation: { value: 0 },
+        uIntensity: { value: 1 },
+        uExposure: { value: 1 }
+      },
+      transparent: true,
+      depthTest: true,
+      depthWrite: false,
+      // 和清除深度相等也算通过：天空像素的深度就是 1
+      depthFunc: LessEqualDepth,
+      side: DoubleSide
+    });
+    this.mesh = new Mesh(new PlaneGeometry(2, 2), this.material);
+    this.mesh.frustumCulled = false;
+    this.mesh.visible = false;
+    this.mesh.renderOrder = -100;
+    this.mesh.name = "hdri-crossfade";
+  }
+  /** 从旧的全景图开始一次交叉淡入（等距矩形背景不吃旋转，uRotation 保持 0） */
+  start(texture, intensity, exposure, duration = 1.05) {
+    this.material.uniforms.uFrom.value = texture;
+    this.material.uniforms.uRotation.value = 0;
+    this.material.uniforms.uIntensity.value = intensity;
+    this.material.uniforms.uExposure.value = exposure;
+    this.material.uniforms.uStrength.value = 1;
+    this.remaining = duration;
+    this.duration = duration;
+    this.mesh.visible = true;
+  }
+  /** 每帧推进；返回是否仍在淡入 */
+  update(dt3, camera2) {
+    if (!this.mesh.visible) return false;
+    const cam = camera2;
+    this.material.uniforms.uInvVP.value.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse).invert();
+    this.remaining -= dt3;
+    const t3 = Math.max(this.remaining, 0) / this.duration;
+    this.material.uniforms.uStrength.value = t3 * t3 * (3 - 2 * t3);
+    if (this.remaining <= 0) {
+      this.mesh.visible = false;
+      this.material.uniforms.uFrom.value = null;
+      return false;
+    }
+    return true;
+  }
+  dispose() {
+    this.mesh.geometry.dispose();
+    this.material.dispose();
+  }
+};
+
+// src/sky/hdriPresets.ts
+var SKY_PRESETS = {
+  // [HDRI] az37.3 el27.3 peak255 mean144.8 | [公式] exp1.00 env1.00 sun1.81
+  "sky-clear": {
+    id: "sky-clear",
+    label: "\u6674\u6717\u767D\u5929",
+    file: "sky-clear.jpg",
+    background: 1,
+    environment: 1,
+    exposure: 1,
+    sunColor: "#ffffff",
+    sunIntensity: 1.81,
+    sunAzimuth: 37.3,
+    sunElevation: 27.3,
+    ambientColor: "#cfe4f5",
+    ambientIntensity: 1.35,
+    fillIntensity: 3.1,
+    fog: 35e-5,
+    fogColor: "#bcc7d4",
+    scatter: "#0d5a66"
+  },
+  // [HDRI] az5.4 el59.9 peak255 mean162.1 | [公式] exp0.89 env1.10 sun1.46
+  "sky-partly-cloudy": {
+    id: "sky-partly-cloudy",
+    label: "\u591A\u4E91\u6674\u5929",
+    file: "sky-partly-cloudy.jpg",
+    background: 1,
+    environment: 1.1,
+    exposure: 0.89,
+    sunColor: "#ffffff",
+    sunIntensity: 1.46,
+    sunAzimuth: 5.4,
+    sunElevation: 59.9,
+    ambientColor: "#c9ddec",
+    ambientIntensity: 1.28,
+    fillIntensity: 2.6,
+    fog: 55e-5,
+    fogColor: "#acb2c1",
+    scatter: "#10505d"
+  },
+  // [HDRI] az357.7 el61.4（最亮云团，无明显太阳）peak234 mean199.3 | [公式] exp0.80 env1.10 sun0.85
+  "sky-overcast": {
+    id: "sky-overcast",
+    label: "\u9634\u5929",
+    file: "sky-overcast.jpg",
+    background: 1.05,
+    environment: 1.1,
+    exposure: 0.8,
+    sunColor: "#e2e1e0",
+    sunIntensity: 0.85,
+    sunAzimuth: 357.7,
+    sunElevation: 61.4,
+    ambientColor: "#b9c7d0",
+    ambientIntensity: 1.75,
+    fillIntensity: 1.1,
+    fog: 15e-4,
+    fogColor: "#afada9",
+    scatter: "#173f48"
+  },
+  // [HDRI] az32.5 el33.8 peak253.6 mean128.3 | [公式] exp1.13 env0.89 sun2.51
+  "sky-orchard": {
+    id: "sky-orchard",
+    label: "\u971E\u5149\u591A\u4E91",
+    file: "sky-orchard.jpg",
+    background: 1,
+    environment: 0.89,
+    exposure: 1.13,
+    sunColor: "#fbf4de",
+    sunIntensity: 2.51,
+    sunAzimuth: 32.5,
+    sunElevation: 33.8,
+    ambientColor: "#d9c2ae",
+    ambientIntensity: 1.15,
+    fillIntensity: 2,
+    fog: 9e-4,
+    fogColor: "#4e5660",
+    scatter: "#25303f"
+  },
+  // [HDRI] az37.0 el20.0（太阳在地平线，亮斑质心被眩光抬高）peak236.1 mean162.0 | [公式] exp0.89 env1.10 sun1.35
+  "sky-sunset": {
+    id: "sky-sunset",
+    label: "\u65E5\u843D",
+    file: "sky-sunset.jpg",
+    background: 1,
+    environment: 1.1,
+    exposure: 0.89,
+    sunColor: "#eae9e5",
+    sunIntensity: 1.35,
+    sunAzimuth: 37,
+    sunElevation: 20,
+    ambientColor: "#c98f7c",
+    ambientIntensity: 1,
+    fillIntensity: 1.7,
+    fog: 11e-4,
+    fogColor: "#a1a8af",
+    scatter: "#4a3a46",
+    horizonGlow: 0.12
+  },
+  // [HDRI] az36.2 el23.0 peak235 mean183.6 | [公式] exp0.80 env1.10 sun1.03
+  "sky-dusk": {
+    id: "sky-dusk",
+    label: "\u9EC4\u660F\u8584\u66AE",
+    file: "sky-dusk.jpg",
+    background: 1,
+    environment: 1.1,
+    exposure: 0.8,
+    sunColor: "#f3e8e5",
+    sunIntensity: 1.03,
+    sunAzimuth: 36.2,
+    sunElevation: 23,
+    ambientColor: "#77708f",
+    ambientIntensity: 0.95,
+    fillIntensity: 0.5,
+    fog: 13e-4,
+    fogColor: "#afa6b2",
+    scatter: "#2b2f4c",
+    horizonGlow: 0.09
+  },
+  // [HDRI] az28.9 el15.1（月升亮斑）peak255 mean148.3 | [公式] exp0.98 env1.02 sun1.78
+  "sky-moonrise": {
+    id: "sky-moonrise",
+    label: "\u6708\u5347",
+    file: "sky-moonrise.jpg",
+    background: 1,
+    environment: 1.02,
+    exposure: 0.98,
+    sunColor: "#ffffff",
+    sunIntensity: 1.78,
+    sunAzimuth: 28.9,
+    sunElevation: 15.1,
+    ambientColor: "#50627f",
+    ambientIntensity: 0.8,
+    fillIntensity: 0.25,
+    fog: 15e-4,
+    fogColor: "#e5eef3",
+    scatter: "#12283a",
+    moon: { azimuth: 28.9, elevation: 15.1, size: 34, opacity: 0.95 }
+  },
+  // [回退] 峰值 135.6 <165，无方向光；az/el 沿用人工值 | [公式] exp1.45 env0.60 sun1.67
+  "sky-night": {
+    id: "sky-night",
+    label: "\u6DF1\u591C",
+    file: "sky-night.jpg",
+    background: 1,
+    environment: 0.6,
+    exposure: 1.45,
+    sunColor: "#777679",
+    sunIntensity: 1.67,
+    sunAzimuth: 210,
+    sunElevation: 42,
+    ambientColor: "#2d3b53",
+    ambientIntensity: 0.7,
+    fillIntensity: 0.12,
+    fog: 18e-4,
+    fogColor: "#2c3036",
+    scatter: "#0b1c2a",
+    moon: { azimuth: 210, elevation: 42, size: 30, opacity: 0.9 }
+  },
+  // [回退] 峰值 79.9 <165 | [公式] exp1.45 env0.60 sun2.50
+  "sky-starmap": {
+    id: "sky-starmap",
+    label: "\u661F\u7A7A",
+    file: "sky-starmap.jpg",
+    background: 1,
+    environment: 0.6,
+    exposure: 1.45,
+    sunColor: "#383233",
+    sunIntensity: 2.5,
+    sunAzimuth: 250,
+    sunElevation: 28,
+    ambientColor: "#26334a",
+    ambientIntensity: 0.62,
+    fillIntensity: 0.1,
+    fog: 19e-4,
+    fogColor: "#131111",
+    scatter: "#091824"
+  }
+};
+var SKY_OPTIONS = [
+  { id: "auto", label: "\u8DDF\u968F\u73AF\u5883\u9884\u8BBE" },
+  { id: "volumetric", label: "\u7A0B\u5E8F\u5316\u4F53\u79EF\u5929\u7A7A" },
+  ...Object.values(SKY_PRESETS).map((preset) => ({ id: preset.id, label: preset.label }))
+];
+function isHdriId(id) {
+  return id in SKY_PRESETS;
+}
+function hdriPresetFromFile(file) {
+  if (!file) return null;
+  const found = Object.values(SKY_PRESETS).find((preset) => preset.file === file);
+  return found ?? null;
+}
+function skyDirection(azimuthDeg, elevationDeg, out = new Vector3()) {
+  const az = MathUtils.degToRad(azimuthDeg);
+  const el = MathUtils.degToRad(elevationDeg);
+  return out.set(Math.cos(el) * Math.cos(az), Math.sin(el), Math.cos(el) * Math.sin(az));
+}
+function detectSkyLight(texture) {
+  const image = texture.image;
+  if (!image || typeof document === "undefined") return null;
+  try {
+    const W2 = 256, H4 = 128;
+    const canvas = document.createElement("canvas");
+    canvas.width = W2;
+    canvas.height = H4;
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    if (!context) return null;
+    context.drawImage(image, 0, 0, W2, H4);
+    const data = context.getImageData(0, 0, W2, H4).data;
+    let sx = 0, sy = 0, sw = 0, peak = 0;
+    for (let y4 = 0; y4 < H4; y4++) {
+      const v3 = 1 - (y4 + 0.5) / H4;
+      if ((v3 - 0.5) * 180 < 4) continue;
+      for (let x3 = 0; x3 < W2; x3++) {
+        const i4 = (y4 * W2 + x3) * 4;
+        const lum = 0.2126 * data[i4] + 0.7152 * data[i4 + 1] + 0.0722 * data[i4 + 2];
+        if (lum > peak) peak = lum;
+        const t3 = Math.max(0, lum / 255 - 0.55) / 0.45;
+        const w4 = t3 * t3 * t3 * t3 * t3 * t3;
+        sx += x3 * w4;
+        sy += y4 * w4;
+        sw += w4;
+      }
+    }
+    if (sw < 1e-5 || peak < 165) return null;
+    const azimuth = (((sx / sw + 0.5) / W2 - 0.5) * 360 + 360) % 360;
+    const elevation = (1 - (sy / sw + 0.5) / H4 - 0.5) * 180;
+    return { azimuth, elevation, peak };
+  } catch {
+    return null;
+  }
+}
+
+// src/audio/Ambience.ts
+var FILES = {
+  tranquil: "audio/tranquil.mp3",
+  calm: "audio/calm.mp3",
+  storm: "audio/storm.mp3",
+  underwater: "audio/underwater.mp3"
+};
+var FADE_SECONDS = 2.4;
+var Ambience = class {
+  constructor(assetBase, volume = 0.5) {
+    this.context = null;
+    this.master = null;
+    this.tracks = /* @__PURE__ */ new Map();
+    this.current = null;
+    this.desired = null;
+    this.volume = 0.5;
+    this.muted = false;
+    this.unlocked = false;
+    this.disposed = false;
+    this.loaded = /* @__PURE__ */ new Set();
+    this.base = assetBase;
+    this.volume = volume;
+  }
+  /** 首次用户手势后调用：创建 AudioContext 并开始当前音轨 */
+  unlock() {
+    if (this.disposed || this.unlocked) return;
+    this.unlocked = true;
+    this.ensureContext();
+    if (this.context?.state === "suspended") void this.context.resume();
+    this.applyDesired();
+  }
+  setVolume(value) {
+    this.volume = Math.min(1, Math.max(0, value));
+    if (this.master && this.context) {
+      this.master.gain.setTargetAtTime(this.muted ? 0 : this.volume, this.context.currentTime, 0.15);
+    }
+  }
+  setMuted(muted) {
+    this.muted = muted;
+    this.setVolume(this.volume);
+  }
+  /** 每帧调用：根据天气 / 水下状态选一条音轨 */
+  update(track) {
+    if (this.desired === track) return;
+    this.desired = track;
+    this.applyDesired();
+  }
+  ensureContext() {
+    if (this.context) return;
+    const Ctor = window.AudioContext ?? window.webkitAudioContext;
+    if (!Ctor) return;
+    this.context = new Ctor();
+    this.master = this.context.createGain();
+    this.master.gain.value = this.muted ? 0 : this.volume;
+    this.master.connect(this.context.destination);
+  }
+  track(name) {
+    if (!this.context || !this.master) return null;
+    const existing = this.tracks.get(name);
+    if (existing) return existing;
+    const element2 = document.createElement("audio");
+    element2.src = this.base + FILES[name];
+    element2.loop = true;
+    element2.preload = "auto";
+    element2.crossOrigin = "anonymous";
+    const source = this.context.createMediaElementSource(element2);
+    const gain = this.context.createGain();
+    gain.gain.value = 0;
+    source.connect(gain);
+    gain.connect(this.master);
+    const entry = { element: element2, gain, level: 0 };
+    this.tracks.set(name, entry);
+    return entry;
+  }
+  applyDesired() {
+    if (!this.unlocked || !this.desired) return;
+    const name = this.desired;
+    if (this.current === name) return;
+    this.current = name;
+    const entry = this.track(name);
+    if (entry) {
+      const play = entry.element.play();
+      if (play) play.catch(() => {
+      });
+    }
+    this.loaded.add(name);
+  }
+  /** 每帧调用，推进增益插值 */
+  step(dt3) {
+    if (!this.context) return;
+    const target2 = this.current;
+    const k3 = 1 - Math.exp(-dt3 / (FADE_SECONDS * 0.32));
+    for (const [key, entry] of this.tracks) {
+      const want = key === target2 ? 1 : 0;
+      entry.level += (want - entry.level) * k3;
+      entry.gain.gain.setTargetAtTime(entry.level * entry.level * (this.muted ? 0 : 1), this.context.currentTime, 0.08);
+      if (key !== target2 && entry.level < 2e-3 && !entry.element.paused) {
+        entry.element.pause();
+        entry.level = 0;
+      }
+    }
+  }
+  dispose() {
+    this.disposed = true;
+    for (const entry of this.tracks.values()) {
+      entry.element.pause();
+      entry.element.src = "";
+      entry.gain.disconnect();
+    }
+    this.tracks.clear();
+    void this.context?.close();
+    this.context = null;
+    this.master = null;
+  }
+};
+
 // src/lighting/UnderwaterLighting.ts
-var vertex3 = (
+var vertex2 = (
   /* glsl */
   `
   varying vec2 vUv;
@@ -50117,15 +50033,38 @@ var waterUniforms = (
   /* glsl */
   `
   uniform sampler2D uWaterCaustics;
+  uniform sampler2D uWaveCaustics;
+  uniform sampler2D uWaveCausticsDeep;
   uniform vec3 uWaterSun;
+  uniform vec3 uExtinction;
+  uniform vec3 uSeabedExtinction;
   uniform float uWaterSunStrength;
+  uniform float uCausticStrength;
+  uniform float uCausticSpeed;
+  uniform float uCausticTime;
+  uniform float uCausticScale;
+  uniform float uCausticDepth;  // \u7126\u6563\u5B8C\u5168\u6D88\u5931\u7684\u6C34\u6DF1\uFF08\u9ED8\u8BA4 4 m\uFF09
+
+  // \u6CE2\u9762\u7126\u6563\uFF1A\u7528\u6CE2\u7EB9\u5761\u5EA6\u628A\u9633\u5149\u6298\u5C04\u5230\u6D77\u5E8A\uFF1B\u8D34\u56FE\u5747\u503C \u2248 1\uFF0C\u5F3A\u5EA6 0 \u65F6\u8FD4\u56DE 1\uFF08\u5173\u95ED\uFF09\u3002
   float waterCaustic(vec3 p) {
-    float depth = max(-p.y,0.);
-    vec2 surface = p.xz + uWaterSun.xz * depth/max(uWaterSun.y,.2);
-    vec2 uv = surface / 24.;
-    float a = texture2D(uWaterCaustics,uv).r;
-    float b = texture2D(uWaterCaustics,mat2(.8,-.6,.6,.8)*uv*1.73 + .31).r;
-    return a*.72 + b*.28;
+    float depth = max(-p.y, 0.0);
+    if (depth <= 0.001) return 1.0;
+    vec3 rs = refract(-uWaterSun, vec3(0.0, 1.0, 0.0), 1.0 / 1.33);
+    vec2 entry = p.xz + rs.xz / max(rs.y, 0.2) * depth;
+    // \u7126\u6563\u6574\u4F53\u7F13\u6162\u6D41\u52A8\uFF0C\u901F\u5EA6\u7531\u9762\u677F\u63A7\u5236\u3002
+    entry -= vec2(0.42, 0.26) * uCausticSpeed * uCausticTime;
+    vec2 uv = entry / max(uCausticScale, 0.01);
+    float v = texture2D(uWaveCaustics, uv).r;
+    if (depth > 1.5) {
+      vec2 d = texture2D(uWaveCausticsDeep, uv).rg;
+      v = mix(v, d.r, smoothstep(1.5, 4.0, depth));
+      v = mix(v, d.g, smoothstep(4.0, 10.0, depth));
+    }
+    // \u89C4\u5219\uFF1A0~1 m \u5F3A\u7126\u6563\uFF0C1~4 m \u7F13\u6162\u51CF\u5F31\uFF0C\u8D85\u8FC7 uCausticDepth \u5B8C\u5168\u5173\u95ED\u3002
+    float fade = smoothstep(uCausticDepth, 1.0, depth);
+    // \u6D45\u6C34\u5904\u518D\u53E0\u4E00\u70B9\u4F4E\u9891\u95EA\u70C1\uFF0C\u8BA9\u7126\u6563\u201C\u67D4\u548C\u201D\u800C\u4E0D\u662F\u786C\u7F51
+    float soft = 0.88 + 0.12 * texture2D(uWaveCausticsDeep, uv * 0.37).g;
+    return mix(1.0, v * soft, fade * uCausticStrength);
   }
 `
 );
@@ -50139,6 +50078,14 @@ var UnderwaterLighting = class {
     this.clock = { value: 0 };
     this.sunDirection = { value: new Vector3(0, 1, 0) };
     this.sunStrength = { value: 1 };
+    this.waveCaustics = { value: null };
+    this.waveCausticsDeep = { value: null };
+    this.causticStrength = { value: 1 };
+    this.causticSpeed = { value: 1 };
+    this.causticScale = { value: 12 };
+    this.causticDepth = { value: 4 };
+    this.extinction = { value: new Vector3(0.18, 0.095, 0.035) };
+    this.seabedExtinction = { value: new Vector3(0.23, 0.09, 0.03) };
     this.materials = /* @__PURE__ */ new WeakSet();
     this.lastTime = NaN;
     this.caustics.texture.generateMipmaps = true;
@@ -50147,7 +50094,7 @@ var UnderwaterLighting = class {
     this.target.depthTexture = new DepthTexture(1, 1, UnsignedIntType);
     this.causticMaterial = new ShaderMaterial({
       uniforms: { uTime: this.clock },
-      vertexShader: vertex3,
+      vertexShader: vertex2,
       fragmentShader: causticFragment,
       depthTest: false,
       depthWrite: false,
@@ -50170,7 +50117,7 @@ var UnderwaterLighting = class {
         uHasShadow: { value: false },
         uRays: { value: 1 }
       },
-      vertexShader: vertex3,
+      vertexShader: vertex2,
       fragmentShader: (
         /* glsl */
         `
@@ -50203,7 +50150,9 @@ var UnderwaterLighting = class {
           float waterLength = distanceToScene;
           if(direction.y>.0001) waterLength = min(waterLength,max((uWaterLevel-uEye.y)/direction.y,0.));
           waterLength = max(waterLength,0.);
-          vec3 extinction = vec3(.17,.06,.035);
+          // \u5438\u6536\uFF1A\u7EFF\u5149\u4E5F\u538B\u4E00\u4E9B\uFF0C\u6D45\u6D77\u5E8A\u4E0D\u4F1A\u628A\u6574\u7247\u6C34\u67D3\u6210\u6A44\u6984\u7EFF\uFF1B
+          // \u84DD\u5149\u4FDD\u7559\u6700\u591A\uFF0C\u900F\u8FC7\u6C34\u770B\u5230\u7684\u662F\u53C2\u8003\u56FE\u90A3\u79CD\u6DE1\u84DD
+          vec3 extinction = uExtinction;
           vec3 transmission = exp(-extinction*waterLength);
           vec3 ambient = vec3(.004,.047,.09)*(.025+.975*uDaylight);
           vec3 scattered = ambient*(1.-transmission);
@@ -50217,7 +50166,7 @@ var UnderwaterLighting = class {
             float t = (float(i)+.5)*stepLength;
             vec3 p = uEye+direction*t;
             float sunPath = max(uWaterLevel-p.y,0.)/max(uWaterSun.y,.2);
-            vec3 sunTransmittance = exp(-vec3(.23,.068,.03)*sunPath);
+            vec3 sunTransmittance = exp(-uSeabedExtinction*sunPath);
             vec2 surface = p.xz + uWaterSun.xz * sunPath;
             float focus = textureLod(uWaterCaustics,surface/84.,2.5).r;
             focus = smoothstep(.08,.65,focus);
@@ -50239,7 +50188,41 @@ var UnderwaterLighting = class {
     this.scene.add(this.quad);
   }
   sharedUniforms() {
-    return { uWaterCaustics: { value: this.caustics.texture }, uWaterSun: this.sunDirection, uWaterSunStrength: this.sunStrength };
+    return {
+      uWaterCaustics: { value: this.caustics.texture },
+      uWaveCaustics: this.waveCaustics,
+      uWaveCausticsDeep: this.waveCausticsDeep,
+      uWaterSun: this.sunDirection,
+      uWaterSunStrength: this.sunStrength,
+      uExtinction: this.extinction,
+      uSeabedExtinction: this.seabedExtinction,
+      uCausticStrength: this.causticStrength,
+      uCausticSpeed: this.causticSpeed,
+      uCausticTime: this.clock,
+      uCausticScale: this.causticScale,
+      uCausticDepth: this.causticDepth
+    };
+  }
+  /** 接入 WaveCaustics 烘出的两张焦散贴图（近处 / 深处） */
+  setWaveCaustics(uniforms) {
+    this.waveCaustics.value = uniforms.uCaustics.value;
+    this.waveCausticsDeep.value = uniforms.uCausticsDeep.value;
+  }
+  /** 焦散强度 / 流动速度 / 贴图覆盖长度（应跟随 12 m 级联的采样覆盖） */
+  setCaustics(strength, speed, scale) {
+    this.causticStrength.value = Math.max(0, strength);
+    this.causticSpeed.value = Math.max(0, speed);
+    this.causticScale.value = Math.max(0.01, scale);
+  }
+  /** 焦散完全消失的水深（米）：0~1 m 最强，1~该值线性衰减，更深直接关闭 */
+  setCausticDepth(depth) {
+    this.causticDepth.value = Math.min(12, Math.max(1, depth));
+  }
+  /** 红光衰减系数：同时缩放水下雾与海床透光的红光通道 */
+  setAbsorption(red) {
+    const k3 = Math.min(3.5, Math.max(0.2, red / 0.4));
+    this.extinction.value.set(0.18 * k3, 0.095, 0.035);
+    this.seabedExtinction.value.set(0.23 * k3, 0.09, 0.03);
   }
   applyTo(material) {
     if (!(material instanceof MeshStandardMaterial) || this.materials.has(material)) return;
@@ -50253,10 +50236,14 @@ var UnderwaterLighting = class {
         #include <lights_fragment_end>
         float waterDepth = max(-vWaterWorld.y,0.);
         float submerged = smoothstep(0.,.4,waterDepth);
-        float pattern = waterCaustic(vWaterWorld);
-        // \u5728\u8272\u8C03\u6620\u5C04\u524D\u8C03\u5236\u53D7\u5149\u7684\u6F2B\u5C04\u8F90\u4EAE\u5EA6\uFF1B\u5DF2\u6709\u7684\u6295\u5F71\u9634\u5F71\u4FDD\u6301\u6697\u90E8\u3002
-        reflectedLight.directDiffuse *= mix(1.,.65+pattern*3.4,submerged*uWaterSunStrength);
-        vec3 waterTransmission = exp(-vec3(.23,.068,.03)*waterDepth/max(uWaterSun.y,.35));
+        float caustic = clamp(waterCaustic(vWaterWorld), 0.0, 4.0);
+        // \u7126\u6563\u53EA\u4F1A\u6253\u5728\u671D\u4E0A\u7684\u6D77\u5E8A\u4E0A\uFF1A\u5782\u76F4\u7684\u5D16\u58C1 / \u7901\u58C1\u4E0D\u63A5\u6C34\u7684\u5149\u5F71\uFF0C\u907F\u514D\u5899\u4E0A
+        // \u51FA\u73B0\u4E00\u5708\u5708\u6643\u52A8\u7684\u5149\u6591\u3002
+        vec3 waterNormalW = inverseTransformDirection(normal, viewMatrix);
+        float upFacing = smoothstep(0.05, 0.4, waterNormalW.y);
+        // \u7126\u6563\u4F5C\u4E3A\u76F4\u5C04\u592A\u9633\u7684\u500D\u7387\uFF08\u5747\u503C\u7EA6 1\uFF09\uFF0C\u5DF2\u6709\u7684\u6295\u5F71\u9634\u5F71\u4FDD\u6301\u6697\u90E8\u3002
+        reflectedLight.directDiffuse *= mix(1., caustic * 1.6, submerged * uWaterSunStrength * upFacing);
+        vec3 waterTransmission = exp(-uSeabedExtinction*waterDepth/max(uWaterSun.y,.35));
         reflectedLight.directDiffuse *= mix(vec3(1.),waterTransmission,submerged);
         reflectedLight.indirectDiffuse *= mix(vec3(1.),waterTransmission*.7,submerged);
       `);
@@ -50279,17 +50266,17 @@ var UnderwaterLighting = class {
     this.composite.uniforms.uDaylight.value = daylight;
     if (this.lastTime === time) return;
     this.clock.value = time;
-    const target = renderer.getRenderTarget();
+    const target2 = renderer.getRenderTarget();
     this.quad.material = this.causticMaterial;
     renderer.setRenderTarget(this.caustics);
     renderer.render(this.scene, this.camera);
-    renderer.setRenderTarget(target);
+    renderer.setRenderTarget(target2);
     this.lastTime = time;
   }
-  render(renderer, camera, sun, waterLevel, output = null) {
-    this.composite.uniforms.uInverseProjection.value.copy(camera.projectionMatrixInverse);
-    this.composite.uniforms.uCameraWorld.value.copy(camera.matrixWorld);
-    this.composite.uniforms.uEye.value.copy(camera.position);
+  render(renderer, camera2, sun, waterLevel, output = null) {
+    this.composite.uniforms.uInverseProjection.value.copy(camera2.projectionMatrixInverse);
+    this.composite.uniforms.uCameraWorld.value.copy(camera2.matrixWorld);
+    this.composite.uniforms.uEye.value.copy(camera2.position);
     this.composite.uniforms.uWaterLevel.value = waterLevel;
     this.composite.uniforms.uShadow.value = sun.shadow.map?.texture ?? null;
     this.composite.uniforms.uShadowMatrix.value.copy(sun.shadow.matrix);
@@ -50308,27 +50295,1470 @@ var UnderwaterLighting = class {
   }
 };
 
+// src/scene/lagoonShore.ts
+var INF = 1e20;
+function edt1d(f4, n4, d3, v3, z4) {
+  let k3 = 0;
+  v3[0] = 0;
+  z4[0] = -INF;
+  z4[1] = INF;
+  for (let q4 = 1; q4 < n4; q4++) {
+    let s2 = (f4[q4] + q4 * q4 - (f4[v3[k3]] + v3[k3] * v3[k3])) / (2 * q4 - 2 * v3[k3]);
+    while (s2 <= z4[k3]) {
+      k3--;
+      s2 = (f4[q4] + q4 * q4 - (f4[v3[k3]] + v3[k3] * v3[k3])) / (2 * q4 - 2 * v3[k3]);
+    }
+    k3++;
+    v3[k3] = q4;
+    z4[k3] = s2;
+    z4[k3 + 1] = INF;
+  }
+  k3 = 0;
+  for (let q4 = 0; q4 < n4; q4++) {
+    while (z4[k3 + 1] < q4) k3++;
+    d3[q4] = (q4 - v3[k3]) * (q4 - v3[k3]) + f4[v3[k3]];
+  }
+}
+function edt2d(mask, size) {
+  const out = new Float64Array(size * size);
+  for (let i4 = 0; i4 < out.length; i4++) out[i4] = mask[i4] ? 0 : INF;
+  const f4 = new Float64Array(size), d3 = new Float64Array(size), v3 = new Int32Array(size), z4 = new Float64Array(size + 1);
+  for (let x3 = 0; x3 < size; x3++) {
+    for (let y4 = 0; y4 < size; y4++) f4[y4] = out[y4 * size + x3];
+    edt1d(f4, size, d3, v3, z4);
+    for (let y4 = 0; y4 < size; y4++) out[y4 * size + x3] = d3[y4];
+  }
+  for (let y4 = 0; y4 < size; y4++) {
+    for (let x3 = 0; x3 < size; x3++) f4[x3] = out[y4 * size + x3];
+    edt1d(f4, size, d3, v3, z4);
+    for (let x3 = 0; x3 < size; x3++) out[y4 * size + x3] = d3[x3];
+  }
+  return out;
+}
+var clampi = (x3, hi2) => x3 < 0 ? 0 : x3 > hi2 ? hi2 : x3;
+function boxBlur(src, size, r3) {
+  const tmp2 = new Float32Array(src.length), dst = new Float32Array(src.length);
+  const w4 = 2 * r3 + 1, hi2 = size - 1;
+  for (let y4 = 0; y4 < size; y4++) {
+    const o2 = y4 * size;
+    let s2 = 0;
+    for (let i4 = -r3; i4 <= r3; i4++) s2 += src[o2 + clampi(i4, hi2)];
+    for (let x3 = 0; x3 < size; x3++) {
+      tmp2[o2 + x3] = s2 / w4;
+      s2 += src[o2 + clampi(x3 + r3 + 1, hi2)] - src[o2 + clampi(x3 - r3, hi2)];
+    }
+  }
+  for (let x3 = 0; x3 < size; x3++) {
+    let s2 = 0;
+    for (let i4 = -r3; i4 <= r3; i4++) s2 += tmp2[clampi(i4, hi2) * size + x3];
+    for (let y4 = 0; y4 < size; y4++) {
+      dst[y4 * size + x3] = s2 / w4;
+      s2 += tmp2[clampi(y4 + r3 + 1, hi2) * size + x3] - tmp2[clampi(y4 - r3, hi2) * size + x3];
+    }
+  }
+  return dst;
+}
+function floatTex(data, size) {
+  const half = new Uint16Array(data.length);
+  for (let i4 = 0; i4 < data.length; i4++) half[i4] = DataUtils.toHalfFloat(data[i4]);
+  const tex = new DataTexture(half, size, size, RGBAFormat, HalfFloatType);
+  tex.minFilter = tex.magFilter = LinearFilter;
+  tex.wrapS = tex.wrapT = ClampToEdgeWrapping;
+  tex.needsUpdate = true;
+  return tex;
+}
+var GRAV = 9.81;
+var DMIN = 0.3;
+var DMAX = 14;
+var ISLET = 32;
+var RAY_L = 26;
+var RAY_STEP = 2;
+var RAY_BAND = 130;
+var KAPPA_MAX = 1 / 9;
+function wetMask(sea, size) {
+  const n4 = size * size, wet = sea.slice(), seen = new Uint8Array(n4), stack = new Int32Array(n4), comp = new Int32Array(n4);
+  for (let s2 = 0; s2 < n4; s2++) {
+    if (sea[s2] || seen[s2]) continue;
+    let top = 0, cnt = 0;
+    stack[top++] = s2;
+    seen[s2] = 1;
+    while (top > 0) {
+      const k3 = stack[--top], i4 = k3 % size;
+      comp[cnt++] = k3;
+      if (i4 > 0 && !sea[k3 - 1] && !seen[k3 - 1]) {
+        seen[k3 - 1] = 1;
+        stack[top++] = k3 - 1;
+      }
+      if (i4 < size - 1 && !sea[k3 + 1] && !seen[k3 + 1]) {
+        seen[k3 + 1] = 1;
+        stack[top++] = k3 + 1;
+      }
+      if (k3 >= size && !sea[k3 - size] && !seen[k3 - size]) {
+        seen[k3 - size] = 1;
+        stack[top++] = k3 - size;
+      }
+      if (k3 < n4 - size && !sea[k3 + size] && !seen[k3 + size]) {
+        seen[k3 + size] = 1;
+        stack[top++] = k3 + size;
+      }
+    }
+    if (cnt < ISLET) for (let q4 = 0; q4 < cnt; q4++) wet[comp[q4]] = 1;
+  }
+  return wet;
+}
+function speeds(height, c5, slow, texel) {
+  for (let k3 = 0; k3 < c5.length; k3++) {
+    c5[k3] = Math.sqrt(GRAV * Math.min(DMAX, Math.max(DMIN, -height[k3])));
+    slow[k3] = texel / c5[k3];
+  }
+}
+function seedFront(T5, open, height, wet, slow, size) {
+  const W2 = size + 2;
+  open.fill(2);
+  for (let j3 = 0; j3 < size; j3++) open.fill(1, (j3 + 1) * W2 + 1, (j3 + 1) * W2 + 1 + size);
+  for (let j3 = 0; j3 < size; j3++) for (let i4 = 0; i4 < size; i4++) {
+    const k3 = j3 * size + i4, w4 = wet[k3], h3 = height[k3];
+    let dx = Infinity, dy = Infinity;
+    if (i4 > 0 && wet[k3 - 1] !== w4) dx = h3 / (h3 - height[k3 - 1]);
+    if (i4 < size - 1 && wet[k3 + 1] !== w4) dx = Math.min(dx, h3 / (h3 - height[k3 + 1]));
+    if (j3 > 0 && wet[k3 - size] !== w4) dy = h3 / (h3 - height[k3 - size]);
+    if (j3 < size - 1 && wet[k3 + size] !== w4) dy = Math.min(dy, h3 / (h3 - height[k3 + size]));
+    if (dx === Infinity && dy === Infinity) continue;
+    const d3 = dx === Infinity ? dy : dy === Infinity ? dx : dx * dy / (Math.sqrt(dx * dx + dy * dy) || 1);
+    const p4 = k3 + 2 * j3 + W2 + 1;
+    T5[p4] = d3 * slow[k3];
+    open[p4] = 2;
+  }
+}
+function pass(T5, open, slow, size, di2, dj) {
+  const W2 = size + 2;
+  let changed = 0;
+  for (let jj = 0, j3 = dj > 0 ? 0 : size - 1; jj < size; jj++, j3 += dj) {
+    for (let ii = 0, i4 = di2 > 0 ? 0 : size - 1; ii < size; ii++, i4 += di2) {
+      const k3 = j3 * size + i4, p4 = k3 + 2 * j3 + W2 + 1;
+      if (open[p4] !== 1) continue;
+      open[p4] = 0;
+      const l3 = T5[p4 - 1], r3 = T5[p4 + 1], u4 = T5[p4 - W2], v3 = T5[p4 + W2];
+      const a3 = l3 < r3 ? l3 : r3, b6 = u4 < v3 ? u4 : v3, f4 = slow[k3], d3 = a3 > b6 ? a3 - b6 : b6 - a3;
+      const t3 = d3 >= f4 ? (a3 < b6 ? a3 : b6) + f4 : 0.5 * (a3 + b6 + Math.sqrt(Math.max(0, 2 * f4 * f4 - d3 * d3)));
+      if (t3 < T5[p4] - 1e-4) {
+        T5[p4] = t3;
+        changed++;
+        if (open[p4 - 1] === 0) open[p4 - 1] = 1;
+        if (open[p4 + 1] === 0) open[p4 + 1] = 1;
+        if (open[p4 - W2] === 0) open[p4 - W2] = 1;
+        if (open[p4 + W2] === 0) open[p4 + W2] = 1;
+      }
+    }
+  }
+  return changed;
+}
+var sweep = (T5, open, slow, size) => pass(T5, open, slow, size, 1, 1) + pass(T5, open, slow, size, -1, 1) + pass(T5, open, slow, size, 1, -1) + pass(T5, open, slow, size, -1, -1);
+function signedTau(T5, wet, size) {
+  const tau = new Float32Array(size * size);
+  for (let j3 = 0; j3 < size; j3++) for (let i4 = 0; i4 < size; i4++) {
+    const k3 = j3 * size + i4, t3 = T5[k3 + 2 * j3 + size + 3];
+    tau[k3] = t3 === Infinity ? 0 : wet[k3] ? t3 : -t3;
+  }
+  return tau;
+}
+function frontDir(tau, c5, dirX, dirZ, coh, size, texel) {
+  for (let j3 = 0; j3 < size; j3++) {
+    const jm = j3 > 0 ? -size : 0, jp = j3 < size - 1 ? size : 0;
+    for (let i4 = 0; i4 < size; i4++) {
+      const k3 = j3 * size + i4, im = i4 > 0 ? -1 : 0, ip = i4 < size - 1 ? 1 : 0;
+      const gx = tau[k3 + ip] - tau[k3 + im], gz = tau[k3 + jp] - tau[k3 + jm];
+      const g6 = Math.sqrt(gx * gx + gz * gz);
+      if (g6 > 1e-9) {
+        dirX[k3] = -gx / g6;
+        dirZ[k3] = -gz / g6;
+      }
+      const q4 = Math.min(1, Math.max(0, (g6 / (2 * texel) * c5[k3] - 0.7) / 0.25));
+      coh[k3] = q4 * q4 * (3 - 2 * q4);
+    }
+  }
+}
+function curvature(dirX, dirZ, coh, size, texel) {
+  const kappa = new Float32Array(size * size);
+  for (let j3 = 0; j3 < size; j3++) {
+    const jm = j3 > 0 ? -size : 0, jp = j3 < size - 1 ? size : 0;
+    for (let i4 = 0; i4 < size; i4++) {
+      const k3 = j3 * size + i4, im = i4 > 0 ? -1 : 0, ip = i4 < size - 1 ? 1 : 0;
+      const kp = -(dirX[k3 + ip] - dirX[k3 + im] + dirZ[k3 + jp] - dirZ[k3 + jm]) / (2 * texel);
+      kappa[k3] = Math.min(KAPPA_MAX, Math.max(-KAPPA_MAX, kp)) * coh[k3];
+    }
+  }
+  return kappa;
+}
+function rayTube(kappa, dirX, dirZ, sdf, size, texel) {
+  const h3 = size >> 1, G5 = new Float32Array(h3 * h3);
+  const ds = RAY_STEP * texel, steps = Math.ceil(2.5 * RAY_L / ds);
+  const wts = new Float32Array(steps);
+  for (let s2 = 0; s2 < steps; s2++) wts[s2] = Math.exp(-s2 * ds / RAY_L) * ds;
+  for (let J3 = 0; J3 < h3; J3++) for (let I4 = 0; I4 < h3; I4++) {
+    const i4 = 2 * I4, j3 = 2 * J3, k3 = j3 * size + i4;
+    const band = Math.min(1, Math.max(0, (RAY_BAND - sdf[k3]) / 35));
+    if (sdf[k3] < -3 * texel || band === 0) continue;
+    let x3 = i4, y4 = j3, g6 = 0;
+    for (let s2 = 0; s2 < steps; s2++) {
+      const ii = Math.min(size - 2, x3 | 0), jj = Math.min(size - 2, y4 | 0), m3 = jj * size + ii;
+      const fx = x3 - ii, fy = y4 - jj;
+      const w00 = (1 - fx) * (1 - fy), w10 = fx * (1 - fy), w01 = (1 - fx) * fy, w11 = fx * fy;
+      g6 += wts[s2] * (kappa[m3] * w00 + kappa[m3 + 1] * w10 + kappa[m3 + size] * w01 + kappa[m3 + size + 1] * w11);
+      x3 -= RAY_STEP * (dirX[m3] * w00 + dirX[m3 + 1] * w10 + dirX[m3 + size] * w01 + dirX[m3 + size + 1] * w11);
+      y4 -= RAY_STEP * (dirZ[m3] * w00 + dirZ[m3 + 1] * w10 + dirZ[m3 + size] * w01 + dirZ[m3 + size + 1] * w11);
+      if (x3 < 0 || y4 < 0 || x3 > size - 1 || y4 > size - 1) break;
+    }
+    G5[J3 * h3 + I4] = g6 * band;
+  }
+  return G5;
+}
+function packTravel(tau, dirX, dirZ, G5, height, fade, size) {
+  const h3 = size >> 1, data = new Float32Array(size * size * 4);
+  for (let j3 = 0; j3 < size; j3++) {
+    const y4 = Math.min(h3 - 1, j3 * 0.5), J3 = Math.min(h3 - 2, y4 | 0), fy = y4 - J3;
+    for (let i4 = 0; i4 < size; i4++) {
+      const x3 = Math.min(h3 - 1, i4 * 0.5), I4 = Math.min(h3 - 2, x3 | 0), fx = x3 - I4, m3 = J3 * h3 + I4;
+      const g6 = (G5[m3] * (1 - fx) + G5[m3 + 1] * fx) * (1 - fy) + (G5[m3 + h3] * (1 - fx) + G5[m3 + h3 + 1] * fx) * fy;
+      const k3 = j3 * size + i4;
+      const green = 1 / Math.sqrt(Math.sqrt(Math.min(1, Math.max(0.04, Math.max(-height[k3], 0.6) / DMAX))));
+      data[k3 * 4] = tau[k3];
+      data[k3 * 4 + 1] = dirX[k3];
+      data[k3 * 4 + 2] = dirZ[k3];
+      data[k3 * 4 + 3] = Math.min(2.5, Math.max(0.3, g6 === 0 ? green : green * Math.exp(0.5 * g6))) * fade[k3];
+    }
+  }
+  return data;
+}
+var SMAX = 6;
+var HYST = 0.3;
+var S_STEP = 3;
+var S_DEEP = 8;
+function surfShelter(height, dirX, dirZ, sdf, size, texel) {
+  const S5 = new Float32Array(size * size).fill(SMAX);
+  const steps = Math.ceil(600 / (S_STEP * texel));
+  for (let j3 = 0; j3 < size; j3++) for (let i4 = 0; i4 < size; i4++) {
+    const k3 = j3 * size + i4;
+    if (sdf[k3] > 220 || sdf[k3] < -40) continue;
+    let x3 = i4, y4 = j3, wet = false, runMax = -Infinity, s2 = SMAX;
+    for (let n4 = 0; n4 < steps; n4++) {
+      const ii = Math.min(size - 2, x3 | 0), jj = Math.min(size - 2, y4 | 0), m3 = jj * size + ii;
+      const fx = x3 - ii, fy = y4 - jj;
+      const w00 = (1 - fx) * (1 - fy), w10 = fx * (1 - fy), w01 = (1 - fx) * fy, w11 = fx * fy;
+      const d3 = -(height[m3] * w00 + height[m3 + 1] * w10 + height[m3 + size] * w01 + height[m3 + size + 1] * w11);
+      if (d3 > 0) wet = true;
+      if (wet) {
+        if (d3 <= 0 && runMax > HYST) {
+          s2 = 0;
+          break;
+        }
+        if (d3 > S_DEEP) break;
+        if (d3 < runMax - HYST && d3 < s2) s2 = d3;
+        if (d3 > runMax) runMax = d3;
+      }
+      x3 -= S_STEP * (dirX[m3] * w00 + dirX[m3 + 1] * w10 + dirX[m3 + size] * w01 + dirX[m3 + size + 1] * w11);
+      y4 -= S_STEP * (dirZ[m3] * w00 + dirZ[m3 + 1] * w10 + dirZ[m3 + size] * w01 + dirZ[m3 + size + 1] * w11);
+      if (x3 < 0 || y4 < 0 || x3 > size - 1 || y4 > size - 1) break;
+    }
+    S5[k3] = Math.max(0, s2);
+  }
+  return boxBlur(boxBlur(S5, size, 2), size, 2);
+}
+var DAMP_SMOOTH_RADIUS_M = 20;
+var COARSE_SMOOTH_RADIUS_M = 140;
+var DAMP_SLOPE_LOW = 0.15;
+var DAMP_SLOPE_HIGH = 0.5;
+var DAMP_DEPTH_CAP_M = 2;
+function smooth01(a3, b6, x3) {
+  const t3 = Math.min(1, Math.max(0, (x3 - a3) / (b6 - a3)));
+  return t3 * t3 * (3 - 2 * t3);
+}
+function bakeLagoonShore(heightFn, center, extent, size = 256) {
+  const texel = extent / size;
+  const bed = new Float32Array(size * size), height = new Float32Array(size * size);
+  const land = new Uint8Array(size * size), sea = new Uint8Array(size * size);
+  for (let j3 = 0; j3 < size; j3++) for (let i4 = 0; i4 < size; i4++) {
+    const x3 = center.x + ((i4 + 0.5) / size - 0.5) * extent;
+    const z4 = center.y + ((j3 + 0.5) / size - 0.5) * extent;
+    const h3 = heightFn(x3, z4);
+    const k3 = j3 * size + i4;
+    land[k3] = h3 > 0 ? 1 : 0;
+    sea[k3] = h3 <= 0 ? 1 : 0;
+    bed[k3] = h3;
+    height[k3] = h3;
+  }
+  const toLand = edt2d(land, size), toSea = edt2d(sea, size);
+  let sdf = new Float32Array(size * size);
+  for (let k3 = 0; k3 < sdf.length; k3++) {
+    const d3 = sea[k3] ? (Math.sqrt(toLand[k3]) - 0.5) * texel : -(Math.sqrt(toSea[k3]) - 0.5) * texel;
+    sdf[k3] = Math.max(-1e4, Math.min(1e4, d3));
+  }
+  sdf = boxBlur(boxBlur(sdf, size, 2), size, 2);
+  const wet = wetMask(sea, size);
+  const c5 = new Float32Array(size * size), slow = new Float64Array(size * size);
+  speeds(height, c5, slow, texel);
+  const T5 = new Float64Array((size + 2) * (size + 2)).fill(Infinity);
+  const open = new Uint8Array((size + 2) * (size + 2));
+  seedFront(T5, open, height, wet, slow, size);
+  for (let it2 = 0; it2 < 12 && sweep(T5, open, slow, size) > 0; it2++) ;
+  const tau = boxBlur(boxBlur(signedTau(T5, wet, size), size, 2), size, 2);
+  const dirX = new Float32Array(size * size), dirZ = new Float32Array(size * size), coh = new Float32Array(size * size);
+  frontDir(tau, c5, dirX, dirZ, coh, size, texel);
+  const kappa = boxBlur(boxBlur(curvature(dirX, dirZ, coh, size, texel), size, 2), size, 2);
+  const fade = boxBlur(boxBlur(coh, size, 2), size, 2);
+  const travelData = packTravel(tau, dirX, dirZ, rayTube(kappa, dirX, dirZ, sdf, size, texel), height, fade, size);
+  const shelter = surfShelter(height, dirX, dirZ, sdf, size, texel);
+  const depthSharp = new Float32Array(size * size);
+  for (let k3 = 0; k3 < depthSharp.length; k3++) depthSharp[k3] = Math.max(0, -bed[k3]);
+  const bedMax = new Float32Array(size * size);
+  for (let j3 = 0; j3 < size; j3++) for (let i4 = 0; i4 < size; i4++) {
+    let m3 = -Infinity;
+    for (let dz = -2; dz <= 2; dz++) for (let dx = -2; dx <= 2; dx++) {
+      const v3 = bed[clampi(j3 + dz, size - 1) * size + clampi(i4 + dx, size - 1)];
+      if (v3 > m3) m3 = v3;
+    }
+    bedMax[j3 * size + i4] = m3;
+  }
+  const smoothRadius = Math.max(2, Math.round(DAMP_SMOOTH_RADIUS_M / texel));
+  const smoothed = boxBlur(boxBlur(depthSharp, size, smoothRadius), size, smoothRadius);
+  const coarseRadius = Math.max(2, Math.round(COARSE_SMOOTH_RADIUS_M / texel));
+  const coarseDepth = boxBlur(boxBlur(depthSharp, size, coarseRadius), size, coarseRadius);
+  const slope = new Float32Array(size * size);
+  for (let j3 = 0; j3 < size; j3++) for (let i4 = 0; i4 < size; i4++) {
+    const k3 = j3 * size + i4;
+    const xm = i4 > 0 ? bed[k3 - 1] : bed[k3];
+    const xp = i4 < size - 1 ? bed[k3 + 1] : bed[k3];
+    const zm = j3 > 0 ? bed[k3 - size] : bed[k3];
+    const zp = j3 < size - 1 ? bed[k3 + size] : bed[k3];
+    const gx = (xp - xm) / (2 * texel);
+    const gz = (zp - zm) / (2 * texel);
+    slope[k3] = smooth01(DAMP_SLOPE_LOW, DAMP_SLOPE_HIGH, Math.hypot(gx, gz));
+  }
+  const steep = boxBlur(slope, size, 2);
+  const dampingDepth = new Float32Array(size * size);
+  for (let k3 = 0; k3 < dampingDepth.length; k3++) {
+    const smooth = Math.min(smoothed[k3], depthSharp[k3] + DAMP_DEPTH_CAP_M);
+    dampingDepth[k3] = depthSharp[k3] + (smooth - depthSharp[k3]) * steep[k3];
+  }
+  const shoreData = new Float32Array(size * size * 4);
+  for (let k3 = 0; k3 < size * size; k3++) {
+    shoreData[k3 * 4] = bed[k3];
+    shoreData[k3 * 4 + 1] = sdf[k3];
+    shoreData[k3 * 4 + 2] = shelter[k3];
+    shoreData[k3 * 4 + 3] = dampingDepth[k3];
+  }
+  const shoreMap = floatTex(shoreData, size);
+  const travelMap = floatTex(travelData, size);
+  return {
+    shoreMap,
+    travelMap,
+    dampingDepth,
+    coarseDepth,
+    bedMax,
+    dispose: () => {
+      shoreMap.dispose();
+      travelMap.dispose();
+    }
+  };
+}
+
+// src/terrain/simplex.ts
+var F22 = 0.5 * (Math.sqrt(3) - 1);
+var G22 = (3 - Math.sqrt(3)) / 6;
+var GRAD_X = [1, -1, 1, -1, 1, -1, 0, 0];
+var GRAD_Z = [1, 1, -1, -1, 0, 0, 1, -1];
+function mulberry32(seed) {
+  let a3 = seed >>> 0;
+  return () => {
+    a3 = a3 + 1831565813 >>> 0;
+    let t3 = a3;
+    t3 = Math.imul(t3 ^ t3 >>> 15, t3 | 1);
+    t3 ^= t3 + Math.imul(t3 ^ t3 >>> 7, t3 | 61);
+    return ((t3 ^ t3 >>> 14) >>> 0) / 4294967296;
+  };
+}
+var PERM = new Uint8Array(512);
+{
+  const random = mulberry32(20261119);
+  const p4 = new Uint8Array(256);
+  for (let i4 = 0; i4 < 256; i4++) p4[i4] = i4;
+  for (let i4 = 255; i4 > 0; i4--) {
+    const j3 = Math.floor(random() * (i4 + 1));
+    const tmp2 = p4[i4];
+    p4[i4] = p4[j3];
+    p4[j3] = tmp2;
+  }
+  for (let i4 = 0; i4 < 512; i4++) PERM[i4] = p4[i4 & 255];
+}
+function simplex2(x3, z4) {
+  const s2 = (x3 + z4) * F22;
+  const i4 = Math.floor(x3 + s2);
+  const j3 = Math.floor(z4 + s2);
+  const t3 = (i4 + j3) * G22;
+  const x02 = x3 - (i4 - t3);
+  const z0 = z4 - (j3 - t3);
+  const i1 = x02 > z0 ? 1 : 0;
+  const j1 = 1 - i1;
+  const x1 = x02 - i1 + G22;
+  const z1 = z0 - j1 + G22;
+  const x22 = x02 - 1 + 2 * G22;
+  const z22 = z0 - 1 + 2 * G22;
+  const ii = i4 & 255;
+  const jj = j3 & 255;
+  let n4 = 0;
+  let t02 = 0.5 - x02 * x02 - z0 * z0;
+  if (t02 > 0) {
+    const g6 = PERM[ii + PERM[jj]] & 7;
+    t02 *= t02;
+    n4 += t02 * t02 * (GRAD_X[g6] * x02 + GRAD_Z[g6] * z0);
+  }
+  let t1 = 0.5 - x1 * x1 - z1 * z1;
+  if (t1 > 0) {
+    const g6 = PERM[ii + i1 + PERM[jj + j1]] & 7;
+    t1 *= t1;
+    n4 += t1 * t1 * (GRAD_X[g6] * x1 + GRAD_Z[g6] * z1);
+  }
+  let t22 = 0.5 - x22 * x22 - z22 * z22;
+  if (t22 > 0) {
+    const g6 = PERM[ii + 1 + PERM[jj + 1]] & 7;
+    t22 *= t22;
+    n4 += t22 * t22 * (GRAD_X[g6] * x22 + GRAD_Z[g6] * z22);
+  }
+  return 70 * n4;
+}
+function fbm(x3, z4, octaves = 4, gain = 0.5, lacunarity = 2) {
+  let sum = 0;
+  let amp = 0.5;
+  let norm = 0;
+  let fx = x3;
+  let fz = z4;
+  for (let i4 = 0; i4 < octaves; i4++) {
+    sum += amp * simplex2(fx, fz);
+    norm += amp;
+    const nx = (fx * 0.8 - fz * 0.6) * lacunarity;
+    const nz = (fx * 0.6 + fz * 0.8) * lacunarity;
+    fx = nx + 13.7;
+    fz = nz - 7.1;
+    amp *= gain;
+  }
+  return sum / norm;
+}
+function ridge(x3, z4, octaves = 3, gain = 0.5, lacunarity = 2) {
+  let sum = 0;
+  let amp = 0.5;
+  let norm = 0;
+  let fx = x3;
+  let fz = z4;
+  for (let i4 = 0; i4 < octaves; i4++) {
+    const n4 = 1 - Math.abs(simplex2(fx, fz));
+    sum += amp * n4 * n4;
+    norm += amp;
+    const nx = (fx * 0.8 - fz * 0.6) * lacunarity;
+    const nz = (fx * 0.6 + fz * 0.8) * lacunarity;
+    fx = nx + 5.3;
+    fz = nz + 9.7;
+    amp *= gain;
+  }
+  return sum / norm;
+}
+var clamp2 = (x3, a3, b6) => x3 < a3 ? a3 : x3 > b6 ? b6 : x3;
+var smoothstep2 = (a3, b6, x3) => {
+  const t3 = clamp2((x3 - a3) / (b6 - a3), 0, 1);
+  return t3 * t3 * (3 - 2 * t3);
+};
+var mix = (a3, b6, t3) => a3 + (b6 - a3) * t3;
+function smax(a3, b6, k3) {
+  const h3 = clamp2(0.5 + 0.5 * (a3 - b6) / k3, 0, 1);
+  return mix(b6, a3, h3) + k3 * h3 * (1 - h3);
+}
+
+// src/terrain/coastIslands.ts
+var TERRAIN_CENTER = { x: -150, z: -260 };
+var TERRAIN_VARIANTS = {
+  sand: { kind: "sand", label: "\u5E73\u7F13\u6C99\u6EE9", center: TERRAIN_CENTER, extent: 640, scale: 1, mooringRadius: 130 },
+  reef: { kind: "reef", label: "\u73CA\u745A\u7901\u53F0", center: TERRAIN_CENTER, extent: 780, scale: 1.9, mooringRadius: 120 },
+  cliff: { kind: "cliff", label: "\u60AC\u5D16\u6D77\u5CB8", center: TERRAIN_CENTER, extent: 620, scale: 0.85, mooringRadius: 90 },
+  atoll: { kind: "atoll", label: "\u73AF\u7901\u6F5F\u6E56", center: TERRAIN_CENTER, extent: 820, scale: 1.8, mooringRadius: 125 },
+  // 开阔海：只铺基础海床，没有任何程序化海岸；岛全部由 overlays 提供。
+  open: { kind: "open", label: "\u5F00\u9614\u6D77", center: TERRAIN_CENTER, extent: 1e3, scale: 1, mooringRadius: 130 }
+};
+var TERRAIN_KINDS = ["sand", "reef", "cliff", "atoll", "open"];
+var hypot = Math.hypot;
+var TAU = Math.PI * 2;
+function angDiff(a3, b6) {
+  let d3 = (a3 - b6) % TAU;
+  if (d3 > Math.PI) d3 -= TAU;
+  if (d3 < -Math.PI) d3 += TAU;
+  return d3;
+}
+function baseSeabedHeight(x3, z4) {
+  return -5.4 - Math.min(hypot(x3, z4 + 20) * 0.037, 28) + Math.sin(x3 * 0.085) * Math.cos(z4 * 0.07) * 0.85;
+}
+function mixTo(a3, b6, t3) {
+  return a3 + (b6 - a3) * t3;
+}
+function sandHeight(_x2, _z2, _base, dx, dz) {
+  const wx = fbm(dx * 8e-3 + 11.3, dz * 8e-3 - 4.1, 2);
+  const wz = fbm(dx * 8e-3 - 7.2, dz * 8e-3 + 9.4, 2);
+  const r3 = hypot(dx - 22 * wx, dz + 18 * wz) * (1 + 0.1 * fbm(dx * 0.013, dz * 0.013, 2));
+  const hi2 = 13.6 * Math.exp(-((r3 / 52) ** 2)) + 2.6 * Math.exp(-((r3 / 88) ** 2));
+  let h3 = hi2 - 1.9;
+  const offshore = Math.max(0, r3 - 85);
+  if (h3 > 0 && h3 < 3.4) {
+    h3 *= 0.72 + 0.08235 * h3;
+  } else if (r3 > 85) {
+    h3 = -0.05 * offshore - 1 * smoothstep2(20, 75, offshore) - 0.11 * Math.max(0, offshore - 75);
+  }
+  const ang = Math.atan2(dz, dx);
+  h3 += 0.18 * fbm(dx * 0.045, dz * 0.045, 2) * smoothstep2(-16, -1, h3);
+  const barPhase = 116 + 7 * Math.sin(ang * 2 + 1.1) + 4 * Math.sin(ang * 3.3 - 0.4) + 4 * fbm(dx * 0.01 + 4.4, dz * 0.01 - 2.2, 2);
+  h3 += 0.95 * smoothstep2(13, 3, Math.abs(r3 - barPhase)) * smoothstep2(-0.25, -1.4, h3);
+  const chA = angDiff(ang, -0.95 + 0.18 * fbm(dx * 0.01, dz * 0.01, 2));
+  const chB = angDiff(ang, 2.25 + 0.18 * fbm(dx * 0.011 + 7, dz * 0.011, 2));
+  const radial = smoothstep2(95, 118, r3) * (1 - smoothstep2(150, 178, r3));
+  const channel = Math.max(smoothstep2(11, 2.5, Math.abs(chA) * r3), smoothstep2(9, 2, Math.abs(chB) * r3)) * radial;
+  h3 -= 1.6 * channel * smoothstep2(-0.15, -1, h3);
+  const shallowBand = smoothstep2(-0.05, 0.6, -h3) * smoothstep2(6, 1.2, -h3);
+  if (shallowBand > 1e-3) {
+    const ca = Math.cos(0.72), sa = Math.sin(0.72);
+    h3 += 0.075 * fbm((dx * ca - dz * sa) * 0.16, (dx * sa + dz * ca) * 0.55, 2) * shallowBand;
+  }
+  return h3;
+}
+var REEF_BOULDERS = [
+  { x: 58, z: -6, r: 7, top: 1.6 },
+  { x: -44, z: 32, r: 5.5, top: 0.7 },
+  { x: 16, z: 52, r: 4.2, top: -0.4 },
+  { x: -30, z: -43, r: 6.5, top: 0.2 },
+  { x: 66, z: 30, r: 5, top: -1.2 }
+];
+function reefHeight(_x2, _z2, _base, dx, dz, shelfLip) {
+  const wob = 1 + 0.1 * fbm(dx * 0.018 + 22.1, dz * 0.018 - 8.4, 2) + 0.04 * simplex2(dx * 0.06, dz * 0.06);
+  const r3 = hypot(dx, dz) * wob;
+  let top = -2 + 1.8 * ridge(dx * 0.035 + 3.1, dz * 0.035 - 1.7, 3);
+  top -= 0.65 * smoothstep2(0.7, 0.94, ridge(dx * 0.09 - 7.1, dz * 0.09 + 4.4, 2)) * (1 - smoothstep2(44, 56, r3));
+  top += 0.45 * fbm(dx * 0.07 + 2.2, dz * 0.07 - 9.3, 2) * (1 - smoothstep2(44, 58, r3));
+  let h3 = top;
+  h3 = mixTo(h3, -5, smoothstep2(46, 52, r3) * shelfLip);
+  const outer = smoothstep2(47, 64, r3) * (1 - shelfLip) + smoothstep2(58, 70, r3) * shelfLip;
+  h3 = mixTo(h3, -16, outer);
+  for (const b6 of REEF_BOULDERS) {
+    const bd = hypot(dx - b6.x, dz - b6.z);
+    if (bd > b6.r * 3) continue;
+    h3 = smax(h3, b6.top - 2.4 * smoothstep2(0, b6.r, bd) - 6 * smoothstep2(b6.r, b6.r * 2.6, bd), 0.6);
+  }
+  h3 += 0.5 * smoothstep2(0.62, 0.96, ridge(dx * 0.028 - 4.2, dz * 0.028 + 8.8, 2)) * smoothstep2(56, 46, r3) * smoothstep2(64, 42, r3);
+  return h3;
+}
+function cliffHeight(_x2, _z2, base, dx, dz) {
+  const ang = Math.atan2(dz, dx);
+  const r02 = hypot(dx, dz);
+  const ca = Math.cos(ang), sa = Math.sin(ang);
+  const lobes = Math.sin(ang * 3 + 0.7) * 0.2 + Math.sin(ang * 5 - 1.3) * 0.12 + Math.sin(ang * 8 + 2.4) * 0.06 + fbm(ca * 1.55 + 9.1, sa * 1.55 - 3.3, 3) * 0.18;
+  const rib = (ridge(ang * 9 + 1.7, 5, 3) - 0.5) * 0.1 + (ridge(ang * 19 - 0.8, 2.5, 2) - 0.5) * 0.045;
+  const r3 = r02 * (1 + lobes + rib);
+  const shore = 34 + 6.5 * Math.sin(ang * 4 + 2.1) + 3.2 * fbm(ca * 1 + 7.7, sa * 1 - 2.4, 1);
+  const top = 17 + 10 * fbm(dx * 0.02 + 3.1, dz * 0.02 - 6.2, 3) + 4 * Math.sin(ang * 2.5 + 0.4);
+  const d3 = r3 - shore;
+  const ledge = 0.9 + 0.5 * fbm(dx * 0.07 + 3.3, dz * 0.07 - 8.8, 2);
+  let h3 = mixTo(top, ledge, smoothstep2(-7, -1, d3));
+  const groove = (ridge(ang * 9 + 3, r3 * 0.06, 2) - 0.55) * 3.4 + (ridge(ang * 21 - 1.2, r3 * 0.11 + 4, 2) - 0.5) * 1.6;
+  h3 += groove * smoothstep2(-8, -5, d3) * (1 - smoothstep2(-1, 3, d3));
+  h3 += 3 * (ridge(dx * 0.06 + 1.3, dz * 0.06 + 8.2, 3) - 0.5) * smoothstep2(4, 9, h3);
+  h3 += 2 * fbm(dx * 0.02 + 5.1, dz * 0.02 + 2.2, 2) * smoothstep2(6, 12, h3);
+  const sector = fbm(ca * 0.95 + dx * 35e-4 + 4.7, sa * 0.95 + dz * 35e-4 - 2.9, 2);
+  const steepW = smoothstep2(-0.02, 0.42, sector);
+  const shelfGentle = -0.05 * d3 - 1 * smoothstep2(20, 75, d3) - 0.11 * Math.max(0, d3 - 75);
+  const shelfSteep = Math.max(
+    base - 1.2,
+    ledge - 1.7 * Math.max(0, d3 - 0.6) - 0.5 * Math.max(0, d3 - 8)
+  );
+  h3 = mixTo(h3, mixTo(shelfGentle, shelfSteep, steepW), smoothstep2(-1, 3, d3));
+  const rubbleMask = smoothstep2(1, 4, d3) * (1 - smoothstep2(40, 60, d3)) * (1 - 0.65 * steepW);
+  h3 += (ridge(dx * 0.085 - 4.6, dz * 0.085 + 2.9, 2) - 0.4) * 0.7 * rubbleMask;
+  h3 += 0.18 * fbm(dx * 0.15 + 8.5, dz * 0.15 - 1.7, 2) * rubbleMask;
+  return h3;
+}
+var ATOLL_CAYS = [
+  { a: 0.28, r: 1, s: 7.5, top: 1.8 },
+  { a: 2.92, r: 0.97, s: 5.5, top: 1.1 }
+];
+var ATOLL_HEADS = [
+  { x: 14, z: 6, r: 5, top: -0.6 },
+  { x: -18, z: -9, r: 4, top: -0.9 },
+  { x: 5, z: -22, r: 3.5, top: -1.1 },
+  { x: -6, z: 20, r: 4.5, top: -0.8 }
+];
+function atollHeight(_x2, _z2, _base, dx, dz, shelfLip) {
+  const ang = Math.atan2(dz, dx);
+  const r3 = hypot(dx, dz) * (1 + 0.06 * fbm(dx * 0.02 + 3.7, dz * 0.02 - 6.1, 2));
+  const ringR = 50 + 4 * Math.sin(ang * 2 + 1.1) + 3 * fbm(dx * 0.02 - 8.2, dz * 0.02 + 1.4, 2);
+  const pass2 = Math.max(
+    smoothstep2(0.3, 0, Math.abs(angDiff(ang, 0.65))),
+    smoothstep2(0.26, 0, Math.abs(angDiff(ang, 3.55)))
+  );
+  const ringTop = mixTo(-0.45, -4.4, pass2) + 2.1 * (ridge(dx * 0.055 + 1.1, dz * 0.055 - 2.2, 2) - 0.5) + 0.6 * fbm(dx * 0.09 + 6.2, dz * 0.09 - 3.8, 2);
+  const floor = -2.5 - 1 * smoothstep2(0, 32, r3) + 0.42 * fbm(dx * 0.055 + 5.6, dz * 0.055 - 4.2, 2) + 0.16 * fbm(dx * 0.13 - 2.3, dz * 0.13 + 7.4, 2);
+  let h3 = mixTo(floor, ringTop, smoothstep2(ringR - 7, ringR - 2.5, r3));
+  h3 = mixTo(h3, -5, smoothstep2(ringR + 4, ringR + 10, r3) * shelfLip);
+  const outer = smoothstep2(ringR + 5, ringR + 20, r3) * (1 - shelfLip) + smoothstep2(ringR + 16, ringR + 32, r3) * shelfLip;
+  h3 = mixTo(h3, -17, outer);
+  for (const cay of ATOLL_CAYS) {
+    const cx = Math.cos(cay.a) * ringR * cay.r;
+    const cz = Math.sin(cay.a) * ringR * cay.r;
+    const cd = hypot(dx - cx, dz - cz);
+    h3 = smax(h3, cay.top - 2.2 * smoothstep2(0, cay.s, cd) - 5 * smoothstep2(cay.s, cay.s * 2.4, cd), 0.8);
+  }
+  for (const head of ATOLL_HEADS) {
+    const hd = hypot(dx - head.x, dz - head.z);
+    if (hd > head.r * 3) continue;
+    h3 = smax(h3, head.top - 2 * smoothstep2(0, head.r, hd) - 4 * smoothstep2(head.r, head.r * 2.5, hd), 0.5);
+  }
+  return h3;
+}
+var BIOME_RADIUS = {
+  sand: [125, 180],
+  reef: [52, 70],
+  cliff: [80, 110],
+  atoll: [46, 56],
+  open: [0, 1]
+};
+function createTerrainField(kind, options = {}) {
+  const baseVariant = TERRAIN_VARIANTS[kind];
+  const variant = {
+    ...baseVariant,
+    ...options.center ? { center: { ...options.center } } : {},
+    ...options.extent ? { extent: options.extent } : {},
+    ...options.mooringRadius ? { mooringRadius: options.mooringRadius } : {}
+  };
+  const shelfLip = Math.min(1, Math.max(0, options.shelfLip ?? 1));
+  const cx = variant.center.x;
+  const cz = variant.center.z;
+  const scale = variant.scale;
+  const height = (x3, z4) => {
+    const base = baseSeabedHeight(x3, z4);
+    const deep = smoothstep2(-14, -26, base);
+    let h3 = base + 1.6 * deep * fbm(x3 * 6e-3 + 2.3, z4 * 6e-3 - 1.1, 2);
+    const dx = (x3 - cx) / scale;
+    const dz = (z4 - cz) / scale;
+    const feature = kind === "sand" ? sandHeight(x3, z4, base, dx, dz) : kind === "reef" ? reefHeight(x3, z4, base, dx, dz, shelfLip) : kind === "cliff" ? cliffHeight(x3, z4, base, dx, dz) : kind === "atoll" ? atollHeight(x3, z4, base, dx, dz, shelfLip) : base;
+    const r3 = hypot(dx, dz);
+    const reach = kind === "sand" ? 240 : kind === "reef" ? 90 : kind === "cliff" ? 190 : kind === "atoll" ? 100 : 0;
+    if (r3 < reach) h3 = smax(h3, base + (feature - base) * (1 - smoothstep2(reach * 0.75, reach, r3)), 1.8);
+    return h3;
+  };
+  const biome = (x3, z4, out) => {
+    out[0] = out[1] = out[2] = out[3] = 0;
+    const d3 = hypot(x3 - cx, z4 - cz) / scale;
+    const [inner, outer] = BIOME_RADIUS[kind];
+    const w4 = 1 - smoothstep2(inner, outer, d3);
+    if (kind === "sand") out[0] = w4;
+    else if (kind === "reef") out[1] = w4;
+    else if (kind === "cliff") out[2] = w4;
+    else if (kind === "atoll") out[3] = w4;
+    return out;
+  };
+  return { variant, height, biome };
+}
+function terrainWaveDamping(field, x3, z4, dampingDepthAt) {
+  const bed = field.height(x3, z4);
+  const realDepth = Math.max(-bed, 0);
+  let depth = realDepth;
+  if (dampingDepthAt && bed <= 0) {
+    const smoothDepth = dampingDepthAt(x3, z4);
+    if (smoothDepth > 1e-3) depth = smoothDepth;
+  }
+  const shallow = 1 - smoothstep2(0, 3.2, depth);
+  const swell = smoothstep2(1, 4.2, depth) * (1 - 0.65 * shallow);
+  const chop = smoothstep2(-0.4, 2, depth) * (0.55 + 0.45 * smoothstep2(0, 10, depth));
+  const bio = field.biome(x3, z4, [0, 0, 0, 0]);
+  const calm = 1 - 0.72 * bio[3];
+  return { swell: swell * calm, chop: chop * (0.55 + 0.45 * calm) };
+}
+function findMooring(field) {
+  const { center, mooringRadius } = field.variant;
+  const rings = [mooringRadius, mooringRadius + 30, mooringRadius + 65, mooringRadius + 110, mooringRadius + 170];
+  for (const radius of rings) {
+    for (let i4 = 0; i4 < 32; i4++) {
+      const ang = i4 / 32 * TAU + 0.35;
+      const x3 = center.x + Math.cos(ang) * radius;
+      const z4 = center.z + Math.sin(ang) * radius;
+      if (field.height(x3, z4) < -4) {
+        const dx = center.x - x3;
+        const dz = center.z - z4;
+        return { x: x3, z: z4, heading: Math.atan2(-dz, dx) };
+      }
+    }
+  }
+  const fallback = { x: center.x, z: center.z + mooringRadius + 260 };
+  return { ...fallback, heading: Math.atan2(-(center.z - fallback.z), center.x - fallback.x) };
+}
+
+// src/terrain/TerrainSystem.ts
+var SHORE_MAP_SIZE = 512;
+var SAND_DRY = [206, 189, 149];
+var SAND_WET = [152, 137, 106];
+var SAND_SEABED = [232, 221, 194];
+var ROCK_A = [150, 142, 130];
+var ROCK_B = [96, 90, 84];
+var REEF_ALGAE = [56, 82, 46];
+var CORAL_RUBBLE = [158, 136, 118];
+var LAGOON_ALGAE = [104, 124, 88];
+function mix3(a3, b6, t3) {
+  return [a3[0] + (b6[0] - a3[0]) * t3, a3[1] + (b6[1] - a3[1]) * t3, a3[2] + (b6[2] - a3[2]) * t3];
+}
+function scale3(a3, k3) {
+  return [a3[0] * k3, a3[1] * k3, a3[2] * k3];
+}
+function sandSeabed(depth) {
+  if (depth < 0.35) return mix3(SAND_SEABED, [196, 186, 158], depth / 0.35);
+  if (depth < 1.6) return mix3([196, 186, 158], [152, 154, 130], (depth - 0.35) / 1.25);
+  if (depth < 4) return mix3([152, 154, 130], [138, 140, 118], (depth - 1.6) / 2.4);
+  if (depth < 9) return mix3([138, 140, 118], [118, 120, 104], (depth - 4) / 5);
+  return mix3([118, 120, 104], [84, 88, 84], Math.min(1, (depth - 9) / 12));
+}
+function surfaceColor(x3, z4, h3, slope, bio) {
+  const sandW = bio[0];
+  const reefW = bio[1];
+  const cliffW = bio[2];
+  const atollW = bio[3];
+  const rockW = Math.max(reefW, cliffW);
+  const n1 = simplex2(x3 * 0.09, z4 * 0.09) * 0.5 + 0.5;
+  const n22 = simplex2(x3 * 0.62 + 7.1, z4 * 0.62 - 3.3) * 0.5 + 0.5;
+  const n32 = simplex2(x3 * 0.014 + 2.2, z4 * 0.014 + 5.7) * 0.5 + 0.5;
+  const n4 = simplex2(x3 * 0.26 - 9.5, z4 * 0.26 + 1.8) * 0.5 + 0.5;
+  let c5;
+  if (h3 > 0.02) {
+    const dryMix = 0.72 + 0.28 * n32;
+    const rockW2 = Math.max(rockW, smoothstep2(0.4, 0.75, slope) * Math.max(sandW, 0.2));
+    c5 = mix3(SAND_DRY, [196, 178, 138], dryMix);
+    const strata = 0.5 + 0.5 * Math.sin(h3 * 2.4 + n32 * 6.5);
+    const weather = 0.5 + 0.5 * Math.sin(n22 * 9 + n4 * 5 + h3 * 0.35);
+    const rock = mix3(ROCK_A, ROCK_B, strata * 0.5 + n22 * 0.3 + weather * 0.2);
+    c5 = mix3(c5, rock, rockW2);
+    c5 = scale3(c5, 1 - 0.18 * smoothstep2(0.55, 0.95, slope) * n4 * cliffW);
+    c5 = mix3(c5, ROCK_B, smoothstep2(0.72, 0.94, n1) * rockW * 0.18);
+    const wet = 1 - smoothstep2(0.16, 0.85 + 0.35 * n1, h3);
+    c5 = mix3(c5, SAND_WET, wet * (1 - rockW2) * 0.8);
+    const swash = 1 - smoothstep2(0, 0.32 + 0.18 * n1, h3);
+    c5 = scale3(c5, 1 - 0.1 * swash * (1 - rockW2));
+  } else {
+    const depth = -h3;
+    if (rockW > 0.45) {
+      c5 = mix3(ROCK_A, ROCK_B, n22 * 0.65 + n32 * 0.35);
+      c5 = mix3(c5, SAND_DRY, smoothstep2(0.58, 0.92, n1) * rockW * 0.3);
+      c5 = mix3(c5, CORAL_RUBBLE, smoothstep2(0.66, 0.92, n4 * 0.6 + n22 * 0.4) * reefW * 0.55);
+      c5 = mix3(c5, REEF_ALGAE, smoothstep2(0.45, 0.78, n4 * 0.5 + n22 * 0.5) * reefW * 0.8);
+      c5 = scale3(c5, 1 - 0.3 * smoothstep2(0.55, 0.15, n22) * reefW);
+      if (atollW > 0.3) c5 = mix3(c5, SAND_SEABED, atollW * 0.5);
+      const shelf = cliffW * smoothstep2(0.85, 0.35, slope);
+      c5 = mix3(c5, sandSeabed(depth), shelf * 0.85);
+      c5 = mix3(c5, CORAL_RUBBLE, shelf * 0.22 * smoothstep2(0.5, 0.85, n4));
+    } else {
+      c5 = sandSeabed(depth);
+      if (atollW > 0.4) c5 = mix3(c5, SAND_SEABED, atollW * 0.5);
+      const rip = smoothstep2(0.05, 0.45, depth) * (1 - smoothstep2(3, 4.4, depth));
+      const ripple = Math.sin((x3 * Math.cos(0.72) - z4 * Math.sin(0.72)) * 1.25 + n4 * 6.2);
+      c5 = scale3(c5, 1 + 0.07 * ripple * rip);
+      const algae = smoothstep2(0.58, 0.86, n4 * 0.6 + n1 * 0.4) * smoothstep2(0.8, 2.2, depth) * (1 - smoothstep2(6, 9, depth));
+      c5 = mix3(c5, atollW > 0.4 ? LAGOON_ALGAE : REEF_ALGAE, algae * 0.3);
+    }
+  }
+  const tint = 0.95 + 0.1 * n22;
+  const shade = 1 - 0.28 * clamp2(slope, 0, 1);
+  return [c5[0] * tint * shade, c5[1] * tint * shade, c5[2] * tint * shade];
+}
+function toLinear(value) {
+  const v3 = clamp2(value / 255, 0, 1);
+  return Math.pow(v3, 2.2);
+}
+var DETAIL_CHUNK = (
+  /* glsl */
+  `
+varying vec3 vTerrainWorld;
+float terrainHash(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
+float terrainNoise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(terrainHash(i), terrainHash(i + vec2(1.0, 0.0)), f.x),
+             mix(terrainHash(i + vec2(0.0, 1.0)), terrainHash(i + vec2(1.0, 1.0)), f.x), f.y);
+}
+`
+);
+function createTerrainSystem(options) {
+  const field = createTerrainField(options.kind, {
+    shelfLip: options.shelfLip,
+    center: options.center,
+    extent: options.extent,
+    mooringRadius: options.mooringRadius
+  });
+  const baseHeight = field.height;
+  const baseBiome = field.biome;
+  const overlays = options.overlays ?? [];
+  if (overlays.length) {
+    field.height = (x3, z4) => {
+      let h3 = baseHeight(x3, z4);
+      for (const overlay of overlays) {
+        const oh = overlay.height(x3, z4);
+        if (oh > h3) h3 = oh;
+      }
+      return h3;
+    };
+    field.biome = (x3, z4, out) => {
+      baseBiome(x3, z4, out);
+      for (const overlay of overlays) overlay.biome(x3, z4, out);
+      return out;
+    };
+  }
+  const heightBake = overlays.length ? (x3, z4) => {
+    let h3 = baseHeight(x3, z4);
+    for (const overlay of overlays) {
+      const oh = overlay.bakeHeight(x3, z4);
+      if (oh > h3) h3 = oh;
+    }
+    return h3;
+  } : baseHeight;
+  const variant = field.variant;
+  const center = new Vector2(variant.center.x, variant.center.z);
+  const extent = variant.extent;
+  const segments = clamp2(Math.round(extent / 2.2), 180, 360);
+  const group = new Group();
+  group.name = `terrain-${options.kind}`;
+  const geometry2 = new PlaneGeometry(extent, extent, segments, segments);
+  geometry2.rotateX(-Math.PI / 2);
+  const positions = geometry2.getAttribute("position");
+  const colors = new Float32Array(positions.count * 3);
+  const sample = 3;
+  const bio = [0, 0, 0, 0];
+  for (let i4 = 0; i4 < positions.count; i4++) {
+    const x3 = positions.getX(i4) + center.x;
+    const z4 = positions.getZ(i4) + center.y;
+    const h3 = field.height(x3, z4);
+    positions.setY(i4, h3);
+    const sx = (field.height(x3 + sample, z4) - field.height(x3 - sample, z4)) / (2 * sample);
+    const sz = (field.height(x3, z4 + sample) - field.height(x3, z4 - sample)) / (2 * sample);
+    const slope = Math.min(1, Math.hypot(sx, sz));
+    field.biome(x3, z4, bio);
+    const [r3, g6, b6] = surfaceColor(x3, z4, h3, slope, bio);
+    colors[i4 * 3] = toLinear(r3);
+    colors[i4 * 3 + 1] = toLinear(g6);
+    colors[i4 * 3 + 2] = toLinear(b6);
+  }
+  positions.needsUpdate = true;
+  geometry2.setAttribute("color", new BufferAttribute(colors, 3));
+  geometry2.computeVertexNormals();
+  geometry2.computeBoundingSphere();
+  const material = new MeshStandardMaterial({
+    vertexColors: true,
+    roughness: 0.95,
+    metalness: 0,
+    dithering: true,
+    color: 13815752
+  });
+  const detailUniform = { value: 1 };
+  const handoffUniform = { value: clamp2(options.shoreHandoff ?? 1, 0, 1) };
+  options.underwater?.applyTo(material);
+  const baseCompile = material.onBeforeCompile;
+  material.onBeforeCompile = (shader, renderer) => {
+    baseCompile.call(material, shader, renderer);
+    shader.vertexShader = "varying vec3 vTerrainWorld;\n" + shader.vertexShader.replace("#include <worldpos_vertex>", "#include <worldpos_vertex>\nvTerrainWorld = (modelMatrix * vec4(transformed, 1.0)).xyz;");
+    shader.uniforms.uTerrainDetail = detailUniform;
+    shader.uniforms.uShoreHandoff = handoffUniform;
+    shader.fragmentShader = "uniform float uTerrainDetail;\nuniform float uShoreHandoff;\n" + DETAIL_CHUNK + shader.fragmentShader.replace("#include <color_fragment>", `#include <color_fragment>
+        float grain = terrainNoise(vTerrainWorld.xz * 0.65) * 0.6 + terrainNoise(vTerrainWorld.xz * 2.3) * 0.4;
+        diffuseColor.rgb *= 1.0 + (grain - 0.5) * 0.3 * uTerrainDetail;
+        // \u6C34\u7EBF\u6E7F\u75D5\uFF1A\u9AD8\u5EA6\u5E26\u5BBD\u5EA6\u968F\u566A\u58F0\u8D77\u4F0F\uFF0C\u8FB9\u7F18\u4E0D\u4F1A\u662F\u4E00\u6761\u6C34\u5E73\u7684\u76F4\u5C3A\u5370
+        float wetEdge = 0.75 + 0.55 * terrainNoise(vTerrainWorld.xz * 0.33);
+        float wetLine = 1.0 - smoothstep(0.0, wetEdge, abs(vTerrainWorld.y - 0.05));
+        // \u6E7F\u6C99\u4E0D\u53EA\u53D8\u6697\uFF0C\u8FD8\u5E26\u4E00\u70B9\u6C34\u7684\u9752\u7EFF\u8272\uFF1A\u6C34\u819C\u6CA1\u76D6\u4F4F\u7684\u5730\u65B9\u4E5F\u8BFB\u6210\u201C\u521A\u9000\u6C34\u7684\u6EE9\u201D\uFF0C
+        // \u800C\u4E0D\u662F\u4E00\u7247\u5E72\u6C99\u3002\u4E58 uShoreHandoff\uFF1A0 = \u65E7\u7684\u7EAF\u538B\u6697\u3002
+        vec3 wetOld = diffuseColor.rgb * mix(1.0, 0.78, wetLine * 0.5);
+        vec3 wetNew = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(0.80, 0.95, 0.93), wetLine * 0.6);
+        wetNew *= mix(1.0, 0.82, wetLine * 0.4);
+        diffuseColor.rgb = mix(wetOld, wetNew, uShoreHandoff);`).replace("#include <normal_fragment_maps>", `#include <normal_fragment_maps>
+        {
+          vec3 origin = vTerrainWorld * 0.85;
+          float e = 0.35;
+          float h0 = terrainNoise(origin.xz) * 0.6 + terrainNoise(origin.xz * 3.1) * 0.4;
+          float hx = terrainNoise((origin + vec3(e, 0.0, 0.0)).xz) * 0.6 + terrainNoise((origin + vec3(e, 0.0, 0.0)).xz * 3.1) * 0.4;
+          float hz = terrainNoise((origin + vec3(0.0, 0.0, e)).xz) * 0.6 + terrainNoise((origin + vec3(0.0, 0.0, e)).xz * 3.1) * 0.4;
+          vec3 bump = vec3((h0 - hx) * 0.55, 0.0, (h0 - hz) * 0.55) * uTerrainDetail;
+          normal = normalize(normal + (viewMatrix * vec4(bump, 0.0)).xyz);
+        }`);
+    material.userData.shader = shader;
+  };
+  material.customProgramCacheKey = () => `terrain-mesh-${options.kind}-v1`;
+  const mesh = new Mesh(geometry2, material);
+  mesh.name = "terrain-mesh";
+  mesh.position.set(center.x, 0, center.y);
+  mesh.receiveShadow = true;
+  mesh.layers.enable(1);
+  group.add(mesh);
+  const bakeStart = performance.now();
+  const maps = bakeLagoonShore(heightBake, center, extent, SHORE_MAP_SIZE);
+  if (overlays.length) {
+    console.info(`[terrain] shore bake ${SHORE_MAP_SIZE}\xB2 with ${overlays.length} overlay(s): ${(performance.now() - bakeStart).toFixed(1)} ms`);
+  }
+  const size = SHORE_MAP_SIZE;
+  const layer = size * size * 4;
+  const packed = new Uint16Array(layer * 4);
+  packed.set(maps.shoreMap.image.data, 0);
+  packed.set(maps.travelMap.image.data, layer);
+  const half = DataUtils.toHalfFloat;
+  const tmp2 = [0, 0, 0, 0];
+  const islands = overlays.map((ov) => {
+    const cx = (ov.bbox.minX + ov.bbox.maxX) * 0.5;
+    const cz = (ov.bbox.minZ + ov.bbox.maxZ) * 0.5;
+    const rx = Math.max(1, (ov.bbox.maxX - ov.bbox.minX) * 0.5);
+    const rz = Math.max(1, (ov.bbox.maxZ - ov.bbox.minZ) * 0.5);
+    const radius = Math.max(4, Math.sqrt(Math.max(ov.landArea, 1) / Math.PI));
+    const scale = Math.min(1, Math.max(0.2, radius / 90));
+    return { cx, cz, rx, rz, scale };
+  });
+  for (let j3 = 0; j3 < size; j3++) {
+    const z4 = center.y + ((j3 + 0.5) / size - 0.5) * extent;
+    for (let i4 = 0; i4 < size; i4++) {
+      const x3 = center.x + ((i4 + 0.5) / size - 0.5) * extent;
+      field.biome(x3, z4, tmp2);
+      const k3 = layer * 2 + (j3 * size + i4) * 4;
+      packed[k3] = half(clamp2(tmp2[0], 0, 1));
+      packed[k3 + 1] = half(clamp2(tmp2[1], 0, 1));
+      packed[k3 + 2] = half(clamp2(tmp2[2], 0, 1));
+      packed[k3 + 3] = half(clamp2(tmp2[3], 0, 1));
+      let shoreScale = 1;
+      for (const isl of islands) {
+        const e4 = Math.hypot((x3 - isl.cx) / isl.rx, (z4 - isl.cz) / isl.rz);
+        const infl = 1 - smoothstep2(1, 2.4, e4);
+        shoreScale = Math.min(shoreScale, 1 - (1 - isl.scale) * infl);
+      }
+      const idx3 = layer * 3 + (j3 * size + i4) * 4;
+      packed[idx3 + 1] = half(shoreScale);
+    }
+  }
+  const coarse = maps.coarseDepth;
+  const bedMax = maps.bedMax;
+  for (let k3 = 0; k3 < size * size; k3++) {
+    packed[layer * 3 + k3 * 4] = half(clamp2(coarse[k3], 0, 60));
+    packed[layer * 3 + k3 * 4 + 2] = half(clamp2(bedMax[k3], -40, 20));
+  }
+  const maps3 = new DataArrayTexture(packed, size, size, 4);
+  maps3.format = RGBAFormat;
+  maps3.type = HalfFloatType;
+  maps3.minFilter = maps3.magFilter = LinearFilter;
+  maps3.wrapS = maps3.wrapT = ClampToEdgeWrapping;
+  maps3.needsUpdate = true;
+  maps.dispose();
+  const bindings = {
+    maps: maps3,
+    center,
+    extent
+  };
+  const dampingDepth = maps.dampingDepth;
+  const dampingDepthAt = (x3, z4) => {
+    const u4 = (x3 - center.x) / extent + 0.5;
+    const v3 = (z4 - center.y) / extent + 0.5;
+    if (u4 < 0 || u4 > 1 || v3 < 0 || v3 > 1) return 60;
+    const fx = u4 * size - 0.5, fy = v3 * size - 0.5;
+    const x02 = Math.floor(fx), y02 = Math.floor(fy);
+    const tx = fx - x02, ty = fy - y02;
+    const ix0 = x02 < 0 ? 0 : x02 >= size ? size - 1 : x02;
+    const ix1 = x02 + 1 < 0 ? 0 : x02 + 1 >= size ? size - 1 : x02 + 1;
+    const iy0 = y02 < 0 ? 0 : y02 >= size ? size - 1 : y02;
+    const iy1 = y02 + 1 < 0 ? 0 : y02 + 1 >= size ? size - 1 : y02 + 1;
+    const a00 = dampingDepth[iy0 * size + ix0], a10 = dampingDepth[iy0 * size + ix1];
+    const a01 = dampingDepth[iy1 * size + ix0], a11 = dampingDepth[iy1 * size + ix1];
+    return (a00 * (1 - tx) + a10 * tx) * (1 - ty) + (a01 * (1 - tx) + a11 * tx) * ty;
+  };
+  return {
+    kind: options.kind,
+    field,
+    group,
+    bindings,
+    ready: Promise.resolve(),
+    heightAt: field.height,
+    dampingDepthAt,
+    setDetail: (value) => {
+      detailUniform.value = clamp2(value, 0, 1);
+    },
+    setShoreHandoff: (value) => {
+      handoffUniform.value = clamp2(value, 0, 1);
+    },
+    dispose: () => {
+      maps3.dispose();
+      geometry2.dispose();
+      material.dispose();
+      group.remove(mesh);
+    }
+  };
+}
+
+// src/ultra/fullscreen.ts
+var geometry = new BufferGeometry();
+geometry.setAttribute("position", new Float32BufferAttribute([-1, -1, 0, 3, -1, 0, -1, 3, 0], 3));
+var camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
+var FULLSCREEN_VERT = (
+  /* glsl */
+  `
+in vec3 position;
+out vec2 vUv;
+void main() {
+  vUv = position.xy * 0.5 + 0.5;
+  gl_Position = vec4(position.xy, 0.0, 1.0);
+}
+`
+);
+function rawPass(fragmentShader, uniforms = {}, extra = {}) {
+  return new RawShaderMaterial({
+    glslVersion: GLSL3,
+    vertexShader: FULLSCREEN_VERT,
+    fragmentShader,
+    uniforms,
+    depthTest: false,
+    depthWrite: false,
+    ...extra
+  });
+}
+var FullscreenQuad = class {
+  constructor(material) {
+    this.mesh = new Mesh(geometry, material);
+    this.mesh.frustumCulled = false;
+  }
+  get material() {
+    return this.mesh.material;
+  }
+  set material(material) {
+    this.mesh.material = material;
+  }
+  render(renderer, target2) {
+    renderer.setRenderTarget(target2);
+    renderer.render(this.mesh, camera);
+  }
+};
+
+// src/ultra/OceanSim.ts
+var N4 = 256;
+var LOG_N = 8;
+var CASCADE_LENGTHS = [600, 85, 12, 2.1];
+var G4 = 9.81;
+var SIGMA_RHO = 74e-6;
+var LOOP = 300;
+var COMMON = (
+  /* glsl */
+  `
+precision highp float;
+precision highp int;
+#define N ${N4}
+#define PI 3.14159265359
+#define G ${G4.toFixed(2)}
+#define ST ${SIGMA_RHO.toExponential()}
+vec2 cmul(vec2 a, vec2 b) { return vec2(a.x * b.x - a.y * b.y, a.x * b.y + a.y * b.x); }
+float omega(float k) { return sqrt(G * k + ST * k * k * k); }
+`
+);
+var INIT_FRAG = COMMON + /* glsl */
+`
+uniform vec4 uSpecA[2]; // scale, angle, spreadBlend, swell
+uniform vec4 uSpecB[2]; // alpha, peakOmega, gamma, shortWavesFade
+uniform vec4 uLength;
+uniform vec4 uCut;      // c0 hi, c1 hi, c2 hi, -
+uniform float uCapFade; // short-wave fade for cascade 3 (cascades 0-2 use uSpecB.w)
+uniform uint uSeed;
+out vec4 outColor;
+
+uvec2 pcg2d(uvec2 v) {
+  v = v * 1664525u + 1013904223u;
+  v.x += v.y * 1664525u; v.y += v.x * 1664525u;
+  v ^= v >> 16u;
+  v.x += v.y * 1664525u; v.y += v.x * 1664525u;
+  v ^= v >> 16u;
+  return v;
+}
+
+vec2 gauss(ivec2 id, int c) {
+  uvec2 h = pcg2d(uvec2(id) + uvec2(uint(c) * 7919u, uint(c) * 104729u) + uSeed);
+  float u1 = (float(h.x) + 1.0) / 4294967296.0;
+  float u2 = float(h.y) / 4294967296.0;
+  float r = sqrt(-2.0 * log(u1));
+  return r * vec2(cos(2.0 * PI * u2), sin(2.0 * PI * u2));
+}
+
+float jonswap(float w, vec4 a, vec4 b) {
+  float wp = b.y;
+  float sigma = w <= wp ? 0.07 : 0.09;
+  float r = exp(-(w - wp) * (w - wp) / (2.0 * sigma * sigma * wp * wp));
+  float iw = 1.0 / w;
+  float q = wp * iw;
+  return a.x * b.x * G * G * iw * iw * iw * iw * iw * exp(-1.25 * q * q * q * q) * pow(b.z, r);
+}
+
+float normalisation(float s) {
+  float s2 = s * s, s3 = s2 * s, s4 = s3 * s;
+  if (s < 5.0) return -0.000564 * s4 + 0.00776 * s3 - 0.044 * s2 + 0.192 * s + 0.163;
+  return -4.80e-08 * s4 + 1.07e-05 * s3 - 9.53e-04 * s2 + 5.90e-02 * s + 3.93e-01;
+}
+
+float directional(float theta, float w, vec4 a, vec4 b) {
+  float x = w / b.y;
+  float s = x > 1.0 ? 9.77 * pow(x, -2.5) : 6.97 * pow(x, 5.0);
+  s += 16.0 * tanh(min(x, 20.0)) * a.w * a.w;
+  float t = theta - a.y;
+  float cosine2s = normalisation(s) * pow(abs(cos(0.5 * t)), 2.0 * s);
+  return mix(2.0 / PI * cos(t) * cos(t), cosine2s, a.z);
+}
+
+vec2 h0(ivec2 id, int c) {
+  float L = uLength[c];
+  float dk = 2.0 * PI / L;
+  vec2 k = vec2(id - N / 2) * dk;
+  float kl = length(k);
+  float lo = c == 0 ? 1e-4 : uCut[c - 1];
+  float hi = c == 3 ? 1e4 : uCut[c];
+  if (kl < lo || kl > hi) return vec2(0.0);
+  float w = omega(kl);
+  float dwdk = (G + 3.0 * ST * kl * kl) / (2.0 * w);
+  float theta = atan(k.y, k.x);
+  float S = 0.0;
+  for (int i = 0; i < 2; i++) {
+    if (uSpecA[i].x <= 0.0) continue;
+    float fade = c == 3 ? uCapFade : uSpecB[i].w;
+    S += jonswap(w, uSpecA[i], uSpecB[i]) * directional(theta, w, uSpecA[i], uSpecB[i])
+       * exp(-fade * fade * kl * kl);
+  }
+  return gauss(id, c) * sqrt(2.0 * S * dwdk / kl * dk * dk);
+}
+
+void main() {
+  ivec2 p = ivec2(gl_FragCoord.xy);
+  int c = p.y / N;
+  ivec2 id = ivec2(p.x, p.y - c * N);
+  vec2 a = h0(id, c);
+  vec2 b = h0((N - id) % N, c);
+  outColor = vec4(a, b.x, -b.y); // h0(k), conj(h0(-k))
+}
+`;
+var EVOLVE_FRAG = COMMON + /* glsl */
+`
+uniform highp sampler2D uH0;
+uniform vec4 uLength;
+uniform float uTime;
+layout(location = 0) out vec4 out0;
+layout(location = 1) out vec4 out1;
+
+vec2 pack2(vec2 a, vec2 b) { return vec2(a.x - b.y, a.y + b.x); }
+
+void main() {
+  ivec2 p = ivec2(gl_FragCoord.xy);
+  int c = p.y / N;
+  vec2 k = vec2(ivec2(p.x, p.y - c * N) - N / 2) * (2.0 * PI / uLength[c]);
+  float kl = length(k);
+  float ik = kl > 1e-6 ? 1.0 / kl : 0.0;
+  const float W0 = 2.0 * PI / ${LOOP.toFixed(1)};
+  float ph = 2.0 * PI * fract(floor(omega(kl) / W0) * (uTime / ${LOOP.toFixed(1)}));
+  vec2 e = vec2(cos(ph), sin(ph));
+  vec4 h0 = texelFetch(uH0, p, 0);
+  vec2 h = cmul(h0.xy, e) + cmul(h0.zw, vec2(e.x, -e.y));
+  vec2 ih = vec2(-h.y, h.x);
+
+  vec2 dx = ih * k.x * ik, dz = ih * k.y * ik;
+  vec2 dxdx = -h * k.x * k.x * ik, dzdz = -h * k.y * k.y * ik, dxdz = -h * k.x * k.y * ik;
+  vec2 dydx = ih * k.x, dydz = ih * k.y;
+
+  out0 = vec4(pack2(dx, dz), pack2(h, dxdz));
+  out1 = vec4(pack2(dydx, dydz), pack2(dxdx, dzdz));
+}
+`;
+var FFT_FRAG = COMMON + /* glsl */
+`
+uniform highp sampler2D uIn0;
+uniform highp sampler2D uIn1;
+uniform int uSub;
+uniform int uVertical;
+layout(location = 0) out vec4 out0;
+layout(location = 1) out vec4 out1;
+
+void main() {
+  ivec2 p = ivec2(gl_FragCoord.xy);
+  int i = uVertical == 1 ? p.y % N : p.x;
+  int hs = uSub >> 1;
+  int e = (i / uSub) * hs + (i & (hs - 1));
+  ivec2 pe, po;
+  if (uVertical == 1) { int base = p.y - i; pe = ivec2(p.x, base + e); po = ivec2(p.x, base + e + N / 2); }
+  else { pe = ivec2(e, p.y); po = ivec2(e + N / 2, p.y); }
+  float a = 2.0 * PI * float(i & (uSub - 1)) / float(uSub);
+  vec2 tw = vec2(cos(a), sin(a));
+  vec4 e0 = texelFetch(uIn0, pe, 0), o0 = texelFetch(uIn0, po, 0);
+  vec4 e1 = texelFetch(uIn1, pe, 0), o1 = texelFetch(uIn1, po, 0);
+  out0 = vec4(e0.xy + cmul(tw, o0.xy), e0.zw + cmul(tw, o0.zw));
+  out1 = vec4(e1.xy + cmul(tw, o1.xy), e1.zw + cmul(tw, o1.zw));
+}
+`;
+var ASSEMBLE_FRAG = COMMON + /* glsl */
+`
+uniform highp sampler2D uIn0;
+uniform highp sampler2D uIn1;
+uniform sampler2D uPrev;
+uniform int uCascade;
+uniform float uLambda;
+uniform float uDt;
+uniform float uFoamRecovery;
+layout(location = 0) out vec4 outDisp;
+layout(location = 1) out vec4 outSlope;
+
+void main() {
+  ivec2 id = ivec2(gl_FragCoord.xy);
+  ivec2 p = id + ivec2(0, uCascade * N);
+  float s = ((id.x + id.y) & 1) == 0 ? 1.0 : -1.0;
+  vec4 a = texelFetch(uIn0, p, 0) * s; // Dx, Dz, Dy, Dxz
+  vec4 b = texelFetch(uIn1, p, 0) * s; // Dyx, Dyz, Dxx, Dzz
+  float dxx = uLambda * b.z, dzz = uLambda * b.w, dxz = uLambda * a.w;
+  float jx = 1.0 + dxx, jz = 1.0 + dzz;
+  float jac = jx * jz - dxz * dxz;
+  vec2 slope = b.xy / max(vec2(jx, jz), vec2(0.2));
+  float prev = texelFetch(uPrev, id, 0).w;
+  // \u6CE1\u6CAB\u6309\u539F\u59CB\u9762\u79EF\u6BD4\u7D2F\u79EF\uFF0C\u6298\u5F97\u8D8A\u5389\u5BB3\u767D\u6CAB\u8D8A\u591A\u3002
+  float turb = min(jac, prev + uDt * uFoamRecovery / max(jac, 0.5));
+  // \u9632\u6B62 FFT \u6C34\u5E73\u4F4D\u79FB\u628A\u7F51\u683C\u6298\u6210\u5200\u5207\u4E00\u6837\u7684\u7AD6\u9762\uFF1A\u9762\u79EF\u6BD4\u4F4E\u4E8E 0.55 \u65F6\u6309\u6BD4\u4F8B\u6536\u4F4F\u6C34\u5E73\u4F4D\u79FB\u3002
+  // \u9AD8\u5EA6\u4E0D\u53C2\u4E0E\uFF0C\u6240\u4EE5\u5927\u6D6A\u4ECD\u7136\u8D77\u4F0F\uFF0C\u53EA\u662F\u4E0D\u518D\u81EA\u4EA4\u3001\u4E0D\u518D\u88AB\u62C9\u6210\u7AD6\u6761\u3002
+  float suppress = clamp(min(jx, jz) / 0.55, 0.0, 1.0);
+  // \u5761\u5EA6\u53EA\u5939\u4F4F\u5927\u5C0F\uFF08\u7EA6 50\xB0\uFF09\uFF0C\u4E0D\u518D\u8DDF\u7740\u4F4D\u79FB\u4E00\u8D77\u538B\u5E73\uFF1A\u5426\u5219\u6D6A\u5CF0\u6B63\u9762\u4F1A\u53D8\u6210\u6CA1\u6709\u6D9F\u6F2A\u7684\u7EFF\u73BB\u7483\u3002
+  float mag = length(slope);
+  slope *= mag > 1.2 ? 1.2 / mag : 1.0;
+  outDisp = vec4(uLambda * a.x * suppress, a.z, uLambda * a.y * suppress, turb);
+  outSlope = vec4(slope, slope * slope);
+}
+`;
+function jonswapParams(windSpeed, fetchKm) {
+  const fetch2 = fetchKm * 1e3;
+  return {
+    alpha: 0.076 * Math.pow(G4 * fetch2 / (windSpeed * windSpeed), -0.22),
+    peakOmega: 22 * Math.pow(windSpeed * fetch2 / (G4 * G4), -0.33)
+  };
+}
+function fetchForWavelength(windSpeed, wavelength) {
+  const omegaP = Math.sqrt(2 * Math.PI * G4 / Math.max(wavelength, 1));
+  const fetch2 = windSpeed * windSpeed / G4 * Math.pow(22 / omegaP, 1 / 0.33);
+  return Math.min(1e3, Math.max(5, fetch2 / 1e3));
+}
+var defaultOceanParams = () => ({
+  windSpeed: 9,
+  windDirection: 20,
+  fetchKm: 120,
+  spreadBlend: 0.85,
+  windSwell: 0.25,
+  gamma: 3.3,
+  shortWavesFade: 0.04,
+  // 只影响第 3 级联：0.004 是裸毛细谱，其均方斜率是 Cox-Munk 的三倍，海面会像拉丝金属；
+  // 0.08 保留近处细涟漪，水面仍有光泽
+  capillaryFade: 0.08,
+  waveScale: 1,
+  swellScale: 0.7,
+  swellWindSpeed: 7,
+  swellDirection: -15,
+  swellFetchKm: 900,
+  swellSwell: 1,
+  choppiness: 0.85,
+  foamRecovery: 0.7,
+  timeScale: 1
+});
+var OceanSim = class {
+  constructor(renderer, params = defaultOceanParams()) {
+    this.time = 0;
+    this.dirty = true;
+    /** 级联长度（米），采样覆盖系数会直接改这个向量 */
+    this.lengthsVec = new Vector4(...CASCADE_LENGTHS);
+    this.cutVec = new Vector4(...CASCADE_LENGTHS.slice(1).map((L3) => 2 * Math.PI / L3 * 6), 0);
+    this.coverage = 1;
+    this.displacement = [];
+    this.slope = [];
+    this.parity = 0;
+    this.renderer = renderer;
+    this.params = params;
+    const fft = {
+      type: FloatType,
+      minFilter: NearestFilter,
+      magFilter: NearestFilter,
+      depthBuffer: false,
+      generateMipmaps: false
+    };
+    const H4 = N4 * CASCADE_LENGTHS.length;
+    this.h0RT = new WebGLRenderTarget(N4, H4, fft);
+    const half = { ...fft, type: HalfFloatType, count: 2 };
+    this.ping = new WebGLRenderTarget(N4, H4, half);
+    this.pong = new WebGLRenderTarget(N4, H4, half);
+    const out = {
+      type: HalfFloatType,
+      minFilter: LinearMipmapLinearFilter,
+      magFilter: LinearFilter,
+      wrapS: RepeatWrapping,
+      wrapT: RepeatWrapping,
+      generateMipmaps: true,
+      anisotropy: renderer.capabilities.getMaxAnisotropy(),
+      depthBuffer: false,
+      count: 2
+    };
+    this.out = CASCADE_LENGTHS.map(() => [
+      new WebGLRenderTarget(N4, N4, out),
+      new WebGLRenderTarget(N4, N4, out)
+    ]);
+    const prevClear = renderer.getClearColor(new Color());
+    const prevAlpha = renderer.getClearAlpha();
+    renderer.setClearColor(16777215, 1);
+    for (const pair of this.out) for (const rt3 of pair) {
+      renderer.setRenderTarget(rt3);
+      renderer.clear(true, false, false);
+    }
+    renderer.setClearColor(prevClear, prevAlpha);
+    renderer.setRenderTarget(null);
+    this.initMat = rawPass(INIT_FRAG, {
+      uSpecA: { value: [new Vector4(), new Vector4()] },
+      uSpecB: { value: [new Vector4(), new Vector4()] },
+      uLength: { value: this.lengthsVec },
+      // 级联 c 拥有 [cut[c-1], cut[c])；每个切点落在下一级联的 6 个基频处
+      uCut: { value: this.cutVec },
+      uCapFade: { value: 0 },
+      uSeed: { value: 1337 }
+    });
+    this.evolveMat = rawPass(EVOLVE_FRAG, {
+      uH0: { value: this.h0RT.texture },
+      uLength: { value: this.lengthsVec },
+      uTime: { value: 0 }
+    });
+    this.fftMat = rawPass(FFT_FRAG, {
+      uIn0: { value: null },
+      uIn1: { value: null },
+      uSub: { value: 2 },
+      uVertical: { value: 0 }
+    });
+    this.assembleMat = rawPass(ASSEMBLE_FRAG, {
+      uIn0: { value: null },
+      uIn1: { value: null },
+      uPrev: { value: null },
+      uCascade: { value: 0 },
+      uLambda: { value: 1 },
+      uDt: { value: 0 },
+      uFoamRecovery: { value: 0.45 }
+    });
+    this.quad = new FullscreenQuad(this.initMat);
+    this.displacement = this.out.map((pair) => pair[0].textures[0]);
+    this.slope = this.out.map((pair) => pair[0].textures[1]);
+  }
+  /**
+   * 采样覆盖系数：同一张 256² 贴图覆盖的范围。小于 1 = 覆盖更窄、采样更精细。
+   * 会重建 h0 频谱与级联切点。
+   */
+  setCoverage(scale) {
+    const next = Math.min(2.5, Math.max(0.4, scale));
+    if (Math.abs(next - this.coverage) < 1e-4) return;
+    this.coverage = next;
+    this.lengthsVec.set(
+      CASCADE_LENGTHS[0] * next,
+      CASCADE_LENGTHS[1] * next,
+      CASCADE_LENGTHS[2] * next,
+      CASCADE_LENGTHS[3] * next
+    );
+    this.cutVec.set(
+      2 * Math.PI / (CASCADE_LENGTHS[1] * next) * 6,
+      2 * Math.PI / (CASCADE_LENGTHS[2] * next) * 6,
+      2 * Math.PI / (CASCADE_LENGTHS[3] * next) * 6,
+      0
+    );
+    this.dirty = true;
+  }
+  updateSpectrum() {
+    const p4 = this.params;
+    const u4 = this.initMat.uniforms;
+    const wind = jonswapParams(p4.windSpeed, p4.fetchKm);
+    const swell = jonswapParams(p4.swellWindSpeed, p4.swellFetchKm);
+    const rad = MathUtils.degToRad;
+    u4.uSpecA.value[0].set(p4.waveScale, rad(p4.windDirection), p4.spreadBlend, p4.windSwell);
+    u4.uSpecB.value[0].set(wind.alpha, wind.peakOmega, p4.gamma, p4.shortWavesFade);
+    u4.uSpecA.value[1].set(p4.swellScale * p4.waveScale, rad(p4.swellDirection), 1, p4.swellSwell);
+    u4.uSpecB.value[1].set(swell.alpha, swell.peakOmega, p4.gamma, p4.shortWavesFade);
+    u4.uCapFade.value = p4.capillaryFade;
+    this.quad.material = this.initMat;
+    this.quad.render(this.renderer, this.h0RT);
+    this.dirty = false;
+  }
+  update(dt3) {
+    const p4 = this.params;
+    const wasDirty = this.dirty;
+    if (this.dirty) this.updateSpectrum();
+    const step = dt3 * p4.timeScale;
+    if (step === 0 && !wasDirty) return;
+    this.time = (this.time + step) % LOOP;
+    const r3 = this.renderer;
+    const q4 = this.quad;
+    this.evolveMat.uniforms.uTime.value = this.time;
+    q4.material = this.evolveMat;
+    q4.render(r3, this.ping);
+    let src = this.ping;
+    let dst = this.pong;
+    const fu = this.fftMat.uniforms;
+    q4.material = this.fftMat;
+    for (let dir = 0; dir < 2; dir++) {
+      fu.uVertical.value = dir;
+      for (let s2 = 1; s2 <= LOG_N; s2++) {
+        fu.uSub.value = 1 << s2;
+        fu.uIn0.value = src.textures[0];
+        fu.uIn1.value = src.textures[1];
+        q4.render(r3, dst);
+        const swap = src;
+        src = dst;
+        dst = swap;
+      }
+    }
+    const au = this.assembleMat.uniforms;
+    au.uIn0.value = src.textures[0];
+    au.uIn1.value = src.textures[1];
+    au.uLambda.value = p4.choppiness;
+    au.uDt.value = step;
+    au.uFoamRecovery.value = p4.foamRecovery;
+    q4.material = this.assembleMat;
+    const next = this.parity ^ 1;
+    for (let c5 = 0; c5 < this.out.length; c5++) {
+      au.uCascade.value = c5;
+      au.uPrev.value = this.out[c5][this.parity].textures[0];
+      q4.render(r3, this.out[c5][next]);
+      this.displacement[c5] = this.out[c5][next].textures[0];
+      this.slope[c5] = this.out[c5][next].textures[1];
+    }
+    this.parity = next;
+  }
+  dispose() {
+    this.h0RT.dispose();
+    this.ping.dispose();
+    this.pong.dispose();
+    for (const pair of this.out) {
+      pair[0].dispose();
+      pair[1].dispose();
+    }
+    this.initMat.dispose();
+    this.evolveMat.dispose();
+    this.fftMat.dispose();
+    this.assembleMat.dispose();
+    this.quad.mesh.geometry.dispose();
+  }
+};
+
 // src/ui/presets.ts
 var PRESETS = {
   "Three.js Sky Package": {
-    wind: 11,
+    wind: 9,
     wavelength: 42,
-    choppiness: 0.95,
+    choppiness: 0.85,
     timeOfDay: 15,
     clouds: 0.32,
     overcast: 0,
     rain: 0,
     skyExposure: 10.5,
-    water: "#28bfc9",
+    water: "#3fbccd",
     fog: 7e-4,
     hdri: "sky-partly-cloudy.jpg",
     foam: 0.7,
-    foamBrightness: 1,
-    shadowAbove: 0.45,
-    shadowUnder: 0.55,
-    rays: 1,
-    deep: 0.45,
-    curvature: 0.15
+    foamBrightness: 0.72,
+    rays: 1
   },
   \u5317\u51B0\u6D0B: {
     wind: 9,
@@ -50341,13 +51771,10 @@ var PRESETS = {
     skyExposure: 9,
     water: "#1b4a63",
     fog: 28e-4,
+    hdri: "sky-overcast.jpg",
     foam: 0.55,
     foamBrightness: 0.85,
-    shadowAbove: 0.35,
-    shadowUnder: 0.8,
-    rays: 0.7,
-    deep: 0.8,
-    curvature: 0.15
+    rays: 0.7
   },
   \u9ED1\u65D7: {
     wind: 22,
@@ -50363,11 +51790,7 @@ var PRESETS = {
     hdri: "sky-partly-cloudy.jpg",
     foam: 2.5,
     foamBrightness: 1.05,
-    shadowAbove: 0.6,
-    shadowUnder: 0.5,
-    rays: 1,
-    deep: 0.5,
-    curvature: 0.18
+    rays: 1
   },
   \u9EC4\u660F: {
     wind: 6,
@@ -50380,15 +51803,10 @@ var PRESETS = {
     skyExposure: 11,
     water: "#41567a",
     fog: 28e-4,
-    hdri: "sky-sunset.jpg",
-    hdriRotation: 180,
+    hdri: "sky-dusk.jpg",
     foam: 0.5,
     foamBrightness: 0.65,
-    shadowAbove: 0.4,
-    shadowUnder: 0.5,
-    rays: 0.35,
-    deep: 0.35,
-    curvature: 0.15
+    rays: 0.35
   },
   \u96FE\u5929: {
     wind: 10,
@@ -50401,13 +51819,10 @@ var PRESETS = {
     skyExposure: 7,
     water: "#1d3238",
     fog: 62e-4,
+    hdri: "sky-overcast.jpg",
     foam: 1.2,
     foamBrightness: 0.72,
-    shadowAbove: 0.35,
-    shadowUnder: 0.7,
-    rays: 0.35,
-    deep: 0.55,
-    curvature: 0.15
+    rays: 0.35
   },
   \u6708\u5149: {
     wind: 8,
@@ -50423,11 +51838,7 @@ var PRESETS = {
     hdri: "sky-night.jpg",
     foam: 0.9,
     foamBrightness: 0.5,
-    shadowAbove: 0.5,
-    shadowUnder: 0.65,
-    rays: 0.2,
-    deep: 0.55,
-    curvature: 0.15
+    rays: 0.2
   },
   \u76D7\u8D3C\u4E4B\u6D77: {
     wind: 14,
@@ -50443,11 +51854,7 @@ var PRESETS = {
     hdri: "sky-clear.jpg",
     foam: 1.9,
     foamBrightness: 1.15,
-    shadowAbove: 0.45,
-    shadowUnder: 0.5,
-    rays: 1.3,
-    deep: 0.35,
-    curvature: 0.15
+    rays: 1.3
   },
   \u98CE\u66B4: {
     wind: 30,
@@ -50460,13 +51867,10 @@ var PRESETS = {
     skyExposure: 7.5,
     water: "#1d3a42",
     fog: 6e-3,
+    hdri: "sky-overcast.jpg",
     foam: 2.5,
     foamBrightness: 0.7,
-    shadowAbove: 0.8,
-    shadowUnder: 0.4,
-    rays: 0.3,
-    deep: 0.7,
-    curvature: 0.18
+    rays: 0.3
   },
   \u65E5\u843D: {
     wind: 7,
@@ -50482,20 +51886,68 @@ var PRESETS = {
     hdri: "sky-sunset.jpg",
     foam: 0.9,
     foamBrightness: 0.7,
-    shadowAbove: 0.5,
-    shadowUnder: 0.55,
-    rays: 0.5,
-    deep: 0.75,
-    curvature: 0.15
+    rays: 0.5
   }
 };
 var PRESET_NAMES = Object.keys(PRESETS);
+function scatterFromWater(water) {
+  const color = new Color(water);
+  color.r = color.r * 0.2 + 2e-3;
+  color.g = color.g * 0.2 + 0.018;
+  color.b = color.b * 0.2 + 0.032;
+  return `#${color.getHexString()}`;
+}
+function presetFetch(preset) {
+  return Math.round(fetchForWavelength(preset.wind, preset.wavelength));
+}
+function boatPhysics(mass) {
+  const norm = MathUtils.clamp(Math.log(Math.max(mass, 1) / 700) / Math.log(45e3 / 700), 0, 1);
+  return {
+    norm,
+    // 轻船：高刚度 + 低阻尼，浪来就抬、浪过回弹；重船：低刚度 + 高阻尼，沉稳滞重。
+    riseStiffness: 190 - 140 * norm,
+    fallStiffness: 110 - 80 * norm,
+    // 阻尼单位是 1/s：数值越大，速度衰减越快（下落越「黏」）。
+    riseDamping: 3.7 + 6.8 * norm,
+    fallDamping: 6.3 + 11.8 * norm,
+    maxTilt: 14 + 16 * norm,
+    cog: 1.1 + 2.6 * norm,
+    draft: Math.min(1.1, Math.max(0.92, Math.pow(mass / 7e3, 0.1)))
+  };
+}
+var BOAT_PRESETS = { light: 900, sail: 7e3, cargo: 45e3 };
 var DEFAULT_SETTINGS = {
   preset: "Three.js Sky Package",
+  sky: "auto",
   quality: "High",
-  wind: 11,
-  wavelength: 42,
-  choppiness: 0.95,
+  terrain: "sand",
+  boatPreset: "sail",
+  boatMass: BOAT_PRESETS.sail,
+  buoyancyRiseStiffness: boatPhysics(BOAT_PRESETS.sail).riseStiffness,
+  buoyancyFallStiffness: boatPhysics(BOAT_PRESETS.sail).fallStiffness,
+  buoyancyRiseDamping: boatPhysics(BOAT_PRESETS.sail).riseDamping,
+  buoyancyFallDamping: boatPhysics(BOAT_PRESETS.sail).fallDamping,
+  buoyancyMaxTilt: boatPhysics(BOAT_PRESETS.sail).maxTilt,
+  buoyancyCog: boatPhysics(BOAT_PRESETS.sail).cog,
+  buoyancyStep: 60,
+  wind: 9,
+  windDirection: 20,
+  fetchKm: presetFetch(PRESETS["Three.js Sky Package"]),
+  waveScale: 1,
+  spreadBlend: 0.85,
+  swellScale: 0.5,
+  swellDirection: -15,
+  choppiness: 0.85,
+  timeScale: 1,
+  shoreAmplitude: 0.55,
+  shoreWavelength: 30,
+  surfCoupling: 0.8,
+  shoreSpeed: 1,
+  shoreSteepness: 1,
+  layerWeight1: 1,
+  layerWeight2: 0.85,
+  layerWeight3: 0.6,
+  coverageScale: 1,
   dayOfYear: 170,
   timeOfDay: 15,
   animateTime: false,
@@ -50503,6 +51955,7 @@ var DEFAULT_SETTINGS = {
   animateClouds: true,
   cloudSpeed: 1,
   skyExposure: 10.5,
+  physicalLighting: true,
   haze: true,
   clouds: 0.32,
   rain: 0,
@@ -50510,39 +51963,44 @@ var DEFAULT_SETTINGS = {
   lightning: true,
   snow: 0,
   freeze: 0,
+  ambience: true,
+  ambienceVolume: 0.5,
   pixelRatio: 1,
-  foamCrestOpacity: 1,
   foamWakeOpacity: 1,
-  foamShoreOpacity: 1,
-  crestFoamMix: 0.7,
-  peakThreshold: 0.02,
-  peakFalloff: 1.8,
-  troughSuppress: 0.25,
-  waveShadowAbove: 0.5,
-  waveShadowUnder: 0.55,
-  foamBrightness: 1.05,
   underwaterRays: 1,
-  deepWater: 0.45,
-  foamFlow1: 1,
-  foamFlow2: 0.55,
-  shoreFoamRange: 1.35,
-  curvatureWeight: 0.15,
-  troughNoise: 0.5,
-  troughSpecular: 0.6,
-  specAnisotropy: 0.9,
-  specAnisoX: 4,
-  specAnisoY: 200,
-  specCurvature: 0.8,
-  reflectionRoughness: 0.6,
-  specColor: "#ebfaff",
+  redAbsorption: 0.4,
+  waterScatter: scatterFromWater(PRESETS["Three.js Sky Package"].water),
+  waterRoughness: 0.04,
+  waterRefraction: 0.06,
+  reflectionDistortion: 0.04,
+  sssPeak: 1.6,
+  sssView: 0.06,
+  foamThreshold: 0.85,
+  foamScale: 0.5,
+  shoreFoamBand: 0.2,
+  foamRecovery: 0.7,
+  foamBrightness: 0.72,
+  nearshoreDamping: 1,
+  shoreHandoff: 0,
+  shoreSensing: 0,
+  glint: 0.6,
+  fresnelStrength: 1,
+  backlightCyan: 1,
+  causticStrength: 1,
+  causticSpeed: 1,
+  causticDepth: 4,
+  windwardBoost: 0.7,
+  reefImpactFoam: 1,
+  terrainDetail: 1,
+  reefShelf: 1,
   buoyancyProbes: false,
   wakeProbes: false,
   paused: false
 };
 var QUALITY_OPTIONS = {
-  Low: { segments: 128, reflection: 512, refraction: 0.5 },
-  Medium: { segments: 192, reflection: 768, refraction: 0.7 },
-  High: { segments: 256, reflection: 1024, refraction: 1 },
+  Low: { segments: 128, reflection: 512, refraction: 0.4 },
+  Medium: { segments: 192, reflection: 768, refraction: 0.6 },
+  High: { segments: 256, reflection: 1024, refraction: 0.75 },
   Ultra: { segments: 384, reflection: 1536, refraction: 1 }
 };
 function resolvePreset(name) {
@@ -51055,8 +52513,8 @@ function element(tag, className, text) {
   return node;
 }
 var Panel = class {
-  constructor(host, target, options = {}) {
-    this.target = target;
+  constructor(host, target2, options = {}) {
+    this.target = target2;
     this.subscriptions = [];
     this.sliders = [];
     this.toggles = /* @__PURE__ */ new Map();
@@ -51115,6 +52573,10 @@ var Panel = class {
     for (const [key, input] of this.colors) input.value = settings[key];
     this.selects.get("preset").value = settings.preset;
     this.selects.get("quality").value = settings.quality;
+    this.selects.get("terrain").value = settings.terrain;
+    this.selects.get("boatPreset").value = settings.boatPreset;
+    this.selects.get("buoyancyStep").value = String(settings.buoyancyStep);
+    this.selects.get("sky").value = settings.sky;
     for (const [mode, button] of this.modeButtons) {
       button.setAttribute("aria-pressed", String(mode === this.target.getMode()));
     }
@@ -51131,6 +52593,26 @@ var Panel = class {
   build() {
     const settings = this.target.getSettings();
     const controls = this.folder("\u63A7\u5236");
+    this.addSelect(
+      controls,
+      "terrain",
+      "\u5730\u5F62",
+      TERRAIN_KINDS.map((kind) => ({ value: kind, label: TERRAIN_VARIANTS[kind].label })),
+      settings.terrain,
+      (value) => {
+        this.target.update({ terrain: value });
+      }
+    );
+    this.addSlider(controls, {
+      label: "\u7901\u576A",
+      get: (settings2) => settings2.reefShelf,
+      min: 0,
+      max: 1,
+      step: 0.1,
+      value: settings.reefShelf,
+      format: (value) => `${Math.round(value * 100)}%`,
+      apply: (reefShelf) => this.target.update({ reefShelf })
+    });
     this.addSelect(controls, "quality", "\u753B\u8D28", ["Low", "Medium", "High", "Ultra"], settings.quality, (value) => {
       this.target.update({ quality: value });
     });
@@ -51139,30 +52621,126 @@ var Panel = class {
       this.target.update({
         preset: value,
         wind: preset.wind,
-        wavelength: preset.wavelength,
+        fetchKm: presetFetch(preset),
         choppiness: preset.choppiness,
         timeOfDay: preset.timeOfDay,
         clouds: preset.clouds,
         overcast: preset.overcast,
         rain: preset.rain,
         skyExposure: preset.skyExposure,
-        crestFoamMix: preset.foam,
+        foamScale: preset.foam * 0.5,
         foamBrightness: preset.foamBrightness,
-        waveShadowAbove: preset.shadowAbove,
-        waveShadowUnder: preset.shadowUnder,
         underwaterRays: preset.rays,
-        deepWater: preset.deep,
-        curvatureWeight: preset.curvature
+        waterScatter: scatterFromWater(preset.water)
       });
     });
+    this.addToggle(controls, "physicalLighting", "\u7269\u7406\u5149\u7167");
+    const buoyancy = this.folder("\u6D6E\u529B");
+    this.addSelect(
+      buoyancy,
+      "boatPreset",
+      "\u8239\u53EA\u9884\u8BBE",
+      [
+        { value: "light", label: "\u8F7B\u578B\u5C0F\u8247" },
+        { value: "sail", label: "\u4E2D\u578B\u5E06\u8239" },
+        { value: "cargo", label: "\u91CD\u578B\u8D27\u8239" }
+      ],
+      settings.boatPreset,
+      (value) => this.target.update({
+        boatPreset: value,
+        boatMass: BOAT_PRESETS[value]
+      })
+    );
+    this.addSlider(buoyancy, {
+      label: "\u8D28\u91CF",
+      get: (settings2) => settings2.boatMass,
+      min: 500,
+      max: 6e4,
+      step: 100,
+      value: settings.boatMass,
+      format: (value) => `${(value / 1e3).toFixed(1)} t`,
+      apply: (boatMass) => this.target.update({ boatMass })
+    });
+    this.addSlider(buoyancy, {
+      label: "\u4E0A\u5347\u521A\u5EA6",
+      get: (settings2) => settings2.buoyancyRiseStiffness,
+      min: 10,
+      max: 400,
+      step: 1,
+      value: settings.buoyancyRiseStiffness,
+      format: (value) => `${Math.round(value)}`,
+      apply: (buoyancyRiseStiffness) => this.target.update({ buoyancyRiseStiffness })
+    });
+    this.addSlider(buoyancy, {
+      label: "\u4E0B\u843D\u521A\u5EA6",
+      get: (settings2) => settings2.buoyancyFallStiffness,
+      min: 5,
+      max: 300,
+      step: 1,
+      value: settings.buoyancyFallStiffness,
+      format: (value) => `${Math.round(value)}`,
+      apply: (buoyancyFallStiffness) => this.target.update({ buoyancyFallStiffness })
+    });
+    this.addSlider(buoyancy, {
+      label: "\u4E0A\u5347\u963B\u5C3C",
+      get: (settings2) => settings2.buoyancyRiseDamping,
+      min: 0,
+      max: 20,
+      step: 0.1,
+      value: settings.buoyancyRiseDamping,
+      format: (value) => value.toFixed(1),
+      apply: (buoyancyRiseDamping) => this.target.update({ buoyancyRiseDamping })
+    });
+    this.addSlider(buoyancy, {
+      label: "\u4E0B\u843D\u963B\u5C3C",
+      get: (settings2) => settings2.buoyancyFallDamping,
+      min: 0,
+      max: 20,
+      step: 0.1,
+      value: settings.buoyancyFallDamping,
+      format: (value) => value.toFixed(1),
+      apply: (buoyancyFallDamping) => this.target.update({ buoyancyFallDamping })
+    });
+    this.addSlider(buoyancy, {
+      label: "\u6700\u5927\u503E\u89D2",
+      get: (settings2) => settings2.buoyancyMaxTilt,
+      min: 6,
+      max: 40,
+      step: 1,
+      value: settings.buoyancyMaxTilt,
+      format: (value) => `${Math.round(value)}\xB0`,
+      apply: (buoyancyMaxTilt) => this.target.update({ buoyancyMaxTilt })
+    });
+    this.addSlider(buoyancy, {
+      label: "\u91CD\u5FC3\u9AD8\u5EA6",
+      get: (settings2) => settings2.buoyancyCog,
+      min: 0.5,
+      max: 6,
+      step: 0.1,
+      value: settings.buoyancyCog,
+      format: (value) => `${value.toFixed(1)} m`,
+      apply: (buoyancyCog) => this.target.update({ buoyancyCog })
+    });
+    this.addSelect(
+      buoyancy,
+      "buoyancyStep",
+      "\u7269\u7406\u6B65\u957F",
+      [
+        { value: "30", label: "30 Hz" },
+        { value: "60", label: "60 Hz" },
+        { value: "120", label: "120 Hz" }
+      ],
+      String(settings.buoyancyStep),
+      (value) => this.target.update({ buoyancyStep: Number(value) })
+    );
     this.addButton(controls, "\u91CD\u7F6E\u89C6\u89D2", () => this.target.resetCamera());
     this.addButton(controls, "\u4FDD\u5B58\u753B\u9762", () => this.target.screenshot());
     this.addButton(controls, "\u5168\u5C4F\u6D4F\u89C8", () => void this.target.fullscreen());
     const surface = this.folder("\u6C34\u9762");
     this.addSlider(surface, {
-      label: "\u98CE\u901F",
+      label: "\u4E3B\u5C42\u98CE\u901F",
       get: (settings2) => settings2.wind,
-      min: 0,
+      min: 1,
       max: 30,
       step: 0.1,
       value: settings.wind,
@@ -51170,259 +52748,439 @@ var Panel = class {
       apply: (wind) => this.target.update({ wind })
     });
     this.addSlider(surface, {
-      label: "\u4E3B\u6CE2\u6CE2\u957F",
-      get: (settings2) => settings2.wavelength,
-      min: 10,
-      max: 120,
+      label: "\u98CE\u5411",
+      get: (settings2) => settings2.windDirection,
+      min: -180,
+      max: 180,
       step: 1,
-      value: settings.wavelength,
-      format: (value) => `${Math.round(value)} m`,
-      apply: (wavelength) => this.target.update({ wavelength })
+      value: settings.windDirection,
+      format: (value) => `${Math.round(value)}\xB0`,
+      apply: (windDirection) => this.target.update({ windDirection })
+    });
+    this.addSlider(surface, {
+      label: "\u98CE\u533A\u957F\u5EA6",
+      get: (settings2) => settings2.fetchKm,
+      min: 5,
+      max: 1e3,
+      step: 1,
+      value: settings.fetchKm,
+      format: (value) => `${Math.round(value)} km`,
+      apply: (fetchKm) => this.target.update({ fetchKm })
+    });
+    this.addSlider(surface, {
+      label: "\u6CE2\u6D6A\u5C3A\u5EA6",
+      get: (settings2) => settings2.waveScale,
+      min: 0,
+      max: 3,
+      step: 0.01,
+      value: settings.waveScale,
+      format: twoDecimals,
+      apply: (waveScale) => this.target.update({ waveScale })
+    });
+    this.addSlider(surface, {
+      label: "\u65B9\u5411\u6269\u6563",
+      get: (settings2) => settings2.spreadBlend,
+      min: 0,
+      max: 1,
+      step: 0.01,
+      value: settings.spreadBlend,
+      format: percent,
+      apply: (spreadBlend) => this.target.update({ spreadBlend })
     });
     this.addSlider(surface, {
       label: "\u6D6A\u5C16\u9510\u5EA6",
       get: (settings2) => settings2.choppiness,
-      min: 0.4,
-      max: 1.8,
+      min: 0,
+      max: 2,
       step: 0.01,
       value: settings.choppiness,
       format: twoDecimals,
       apply: (choppiness) => this.target.update({ choppiness })
     });
     this.addSlider(surface, {
-      label: "\u6D6A\u5CF0\u6CE1\u6CAB",
+      label: "\u6D8C\u6D6A\u5C3A\u5EA6",
+      get: (settings2) => settings2.swellScale,
+      min: 0,
+      max: 3,
+      step: 0.01,
+      value: settings.swellScale,
+      format: twoDecimals,
+      apply: (swellScale) => this.target.update({ swellScale })
+    });
+    this.addSlider(surface, {
+      label: "\u6D8C\u6D6A\u65B9\u5411",
+      get: (settings2) => settings2.swellDirection,
+      min: -180,
+      max: 180,
+      step: 1,
+      value: settings.swellDirection,
+      format: (value) => `${Math.round(value)}\xB0`,
+      apply: (swellDirection) => this.target.update({ swellDirection })
+    });
+    this.addSlider(surface, {
+      label: "\u65F6\u95F4\u6D41\u901F",
+      get: (settings2) => settings2.timeScale,
+      min: 0,
+      max: 3,
+      step: 0.01,
+      value: settings.timeScale,
+      format: twoDecimals,
+      apply: (timeScale) => this.target.update({ timeScale })
+    });
+    this.addSlider(surface, {
+      label: "\u5927\u6D6A\u6743\u91CD",
+      get: (settings2) => settings2.layerWeight1,
+      min: 0,
+      max: 2,
+      step: 0.01,
+      value: settings.layerWeight1,
+      format: twoDecimals,
+      apply: (layerWeight1) => this.target.update({ layerWeight1 })
+    });
+    this.addSlider(surface, {
+      label: "\u4E2D\u6D6A\u6743\u91CD",
+      get: (settings2) => settings2.layerWeight2,
+      min: 0,
+      max: 2,
+      step: 0.01,
+      value: settings.layerWeight2,
+      format: twoDecimals,
+      apply: (layerWeight2) => this.target.update({ layerWeight2 })
+    });
+    this.addSlider(surface, {
+      label: "\u7EC6\u6D6A\u6743\u91CD",
+      get: (settings2) => settings2.layerWeight3,
+      min: 0,
+      max: 2,
+      step: 0.01,
+      value: settings.layerWeight3,
+      format: twoDecimals,
+      apply: (layerWeight3) => this.target.update({ layerWeight3 })
+    });
+    this.addSlider(surface, {
+      label: "\u91C7\u6837\u8986\u76D6",
+      get: (settings2) => settings2.coverageScale,
+      min: 0.4,
+      max: 2.5,
+      step: 0.01,
+      value: settings.coverageScale,
+      format: twoDecimals,
+      apply: (coverageScale) => this.target.update({ coverageScale })
+    });
+    this.addSlider(surface, {
+      label: "\u62CD\u5CB8\u6D6A\u632F\u5E45",
+      get: (settings2) => settings2.shoreAmplitude,
+      min: 0,
+      max: 1.5,
+      step: 0.01,
+      value: settings.shoreAmplitude,
+      format: (value) => `${twoDecimals(value)} m`,
+      apply: (shoreAmplitude) => this.target.update({ shoreAmplitude })
+    });
+    this.addSlider(surface, {
+      label: "\u62CD\u5CB8\u6D6A\u6CE2\u957F",
+      get: (settings2) => settings2.shoreWavelength,
+      min: 8,
+      max: 60,
+      step: 0.5,
+      value: settings.shoreWavelength,
+      format: (value) => `${oneDecimal(value)} m`,
+      apply: (shoreWavelength) => this.target.update({ shoreWavelength })
+    });
+    this.addSlider(surface, {
+      label: "\u62CD\u5CB8\u6D6A\u901F\u5EA6",
+      get: (settings2) => settings2.shoreSpeed,
+      min: 0.3,
+      max: 2,
+      step: 0.01,
+      value: settings.shoreSpeed,
+      format: twoDecimals,
+      apply: (shoreSpeed) => this.target.update({ shoreSpeed })
+    });
+    this.addSlider(surface, {
+      label: "\u62CD\u5CB8\u6D6A\u9661\u5EA6",
+      get: (settings2) => settings2.shoreSteepness,
+      min: 0,
+      max: 1.5,
+      step: 0.01,
+      value: settings.shoreSteepness,
+      format: twoDecimals,
+      apply: (shoreSteepness) => this.target.update({ shoreSteepness })
+    });
+    this.addSlider(surface, {
+      label: "\u62CD\u5CB8\u6D6A\u8054\u52A8",
+      get: (settings2) => settings2.surfCoupling,
       min: 0,
       max: 1,
       step: 0.01,
-      value: settings.foamCrestOpacity,
-      get: (value) => value.foamCrestOpacity,
-      format: percent,
-      apply: (foamCrestOpacity) => this.target.update({ foamCrestOpacity })
+      value: settings.surfCoupling,
+      format: twoDecimals,
+      apply: (surfCoupling) => this.target.update({ surfCoupling })
     });
     this.addSlider(surface, {
-      label: "\u5CF0\u9876\u9608\u503C",
+      label: "\u8FCE\u98CE\u589E\u5F3A",
+      get: (settings2) => settings2.windwardBoost,
       min: 0,
-      max: 0.2,
-      step: 2e-3,
-      value: settings.peakThreshold,
-      get: (value) => value.peakThreshold,
+      max: 1,
+      step: 0.01,
+      value: settings.windwardBoost,
+      format: percent,
+      apply: (windwardBoost) => this.target.update({ windwardBoost })
+    });
+    this.addSlider(surface, {
+      label: "\u8FD1\u5CB8\u538B\u6D6A",
+      get: (settings2) => settings2.nearshoreDamping,
+      min: 0,
+      max: 1,
+      step: 0.01,
+      value: settings.nearshoreDamping,
+      format: percent,
+      apply: (nearshoreDamping) => this.target.update({ nearshoreDamping })
+    });
+    this.addSlider(surface, {
+      label: "\u5CB8\u7EBF\u4EA4\u73ED",
+      get: (settings2) => settings2.shoreHandoff,
+      min: 0,
+      max: 1,
+      step: 0.01,
+      value: settings.shoreHandoff,
+      format: percent,
+      apply: (shoreHandoff) => this.target.update({ shoreHandoff })
+    });
+    this.addSlider(surface, {
+      label: "\u5CB8\u7EBF\u5206\u5C42",
+      get: (settings2) => settings2.shoreSensing,
+      min: 0,
+      max: 1,
+      step: 0.01,
+      value: settings.shoreSensing,
+      format: percent,
+      apply: (shoreSensing) => this.target.update({ shoreSensing })
+    });
+    this.addSlider(surface, {
+      label: "\u6CE1\u6CAB\u9762\u79EF\u6BD4",
+      get: (settings2) => settings2.foamThreshold,
+      min: 0.5,
+      max: 1,
+      step: 5e-3,
+      value: settings.foamThreshold,
       format: (value) => value.toFixed(3),
-      apply: (peakThreshold) => this.target.update({ peakThreshold })
+      apply: (foamThreshold) => this.target.update({ foamThreshold })
     });
     this.addSlider(surface, {
-      label: "\u5CF0\u9876\u8870\u51CF",
-      min: 1,
-      max: 10,
-      step: 0.1,
-      value: settings.peakFalloff,
-      get: (value) => value.peakFalloff,
-      format: (value) => value.toFixed(1),
-      apply: (peakFalloff) => this.target.update({ peakFalloff })
-    });
-    this.addSlider(surface, {
-      label: "\u6D6A\u8C37\u6291\u5236",
+      label: "\u6CE1\u6CAB\u500D\u7387",
+      get: (settings2) => settings2.foamScale,
       min: 0,
-      max: 1,
+      max: 6,
       step: 0.01,
-      value: settings.troughSuppress,
-      get: (value) => value.troughSuppress,
-      format: percent,
-      apply: (troughSuppress) => this.target.update({ troughSuppress })
+      value: settings.foamScale,
+      format: twoDecimals,
+      apply: (foamScale) => this.target.update({ foamScale })
     });
     this.addSlider(surface, {
-      label: "\u81EA\u9634\u5F71\xB7\u6C34\u4E0A",
+      label: "\u5CB8\u7EBF\u6CE1\u6CAB\u5E26",
+      get: (settings2) => settings2.shoreFoamBand,
       min: 0,
-      max: 1,
+      max: 2,
       step: 0.01,
-      value: settings.waveShadowAbove,
-      get: (value) => value.waveShadowAbove,
-      format: percent,
-      apply: (waveShadowAbove) => this.target.update({ waveShadowAbove })
+      value: settings.shoreFoamBand,
+      format: (value) => `${twoDecimals(value)} m`,
+      apply: (shoreFoamBand) => this.target.update({ shoreFoamBand })
     });
     this.addSlider(surface, {
-      label: "\u81EA\u9634\u5F71\xB7\u6C34\u4E0B",
+      label: "\u7901\u77F3\u649E\u51FB\u6CE1\u6CAB",
+      get: (settings2) => settings2.reefImpactFoam,
       min: 0,
-      max: 1,
+      max: 2,
       step: 0.01,
-      value: settings.waveShadowUnder,
-      get: (value) => value.waveShadowUnder,
-      format: percent,
-      apply: (waveShadowUnder) => this.target.update({ waveShadowUnder })
+      value: settings.reefImpactFoam,
+      format: twoDecimals,
+      apply: (reefImpactFoam) => this.target.update({ reefImpactFoam })
+    });
+    this.addSlider(surface, {
+      label: "\u6CE1\u6CAB\u6D88\u6563",
+      get: (settings2) => settings2.foamRecovery,
+      min: 0.05,
+      max: 3,
+      step: 0.01,
+      value: settings.foamRecovery,
+      format: twoDecimals,
+      apply: (foamRecovery) => this.target.update({ foamRecovery })
     });
     this.addSlider(surface, {
       label: "\u6CE1\u6CAB\u4EAE\u5EA6",
+      get: (settings2) => settings2.foamBrightness,
       min: 0,
       max: 2,
       step: 0.01,
       value: settings.foamBrightness,
-      get: (value) => value.foamBrightness,
       format: twoDecimals,
       apply: (foamBrightness) => this.target.update({ foamBrightness })
     });
     this.addSlider(surface, {
-      label: "\u6C34\u4E0B\u5C04\u7EBF",
-      min: 0,
-      max: 2,
-      step: 0.01,
-      value: settings.underwaterRays,
-      get: (value) => value.underwaterRays,
-      format: twoDecimals,
-      apply: (underwaterRays) => this.target.update({ underwaterRays })
-    });
-    this.addSlider(surface, {
-      label: "\u8FDC\u6D77\u6DF1\u84DD",
-      min: 0,
-      max: 1,
-      step: 0.01,
-      value: settings.deepWater,
-      get: (value) => value.deepWater,
-      format: percent,
-      apply: (deepWater) => this.target.update({ deepWater })
-    });
-    this.addSlider(surface, {
-      label: "\u6D6A\u5CF0\u6DF7\u5408",
-      min: 0.2,
-      max: 2.5,
-      step: 0.01,
-      value: settings.crestFoamMix,
-      get: (value) => value.crestFoamMix,
-      format: twoDecimals,
-      apply: (crestFoamMix) => this.target.update({ crestFoamMix })
-    });
-    this.addSlider(surface, {
-      label: "\u6CE1\u6CAB\u6D41\u901F A",
-      min: 0,
-      max: 3,
-      step: 0.01,
-      value: settings.foamFlow1,
-      get: (value) => value.foamFlow1,
-      format: twoDecimals,
-      apply: (foamFlow1) => this.target.update({ foamFlow1 })
-    });
-    this.addSlider(surface, {
-      label: "\u6CE1\u6CAB\u6D41\u901F B",
-      min: 0,
-      max: 3,
-      step: 0.01,
-      value: settings.foamFlow2,
-      get: (value) => value.foamFlow2,
-      format: twoDecimals,
-      apply: (foamFlow2) => this.target.update({ foamFlow2 })
-    });
-    this.addSlider(surface, {
       label: "\u822A\u8FF9\u62D6\u5C3E",
+      get: (settings2) => settings2.foamWakeOpacity,
       min: 0,
       max: 1,
       step: 0.01,
       value: settings.foamWakeOpacity,
-      get: (value) => value.foamWakeOpacity,
       format: percent,
       apply: (foamWakeOpacity) => this.target.update({ foamWakeOpacity })
     });
     this.addSlider(surface, {
-      label: "\u5CB8\u7EBF\u6CE1\u6CAB",
+      label: "\u6C34\u4E0B\u5C04\u7EBF",
+      get: (settings2) => settings2.underwaterRays,
       min: 0,
-      max: 1,
+      max: 2,
       step: 0.01,
-      value: settings.foamShoreOpacity,
-      get: (value) => value.foamShoreOpacity,
-      format: percent,
-      apply: (foamShoreOpacity) => this.target.update({ foamShoreOpacity })
+      value: settings.underwaterRays,
+      format: twoDecimals,
+      apply: (underwaterRays) => this.target.update({ underwaterRays })
     });
-    this.addSlider(surface, {
-      label: "\u5CB8\u7EBF\u8303\u56F4",
-      min: 0.3,
+    const water = this.folder("\u6C34\u4F53");
+    this.addSlider(water, {
+      label: "\u7EA2\u5149\u8870\u51CF",
+      get: (settings2) => settings2.redAbsorption,
+      min: 0.1,
+      max: 1.2,
+      step: 5e-3,
+      value: settings.redAbsorption,
+      format: (value) => value.toFixed(3),
+      apply: (redAbsorption) => this.target.update({ redAbsorption })
+    });
+    this.addColor(water, "waterScatter", "\u6DF1\u6C34\u6563\u5C04\u8272", settings.waterScatter, (waterScatter) => {
+      this.target.update({ waterScatter });
+    });
+    this.addSlider(water, {
+      label: "\u57FA\u7840\u7C97\u7CD9\u5EA6",
+      get: (settings2) => settings2.waterRoughness,
+      min: 5e-3,
+      max: 0.2,
+      step: 1e-3,
+      value: settings.waterRoughness,
+      format: (value) => value.toFixed(3),
+      apply: (waterRoughness) => this.target.update({ waterRoughness })
+    });
+    this.addSlider(water, {
+      label: "\u6C34\u5E95\u6298\u5C04",
+      get: (settings2) => settings2.waterRefraction,
+      min: 0,
+      max: 0.2,
+      step: 1e-3,
+      value: settings.waterRefraction,
+      format: (value) => value.toFixed(3),
+      apply: (waterRefraction) => this.target.update({ waterRefraction })
+    });
+    this.addSlider(water, {
+      label: "\u53CD\u5C04\u626D\u66F2",
+      get: (settings2) => settings2.reflectionDistortion,
+      min: 0,
+      max: 0.2,
+      step: 1e-3,
+      value: settings.reflectionDistortion,
+      format: (value) => value.toFixed(3),
+      apply: (reflectionDistortion) => this.target.update({ reflectionDistortion })
+    });
+    this.addSlider(water, {
+      label: "\u6D6A\u5CF0\u6563\u5C04",
+      get: (settings2) => settings2.sssPeak,
+      min: 0,
       max: 6,
-      step: 0.05,
-      value: settings.shoreFoamRange,
-      get: (value) => value.shoreFoamRange,
-      format: (value) => `${value.toFixed(1)} m`,
-      apply: (shoreFoamRange) => this.target.update({ shoreFoamRange })
+      step: 0.01,
+      value: settings.sssPeak,
+      format: twoDecimals,
+      apply: (sssPeak) => this.target.update({ sssPeak })
     });
-    this.addSlider(surface, {
-      label: "\u66F2\u7387\u6743\u91CD",
+    this.addSlider(water, {
+      label: "\u9006\u5149\u900F\u5149",
+      get: (settings2) => settings2.sssView,
+      min: 0,
+      max: 0.5,
+      step: 1e-3,
+      value: settings.sssView,
+      format: (value) => value.toFixed(3),
+      apply: (sssView) => this.target.update({ sssView })
+    });
+    this.addSlider(water, {
+      label: "\u9006\u5149\u9752\u8272\u8C03",
+      get: (settings2) => settings2.backlightCyan,
+      min: 0,
+      max: 2,
+      step: 0.01,
+      value: settings.backlightCyan,
+      format: twoDecimals,
+      apply: (backlightCyan) => this.target.update({ backlightCyan })
+    });
+    this.addSlider(water, {
+      label: "\u83F2\u6D85\u5C14\u5F3A\u5EA6",
+      get: (settings2) => settings2.fresnelStrength,
+      min: 0,
+      max: 2,
+      step: 0.01,
+      value: settings.fresnelStrength,
+      format: twoDecimals,
+      apply: (fresnelStrength) => this.target.update({ fresnelStrength })
+    });
+    this.addSlider(water, {
+      label: "\u7126\u6563\u5F3A\u5EA6",
+      get: (settings2) => settings2.causticStrength,
+      min: 0,
+      max: 2,
+      step: 0.01,
+      value: settings.causticStrength,
+      format: twoDecimals,
+      apply: (causticStrength) => this.target.update({ causticStrength })
+    });
+    this.addSlider(water, {
+      label: "\u7126\u6563\u901F\u5EA6",
+      get: (settings2) => settings2.causticSpeed,
       min: 0,
       max: 3,
       step: 0.01,
-      value: settings.curvatureWeight,
-      get: (value) => value.curvatureWeight,
+      value: settings.causticSpeed,
       format: twoDecimals,
-      apply: (curvatureWeight) => this.target.update({ curvatureWeight })
+      apply: (causticSpeed) => this.target.update({ causticSpeed })
     });
-    this.addSlider(surface, {
-      label: "\u6D6A\u8C37\u566A\u58F0",
+    this.addSlider(water, {
+      label: "\u7126\u6563\u6700\u5927\u6C34\u6DF1",
+      get: (settings2) => settings2.causticDepth,
+      min: 1,
+      max: 12,
+      step: 0.1,
+      value: settings.causticDepth,
+      format: (value) => `${oneDecimal(value)} m`,
+      apply: (causticDepth) => this.target.update({ causticDepth })
+    });
+    this.addSlider(water, {
+      label: "\u592A\u9633\u95EA\u70C1",
+      get: (settings2) => settings2.glint,
       min: 0,
       max: 1,
       step: 0.01,
-      value: settings.troughNoise,
-      get: (value) => value.troughNoise,
+      value: settings.glint,
       format: percent,
-      apply: (troughNoise) => this.target.update({ troughNoise })
+      apply: (glint) => this.target.update({ glint })
     });
-    this.addSlider(surface, {
-      label: "\u6D6A\u8C37\u9AD8\u5149\u8870\u51CF",
+    const detail = this.folder("\u5730\u8868\u7EC6\u8282");
+    this.addSlider(detail, {
+      label: "\u8FD1\u666F\u7EC6\u8282",
+      get: (settings2) => settings2.terrainDetail,
       min: 0,
       max: 1,
       step: 0.01,
-      value: settings.troughSpecular,
-      get: (value) => value.troughSpecular,
+      value: settings.terrainDetail,
       format: percent,
-      apply: (troughSpecular) => this.target.update({ troughSpecular })
-    });
-    this.addSlider(surface, {
-      label: "\u9AD8\u5149\u5F3A\u5EA6",
-      min: 0,
-      max: 1,
-      step: 0.01,
-      value: settings.specAnisotropy,
-      get: (value) => value.specAnisotropy,
-      format: percent,
-      apply: (specAnisotropy) => this.target.update({ specAnisotropy })
-    });
-    this.addSlider(surface, {
-      label: "\u5404\u5411\u5F02\u6027 X",
-      min: 4,
-      max: 16,
-      step: 1,
-      value: settings.specAnisoX,
-      get: (value) => value.specAnisoX,
-      format: (value) => value.toFixed(0),
-      apply: (specAnisoX) => this.target.update({ specAnisoX })
-    });
-    this.addSlider(surface, {
-      label: "\u5404\u5411\u5F02\u6027 Y",
-      min: 64,
-      max: 256,
-      step: 1,
-      value: settings.specAnisoY,
-      get: (value) => value.specAnisoY,
-      format: (value) => value.toFixed(0),
-      apply: (specAnisoY) => this.target.update({ specAnisoY })
-    });
-    this.addSlider(surface, {
-      label: "\u9AD8\u5149\u66F2\u7387",
-      min: 0,
-      max: 1,
-      step: 0.01,
-      value: settings.specCurvature,
-      get: (value) => value.specCurvature,
-      format: percent,
-      apply: (specCurvature) => this.target.update({ specCurvature })
-    });
-    this.addSlider(surface, {
-      label: "\u53CD\u5C04\u7C97\u7CD9\u5EA6",
-      min: 0,
-      max: 1,
-      step: 0.01,
-      value: settings.reflectionRoughness,
-      get: (value) => value.reflectionRoughness,
-      format: percent,
-      apply: (reflectionRoughness) => this.target.update({ reflectionRoughness })
-    });
-    this.addColor(surface, "specColor", "\u9AD8\u5149\u989C\u8272", settings.specColor, (specColor) => {
-      this.target.update({ specColor });
+      apply: (terrainDetail) => this.target.update({ terrainDetail })
     });
     const sky = this.folder("\u5929\u7A7A");
+    this.addSelect(
+      sky,
+      "sky",
+      "\u5929\u7A7A\u9884\u8BBE",
+      SKY_OPTIONS.map((option) => ({ value: option.id, label: option.label })),
+      settings.sky,
+      (value) => this.target.update({ sky: value })
+    );
     this.addSlider(sky, {
       label: "\u592A\u9633\u65F6\u95F4",
       get: (settings2) => settings2.timeOfDay,
@@ -51542,7 +53300,19 @@ var Panel = class {
         6e3
       );
     });
-    const camera = this.folder("\u76F8\u673A");
+    const audio = this.folder("\u58F0\u97F3");
+    this.addToggle(audio, "ambience", "\u73AF\u5883\u97F3");
+    this.addSlider(audio, {
+      label: "\u73AF\u5883\u97F3\u97F3\u91CF",
+      get: (settings2) => settings2.ambienceVolume,
+      min: 0,
+      max: 1,
+      step: 0.01,
+      value: settings.ambienceVolume,
+      format: percent,
+      apply: (ambienceVolume) => this.target.update({ ambienceVolume })
+    });
+    const camera2 = this.folder("\u76F8\u673A");
     const seg = element("div", "tws-seg");
     for (const { value, name } of CAMERA_MODES) {
       const button = element("button", "", name);
@@ -51555,8 +53325,8 @@ var Panel = class {
       this.modeButtons.set(value, button);
       seg.append(button);
     }
-    camera.append(seg);
-    this.addButton(camera, "\u2301 \u6C34\u4E0B\u63A2\u7D22", () => this.target.underwaterView());
+    camera2.append(seg);
+    this.addButton(camera2, "\u2301 \u6C34\u4E0B\u63A2\u7D22", () => this.target.underwaterView());
     const debug = this.folder("\u8C03\u8BD5");
     this.addToggle(debug, "buoyancyProbes", "\u6D6E\u529B\u63A2\u9488");
     this.addToggle(debug, "wakeProbes", "\u5C3E\u6D41\u63A2\u9488");
@@ -51620,8 +53390,9 @@ var Panel = class {
     const select = element("select", "tws-select");
     select.setAttribute("aria-label", label);
     for (const option of options) {
-      const node = element("option", "", option);
-      node.value = option;
+      const id = typeof option === "string" ? option : option.value;
+      const node = element("option", "", typeof option === "string" ? option : option.label);
+      node.value = id;
       select.append(node);
     }
     select.value = value;
@@ -51711,6 +53482,1475 @@ var Panel = class {
   }
 };
 
+// src/ultra/OceanSurface.ts
+var ANGULAR = 384;
+var HIGH_CAMERA = 60;
+var INNER = 1;
+var OUTER = 3e3;
+var SKIRT = 6e4;
+var HORIZON_FACTOR = 3570;
+var HORIZON_MARGIN = 1.3;
+var FAR_SKY_LOD = 0;
+var EDGE_FADE_START = 0.7;
+var EDGE_FADE_FAR_FRACTION = 0.85;
+var FOG_SKY_LIFT = 0.015;
+var HORIZON_VEIL = 0.045;
+var HORIZON_VEIL_MAX = 1;
+var HORIZON_SPEC_FLOOR = 0.5;
+var GRAZING_REFLECTION_DIM = 0.85;
+var FAR_REFLECTION_LOD = 2.2;
+var FAR_REFLECTION_START = 1200;
+var FAR_REFLECTION_END = 5e3;
+function buildGrid(angular) {
+  const q4 = 1 + 2 * Math.PI / angular;
+  const radii = [];
+  for (let r3 = INNER / 16; r3 < INNER * 0.99; r3 *= 1.12) radii.push(r3);
+  for (let r3 = INNER; r3 < OUTER; r3 *= q4) radii.push(r3);
+  radii.push(SKIRT);
+  const verts = new Float32Array((1 + radii.length * angular) * 3);
+  let v3 = 3;
+  for (const r3 of radii) {
+    for (let a3 = 0; a3 < angular; a3++) {
+      const t3 = a3 / angular * Math.PI * 2;
+      verts[v3++] = Math.cos(t3) * r3;
+      verts[v3++] = 0;
+      verts[v3++] = Math.sin(t3) * r3;
+    }
+  }
+  const idx = [];
+  for (let a3 = 0; a3 < angular; a3++) idx.push(0, 1 + (a3 + 1) % angular, 1 + a3);
+  for (let ring = 0; ring < radii.length - 1; ring++) {
+    const i0 = 1 + ring * angular;
+    const i1 = i0 + angular;
+    for (let a3 = 0; a3 < angular; a3++) {
+      const b6 = (a3 + 1) % angular;
+      idx.push(i0 + a3, i0 + b6, i1 + a3, i0 + b6, i1 + b6, i1 + a3);
+    }
+  }
+  const geo = new BufferGeometry();
+  geo.setAttribute("position", new BufferAttribute(verts, 3));
+  geo.setIndex(new BufferAttribute(new Uint32Array(idx), 1));
+  return geo;
+}
+var SHORE_GLSL = (
+  /* glsl */
+  `
+// \u56DB\u5F20\u5730\u5F62\u6570\u636E\u8D34\u56FE\uFF08\u5CB8\u7EBF / \u4F20\u64AD\u65F6\u95F4 / \u751F\u7269\u7FA4\u7CFB / \u7C97\u6C34\u6DF1\uFF09\u5408\u6210\u4E00\u4E2A 2D \u6570\u7EC4\u7EB9\u7406\u3002
+// \u7247\u5143\u7740\u8272\u5668\u7684\u7EB9\u7406\u5355\u5143\u53EA\u6709 16 \u4E2A\uFF0C\u786C\u4EF6\u4E0A\u9650\u5361\u5F97\u5F88\u6B7B\uFF1B\u56DB\u5408\u4E00\u540E\u6B63\u597D\u7559\u51FA\u4F59\u91CF\uFF0C
+// \u4F4E\u7AEF GPU \u4E0A\u6C34\u9762\u624D\u4E0D\u4F1A\u56E0\u4E3A\u300Ctexture image units \u8D85\u8FC7 16\u300D\u76F4\u63A5\u7F16\u8BD1\u5931\u8D25\u3002
+uniform highp sampler2DArray uTerrainMaps;   // \u5C42 0 \u5CB8\u7EBF / \u5C42 1 \u4F20\u64AD\u65F6\u95F4 / \u5C42 2 \u751F\u7269\u7FA4\u7CFB / \u5C42 3 \u7C97\u6C34\u6DF1
+uniform vec2 uShoreCenter;
+uniform float uShoreExtent;
+uniform float uTime;
+uniform vec4 uShoreWave;   // amplitude, wavelength, speed, steepness
+uniform float uShoreHandoff;   // 0 = \u65E7\u884C\u4E3A\uFF0C1 = \u7834\u788E\u540E\u4EA4\u7ED9\u62CD\u5CB8\u6D6A
+uniform vec2 uSwellDir;
+uniform float uWindward;   // \u8FCE\u98CE\u589E\u5F3A 0~1\uFF1A\u8FCE\u98CE\u5CB8\u6D6A\u66F4\u5927\u3001\u6CE1\u6CAB\u66F4\u5BBD\uFF0C\u80CC\u98CE\u5CB8\u88AB\u906E\u6321
+uniform float uReefFoam;    // \u7901\u77F3\u649E\u51FB\u6CE1\u6CAB\u500D\u7387
+
+vec2 shoreUV(vec2 xz) { return (xz - uShoreCenter) / uShoreExtent + 0.5; }
+vec4 biomeSample(vec2 xz) {
+  vec2 uv = shoreUV(xz);
+  if (any(lessThan(uv, vec2(0.0))) || any(greaterThan(uv, vec2(1.0)))) return vec4(0.0);
+  return textureLod(uTerrainMaps, vec3(uv, 2.0), 0.0);
+}
+vec4 shoreSample(vec2 xz) {
+  vec2 uv = shoreUV(xz);
+  // A = \u7528\u4E8E FFT \u963B\u5C3C\u7684\u6709\u6548\u6C34\u6DF1\uFF08\u7C73\uFF09\u3002\u8D8A\u754C\u8FD4\u56DE 60 m = \u5B8C\u5168\u4E0D\u53D7\u6D45\u6C34\u963B\u5C3C\uFF0C
+  // \u5426\u5219\u5F00\u9614\u6D77\u4F1A\u62FF\u5230 A=0 \u88AB\u8BEF\u5F53\u6210\u6C34\u6DF1 0\uFF0C\u6574\u7247\u8FDC\u6D77\u88AB\u538B\u6210\u955C\u9762\u3002
+  if (any(lessThan(uv, vec2(0.0))) || any(greaterThan(uv, vec2(1.0)))) return vec4(-60.0, 1e4, 6.0, 60.0);
+  return textureLod(uTerrainMaps, vec3(uv, 0.0), 0.0);
+}
+// \u5C42 3 = \u7C97\u5E73\u6ED1\u6C34\u6DF1\uFF08\u7EA6 140 m \u534A\u5F84\uFF09\u3002\u8D8A\u754C\u8FD4\u56DE 60 m\uFF0C\u548C A \u901A\u9053\u4E00\u81F4\u3002
+float coarseDepthSample(vec2 xz) {
+  vec2 uv = shoreUV(xz);
+  if (any(lessThan(uv, vec2(0.0))) || any(greaterThan(uv, vec2(1.0)))) return 60.0;
+  return textureLod(uTerrainMaps, vec3(uv, 3.0), 0.0).r;
+}
+// \u5C42 3 \u7684 G \u901A\u9053\uFF1A\u8BE5\u5904\u5CB8\u6D6A\u7684\u5C3A\u5EA6\u7CFB\u6570\uFF081 = \u5927\u5C9B / \u5927\u9646\u5CB8\uFF0C0.2 = \u5C0F\u5C9B\uFF09\u3002
+float shoreScaleSample(vec2 xz) {
+  vec2 uv = shoreUV(xz);
+  if (any(lessThan(uv, vec2(0.0))) || any(greaterThan(uv, vec2(1.0)))) return 1.0;
+  return textureLod(uTerrainMaps, vec3(uv, 3.0), 0.0).g;
+}
+// \u5C42 3 B\uFF1A5\xD75 \u90BB\u57DF\u6700\u5927\u6D77\u5E8A\u9AD8\u5EA6\uFF08\u7C73\uFF09\u3002\u8D8A\u754C\u8FD4\u56DE -60\uFF0C\u7B49\u4E8E\u201C\u6DF1\u6C34\uFF0C\u4E0D\u5939\u201D\u3002
+float bedMaxSample(vec2 xz) {
+  vec2 uv = shoreUV(xz);
+  if (any(lessThan(uv, vec2(0.0))) || any(greaterThan(uv, vec2(1.0)))) return -60.0;
+  return textureLod(uTerrainMaps, vec3(uv, 3.0), 0.0).b;
+}
+#ifdef SURF_VARYING
+in float vSurf;
+float surfSample(vec2 xz) { return vSurf; }
+#else
+float surfSample(vec2 xz) { return shoreSample(xz).z; }
+#endif
+vec4 travelSample(vec2 xz) {
+  vec2 uv = shoreUV(xz);
+  if (any(lessThan(uv, vec2(0.0))) || any(greaterThan(uv, vec2(1.0)))) return vec4(0.0);
+  return textureLod(uTerrainMaps, vec3(uv, 1.0), 0.0);
+}
+
+float hash12(vec2 p) {
+  vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  return fract((p3.x + p3.y) * p3.z);
+}
+float vnoise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash12(i), hash12(i + vec2(1, 0)), u.x), mix(hash12(i + vec2(0, 1)), hash12(i + 1.0), u.x), u.y);
+}
+
+float shoreNoisePhase(vec2 xz, float k) {
+  return vnoise(xz * 0.0042 * k) * 9.0 + vnoise(xz * 0.011 * k + 7.0) * 2.5;
+}
+float shoreGroup(vec2 xz, float k) {
+  return 0.45 + 0.55 * vnoise(xz * 0.004 * k + vec2(uTime * 0.021, -uTime * 0.017));
+}
+// \u8FCE\u98CE / \u80CC\u98CE\uFF1Adir \u662F\u6307\u5411\u5CB8\u7684\u4F20\u64AD\u65B9\u5411\uFF0Cdot > 0 \u8868\u793A\u6D6A\u6B63\u9762\u6251\u5CB8\u3002
+// uWindward = 0 \u65F6\u4E24\u4FA7\u51E0\u4E4E\u4E00\u6837\uFF1B\u8C03\u5927\u540E\u8FCE\u98CE\u4FA7\u62AC\u5347\u3001\u80CC\u98CE\u4FA7\u538B\u5F97\u66F4\u4F4E\u3002
+float shoreExposure(vec2 dir) {
+  float e = smoothstep(-0.35, 0.65, dot(dir, uSwellDir));
+  return mix(1.0 - 0.55 * uWindward, 1.0 + 0.65 * uWindward, e);
+}
+vec2 shoreDir(vec2 xz, vec4 sh, vec4 tr) {
+  return dot(tr.yz, tr.yz) > 0.25 ? normalize(tr.yz) : normalize(uShoreCenter - xz + vec2(1e-4));
+}
+`
+);
+var WATER_GLSL = (
+  /* glsl */
+  `
+#define N_TEX ${N4.toFixed(1)}
+#define PI 3.14159265359
+uniform sampler2D uDisp0, uDisp1, uDisp2;
+uniform sampler2D uSlope0, uSlope1, uSlope2, uSlope3;
+uniform vec4 uLength;
+uniform vec2 uWaveDamp;
+uniform vec3 uLayerWeights;   // \u5927\u6D6A / \u4E2D\u6D6A / \u7EC6\u6D6A\u4E09\u5C42\u7684\u72EC\u7ACB\u6743\u91CD
+uniform vec2 uNearshore;      // x: \u6D45\u6C34\u95E8\u69DB (m)\uFF0Cy: \u8FD1\u5CB8\u5927\u6D6A\u538B\u4F4E\u7CFB\u6570
+uniform float uShoal;         // 0 = \u65E7\u7684\u957F\u6D6A\u963B\u5C3C\uFF0C1 = \u6D45\u5316 + \u7834\u788E
+uniform float uBreakFoam;     // \u5916\u51B2\u6D6A\u5E26\u7834\u788E\u767D\u6C34\u5F3A\u5EA6\uFF080 \u5173\u95ED\uFF09
+uniform vec4 uImpact[8];
+uniform float uImpactSize[8];
+${SHORE_GLSL}
+
+vec3 impactWaves(vec2 xz, float kMax) {
+  vec3 o = vec3(0.0);
+  for (int i = 0; i < 8; i++) {
+    vec4 e = uImpact[i];
+    if (e.w <= 0.0) continue;
+    vec2 dv = xz - e.xy;
+    float r = length(dv) + 1e-3, L = uImpactSize[i];
+    float k = 9.81 * e.z * e.z / (4.0 * r * r);
+    float kl2 = k * k * L * L;
+    float amp = e.w * 2.72 * kl2 * exp(-kl2 - k * k / (kMax * kMax) - 0.12 * e.z) * L / (L + r);
+    float ph = k * r;
+    o.x += amp * cos(ph);
+    o.yz += dv / r * (amp * k * sin(ph));
+  }
+  return o;
+}
+
+vec3 cascadeDamp(float depth) {
+  // \u89C4\u5219\uFF1A0~1 m \u53EA\u5269\u7EC6\u788E\u6CE2\u7EB9\uFF1B1~4 m \u7EBF\u6027\u6DF7\u5408\uFF1B>4 m \u5B8C\u6574\u8FDC\u6D0B\u6D8C\u6D6A\u3002
+  // \u8FD1\u5CB8\u5927\u6D6A\u7684\u989D\u5916\u538B\u4F4E\u53EA\u4F5C\u7528\u5728\u7B2C\u4E00\u5C42\u7EA7\u8054\u4E0A\uFF0C\u7531 nearshoreRetention() \u5355\u72EC\u7B97\uFF0C
+  // \u907F\u514D\u5728 cascadeDamp \u548C\u5C42\u6743\u91CD\u91CC\u91CD\u590D\u538B\u4F4E\u4E24\u6B21\u3002
+  float swell = smoothstep(1.0, uWaveDamp.x, depth);
+  // \u6D45\u6C34\u4FDD\u7559\u7EC6\u6D6A\uFF1A0.1~2 m \u7684\u6C34\u819C\u4E5F\u8981\u6709\u4E00\u5C42\u7EC6\u788E\u6D9F\u6F2A\uFF0C\u5426\u5219\u6D45\u6EE9\u4F1A\u50CF\u4E00\u5757\u73BB\u7483\u677F\u3002
+  float chop = smoothstep(-0.6, 1.0, depth) * mix(uWaveDamp.y, 1.0, smoothstep(0.4, 8.0, depth));
+  return vec3(swell, chop, chop);
+}
+
+// \u8FD1\u5CB8\u5927\u6D6A\u4F4D\u79FB\u4FDD\u7559\u66F2\u7EBF\uFF1A0.3~3.2 m \u4E4B\u95F4\u4ECE 0 \u5347\u5230 1\uFF0C\u53D6 1.5 \u6B21\u65B9\u8BA9\u6D45\u6C34\u66F4\u5E73\u3002
+// \u53C2\u8003\u884C\u4E3A\uFF1A0.6 m \u2248 1%\uFF0C1.5 m \u2248 21%\uFF0C3.1 m \u2248 99%\uFF1BuNearshore.y \u662F\u7528\u6237\u5F3A\u5EA6\u3002
+float nearshoreRetention(float depth) {
+  float t = smoothstep(0.3, uNearshore.x, depth);
+  return mix(1.0, t * sqrt(t), clamp(uNearshore.y, 0.0, 1.0));
+}
+
+// \u957F\u6D6A\uFF08\u7B2C\u4E00\u5C42\u7EA7\u8054\uFF09\u6743\u91CD\uFF1A\u6DF1\u6C34 1\uFF1B\u6D45\u6C34\u4FDD\u7559\u53EF\u89C2\u80FD\u91CF\uFF0C\u5E76\u6309 (8/depth)^0.25 \u6D45\u5316\u653E\u5927\u3002
+// \u4E2D\u7EC6\u6D6A\u4E0D\u8D70\u8FD9\u91CC\uFF0C\u4FDD\u6301\u539F\u6765\u7684\u963B\u5C3C\u3002uShoal=0 \u65F6\u5B8C\u5168\u56DE\u5230\u65E7\u66F2\u7EBF\uFF0C\u4FBF\u4E8E A/B \u4E0E\u56DE\u9000\u3002
+float longWaveWeight(float depth) {
+  float oldWeight = cascadeDamp(depth).x * nearshoreRetention(depth)
+                  * mix(0.25, 1.0, smoothstep(1.0, 4.2, depth));
+  float shoalGain = clamp(pow(8.0 / max(depth, 0.8), 0.25), 1.0, 2.2);
+  float relax = smoothstep(0.15, 2.2, depth);
+  return mix(oldWeight, relax * shoalGain, clamp(uShoal, 0.0, 1.0));
+}
+
+uniform float uShoreSensing;   // 0 = \u65E7\u884C\u4E3A\uFF0C1 = \u5206\u5C42\u611F\u77E5 + \u884D\u5C04
+
+// \u5206\u5C42\u611F\u77E5\uFF1A\u957F\u6D6A\u770B\u7C97\u5E73\u6ED1\u6C34\u6DF1\uFF0C\u4E2D\u6D6A\u770B\u4E24\u8005\u6DF7\u5408\uFF0C\u7EC6\u6D6A\u770B\u73B0\u6709\u7684 A \u901A\u9053\u3002
+// raw \u662F\u7ED9\u6CE1\u6CAB\u9762\u79EF\u6BD4 jac \u7528\u7684\u539F\u59CB\u963B\u5C3C\uFF1Bweight \u662F\u5B9E\u9645\u4F4D\u79FB\u6743\u91CD\u3002
+vec3 layeredDamping(vec2 xz, vec4 sh, out vec3 weight) {
+  float s = clamp(uShoreSensing, 0.0, 1.0);
+  float depthSharp = max(-sh.x, 0.0);
+  float depthDamp = sh.a > 0.001 ? sh.a : depthSharp;
+  float depthCoarse = coarseDepthSample(xz);
+  float depthLong = mix(depthDamp, depthCoarse, s);
+  float depthMid = mix(depthDamp, mix(depthDamp, depthCoarse, 0.45), s);
+  // \u7A84\u69FD\u884D\u5C04\uFF1A\u672C\u5730\u660E\u663E\u6BD4\u5468\u56F4\u6DF1\uFF0C\u8BF4\u660E\u4E24\u4FA7\u662F\u6D45\u6EE9\uFF0C\u80FD\u91CF\u88AB\u6321\u8D70\u3002
+  float enclosed = smoothstep(4.0, 12.0, depthSharp - depthCoarse)
+                 * smoothstep(6.0, 12.0, depthSharp);
+  float diff = 1.0 - 0.6 * enclosed * s;
+  // \u4F4D\u79FB\u7528\u7684\u957F\u6D6A\u6743\u91CD\u59CB\u7EC8\u662F longWaveWeight\uFF1Bjac / \u6CE1\u6CAB\u7528\u7684\u539F\u59CB\u963B\u5C3C\u5728 s=0 \u65F6\u5FC5\u987B\u56DE\u5230
+  // cascadeDamp\uFF0C\u5426\u5219 uShoal=1 \u7684\u6D45\u5316\u589E\u76CA\u4F1A\u8BA9\u201C0 = \u65E7\u884C\u4E3A\u201D\u5728 1~4 m \u6D45\u6C34\u4E0D\u6210\u7ACB\u3002
+  float weightLong = longWaveWeight(depthLong);
+  float rawLong = mix(cascadeDamp(depthLong).x, weightLong, s);
+  vec3 raw = vec3(rawLong, cascadeDamp(depthMid).y, cascadeDamp(depthDamp).z) * diff;
+  weight = vec3(weightLong * diff, raw.y * mix(0.70, 1.0, smoothstep(0.8, 3.2, depthMid)), raw.z);
+  return raw;
+}
+
+struct Shore { vec3 disp; vec2 slope; float foam; vec4 wave0; float breaking0; vec2 dir; float lip; float residual; float env; };
+Shore shoreWaves(vec2 xz, vec4 sh, float cell, vec4 bio) {
+  Shore o = Shore(vec3(0.0), vec2(0.0), 0.0, vec4(0.0), 0.0, vec2(0.0), 0.0, 0.0, 0.0);
+  float depth = -sh.x, sdf = sh.y;
+  vec4 tr = travelSample(xz);
+  float shoreScale = shoreScaleSample(xz);
+  // \u5305\u7EDC\u6309\u5C9B\u5C3A\u5BF8\u6536\u7A84\uFF1A\u5C0F\u5C9B\u7684\u51B2\u6D6A\u5E26\u4E0D\u4F1A\u94FA\u51FA 180 m\u3002
+  float env = smoothstep(180.0 * shoreScale, 70.0 * shoreScale, sdf)
+            * smoothstep(0.05, 0.3, tr.a) * smoothstep(-0.9, 0.5, depth);
+  if (env <= 0.0 || uShoreWave.x <= 0.0 || shoreScale <= 0.001) return o;
+  vec2 dir = shoreDir(xz, sh, tr);
+  o.dir = dir;
+  // \u8FCE\u98CE\u5CB8\u62AC\u5347\u3001\u80CC\u98CE\u5CB8\u538B\u4F4E\uFF1B\u7901\u77F3\u5CB8\u989D\u5916\u63D0\u9AD8\u51B2\u51FB\u5E45\u5EA6
+  float rock = max(bio.g, bio.b);
+  env *= shoreExposure(dir) * mix(1.0, 1.18, rock);
+  // \u73AF\u7901\u6F5F\u6E56\u5185\u90E8\u88AB\u7901\u5899\u6321\u4F4F\uFF0C\u53EA\u5269\u5FAE\u5F31\u7EC6\u6CE2
+  env *= 1.0 - 0.72 * bio.a;
+  // \u60AC\u5D16\u6D77\u5CB8\u4E0D\u505A\u4EFB\u4F55\u5CB8\u7EBF\u6C34\u6548\uFF1A\u4E0D\u62CD\u5CB8\u6D6A\u3001\u4E0D\u8D77\u6CAB\u3001\u4E0D\u63A8\u6C34\u7EBF\uFF0C
+  // \u6C34\u9762\u53EA\u662F\u6B63\u5E38\u5730\u548C\u5CA9\u58C1 / \u6D45\u6EE9\u76F8\u4EA4\uFF08\u6D45\u6EE9\u53EA\u8D1F\u8D23\u6C34\u4E0B\u53D8\u6D45\u7684\u6C34\u8272\uFF09\u3002
+  env *= 1.0 - bio.z;
+  // \u6700\u7EC8\u5305\u7EDC\uFF1A\u5305\u542B\u5CB8\u8DDD\u3001\u4F20\u64AD\u65F6\u95F4\u3001\u6C34\u6DF1\u3001\u8FCE\u98CE\u3001\u6F5F\u6E56\u3001\u60AC\u5D16\u3001\u5C0F\u5C9B\u5C3A\u5EA6\u3002
+  // \u4EA4\u73ED\u7528\u5B83\u5224\u65AD\u201C\u8FD9\u91CC\u5230\u5E95\u6709\u6CA1\u6709\u62CD\u5CB8\u6D6A\u63A5\u73ED\u201D\u3002
+  o.env = clamp(env, 0.0, 1.0);
+  float shoal = dot(tr.yz, tr.yz) > 0.25 ? tr.w : pow(clamp(max(depth, 0.6) / 14.0, 0.04, 1.0), -0.25);
+  float cel = sqrt(9.81 * clamp(depth, 0.3, 14.0));
+  float S = surfSample(xz);
+  float amax = 0.42 * min(max(depth, 0.0), S) + 0.14 * smoothstep(0.5, 2.0, S) + 0.02;
+  float gate = smoothstep(1.4, 1.05, depth / max(S, 0.05));
+  float noisePhase = shoreNoisePhase(xz, 1.0 / max(shoreScale, 0.2));
+  float group = shoreGroup(xz, 1.0 / max(shoreScale, 0.2));
+  float pinch = 0.85;
+  for (int i = 0; i < 2; i++) {
+    float lambdaScale = mix(0.35, 1.0, shoreScale);
+    float lambda = uShoreWave.y * lambdaScale * (i == 0 ? 1.0 : 0.61);
+    float w = sqrt(9.81 * 2.0 * PI / lambda) * uShoreWave.z;
+    float k = w / cel;
+    float a = min(uShoreWave.x * shoreScale * (i == 0 ? 1.0 : 0.45) * env * shoal * group,
+                  amax * (i == 0 ? 1.0 : 0.5));
+    float ph = w * (tr.x + uTime) + noisePhase * (i == 0 ? 1.0 : 1.37) + float(i) * 2.1;
+    float c = 0.5 + 0.5 * cos(ph);
+    float s = sin(ph);
+    const float P = 1.6;
+    float cp = pow(max(c, 0.0), P - 1.0);
+    float rel = a / max(depth, 0.05);
+    float cycle = floor((ph + PI) / (2.0 * PI));
+    float early = vnoise(xz * 0.03 + vec2(cycle * 7.3, cycle * 3.1 + float(i) * 31.0));
+    float energy = smoothstep(0.03, 0.2, a);
+    float breaking = smoothstep(0.12 + 0.14 * early, 0.3 + 0.2 * early, rel) * gate * energy;
+    float pitch = i == 0 ? 2.0 * uShoreWave.w * a * smoothstep(0.16, 0.28, rel) * (1.0 - smoothstep(0.4, 0.6, rel)) * gate : 0.0;
+    pitch = min(pitch, 0.35 / (1.08 * k));
+    pitch *= 1.0 - smoothstep(0.03, 0.1, k * cell / (2.0 * PI));
+    pinch -= 1.08 * pitch * k;
+    float qak = min(pinch, uShoreWave.w * a * k * 8.0);
+    pinch -= qak;
+    float c5 = c * c * c * c * c;
+    float bl = 1.0 - smoothstep(0.1, 0.3, k * cell / (2.0 * PI));
+    // \u6781\u6D45\u6C34\u628A\u6574\u4F53\u4E0B\u504F\u4ECE -0.78 \u6536\u5230 -0.25\uFF1A\u771F\u5B9E\u51B2\u6D6A\u5E26\u662F\u6574\u4F53\u62AC\u9AD8\u7684\u4E00\u5C42\u767D\u6C34\uFF0C
+    // \u4E0D\u662F\u56F4\u7740\u96F6\u4E0A\u4E0B\u6446\u7684\u6B63\u5F26\u6CE2\uFF0C\u4E0B\u504F\u592A\u6DF1\u5C31\u4F1A\u628A\u6D6A\u8C37\u63A8\u5230\u6C99\u9762\u4EE5\u4E0B\u3002
+    // \u4E58 uShoreHandoff\uFF1A0 = \u65E7\u884C\u4E3A\u3002
+    float shallowLift = smoothstep(0.7, 0.1, depth) * clamp(uShoreHandoff, 0.0, 1.0);
+    o.disp.y += bl * a * (2.0 * cp * c - mix(0.78, 0.25, shallowLift));
+    o.disp.xz += bl * dir * ((qak / k) * s + pitch * c5 * c);
+    o.slope += bl * dir * (a * k * P * cp * s / max(1.0 - qak * cos(ph) + 3.0 * pitch * k * c5 * s, 0.2));
+    float psi = mod(ph + PI, 2.0 * PI) - PI;
+    float big = smoothstep(0.2, 0.5, a);
+    float tail = max(exp(-max(psi, 0.0) * mix(0.45, 1.0, big)), 0.65 * smoothstep(0.3, 0.55, rel) * smoothstep(2.4, 0.3, psi));
+    float f = breaking * smoothstep(mix(-0.7, -0.35, big), 0.0, psi) * tail * mix(0.55, 1.0, big);
+    // \u7901\u77F3\u649E\u51FB\u6CE1\u6CAB\u66F4\u539A\uFF1B\u6F5F\u6E56\u5185\u90E8\u51E0\u4E4E\u4E0D\u8D77\u6CAB
+    o.foam += f * mix(0.85, 1.55, clamp(rock * uReefFoam, 0.0, 1.0)) * (1.0 - 0.65 * bio.a);
+    if (i == 0) {
+      o.wave0 = vec4(a, k, w, ph);
+      o.breaking0 = breaking;
+      o.lip = breaking * c5 * smoothstep(0.6, -0.2, psi);
+      o.residual = smoothstep(0.18, 0.4, rel) * (0.3 + 0.45 * exp(-mod(ph, 2.0 * PI) * 0.4)) * gate * energy;
+      // \u6CE1\u6CAB\u751F\u547D\u5468\u671F\uFF1A\u6C99\u6EE9\u4E0A\u7684\u6CE1\u6CAB\u505C\u7559\u6700\u4E45\uFF1B\u7901\u77F3\u8F83\u5FEB\u6D88\u6563\uFF1B\u5D16\u58C1\u53EA\u6709\u77AC\u65F6\u649E\u51FB\uFF1B
+      // \u6F5F\u6E56\u5185\u5CB8\u4EC5\u6709\u6781\u5C11\u91CF\u3002
+      o.residual *= bio.r + bio.g * 0.45 + bio.z * 0.10 + bio.a * 0.20;
+    }
+  }
+  // \u51B2\u6D6A\u5E26\u589E\u6C34\uFF1A\u6781\u6D45\u6C34\u628A\u6C34\u9762\u6574\u4F53\u62AC\u4E00\u70B9\uFF0C\u6CE2\u8C37\u4E5F\u8DDF\u7740\u62AC\u79BB\u6C99\u9762\u3002
+  // \u7528\u7B2C\u4E00\u5217\u6CE2\u7684\u632F\u5E45\u8BA1\u4E00\u6B21\uFF0C\u907F\u514D\u4E24\u5217\u6CE2\u91CD\u590D\u53E0\u3002\u4E58 uShoreHandoff \u4FDD\u6301 0 = \u65E7\u884C\u4E3A\u3002
+  // 1.05\uFF1A\u6C34\u7EBF\u9644\u8FD1\u7684\u6C34\u819C\u8981\u80FD\u8BFB\u51FA\u201C\u6709\u6C34\u201D\uFF0C0.8 \u65F6\u8D34\u6C34\u7EBF\u7684\u4E00\u5C0F\u6BB5\u663E\u5F97\u504F\u5E72\u3002
+  // \u8D77\u70B9\u4ECE 0.15 \u6536\u5230 0.12\uFF0C\u8BA9\u79BB\u6C34\u7EBF\u6700\u8FD1\u7684\u90A3\u4E00\u6BB5\u4E5F\u5403\u5230\u5B8C\u6574\u7684\u62AC\u5347\u3002
+  o.disp.y += o.wave0.x * smoothstep(0.9, 0.12, depth) * 1.05
+            * clamp(uShoreHandoff, 0.0, 1.0);
+  // \u515C\u5E95\uFF1A\u62CD\u5CB8\u6D6A\u7684\u6C34\u5E73\u4F4D\u79FB\u4E0D\u80FD\u8D85\u8FC7\u534A\u4E2A\u7F51\u683C\u95F4\u8DDD\uFF0C\u5426\u5219\u76F8\u90BB\u9876\u70B9\u4F1A\u4E92\u76F8\u8D8A\u8FC7\u3001
+  // \u628A\u6C34\u9762\u6298\u6210\u7AD6\u7247\u3002\u7AD6\u76F4\u4F4D\u79FB\u4E5F\u8BBE\u4E0A\u9650\u3002
+  float mag = length(o.disp.xz);
+  float maxShift = max(cell * 0.5, 0.3);
+  if (mag > maxShift) o.disp.xz *= maxShift / mag;
+  o.disp.y = clamp(o.disp.y, -3.5, 4.0);
+  return o;
+}
+
+struct Disp { vec3 d; float brk; float cap; };
+
+Disp displacementFull(vec2 xz, vec3 lod) {
+  vec4 sh = shoreSample(xz);
+  vec4 bio = biomeSample(xz);
+  float depth = -sh.x;
+  // FFT \u963B\u5C3C\u4F7F\u7528\u5CB8\u7EBF bake \u7684\u6709\u6548\u6C34\u6DF1\uFF1A\u9661\u5761\u5904\u6CBF\u6CE2\u957F\u5C3A\u5EA6\u5E73\u6ED1\uFF0C\u7F13\u6C99\u6EE9\u7B49\u4E8E\u771F\u5B9E\u6C34\u6DF1\u3002
+  // \u62CD\u5CB8\u6D6A\u3001\u6CE1\u6CAB\u3001\u5149\u5B66\u4ECD\u7136\u7528 sh.x \u7684\u771F\u5B9E\u6DF1\u5EA6\uFF08\u89C1 shoreWaves / \u7247\u5143 depthBelow\uFF09\u3002
+  // A=0 \u7684\u65E7\u8D34\u56FE / \u5360\u4F4D\u8D34\u56FE\u56DE\u9000\u5230\u771F\u5B9E\u6C34\u6DF1\uFF0C\u4FDD\u8BC1\u517C\u5BB9\u3002
+  float depthDamp = sh.a > 0.001 ? sh.a : max(depth, 0.0);
+  vec3 wgt;
+  layeredDamping(xz, sh, wgt);
+  vec3 w = wgt * uLayerWeights;
+  w.x *= 1.0 - 0.85 * bio.a;
+  w.y *= 1.0 - 0.65 * bio.a;
+  w.z *= 1.0 - 0.30 * bio.a;
+  // \u957F\u6D6A + \u4E2D\u6D6A\u4E00\u7EC4\uFF0C\u7EC6\u6D6A\u5355\u72EC\u4E00\u7EC4\uFF1A\u4EA4\u73ED\u65F6\u53EA\u9000\u957F\u4E2D\u6D6A\uFF0C\u7EC6\u6D6A\u4FDD\u7559\u3002
+  vec3 dLong = textureLod(uDisp0, xz / uLength.x, max(lod.x, 0.0)).xyz * w.x
+             + textureLod(uDisp1, xz / uLength.y, max(lod.y, 0.0)).xyz * w.y;
+  vec3 dFine = textureLod(uDisp2, xz / uLength.z, max(lod.z, 0.0)).xyz * w.z;
+  // \u6C34\u7EBF 1.5 m \u5185\u6536\u4F4F FFT \u4F4D\u79FB\uFF1A\u5CB8\u7EBF\u8D34\u56FE\u662F 1 m \u7EA7\u7684\uFF0C\u9661\u5CB8\u5904\u76F8\u90BB\u9876\u70B9\u843D\u5230\u4E0D\u540C
+  // \u7EB9\u7D20\u4E0A\u3001\u6C34\u6DF1\u5DEE\u597D\u51E0\u7C73\uFF0C\u4F4D\u79FB\u6743\u91CD\u8DDF\u7740\u8DF3\u53D8\uFF0C\u6C34\u9762\u4F1A\u5728\u6C34\u7EBF\u6298\u6210\u4E00\u6392\u7AD6\u7247\u3002
+  // \u53EA\u6536 FFT\uFF0C\u62CD\u5CB8\u6D6A\uFF08\u6C99\u6EE9\u51B2\u6D6A\u5E26\uFF09\u7167\u5E38\u53E0\u52A0\u5728\u8FD1\u5CB8\u3002
+  float waterFade = smoothstep(0.0, 1.5, sh.y);
+  // \u4FDD\u7559\u65E7\u7248\u7684\u201C\u5148\u6C42\u548C\u518D\u4E58 fade\u201D\uFF0C\u9010\u4F4D\u4E00\u81F4\uFF1B\u62C6\u5F00\u7684\u4E24\u4EFD\u53EA\u7528\u4E8E\u4EA4\u73ED\u5DEE\u503C\u3002
+  vec3 dFftFaded = (dLong + dFine) * waterFade;
+  vec3 dLongF = dLong * waterFade;
+  vec3 dFineF = dFine * waterFade;
+  vec3 dFft = dFftFaded;
+  Shore shore = shoreWaves(xz, sh, exp2(lod.x - 1.0) * uLength.x / N_TEX, bio);
+  vec3 dShore = shore.disp;
+
+  // \u2500\u2500 \u7834\u788E\u4E0A\u9650 \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  // \u957F\u6D6A\u7684 FFT \u90E8\u5206\u5728\u6240\u6709\u6D45\u6C34\u90FD\u53D7 hMax \u9650\u5236\uFF1B40 m \u4EE5\u5916\u7684\u300CFFT + \u62CD\u5CB8\u6D6A + impact\u300D
+  // \u603B\u548C\u518D\u53D7\u4E00\u6B21\u540C\u6837\u7684\u9650\u5236\uFF0C40 m \u4EE5\u5185\u62CD\u5CB8\u6D6A\u672C\u8EAB\u4FDD\u6301\u539F\u6A21\u578B\u3002
+  // hMax \u53D6\u771F\u5B9E\u6C34\u6DF1\u4E0E\u6709\u6548\u6DF1\u5EA6\u7684\u8F83\u5C0F\u503C\uFF1A\u957F\u6D6A\u53EF\u4EE5\u5728\u5E73\u6ED1\u6DF1\u5EA6\u91CC\u4FDD\u7559\u80FD\u91CF\uFF0C
+  // \u4F46\u5782\u76F4\u4F4D\u79FB\u4E0D\u80FD\u8D85\u8FC7\u771F\u5B9E\u6C34\u67F1\uFF0C\u907F\u514D\u6D6A\u8C37\u88AB\u6D77\u5E8A\u524A\u5E73 / \u7A7F\u5E95\u3002
+  float capDepth = min(max(depth, 0.0), depthDamp);
+  float hMax = 0.55 * capDepth + 0.06;
+  float shoalMask = clamp(uShoal, 0.0, 1.0);
+
+  float hFft = mix(1000.0, hMax, shoalMask);
+  float ayF = abs(dFft.y);
+  float overF = max(ayF - hFft, 0.0);
+  float brkF = clamp(overF / (hFft + 0.05), 0.0, 1.0);
+
+  // \u4EA4\u73ED\uFF1A\u7834\u788E\u91CF\u6216\u6C34\u6DF1\u4EFB\u4E00\u6EE1\u8DB3\u5C31\u5F00\u59CB\u3002
+  // \u7528\u5E73\u6ED1\u6DF1\u5EA6 depthDamp \u89E6\u53D1\uFF0C\u9661\u7F18\u4E0D\u4F1A\u5728\u4E00\u6761\u7B49\u6DF1\u7EBF\u4E0A\u8DF3\u53D8\u3002
+  // \u4E58 shore.env\uFF1A\u53EA\u6709\u672C\u5730\u771F\u7684\u6709\u62CD\u5CB8\u6D6A\u624D\u4EA4\u73ED\uFF1B\u60AC\u5D16\u5CB8 env = 0\uFF0CFFT \u4E0D\u4F1A\u88AB\u653E\u7A7A\u3002
+  // \u4EA4\u73ED\u5FC5\u987B\u53D1\u751F\u5728 hFft \u538B\u7F29\u548C d \u5408\u6210\u4E4B\u524D\uFF1B\u5426\u5219 dLong/dFine \u5DF2\u7ECF\u52A0\u8FDB d\uFF0C\u7F29\u653E\u4E0D\u4F1A\u751F\u6548\u3002
+  float handoff = max(smoothstep(3.5, 1.0, depthDamp), smoothstep(0.2, 0.6, brkF));
+  handoff *= smoothstep(0.02, 0.2, uShoreWave.x)
+           * smoothstep(0.02, 0.2, shore.env)
+           * clamp(uShoreHandoff, 0.0, 1.0);
+  float longScale = mix(1.0, 0.12, handoff);
+  float fineScale = mix(1.0, 0.55, handoff);
+  // \u7528\u5DEE\u503C\u53E0\u52A0\u800C\u4E0D\u662F\u91CD\u65B0\u6C42\u548C\uFF1Ahandoff=0 \u65F6 dFft \u4E0E dFftFaded \u9010\u4F4D\u76F8\u540C\u3002
+  dFft = dFftFaded + dLongF * (longScale - 1.0) + dFineF * (fineScale - 1.0);
+
+  dFft.y = sign(dFft.y) * hFft * tanh(abs(dFft.y) / max(hFft, 1e-3));
+  dFft.xz *= mix(0.6, 1.0, hFft / (hFft + overF));
+
+  vec3 d = dFft + dShore;
+  d.y += impactWaves(xz + d.xz, 2.0 * N_TEX / (exp2(lod.z - 1.0) * uLength.z)).x;
+
+  float totalMask = smoothstep(40.0, 60.0, sh.y) * shoalMask;
+  float hTotal = mix(1000.0, hMax, totalMask);
+  float ayT = abs(d.y);
+  float overT = max(ayT - hTotal, 0.0);
+  d.y = sign(d.y) * hTotal * tanh(ayT / max(hTotal, 1e-3));
+  d.xz *= mix(0.6, 1.0, hTotal / (hTotal + overT));
+
+  // \u4EA4\u53C9\u5904\u8D1F\u4F4D\u79FB\u53E0\u52A0\u4F1A\u6C89\u5230\u6C99\u9762\u4E0B\uFF0C\u6D45\u6C34\u9732\u5E95\u3002
+  // \u6D45\u6C34\u5939\u7D27\uFF1A\u65B0\u884C\u4E3A\u5728 0.05 m \u4EE5\u4E0A\u5168\u91CF\u751F\u6548\uFF0C\u53EA\u5728\u6700\u5916 5 cm \u6C34\u7EBF\u6DE1\u51FA\uFF1B
+  // \u4E0B\u9650\u7528\u90BB\u57DF\u6700\u5927\u6D77\u5E8A\uFF0C\u800C\u4E0D\u662F\u53CC\u7EBF\u6027 R\uFF0C\u515C\u4F4F\u6C99\u7EB9 / \u7F51\u683C\u63D2\u503C\u3002
+  // \u4E58 uShoreHandoff\uFF1A0 = \u5B8C\u5168\u65E7\u884C\u4E3A\uFF0C\u9010\u50CF\u7D20\u56DE\u9000\u3002
+  float fix = clamp(uShoreHandoff, 0.0, 1.0);
+  float columnOld = smoothstep(0.05, 0.4, depth);
+  float columnNew = smoothstep(0.0, 0.05, depth);
+  // \u518D\u4E58\u4E00\u6B21 fix\uFF1A\u65E7\u4EE3\u7801\u5728 uShoreHandoff = 0 \u65F6\u5B8C\u5168\u6CA1\u6709\u8FD9\u9053\u5939\u7D27\uFF0C
+  // \u5149\u9760 mix \u4F1A\u8BA9 0 \u7AEF\u53C8\u62FF\u5230 columnOld\uFF0C\u9010\u50CF\u7D20\u56DE\u9000\u5C31\u4E0D\u6210\u7ACB\u3002
+  float column = mix(columnOld, columnNew, fix) * fix;
+  float floorOld = -max(depth, 0.0) + 0.04;
+  // \u90BB\u57DF\u6700\u5927\u6D77\u5E8A\u53EA\u515C\u6C99\u7EB9 / \u6C99\u575D\u7684\u5C16\u70B9\uFF1A\u6700\u591A\u6BD4\u672C\u5730\u6D77\u5E8A\u9AD8 0.4 m\uFF0C
+  // \u5426\u5219\u4F1A\u628A\u6C34\u9762\u62AC\u5230\u65C1\u8FB9\u7684\u60AC\u5D16 / \u73CA\u745A\u5934\u4E0A\uFF0C\u5F62\u6210\u4E00\u5835\u6C34\u5899\u3002
+  float bedLocal = -max(depth, 0.0);
+  float bedCap = min(bedMaxSample(xz + d.xz), bedLocal + 0.4);
+  float floorNew = bedCap + 0.05;
+  float floorY = mix(floorOld, floorNew, fix);
+  d.y = mix(d.y, max(d.y, floorY), column);
+
+  float brk = max(
+    brkF,
+    clamp(overT / (hTotal + 0.05), 0.0, 1.0)
+  );
+  float cap = (hFft / max(hFft + overF, 1e-3)) * (hTotal / max(hTotal + overT, 1e-3));
+  return Disp(d, brk, cap);
+}
+
+vec3 waterDisplacement(vec2 xz, vec3 lod) { return displacementFull(xz, lod).d; }
+
+// \u9876\u70B9\u7528\uFF1A\u540C\u65F6\u62FF\u56DE\u7834\u788E\u91CF\u4E0E slope \u538B\u7F29\u6BD4
+vec3 waterDisplacementBreak(vec2 xz, vec3 lod, out float brk, out float cap) {
+  Disp o = displacementFull(xz, lod);
+  brk = o.brk;
+  cap = o.cap;
+  return o.d;
+}
+
+vec3 waterAt(vec2 q, vec3 lod) {
+  vec2 p = q;
+  vec3 d = vec3(0.0);
+  for (int i = 0; i < 4; i++) { d = waterDisplacement(p, lod); p = q - d.xz; }
+  return waterDisplacement(p, lod);
+}
+`
+);
+var VERT2 = WATER_GLSL + /* glsl */
+`
+uniform float uGridScale;
+uniform float uCellStep;
+uniform float uWind;
+${iceMaskChunk}
+out vec3 vWorld;
+out vec2 vXZ;
+out float vUnresolved;
+out float vSurf;
+out float vBreak;
+out float vCapScale;
+
+void main() {
+  vec2 local = position.xz;
+  float r = length(local);
+  float scale = r > ${(OUTER * 2).toFixed(1)} ? 1.0 : uGridScale;
+  vec2 xz = cameraPosition.xz + local * scale;
+  float cell = max(r, ${INNER.toFixed(1)}) * uCellStep * scale;
+
+  float brk, capScale;
+  vec3 d = waterDisplacementBreak(xz, log2(cell * N_TEX / uLength.xyz) + 1.0, brk, capScale);
+  // \u51BB\u7ED3\u7684\u6C34\u9762\u9759\u6B62\uFF1A\u51B0\u5C42\u8303\u56F4\u5185\u7684\u6D8C\u6D6A\u88AB\u538B\u5236\u3002
+  float ice = iceCoverage(xz);
+  d *= 1.0 - ice;
+  vBreak = brk * (1.0 - ice);
+  vCapScale = capScale;
+
+  vec4 m0 = textureLod(uSlope0, vec2(0.5), 8.0), m1 = textureLod(uSlope1, vec2(0.5), 8.0);
+  vec4 m2 = textureLod(uSlope2, vec2(0.5), 8.0), m3 = textureLod(uSlope3, vec2(0.5), 8.0);
+  vUnresolved = max(0.003 + 0.00512 * uWind - (m0.z + m0.w + m1.z + m1.w + m2.z + m2.w + m3.z + m3.w), 0.0);
+
+  vXZ = xz;
+  vSurf = surfSample(xz);
+  vWorld = vec3(xz.x + d.x, d.y, xz.y + d.z);
+  // \u6C34\u4E0D\u80FD\u6F0F\u5230\u6D77\u5E8A\u4EE5\u4E0B\uFF1A\u6D6A\u8C37\u53EA\u628A\u6C34\u53D8\u8584\u3002
+  // \u65E7\u7248\u5BF9\u9646\u5730\u4E5F\u628A\u6C34\u9762\u9489\u5728 y=0\uFF1B\u5CB8\u7EBF\u8D34\u56FE\u7ECF\u8FC7\u6A21\u7CCA\u3001\u5728\u9661\u5CB8\u5904\u4ECE -10 m \u8FC7\u6E21\u5230 +5 m
+  // \u53EA\u6709\u4E24\u4E09\u4E2A\u7EB9\u7D20\uFF0C\u8FD9\u6761\u300C\u9489\u4F4F\u5E26\u300D\u4F1A\u628A\u76F8\u90BB\u9876\u70B9\u62C9\u51FA 1~2 m \u7684\u7AD6\u5411\u53F0\u9636\u3002
+  // \u73B0\u5728\u6309 bedClamp \u5E73\u6ED1\u63A5\u5165\uFF1A\u65E7\u884C\u4E3A\u53EA\u5728\u4F4E\u4E8E -0.8 m \u65F6\u5939\uFF0C\u65B0\u884C\u4E3A\u95E8\u69DB\u62AC\u5230 -0.02 m\uFF0C
+  // \u5E76\u7528\u90BB\u57DF\u6700\u5927\u6D77\u5E8A\u515C\u4F4F\u7F51\u683C\u4E4B\u95F4\u7684\u6C99\u7EB9\u5C16\u70B9\uFF08\u6700\u591A\u6BD4\u672C\u5730\u9AD8 0.4 m\uFF09\u3002
+  float fix = clamp(uShoreHandoff, 0.0, 1.0);
+  float bedMean = shoreSample(vWorld.xz).x;
+  // \u540C\u6837\u9650\u5236\u90BB\u57DF\u6700\u5927\u6D77\u5E8A\uFF1A\u53EA\u515C\u5C16\u70B9\uFF0C\u4E0D\u628A\u6DF1\u6C34\u4E0A\u65B9\u7684\u6C34\u9762\u9489\u5230\u65C1\u8FB9\u6D45\u6EE9\u4E0A\u3002
+  float bedCap = min(bedMaxSample(vWorld.xz), bedMean + 0.4);
+  float bedClamp = mix(bedMean, bedCap, fix);
+  float thresh = mix(-0.8, -0.02, fix);
+  if (vWorld.y < 0.0 && bedClamp < thresh) {
+    float dc = distance(vWorld.xz, cameraPosition.xz);
+    float floorY = min(bedClamp + mix(0.04, 0.06, fix) + 2e-7 * dc * dc, 0.0);
+    float wOld = smoothstep(-0.8, -2.5, bedClamp);
+    float wNew = smoothstep(-0.02, -0.3, bedClamp);
+    vWorld.y = mix(vWorld.y, max(vWorld.y, floorY), mix(wOld, wNew, fix));
+  }
+  // \u5C0F\u5C9B\u6F2B\u9876 / \u722C\u6EE9\uFF1A\u53EA\u5728\u5C0F\u5C9B\u9644\u8FD1\uFF08shoreScale \u5C0F\uFF09\u8BA9\u6C34\u9762\u6CBF\u4F4E\u5904\u6C99\u6EE9\u62AC\u5347\u4E00\u5C0F\u6BB5\uFF0C
+  // \u5F62\u6210\u4E00\u5C42\u8584\u6C34\u3002swashMask \u53EA\u8986\u76D6\u4F4E\u5904\u6C99\u6EE9\uFF0C\u4E0D\u4F1A\u628A\u6574\u5EA7\u5C9B\u6DF9\u6389\u3002
+  float islandness = 1.0 - shoreScaleSample(vWorld.xz);
+  if (islandness > 0.01) {
+    float phase = 0.5 + 0.5 * sin(uTime * 0.8 + shoreNoisePhase(vWorld.xz, 2.0));
+    float runup = islandness * uShoreWave.x * (0.6 + 0.9 * phase);
+    float swashMask = smoothstep(-0.25, 0.2, bedMean) * (1.0 - smoothstep(1.2, 2.2, bedMean));
+    vWorld.y = max(vWorld.y, runup * swashMask);
+  }
+  gl_Position = projectionMatrix * viewMatrix * vec4(vWorld, 1.0);
+}
+`;
+var FRAG2 = "#define SURF_VARYING\n" + WATER_GLSL + iceMaskChunk + iceSurfaceChunk + /* glsl */
+`
+uniform vec2 uResolution;
+uniform vec2 uNearFar;
+uniform sampler2D uSceneColor;
+uniform sampler2D uSceneDepth;
+uniform sampler2D uReflection;
+uniform mat4 uReflMatrix;
+uniform samplerCube uSkyCube;
+uniform float uSkyMaxLod;
+uniform sampler2D uFoamTex;
+uniform sampler2D uDriftTex;   // foam-filaments.png\uFF1A\u7A00\u758F\u6F02\u6D6E\u8584\u6CAB\u7684\u4E1D\u72B6\u82B1\u7EB9
+uniform vec3 uSunDir;
+uniform vec3 uSunColor;
+uniform vec3 uAbsorption;
+uniform vec3 uScatterColor;
+uniform vec3 uFoamTint;
+uniform vec4 uSSS;          // peak strength, view strength, shadow strength, -
+uniform vec4 uFoam;         // bias, scale, shore band (m), brightness
+uniform vec4 uOptics;       // base roughness, refraction strength, reflection distortion, fog density
+uniform vec3 uFogColor;     // \u573A\u666F\u96FE\u8272\uFF08\u7531 SkyPreset.fogColor \u63A8\u5BFC\uFF09
+uniform vec2 uFogSkyBlend;  // \u96FE\u8272 \u2192 \u5929\u7A7A\u989C\u8272\u7684\u8DDD\u79BB\u8FC7\u6E21\u533A\u95F4\uFF08\u7C73\uFF09
+uniform float uOceanRadius; // \u6C34\u9762\u7F51\u683C\u5F53\u524D\u4E16\u754C\u534A\u5F84\uFF08OUTER * uGridScale\uFF09
+uniform float uSunGlow;     // \u65E5\u843D / \u9EC4\u660F\u65F6\u5730\u5E73\u7EBF\u65B9\u5411\u7684\u8F89\u5149\u5F3A\u5EA6
+uniform float uSkyIsDirect; // 1 = HDRI \u80CC\u666F\uFF08sRGB \u8D34\u56FE\uFF0Cthree \u4E0D\u505A tone mapping\uFF09
+uniform vec3 uCamForward;
+uniform float uGlint;
+uniform float uFresnel;     // \u83F2\u6D85\u5C14\u5F3A\u5EA6
+uniform float uGrazingRefl; // \u63A0\u5C04\u5929\u7A7A\u53CD\u5C04\u538B\u6697\uFF1A0 = \u5173\u95ED\uFF0C1 = \u6700\u5927\uFF08\u6A2A\u5411\u767D\u5E26\uFF09
+uniform float uBacklight;   // \u9006\u5149\u6D6A\u5CF0\u9752\u7EFF\u8272\u900F\u5149
+uniform float uCamSide;     // -1 above, 1 below, 0 straddling
+uniform float uToneMap;
+uniform float uExposure;
+uniform float uDebug;
+in vec3 vWorld;
+in vec2 vXZ;
+in float vUnresolved;
+in float vBreak;
+in float vCapScale;
+out vec4 fragColor;
+// vSurf \u7531 WATER_GLSL \u5728 SURF_VARYING \u4E0B\u58F0\u660E
+
+float linearDepth(float d) {
+  float z = d * 2.0 - 1.0;
+  return 2.0 * uNearFar.x * uNearFar.y / (uNearFar.y + uNearFar.x - z * (uNearFar.y - uNearFar.x));
+}
+
+// \u6298\u5C04\u7F13\u51B2\u5728 Low/Medium \u662F\u534A\u5206\u8FA8\u7387\uFF0C\u6DF1\u5EA6\u7EB9\u7406\u53EA\u80FD NEAREST \u91C7\u6837\u3002
+// \u6298\u5C04\u504F\u79FB\uFF08nS\uFF09\u9010\u50CF\u7D20\u6296\u52A8\u65F6\uFF0C\u76F8\u90BB\u50CF\u7D20\u4F1A\u53D6\u5230\u4E0D\u540C\u7684\u6DF1\u5EA6\u7EB9\u7D20\uFF0C\u5438\u6536\u539A\u5EA6
+// \u9010\u884C\u7FFB\u8F6C\uFF0C\u6C34\u9762\u5C31\u4F1A\u51FA\u73B0\u7EC6\u6A2A\u7EB9\u3002\u8FD9\u91CC\u624B\u5DE5\u505A 2x2 \u53CC\u7EBF\u6027\uFF0C\u628A\u6DF1\u5EA6\u62B9\u5E73\uFF1B
+// \u4E0D\u4F9D\u8D56\u786C\u4EF6\u5BF9\u6DF1\u5EA6\u7EB9\u7406\u7684\u7EBF\u6027\u8FC7\u6EE4\uFF08\u5404\u5E73\u53F0\u652F\u6301\u4E0D\u4E00\u81F4\uFF09\u3002
+float sceneDepthBilinear(vec2 p) {
+  vec2 texel = 1.0 / max(vec2(textureSize(uSceneDepth, 0)), vec2(1.0));
+  vec2 s = p / texel - 0.5;
+  vec2 f = clamp(fract(s), 0.0, 1.0);
+  vec2 base = (floor(s) + 0.5) * texel;
+  float d00 = textureLod(uSceneDepth, base, 0.0).r;
+  float d10 = textureLod(uSceneDepth, base + vec2(texel.x, 0.0), 0.0).r;
+  float d01 = textureLod(uSceneDepth, base + vec2(0.0, texel.y), 0.0).r;
+  float d11 = textureLod(uSceneDepth, base + texel, 0.0).r;
+  return linearDepth(mix(mix(d00, d10, f.x), mix(d01, d11, f.x), f.y));
+}
+
+float poisson(float lam, float u) {
+  if (lam > 6.0) return max(0.0, lam + sqrt(lam) * log(u / (1.0 - u)) / 1.702);
+  float p = exp(-lam), F = p, n = 0.0;
+  for (int k = 0; k < 14; k++) { if (u <= F) break; n += 1.0; p *= lam / n; F += p; }
+  return n;
+}
+
+vec3 skyLod(vec3 dir, float lod) {
+  dir.y = max(dir.y, 0.0);
+  // \u5929\u7A7A\u7ACB\u65B9\u4F53\u5E26 mipmap\uFF1A\u7C97\u7CD9\u6C34\u9762\u7684\u53CD\u5C04\u76F4\u63A5\u7528 LOD \u6A21\u7CCA\uFF0C\u548C Ultra \u539F\u7248\u4E00\u81F4\u3002
+  return textureLod(uSkyCube, dir, clamp(lod, 0.0, uSkyMaxLod)).rgb;
+}
+
+vec3 ultraRRT(vec3 v) {
+  vec3 a = v * (v + 0.0245786) - 0.000090537;
+  vec3 b = v * (0.983729 * v + 0.4329510) + 0.238081;
+  return a / b;
+}
+vec3 ultraACES(vec3 color) {
+  const mat3 ACESInputMat = mat3(
+    vec3(0.59719, 0.07600, 0.02840),
+    vec3(0.35458, 0.90834, 0.13383),
+    vec3(0.04823, 0.01566, 0.83777)
+  );
+  const mat3 ACESOutputMat = mat3(
+    vec3( 1.60475, -0.10208, -0.00327),
+    vec3(-0.53108,  1.10813, -0.07276),
+    vec3(-0.07367, -0.00605,  1.07602)
+  );
+  color = ACESInputMat * color;
+  color = ultraRRT(color);
+  color = ACESOutputMat * color;
+  return clamp(color, 0.0, 1.0);
+}
+vec3 ultraSRGB(vec3 c) {
+  return mix(pow(c, vec3(0.41666)) * 1.055 - 0.055, c * 12.92, vec3(lessThanEqual(c, vec3(0.0031308))));
+}
+
+void main() {
+  if (gl_FrontFacing ? uCamSide > 0.5 : uCamSide < -0.5) discard;
+  vec3 toCam = cameraPosition - vWorld;
+  float dist = length(toCam);
+  vec3 V = toCam / dist;
+  // V.y > 0\uFF1A\u6C34\u9762\u5728\u76F8\u673A\u9AD8\u5EA6\u4EE5\u4E0B\uFF08\u666E\u901A\u6D77\u9762\uFF09\u3002
+  // V.y < 0\uFF1A\u6D6A\u5C16\u9AD8\u8FC7\u76F8\u673A\uFF0C\u5DF2\u7ECF\u8D8A\u8FC7\u5730\u5E73\u7EBF\uFF0C\u4E0D\u80FD\u518D\u6309\u201C\u5730\u5E73\u7EBF\u63A5\u7F1D\u201D\u5904\u7406\u3002
+  float belowHorizon = step(0.0, V.y);
+  vec2 uv = gl_FragCoord.xy / uResolution;
+
+  vec4 sh = shoreSample(vXZ);
+  float depthBelow = -sh.x;
+  vec4 bio = biomeSample(vXZ);
+  // \u5761\u5EA6\u4E0A\u7684 FFT \u6743\u91CD\u7528\u6709\u6548\u963B\u5C3C\u6C34\u6DF1\uFF1BdepthBelow \u7EE7\u7EED\u670D\u52A1\u6D45\u6C34\u8272\u3001\u6D51\u6D4A\u3001\u6CE1\u6CAB\u3001\u900F\u660E\u5EA6\u3002
+  float depthDamp = sh.a > 0.001 ? sh.a : max(depthBelow, 0.0);
+  vec3 wgt;
+  vec3 damp = layeredDamping(vXZ, sh, wgt);
+  vec2 fwXZ = fwidth(vXZ);
+  Shore shore = shoreWaves(vXZ, sh, max(fwXZ.x, fwXZ.y), bio);
+  float w0 = wgt.x * uLayerWeights.x * (1.0 - 0.85 * bio.a) * vCapScale;
+  float w1 = wgt.y * uLayerWeights.y * (1.0 - 0.65 * bio.a);
+  float w2 = wgt.z * uLayerWeights.z * (1.0 - 0.30 * bio.a);
+  // \u4E0E\u9876\u70B9\u540C\u4E00\u5957\u516C\u5F0F\uFF1A\u51E0\u4F55\u538B\u5E73\u4E86\uFF0C\u660E\u6697 / \u6CD5\u7EBF\u4E5F\u8981\u4E00\u8D77\u9000\u573A\uFF0C
+  // \u5426\u5219\u5341\u5B57\u7EB9\u4F1A\u4EE5\u201C\u53EA\u6709\u5149\u7167\u6CA1\u6709\u8D77\u4F0F\u201D\u7684\u5F62\u5F0F\u7559\u5728\u6C34\u9762\u4E0A\u3002
+  float handoff = max(smoothstep(3.5, 1.0, depthDamp), smoothstep(0.2, 0.6, vBreak));
+  handoff *= smoothstep(0.02, 0.2, uShoreWave.x)
+           * smoothstep(0.02, 0.2, shore.env)
+           * clamp(uShoreHandoff, 0.0, 1.0);
+  w0 *= mix(1.0, 0.12, handoff);
+  w1 *= mix(1.0, 0.12, handoff);
+  w2 *= mix(1.0, 0.55, handoff);
+  vec4 s0 = texture(uSlope0, vXZ / uLength.x) * w0;
+  vec4 s1 = texture(uSlope1, vXZ / uLength.y) * w1;
+  vec4 s2 = texture(uSlope2, vXZ / uLength.z) * w2;
+  vec4 s3 = texture(uSlope3, vXZ / uLength.w) * w2;
+  s0.zw *= w0; s1.zw *= w1; s2.zw *= w2; s3.zw *= w2;
+  float slick = smoothstep(0.3, 0.7, vnoise(vXZ * 0.006 + uTime * 0.01));
+  float sl2 = mix(0.75, 1.0, slick), sl3 = mix(0.4, 1.0, slick);
+  s2.xy *= sl2; s2.zw *= sl2 * sl2; s3.xy *= sl3; s3.zw *= sl3 * sl3;
+  vec3 imp = impactWaves(vWorld.xz, 2.0 / max(max(fwXZ.x, fwXZ.y), 1e-3));
+  vec2 slope = s0.xy + s1.xy + s2.xy + s3.xy + shore.slope + imp.yz;
+  vec2 variance = max(s0.zw - s0.xy * s0.xy, 0.0) + max(s1.zw - s1.xy * s1.xy, 0.0)
+                + max(s2.zw - s2.xy * s2.xy, 0.0) + max(s3.zw - s3.xy * s3.xy, 0.0);
+  vec3 Nrm = normalize(vec3(-slope.x, 1.0, -slope.y));
+  vec3 vp = (viewMatrix * vec4(vWorld, 1.0)).xyz;
+  vec3 dv = mat3(viewMatrix) * vec3(Nrm.x, 0.0, Nrm.z);
+  vec2 nS = dv.xy - vp.xy / vp.z * dv.z;
+
+  vec3 dndx = dFdx(Nrm), dndy = dFdy(Nrm);
+  float geoVar = min(0.25 * (dot(dndx, dndx) + dot(dndy, dndy)), 0.18);
+  float alpha2 = uOptics.x * uOptics.x + vUnresolved * damp.z * damp.z * sl3 * sl3 + variance.x + variance.y + geoVar;
+  float alpha = sqrt(alpha2);
+
+  float NoV = max(dot(Nrm, V), 1e-4);
+  float NoL = dot(Nrm, uSunDir);
+  float shadow = 1.0;
+
+  float t0 = texture(uDisp0, vXZ / uLength.x).w, t1 = texture(uDisp1, vXZ / uLength.y).w, t2 = texture(uDisp2, vXZ / uLength.z).w;
+  // \u9762\u79EF\u6BD4\uFF1A1 = \u672A\u88AB\u6324\u538B\uFF0C\u8D8A\u5C0F\u6324\u538B\u8D8A\u5F3A\uFF1B\u4E09\u5C42\u6743\u91CD\u53C2\u4E0E\u538B\u7F29\u91CF\u3002
+  float jac = mix(1.0, t0, damp.x * uLayerWeights.x)
+            + mix(1.0, t1, damp.y * uLayerWeights.y)
+            + mix(1.0, t2, damp.z * uLayerWeights.z) - 2.0;
+  // \u6DF1\u6C34\u6D6A\u5CF0\u6CE1\u6CAB\u53EA\u5728 >4 m \u751F\u6548\uFF1B0~4 m \u7684\u6CE1\u6CAB\u5168\u90E8\u4EA4\u7ED9\u5CB8\u7EBF\u62CD\u6253\u7CFB\u7EDF\u3002
+  float deepFoam = smoothstep(3.6, 4.5, depthBelow);
+  float foam = clamp((uFoam.x - jac) * uFoam.y, 0.0, 1.0) * deepFoam;
+  // \u5916\u6D77\u6B63\u5E38\u6D6A\u5CF0\u4E5F\u5E26\u4E00\u70B9\u767D\u6CAB\uFF1A\u8D8A\u9AD8\u7684\u6D6A\u5CF0\u8D8A\u660E\u663E\uFF0C\u518D\u7528\u4F4E\u9891\u566A\u58F0\u5207\u6210\u6591\u5757\uFF0C
+  // \u907F\u514D\u6574\u6761\u6D6A\u5CF0\u53D8\u6210\u4E00\u6761\u5747\u5300\u767D\u7EBF\u30020.5 \u7684\u5F3A\u5EA6\u8DB3\u591F\u5728\u857E\u4E1D\u9608\u503C\u91CC\u5192\u51FA\u7A00\u758F\u7684\u6CE1\u6CAB\u70B9\u3002
+  float crestPatch = smoothstep(0.55, 0.74,
+    vnoise(vXZ * 0.09 + vec2(uTime * 0.010, -uTime * 0.006)) * 0.55
+    + vnoise(vXZ * 0.23 - uTime * 0.013) * 0.45);
+  float crestFoam = smoothstep(0.25, 0.9, vWorld.y) * crestPatch * 0.68 * deepFoam;
+  foam = max(foam, crestFoam);
+  // \u6D77\u9762\u4E0A\u96F6\u661F\u6F02\u6D6E\u7684\u6DE1\u8584\u6CE1\u6CAB\uFF1Afoam-filaments \u7684\u4E1D\u72B6\u82B1\u7EB9 + \u4F4E\u9891\u6591\u5757\uFF0C
+  // \u5916\u6D77\u624D\u51FA\u73B0\uFF0C\u6D45\u6EE9\u4EA4\u7ED9\u5CB8\u7EBF\u6CE1\u6CAB\u3002\u7EB9\u7406\u6CBF\u6D8C\u6D6A\u65B9\u5411\u7F13\u6162\u6F02\u79FB\u3002
+  vec2 driftFlow = uSwellDir * uTime * 0.35;
+  float filament = texture(uDriftTex, (vXZ - driftFlow) * vec2(0.012, 0.030)).r;
+  float driftPatch = vnoise(vXZ * 0.03 + vec2(uTime * 0.004, 0.0)) * 0.6
+    + vnoise(vXZ * 0.08 - uTime * 0.006) * 0.4;
+  float drift = smoothstep(0.55, 0.78, filament * 0.72 + driftPatch * 0.38);
+  // \u6F02\u6D6E\u8584\u6CAB\u662F\u8FD1\u5904\u7EC6\u8282\uFF1A\u51E0\u5341\u7C73\u5916\u53EA\u5269\u4E00\u5C42\u5747\u5300\u7070\u96FE\uFF0C\u53CD\u800C\u50CF\u6D77\u9762\u8D77\u70DF\uFF0C\u6240\u4EE5\u968F\u8DDD\u79BB\u6DE1\u51FA\u3002
+  float driftCover = drift * 0.055 * smoothstep(2.0, 8.0, depthBelow) * smoothstep(220.0, 60.0, dist) * deepFoam;
+
+  // \u2500\u2500 \u6C34\u4E0B\u770B\u6C34\u9762\uFF1A\u65AF\u6D85\u5C14\u7A97 + \u5168\u5185\u53CD\u5C04 \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  if (!gl_FrontFacing) {
+    vec3 Nu = -Nrm;
+    float cosI = dot(V, Nu);
+    vec3 Rd = reflect(-V, Nu);
+    vec3 ambientU = skyLod(vec3(0.0, 1.0, 0.0), uSkyMaxLod);
+    vec3 deep = uScatterColor * (ambientU + uSunColor * max(uSunDir.y, 0.0)) * mix(0.55, 1.35, Rd.y * 0.5 + 0.5);
+    vec3 colU = deep;
+    const float COS_CRIT = 0.6614;
+    float edge = max(alpha * 1.5, 0.02);
+    float win = smoothstep(COS_CRIT - edge, COS_CRIT + edge, cosI);
+    if (win > 0.0) {
+      vec3 Tdir = refract(-V, Nu, 1.33);
+      if (dot(Tdir, Tdir) == 0.0) Tdir = normalize(-V - Nu * dot(-V, Nu));
+      float cosT = max(dot(Tdir, Nrm), 0.0);
+      float Fu = 0.02 + 0.98 * pow(1.0 - cosT, 5.0);
+      vec2 wuv = uv + nS * 0.04;
+      vec3 above = textureLod(uSceneDepth, wuv, 0.0).r > 0.999999
+        ? skyLod(Tdir, clamp(log2(alpha * 900.0), 0.0, uSkyMaxLod)) : textureLod(uSceneColor, wuv, 0.0).rgb;
+      float aT = max(alpha * 1.4, 0.03), mu = max(dot(Tdir, uSunDir), 0.0);
+      float dT = mu * mu * (aT * aT - 1.0) + 1.0;
+      float sunLobe = aT * aT / (PI * dT * dT) * 0.25;
+      colU = mix(deep, mix(above + uSunColor * sunLobe * shadow, deep, Fu), win);
+    }
+    colU *= 1.0 - 0.55 * max(foam, clamp(shore.foam, 0.0, 1.0));
+    fragColor = vec4(colU, 0.0);
+    return;
+  }
+
+  // \u2500\u2500 \u6298\u5C04 + \u5438\u6536 \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  float waterDepth = linearDepth(gl_FragCoord.z);
+  float sceneDepth = sceneDepthBilinear(uv);
+  float viewCos = max(dot(-V, uCamForward), 0.05);
+  float thick = max(sceneDepth - waterDepth, 0.0) / viewCos;
+  vec2 ruv = uv + nS * uOptics.y * clamp(thick * 0.25, 0.0, 1.0) / max(waterDepth * 0.02, 1.0);
+  float rDepth = sceneDepthBilinear(ruv);
+  float keep = smoothstep(waterDepth - 0.3, waterDepth + 0.3, rDepth);
+  ruv = mix(uv, ruv, keep);
+  thick = mix(thick, max(rDepth - waterDepth, 0.0) / viewCos, keep);
+  vec3 refracted = textureLod(uSceneColor, ruv, 0.0).rgb;
+  vec3 T = exp(-uAbsorption * thick);
+
+  float shoreFoam = clamp(shore.foam, 0.0, 1.0);
+  // vth = \u89C6\u7EBF\u65B9\u5411\u7A7F\u8FC7\u6C34\u4F53\u7684\u7AD6\u76F4\u6295\u5F71\uFF0C\u7528\u6765\u5224\u65AD\u300C\u8FD9\u50CF\u7D20\u770B\u5230\u7684\u662F\u6C34\u8FD8\u662F\u6C34\u5E95\u300D\u3002
+  // \u5FC5\u987B\u53D6\u7EDD\u5BF9\u503C\uFF1A\u6D6A\u5C16\u9AD8\u8FC7\u76F8\u673A\u773C\u4F4D\uFF08\u4E5F\u5C31\u662F\u8D8A\u8FC7\u5730\u5E73\u7EBF\uFF09\u65F6 V.y \u53D8\u6210\u8D1F\u7684\uFF0C
+  // \u539F\u6765\u7684 vth \u53D8\u8D1F\u4F1A\u8BA9\u540E\u9762\u7684 mix(refracted, col, smoothstep(vth)) \u76F4\u63A5\u628A\u6D6A\u5C16
+  // \u6362\u6210\u6298\u5C04\u7F13\u51B2\u91CC\u7684\u5929\u7A7A\u2014\u2014\u9AD8\u8038\u6D6A\u5C16\u56E0\u6B64\u300C\u900F\u660E\u300D\u3002
+  // \u53E6\u5916\u4E0D\u80FD\u8BA9\u5B83\u5728\u5730\u5E73\u7EBF\u5904\u53D8\u6210 0\uFF1A\u89C6\u7EBF\u6B63\u597D\u6C34\u5E73\u65F6 abs(V.y)=0\uFF0C\u6574\u6761\u5730\u5E73\u7EBF\u4F1A\u9000\u5316\u6210
+  // \u6298\u5C04\u7F13\u51B2\u7684\u989C\u8272\uFF0C\u5728\u8D8A\u8FC7\u5730\u5E73\u7EBF\u7684\u6D6A\u9762\u4E0A\u753B\u51FA\u4E00\u6761\u76F4\u7EBF\u3002\u7ED9\u4E00\u4E2A\u6781\u5C0F\u4E0B\u9650\u5373\u53EF\u3002
+  float vth = thick * max(abs(V.y), 0.01);  if (depthBelow < 6.0) {
+    float obst = smoothstep(0.5, 1.5, depthBelow + vWorld.y - vth);
+    float act = clamp(shore.residual * 1.5 + shoreFoam + 0.6 * obst, 0.0, 1.0);
+    // \u6CE1\u6CAB\u5E26\u5BBD\u5EA6\u6309\u6D77\u5CB8\u7C7B\u578B\uFF1A\u6C99\u6EE9\u6700\u5BBD\uFF1B\u7901\u77F3\u7A0D\u7A84\u4F46\u66F4\u539A\uFF1B\u60AC\u5D16\u53EA\u5269\u8D34\u58C1\u4E00\u6761\u7EBF\uFF1B\u6F5F\u6E56\u5185\u5CB8\u5F88\u6DE1\u3002
+    float band = uFoam.z * mix(1.0, 0.32, bio.z) * mix(1.0, 1.12, bio.g) * mix(1.0, 0.55, bio.a);
+    float contact = smoothstep(mix(band, 1.0, obst), 0.0, vth) * smoothstep(6.0, 2.0, depthBelow) * mix(0.0, 0.5, act);
+    contact *= smoothstep(0.3, 0.6, vnoise(vXZ * 0.7 + shore.dir * uTime * 0.4) * 0.65 + vnoise(vXZ * 2.3) * 0.35);
+    contact *= smoothstep(0.03, 0.2, vth) * (1.0 - smoothstep(300.0, 600.0, dist));
+    // \u8FCE\u98CE\u7901\u77F3\u7684\u649E\u51FB\u6C34\u82B1\u66F4\u539A\uFF1B\u6F5F\u6E56\u5185\u90E8\u53EA\u6709\u6781\u8584\u7684\u4E00\u5C42
+    contact *= (1.0 + 0.55 * uReefFoam * bio.g + 0.2 * bio.z) * (1.0 - 0.5 * bio.a);
+    foam = max(foam, contact);
+  }
+
+  // \u2500\u2500 \u5149\u7167 \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  vec3 ambient = skyLod(vec3(0.0, 1.0, 0.0), uSkyMaxLod);
+  vec3 sun = uSunColor * shadow;
+  vec3 inscatter = uScatterColor * (ambient + uSunColor * (0.3 + 0.7 * shadow) * max(uSunDir.y, 0.0));
+  inscatter *= 1.0 + 1.5 * exp(-0.3 * max(depthBelow, 0.0));
+  float h = max(vWorld.y, 0.0);
+  float k1 = uSSS.x * h * pow(clamp(dot(uSunDir, -V), 0.0, 1.0), 4.0) * pow(0.5 - 0.5 * NoL, 3.0);
+  float k2 = uSSS.y * pow(NoV, 2.0);
+  vec3 sss = (k1 + k2) * uScatterColor * sun + uSSS.z * max(NoL, 0.0) * uScatterColor * sun;
+  float back = pow(clamp(dot(uSunDir, -V), 0.0, 1.0), 3.0);
+  sss += shore.lip * sun * exp(-uAbsorption * 2.0) * 0.06 * uBacklight
+       * (0.3 + 2.5 * back);
+  // \u9006\u5149\u65F6\u8584\u6D6A\u5CF0\u900F\u51FA\u7684\u9752\u7EFF\u8272\uFF1A\u53EA\u52A0\u5728\u6D6A\u5CF0\u9AD8\u5EA6\u4E0A\uFF0C\u968F\u89C6\u7EBF\u4E0E\u592A\u9633\u5939\u89D2\u589E\u5F3A\u3002
+  sss += vec3(0.22, 0.95, 0.85) * uBacklight * back * max(vWorld.y, 0.0) * 0.45 * sun;
+  vec3 body = refracted * T + (inscatter + sss) * (1.0 - T);
+  float turb = clamp(shore.residual * 0.8 + shoreFoam * 0.6, 0.0, 1.0) * smoothstep(5.0, 1.0, depthBelow) * smoothstep(0.1, 0.8, vth);
+  if (turb > 0.0) {
+    turb *= 0.6 + 0.4 * vnoise(vXZ * 0.08 - shore.dir * uTime * 0.3);
+    float ext = 0.7 * turb;
+    vec3 Tt = T * exp(-ext * thick);
+    float wm = min(ext / (ext + dot(uAbsorption, vec3(0.333))), 0.4);
+    body = refracted * Tt + mix(inscatter + sss, inscatter * vec3(1.2, 1.1, 0.75), wm) * (1.0 - Tt);
+  }
+
+  // \u6781\u6D45\u6C34\u819C\uFF1A\u4E0D\u4F9D\u8D56\u5149\u5B66\u539A\u5EA6\uFF0C\u6309\u6C34\u6DF1\u76F4\u63A5\u7ED9\u4E00\u70B9\u677E\u77F3\u8272\u3002
+  // 0.06 m \u4EE5\u5185\u662F\u201C\u4E00\u773C\u80FD\u770B\u51FA\u662F\u6C34\u201D\u7684\u90A3\u5C42\uFF0C\u518D\u6DF1\u4EA4\u7ED9\u4E0B\u9762\u7684 shallowTint\u3002
+  // \u4E58 uShoreHandoff\uFF1A0 = \u65E7\u884C\u4E3A\uFF0C\u6781\u6D45\u6C34\u4E0D\u52A0\u819C\u8272\u3002
+  float shoreFix = clamp(uShoreHandoff, 0.0, 1.0);
+  float film = smoothstep(0.0, 0.06, depthBelow) * (1.0 - smoothstep(0.12, 0.3, depthBelow));
+  body = mix(body, body * vec3(0.74, 0.96, 0.94) + vec3(0.01, 0.05, 0.055), film * 0.75 * shoreFix);
+
+  // \u6D45\u6C34\u8272\uFF1A\u8D77\u70B9\u4ECE 0.02 m \u63D0\u524D\u5230 0\uFF0C0.15 m \u5C31\u5230\u6EE1\uFF0C\u4E0D\u518D\u7B49\u5230 0.4 m\u3002
+  // \u8001 / \u65B0\u4E24\u5957\u66F2\u7EBF\u6309\u5F00\u5173\u6DF7\u5408\uFF0C0 \u7AEF\u9010\u4F4D\u56DE\u5230\u65E7\u8272\u3002
+  float shallowNew = smoothstep(0.0, 0.15, depthBelow) * (1.0 - smoothstep(1.4, 3.0, depthBelow));
+  float shallowOld = smoothstep(0.02, 0.4, depthBelow) * (1.0 - smoothstep(1.6, 3.2, depthBelow));
+  vec3 shallowTintOld = mix(vec3(1.0), vec3(0.58, 0.96, 0.90), shallowOld * 0.85);
+  vec3 shallowTintNew = mix(vec3(1.0), vec3(0.52, 0.95, 0.90), shallowNew);
+  body *= mix(shallowTintOld, shallowTintNew, shoreFix);
+
+  const float F0 = 0.02;
+  float F90 = max(1.0 - 0.7 * sqrt(alpha), F0);
+  float F = F0 + (F90 - F0) * pow(1.0 - NoV, 5.0);
+  F = clamp(F * uFresnel, 0.0, 1.0);
+
+  vec3 R = reflect(-V, Nrm);
+  R.y = abs(R.y);
+  // \u63A0\u5C04\u65F6\u53CD\u5C04\u65B9\u5411\u8D34\u7740\u5730\u5E73\u7EBF\uFF1A\u5929\u7A7A\u7EB9\u7406\uFF08\u5C24\u5176 HDRI\uFF09\u91CC\u7684\u5730\u5E73\u7EBF\u4EAE\u5E26\uFF0C\u4EE5\u53CA\u5E73\u9762\u53CD\u5C04
+  // \u91CC\u5C9B\u5C7F\u6C99\u6EE9\u7684\u6C34\u7EBF\uFF0C\u90FD\u4F1A\u88AB\u62C9\u6210\u4E00\u6761\u6A2A\u8D2F\u6D6A\u9762\u7684\u76F4\u7EBF\u3002\u8FD9\u91CC\u505A\u4E24\u4EF6\u4E8B\uFF1A
+  //   1) \u628A\u91C7\u6837\u65B9\u5411\u62AC\u79BB\u5730\u5E73\u7EBF\u4E00\u70B9\uFF0C\u5E76\u6309\u63A0\u5C04\u7A0B\u5EA6\u589E\u52A0\u5929\u7A7A LOD\uFF08\u6A21\u7CCA\u6389\u786C\u8FB9\uFF09\uFF1B
+  //   2) \u63A0\u5C04\u65F6\u6DE1\u51FA\u5E73\u9762\u53CD\u5C04\uFF0C\u4E0D\u8BA9\u53CD\u5C04\u7EB9\u7406\u91CC\u7684\u6C34\u7EBF\u753B\u5230\u6D6A\u4E0A\u3002
+  float grazing = 1.0 - smoothstep(0.02, 0.28, NoV);
+  R.y = max(R.y, grazing * 0.035 * belowHorizon);
+  float lod = clamp(log2(alpha * 650.0) + grazing * 2.5, 0.0, uSkyMaxLod);
+  // \u8FDC\u5904\u53CD\u5C04\u4E0D\u8981\u6BD4\u5929\u7A7A\u80CC\u666F\u66F4\u7CCA\uFF1A\u96FE\u5728 LOD ${FAR_SKY_LOD.toFixed(1)} \u4E0A\u91C7\u6837\u5929\u7A7A\uFF0C
+  // \u53CD\u5C04\u5982\u679C\u4ECD\u662F LOD 6~7\uFF0C\u6C34\u5929\u7EBF\u4E24\u4FA7\u4F1A\u51FA\u73B0\u201C\u6C34\u4E00\u5757\u3001\u5929\u4E00\u5757\u201D\u7684\u7EC6\u8282\u65AD\u5C42\u3002
+  lod = mix(lod, ${FAR_REFLECTION_LOD.toFixed(1)}, smoothstep(${FAR_REFLECTION_START.toFixed(1)}, ${FAR_REFLECTION_END.toFixed(1)}, dist));
+  vec3 refl = skyLod(R, lod);
+  vec4 pc = uReflMatrix * vec4(vWorld.x, 0.0, vWorld.z, 1.0);
+  vec2 puv = pc.xy / pc.w + nS * uOptics.z / max(1.0, waterDepth * 0.01);
+  vec4 planar = textureLod(uReflection, puv, clamp(log2(alpha * 300.0), 0.0, 6.0));
+  // \u5E73\u9762\u53CD\u5C04\u6309 y=0 \u5E73\u9762\u6295\u5F71\uFF1B\u6D6A\u5C16\u8D8A\u9AD8\uFF0C\u6295\u5F71\u8BEF\u5DEE\u8D8A\u5927\uFF0C\u8239\u6845\u4F1A\u88AB\u7CCA\u5230\u6D6A\u9762\u4E0A\uFF0C
+  // \u770B\u8D77\u6765\u50CF\u6D6A\u5C16\u300C\u900F\u660E\u300D\u3002\u8D85\u8FC7 1~3 m \u7684\u6D6A\u5CF0\u6DE1\u51FA\u5E73\u9762\u53CD\u5C04\uFF0C\u53EA\u7559\u5929\u7A7A\u53CD\u5C04\u3002
+  float planarW = clamp(planar.a, 0.0, 1.0) * (1.0 - smoothstep(0.8, 3.0, abs(vWorld.y)));
+  planarW *= smoothstep(0.015, 0.09, NoV);
+  // \u53CD\u5C04\u7EB9\u7406 v\u22480.5 \u662F\u955C\u50CF\u76F8\u673A\u7684\u5730\u5E73\u7EBF\uFF08\u5C9B\u5C7F / \u8239\u7684\u6C34\u7EBF\u6240\u5728\uFF09\uFF0C\u6B63\u662F\u90A3\u6761\u76F4\u7EBF\u3002
+  planarW *= smoothstep(0.0, 0.02, abs(puv.y - 0.5));
+  refl = mix(refl, planar.rgb, planarW);
+
+  // \u63A0\u5C04\u5929\u7A7A\u53CD\u5C04\uFF1A\u5929\u7A7A\u4E91\u5E26\u5F88\u4EAE\u65F6\uFF0C\u6C34\u9762\u5728\u89C6\u7EBF\u4E0B\u65B9\u7EA6 1\xB0~16\xB0 \u4F1A\u644A\u6210\u4E00\u6761\u6A2A\u5411\u767D\u5E26\uFF0C
+  // \u770B\u8D77\u6765\u50CF\u8D34\u7740\u6D77\u9762\u7684\u4E00\u5C42\u767D\u96FE\u3002\u53EA\u538B\u300C\u6C34\u9762\u5728\u76F8\u673A\u4EE5\u4E0B\u300D\u7684\u63A0\u5C04\u6BB5\uFF1A
+  //   - V.y \u2248 0\uFF08\u5730\u5E73\u7EBF\u672C\u8EAB\uFF09\u4E0D\u52A8\uFF0C\u63A5\u7F1D\u4ECD\u7531 horizonVeil \u5BF9\u9F50\u5929\u7A7A\uFF1B
+  //   - 16\xB0 \u4EE5\u5916\uFF08\u4FEF\u89C6\uFF09\u5B8C\u5168\u4E0D\u52A8\uFF0C\u8FD1\u5904\u6D6A\u8272\u4E0D\u53D8\uFF1B
+  //   - \u4E2D\u95F4\u6309 Smoothstep \u5E73\u6ED1\u538B\u6697\uFF0C\u5E76\u5F80\u6C34\u8272\u504F\u4E00\u70B9\uFF0C\u8BFB\u8D77\u6765\u662F\u6C34\u7684\u53CD\u5C04\u800C\u4E0D\u662F\u767D\u96FE\u3002
+  float glare = belowHorizon * smoothstep(0.0, 0.02, V.y)
+    * (1.0 - smoothstep(0.03, 0.28, NoV));
+  refl *= mix(vec3(1.0), vec3(0.30, 0.56, 0.66), glare * clamp(uGrazingRefl, 0.0, 1.0));
+
+  float aS = max(alpha, 0.015);
+  float aS2 = aS * aS;
+  vec3 H = normalize(uSunDir + V);
+  float NoH = max(dot(Nrm, H), 0.0);
+  float nl = max(NoL, 0.0);
+  float dd = NoH * NoH * (aS2 - 1.0) + 1.0;
+  float D = aS2 / (PI * dd * dd);
+  float vis = 0.5 / (nl * sqrt(NoV * NoV * (1.0 - aS2) + aS2) + NoV * sqrt(nl * nl * (1.0 - aS2) + aS2) + 1e-5);
+  float Fs = F0 + (1.0 - F0) * pow(1.0 - max(dot(V, H), 0.0), 5.0);
+  vec3 spec = sun * (PI * D * vis * Fs * nl);
+
+  if (uGlint > 0.0 && dot(spec, vec3(1.0)) > 0.02) {
+    const float FACETS = 2e4;
+    float lf = log2(max(max(fwXZ.x, fwXZ.y), 1e-3)) + 1.0;
+    float l0 = floor(lf);
+    float per = FACETS * D * NoH * 6.8e-5 / (4.0 * max(dot(V, H), 0.05));
+    float m = 0.0;
+    for (int j = 0; j < 2; j++) {
+      float l = l0 + float(j), sz = exp2(l);
+      vec2 cell = floor(vXZ / sz);
+      float lam = per * sz * sz;
+      float tt = uTime * 3.0 + hash12(cell + l * 17.17) * 64.0, it = floor(tt);
+      float n0 = poisson(lam, clamp(hash12(cell * 1.31 + it * 3.7), 1e-4, 0.9999));
+      float n1 = poisson(lam, clamp(hash12(cell * 1.31 + (it + 1.0) * 3.7), 1e-4, 0.9999));
+      m += (j == 0 ? 1.0 - (lf - l0) : lf - l0) * min(mix(n0, n1, smoothstep(0.0, 1.0, tt - it)) / max(lam, 1e-4), 30.0);
+    }
+    spec *= mix(1.0, m, uGlint * smoothstep(1.5, 12.0, dist) * smoothstep(0.05, 0.3, vth));
+  }
+  // \u89C6\u7EBF\u63A5\u8FD1\u6C34\u5E73\u65F6\uFF0C\u592A\u9633\u955C\u9762\u9AD8\u5149\u4E0E\u95EA\u70C1\u4F1A\u5728\u6D6A\u9762\u4E0A\u538B\u6210\u4E00\u6761\u6A2A\u8D2F\u753B\u9762\u7684\u4EAE\u7EBF\uFF08\u8D8A\u8FC7
+  // \u5730\u5E73\u7EBF\u7684\u6D6A\u9762\u5C24\u5176\u660E\u663E\uFF09\u3002\u63A0\u5C04\u89D2\u7684\u955C\u9762\u672C\u6765\u5C31\u88AB\u6781\u5EA6\u538B\u6241\uFF0C\u8FD9\u91CC\u5E73\u6ED1\u6536\u6389\uFF1B
+  // \u53EA\u538B\u5730\u5E73\u7EBF\u9644\u8FD1\u7684\u7A84\u5E26\uFF0C\u6B63\u5E38\u7684\u592A\u9633\u95EA\u5149\u4ECD\u4FDD\u7559\u3002
+  float horizonSpec = smoothstep(0.0, 0.05, abs(V.y));
+  spec *= mix(${HORIZON_SPEC_FLOOR.toFixed(2)}, 1.0, horizonSpec);
+
+  // \u9AD8\u4E8E\u57FA\u51C6\u6D77\u9762\u7684\u6D6A\u5C16\uFF1A\u53CD\u5C04\u6BD4\u91CD\u5F80\u56DE\u6536\uFF0C\u5426\u5219\u6574\u5757\u6D6A\u9762\u90FD\u662F\u5929\u7A7A\u955C\u50CF\uFF0C\u770B\u8D77\u6765\u50CF\u900F\u660E
+  float crestFade = smoothstep(1.0, 6.0, max(vWorld.y, 0.0));
+  vec3 col = mix(body, refl, F * mix(0.45, 1.0, smoothstep(0.08, 0.8, vth)) * mix(1.0, 0.5, crestFade)) + spec * 0.78;
+  col = mix(refracted, col, smoothstep(0.0, 0.12 + dist * 5e-4, vth));
+
+  // \u2500\u2500 \u6CE1\u6CAB \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  float cover = 0.0, pat = 0.0, fh = 0.5, dens = 0.0;
+  vec2 fg = vec2(0.0);
+  // \u857E\u4E1D\u82B1\u7EB9\u5148\u53D6\u51FA\u6765\uFF1A\u6D6A\u5CF0\u8584\u6CAB\u4E5F\u8981\u7528\u5B83\u6765\u6253\u788E\uFF0C\u624D\u4E0D\u4F1A\u662F\u4E00\u5C42\u5747\u5300\u7684\u7070\u819C\u3002
+  vec4 lace = texture(uFoamTex, vXZ * 0.11);
+  float patBase = lace.r * 0.65 + texture(uFoamTex, vXZ * 0.031 + 0.37).r * 0.35;
+  // \u5916\u51B2\u6D6A\u5E26\u7684\u7834\u788E\u767D\u6C34\uFF1A\u53EA\u51FA\u73B0\u5728 sdf > 40 m\uFF0C40 m \u5185\u4EA4\u7ED9\u539F\u6709\u62CD\u5CB8\u6D6A\u3002
+  float breakMask = smoothstep(40.0, 60.0, sh.y);
+  float breakFoam = vBreak * breakMask * uBreakFoam * smoothstep(0.1, 0.7, patBase);
+  foam = clamp(max(foam, breakFoam), 0.0, 1.0);
+  if (foam > 0.0) {
+    pat = patBase;
+    cover = smoothstep(1.05 - foam, 1.3 - foam, pat) * sqrt(foam);
+    fh = lace.g; fg = (lace.ba - 0.5) * 64.0 * 0.11; dens = foam;
+  }
+  if (shoreFoam > 0.0) {
+    const float FLOW_T = 2.5;
+    vec2 vel = shore.dir * shore.wave0.z / max(shore.wave0.y, 1e-3);
+    float f0 = fract(uTime / FLOW_T), f1 = fract(uTime / FLOW_T + 0.5), wb = abs(2.0 * f0 - 1.0);
+    vec4 b0 = texture(uFoamTex, (vWorld.xz - vel * (f0 * FLOW_T)) * 0.15);
+    vec4 b1 = texture(uFoamTex, (vWorld.xz - vel * (f1 * FLOW_T)) * 0.15 + 0.43);
+    float sh_ = mix(b0.g, b1.g, wb);
+    float sPattern = mix(b0.r, b1.r, wb) * 0.3 + sh_ * 0.45 + texture(uFoamTex, vWorld.xz * 0.023 + 0.5).r * 0.25;
+    float sCover = smoothstep(1.0 - shoreFoam * 1.1, 1.45 - shoreFoam * 1.1, sPattern) * sqrt(shoreFoam);
+    sCover = max(sCover, 0.3 * smoothstep(0.45, 0.9, shoreFoam) * smoothstep(0.35, 0.7, sPattern) * smoothstep(0.1, 0.5, vth));
+    sCover *= mix(0.55, 1.0, smoothstep(0.05, 0.4, vth));
+    // \u7901\u77F3\u5CB8\u7684\u788E\u6D6A\u6CE1\u6CAB\u66F4\u5BC6\uFF1B\u73AF\u7901\u5185\u5CB8\u66F4\u7EC6\u66F4\u6DE1
+    sCover *= mix(0.75, 0.75 + 0.7 * uReefFoam, bio.g) * (1.0 - 0.4 * bio.a) * (1.0 - 0.25 * bio.z);
+    if (sCover >= cover) {
+      pat = sPattern; fh = sh_; dens = shoreFoam;
+      fg = mix(b0.ba, b1.ba, wb) * (64.0 * 0.15) - 32.0 * 0.15;
+    }
+    cover = max(cover, sCover);
+  }
+  if (shore.residual > 0.0) {
+    float fp = fract(uTime / 8.0);
+    vec2 drift = shore.dir * 2.8;
+    float r0 = texture(uFoamTex, (vWorld.xz - drift * fp) * 0.06).r;
+    float r1 = texture(uFoamTex, (vWorld.xz - drift * fract(fp + 0.5)) * 0.06 + 0.5).r;
+    float rp = mix(r0, r1, abs(2.0 * fp - 1.0));
+    float rCover = smoothstep(1.2 - shore.residual, 1.35 - shore.residual, rp) * shore.residual;
+    // \u51B2\u4E0A\u6C99\u6EE9\u540E\u7F13\u6162\u6D88\u6563\u7684\u6CE1\u6CAB\u53EA\u5C5E\u4E8E\u6C99\u5CB8\uFF1B\u5CA9\u5CB8\u57FA\u672C\u6CA1\u6709\u6B8B\u7559
+    rCover *= 0.35 + 0.65 * bio.r;
+    if (rCover >= cover) { pat = rp; fh = 0.5; fg = vec2(0.0); dens = shore.residual * 0.5; }
+    cover = max(cover, rCover);
+  }
+  cover *= smoothstep(0.0, 0.05 + dist * 3e-4, vth);
+  if (cover > 0.0) {
+    vec3 fN = normalize(Nrm - vec3(fg.x, 0.0, fg.y) * (0.03 + 0.12 * dens));
+    float fl = dot(fN, uSunDir);
+    float ao = mix(0.45, 1.0, smoothstep(0.15, 0.75, fh));
+    float solid = smoothstep(0.2, 0.9, dens * (0.55 + 0.7 * fh));
+    vec3 foamAlbedo = mix(uFoamTint, vec3(0.93, 0.92, 0.88), max(solid, smoothstep(0.3, 0.9, pat) * 0.6));
+    vec3 lit = sun * (0.15 + 0.85 * clamp(fl * 0.8 + 0.2, 0.0, 1.0)) * mix(ao, 1.0, 0.4) + ambient * 1.1 * ao;
+    lit += sun * pow(clamp(dot(uSunDir, -V), 0.0, 1.0), 4.0) * 0.4 * (1.0 - solid);
+    vec3 foamCol = uFoam.w * 1.25 * foamAlbedo * lit;
+    foamCol += sun * pow(max(dot(fN, H), 0.0), 90.0) * 0.5 * smoothstep(0.55, 0.85, fh) * solid;
+    col = mix(col, foamCol, cover * mix(0.8, 1.0, solid));
+  }
+
+  // \u7A00\u758F\u6F02\u6D6E\u8584\u6CAB\uFF1A\u76F4\u63A5\u4EE5\u5F88\u4F4E\u7684\u4E0D\u900F\u660E\u5EA6\u53E0\u4E00\u5C42\u6CE1\u6CAB\u8272\uFF0C\u4E0D\u53C2\u4E0E\u857E\u4E1D\u8986\u76D6\u9608\u503C\u3002
+  // \u6D6A\u5CF0\u4E0A\u518D\u52A0\u4E00\u5C42\u66F4\u8584\u7684\u6CAB\u819C\uFF08crestVeil\uFF09\uFF0C\u4FDD\u8BC1\u6B63\u5E38\u6D77\u51B5\u4E0B\u6D6A\u5CF0\u4E5F\u6709\u4E00\u70B9\u70B9\u767D\uFF0C
+  // \u800C\u4E0D\u662F\u53EA\u6709\u9762\u79EF\u6BD4\u8DCC\u7834 0.85 \u7684\u5F3A\u6324\u538B\u533A\u624D\u51FA\u6CAB\u3002
+  float crestVeil = smoothstep(0.3, 1.0, vWorld.y) * crestPatch
+    * smoothstep(0.45, 0.85, patBase) * 0.85 * smoothstep(0.05, 0.2, vth) * deepFoam;
+  float veil = max(driftCover, crestVeil);
+  if (veil > 0.001) {
+    // \u6CE1\u6CAB\u672C\u8EAB\u6BD4\u6D77\u6C34\u66F4\u63A5\u8FD1\u767D\uFF1A\u4F4E\u592A\u9633\u65F6\u82E5\u53EA\u4E58 ambient\uFF0C\u6CAB\u819C\u4F1A\u53D1\u7070\u3001\u6DF7\u5728\u6C34\u8272\u91CC\u770B\u4E0D\u51FA\u6765\u3002
+    vec3 veilColor = mix(uFoamTint, vec3(0.95), 0.6) * (ambient * 1.35 + sun * 0.85) * max(uFoam.w, 0.6);
+    col = mix(col, veilColor, veil);
+  }
+
+  // \u2500\u2500 \u51B0\u9762\uFF08\u9879\u76EE\u5929\u6C14\u529F\u80FD\uFF09\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  float ice = iceCoverage(vXZ);
+  if (ice > 0.002) {
+    vec3 iceColor = iceSurface(vXZ, normalize(cameraPosition - vWorld).xz * 0.06);
+    iceColor += vec3(0.055, 0.07, 0.085) * pow(1.0 - NoV, 3.0);
+    col = mix(col, iceColor, ice);
+  }
+
+  // \u2500\u2500 \u7A7A\u6C14\u900F\u89C6 \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+  // \u7A7A\u6C14\u900F\u89C6\u6309\u6C34\u5E73\u8DDD\u79BB\u8BA1\u7B97\uFF1A\u4FEF\u89C6\u65F6\u4E0D\u4F1A\u6574\u7247\u6D77\u9762\u88AB\u96FE\u6D17\u767D\uFF0C\u53EA\u6709\u770B\u8FDC\u65B9\u624D\u8D77\u96FE\u3002
+  // \u8FD1\u5904\u7528\u914D\u65B9\u96FE\u8272\uFF0C\u8FDC\u5904\u5E73\u6ED1\u8FC7\u6E21\u5230\u540C\u4E00\u65B9\u5411\u7684\u5929\u7A7A\u8272\uFF0C\u6C34\u5929\u63A5\u7F1D\u4E0D\u4F1A\u51FA\u73B0\u8272\u5DEE\u3002
+  float fogDist = length(toCam.xz);
+  float fog = 1.0 - exp(-fogDist * uOptics.w);
+  // \u5929\u7A7A\u80CC\u666F\u7684\u7B49\u8DDD\u77E9\u5F62\u56FE\u91CC\uFF0C\u5730\u5E73\u7EBF\u4EE5\u4E0B\u591A\u534A\u662F\u6697\u6D77\u9762\u3002\u6C34\u9762\u81EA\u8EAB\u7684\u89C6\u7EBF\u5728\u5929\u9645\u5904
+  // \u91C7\u6837\u5230\u7684\u6B63\u662F\u8FD9\u4E00\u4FA7\uFF0C\u76F4\u63A5\u62FF\u5B83\u5F53\u96FE\u8272\u4F1A\u8BA9\u6C34\u5929\u4EA4\u754C\u6BD4\u5929\u7A7A\u6697\u4E00\u622A\u3002
+  // \u53EA\u5728\u63A5\u8FD1\u6C34\u5E73\u65F6\u628A\u91C7\u6837\u65B9\u5411\u5411\u4E0A\u62AC\u7EA6 0.9\xB0\uFF0C\u53D6\u5730\u5E73\u7EBF\u4EE5\u4E0A\u7684\u5929\u7A7A\u8272\uFF1B\u9661\u89C6\u89D2\u4E0D\u52A0\u504F\u79FB\uFF0C
+  // \u4FEF\u89C6\u8FDC\u5904\u65F6\u4E0D\u4F1A\u628A\u6D77\u9762\u9519\u8BEF\u5730\u6D17\u6210\u5929\u7A7A\u3002
+  // \u6D6A\u5C16\u8D8A\u8FC7\u5730\u5E73\u7EBF\u65F6 belowHorizon = 0\uFF1A\u4E0D\u62AC\u65B9\u5411\uFF0C\u91C7\u5B83\u80CC\u540E\u771F\u5B9E\u7684\u5929\u7A7A\uFF0C
+  // \u6D6A\u5C16\u5C31\u4F1A\u548C\u5929\u7A7A\u540C\u8272\uFF0C\u4E0D\u518D\u51FA\u73B0\u6BD4\u5929\u7A7A\u66F4\u4EAE\u7684\u4E00\u5708\u767D\u6655\u3002
+  float horizonBand = (1.0 - smoothstep(0.0, 0.12, V.y)) * belowHorizon;
+  vec3 skyDir = normalize(vec3(-V.x, -V.y + ${FOG_SKY_LIFT.toFixed(2)} * horizonBand, -V.z));
+  vec3 skyAt = skyLod(skyDir, ${FAR_SKY_LOD.toFixed(1)});
+  vec3 fogColor = mix(uFogColor, skyAt, smoothstep(uFogSkyBlend.x, uFogSkyBlend.y, fogDist));
+  // \u65E5\u843D / \u9EC4\u660F\uFF1A\u5728\u671D\u592A\u9633\u7684\u6C34\u9762\u5730\u5E73\u7EBF\u8865\u4E00\u5C42\u5F88\u5F31\u7684\u6696\u5149\uFF0C\u4E0D\u52A0\u592A\u9633\u76D8\u3002
+  // HDRI \u5929\u7A7A\u672C\u8EAB\u6709\u8FD9\u6761\u8F89\u5149\uFF0C\u4F46\u7ECF\u7ACB\u65B9\u4F53 mip \u540E\u4F1A\u7565\u5E73\uFF1B\u8FD9\u4E00\u9879\u8D1F\u8D23\u8865\u8DB3\u3002
+  vec3 sunGlow = vec3(0.0);
+  if (uSunGlow > 0.0) {
+    // \u53EA\u671D\u592A\u9633\u65B9\u5411\u3001\u53EA\u5728\u5730\u5E73\u7EBF\u9644\u8FD1\u52A0\u4E00\u5C42\u5F88\u5F31\u7684\u6696\u5149\uFF1B\u4E0D\u751F\u6210\u592A\u9633\u76D8\u3002
+    float sunFacing = pow(max(dot(-V, uSunDir), 0.0), 32.0);
+    sunGlow = uSunColor * sunFacing * uSunGlow * horizonBand;
+  }
+  fogColor += sunGlow;
+  col = mix(col, fogColor, fog);
+
+  // \u6C34\u9762\u7F51\u683C\u7684\u51E0\u4F55\u8FB9\u7F18\uFF1A\u5728\u534A\u5F84\u7684 70%~100% \u4E4B\u95F4\u6DE1\u5230\u540C\u4E00\u65B9\u5411\u7684\u5929\u7A7A\u8272\u3002
+  // \u4F4E\u673A\u4F4D\u770B\u5F97\u89C1\u7684\u5916\u5708\u3001\u4EE5\u53CA\u9AD8\u673A\u4F4D\u65F6\u4ECD\u843D\u5728\u8FDC\u5E73\u9762\u5185\u7684\u7F51\u683C\u8FB9\uFF0C\u90FD\u4E0D\u4F1A\u9732\u6210\u4E00\u6761\u786C\u7EBF\u3002
+  // \u9AD8\u673A\u4F4D\u65F6 OUTER * uGridScale \u4F1A\u8D85\u8FC7\u8FDC\u5E73\u9762\uFF0C\u8FD9\u91CC\u628A\u6DE1\u51FA\u7EC8\u70B9\u538B\u5230 far * 0.85\uFF0C
+  // \u8BA9\u8FDC\u5E73\u9762\u7684\u786C\u88C1\u526A\u53D1\u751F\u5728\u300C\u5DF2\u7ECF\u5B8C\u5168\u53D8\u6210\u5929\u7A7A\u8272\u300D\u4E4B\u540E\u3002
+  float rWorld = length(vWorld.xz - cameraPosition.xz);
+  float edgeRadius = min(uOceanRadius, uNearFar.y * ${EDGE_FADE_FAR_FRACTION.toFixed(2)});
+  float edge = smoothstep(edgeRadius * ${EDGE_FADE_START.toFixed(2)}, edgeRadius, rWorld);
+  // \u89C6\u89D2\u878D\u5408\uFF1A\u89C6\u7EBF\u8D8A\u63A5\u8FD1\u6C34\u5E73\uFF0C\u6C34\u9762\u7684\u5149\u5B66\u8DEF\u5F84\u8D8A\u957F\uFF0C\u989C\u8272\u8D8A\u5E94\u8BE5\u6536\u655B\u5230\u540C\u4E00\u65B9\u5411\u7684\u5929\u7A7A\u3002
+  // \u5B83\u6BD4\u96FE\u7684\u8DDD\u79BB\u8FC7\u6E21\u66F4\u8D34\u8FD1\u300C\u5730\u5E73\u7EBF\u300D\u672C\u8EAB\uFF0C\u53EA\u8D1F\u8D23\u628A 1~2 px \u7684\u786C\u63A5\u7F1D\u644A\u6210\u4E00\u5C42\u8584\u96FE\u3002
+  float horizonVeil = belowHorizon * (1.0 - smoothstep(0.0, ${HORIZON_VEIL.toFixed(2)}, V.y));
+  // \u5E73\u65B9\u8BA9\u8FB9\u7F18\u66F4\u8F6F\uFF1A\u4E2D\u5FC3\u4ECD\u7136\u76D6\u4F4F\u63A5\u7F1D\uFF0C\u4E24\u4FA7\u8FC5\u901F\u9000\u573A\uFF0C\u4E0D\u518D\u662F\u4E00\u6761\u5BBD\u7070\u5E26\u3002
+  horizonVeil *= horizonVeil;
+  // \u53EA\u5904\u7406\u771F\u6B63\u7684\u5730\u5E73\u7EBF\uFF1B\u4E2D\u666F 700 m \u4EE5\u5185\u7684\u6D6A\u4FDD\u6301\u81EA\u5DF1\u7684\u989C\u8272\uFF0C\u4E0D\u4F1A\u88AB\u6D17\u6210\u5929\u7A7A\u3002
+  horizonVeil *= smoothstep(700.0, 2200.0, fogDist);
+  horizonVeil *= ${HORIZON_VEIL_MAX.toFixed(2)};
+  float horizonMix = max(edge, horizonVeil);
+  // HDRI \u80CC\u666F\u662F sRGB \u8D34\u56FE\uFF1Athree \u5BF9 sRGB \u80CC\u666F\u4E0D\u8DD1 tone mapping\uFF08WebGLBackground \u91CC
+  // toneMapped=false\uFF09\uFF0C\u5C4F\u5E55\u4E0A\u7684\u5929\u7A7A\u5C31\u662F\u300C\u7EBF\u6027 HDRI \u2192 sRGB\u300D\u3002\u6C34\u9762\u7684\u96FE\u8272\u82E5\u4E5F\u5148 ACES
+  // \u518D\u548C\u5929\u7A7A\u6BD4\uFF0C\u4F1A\u88AB\u538B\u6697 5~8%\uFF0C\u5730\u5E73\u7EBF\u51FA\u73B0\u4E00\u6761\u6697\u5E26\u3002\u6240\u4EE5 HDRI \u5929\u7A7A\u7684\u76F4\u63A5\u8272\u8981\u7559\u5230
+  // tone mapping \u4E4B\u540E\u3001\u4EE5\u540C\u6837\u7684\u663E\u793A\u503C\u53C2\u4E0E\u6DF7\u5408\uFF1B\u4F53\u79EF\u5929\u7A7A\u81EA\u5DF1\u8D70 ACES\uFF0C\u4ECD\u7528\u7EBF\u6027\u6DF7\u5408\u3002
+  bool mixAfterTone = uSkyIsDirect > 0.5 && uToneMap > 0.5;
+  if (!mixAfterTone) col = mix(col, skyAt, horizonMix);
+
+  if (uDebug > 0.5) {
+    vec2 dq = gl_FragCoord.xy / uResolution;
+    int mode = int(dq.x * 2.0) + 2 * int(dq.y * 2.0);
+    if (mode == 0) col = body;
+    else if (mode == 1) col = refl;
+    else if (mode == 2) col = vec3(F, alpha, NoV);
+    else col = min(spec, vec3(1.0));
+    fragColor = vec4(ultraSRGB(clamp(col, 0.0, 1.0)), 2.0);
+    return;
+  }
+  if (uToneMap > 0.5) {
+    // \u4E0E three \u7684 ACESFilmicToneMapping \u5B8C\u5168\u4E00\u81F4\uFF1A\u540C\u4E00\u66DD\u5149\u503C + \u540C\u4E00 1/0.6 \u89C2\u770B\u73AF\u5883\u7CFB\u6570\u3002
+    // \u6C34\u9762\u81EA tonemap \u65F6\uFF0Crenderer.toneMappingExposure \u662F\u552F\u4E00\u66DD\u5149\u6240\u6709\u8005\uFF0CuExposure \u6BCF\u5E27\u540C\u6B65\u3002
+    col *= uExposure / 0.6;
+    col = ultraACES(col);
+    col = ultraSRGB(col);
+    // sRGB \u80CC\u666F\u6CA1\u6709 tone mapping\uFF1A\u76F4\u63A5\u62FF\u7ACB\u65B9\u4F53\u7684\u7EBF\u6027\u503C\u505A sRGB \u7F16\u7801\uFF0C\u5C31\u662F\u5929\u7A7A\u7684\u5C4F\u5E55\u8272\u3002
+    if (mixAfterTone) col = mix(col, ultraSRGB(clamp(skyAt + sunGlow, 0.0, 1.0)), horizonMix);
+  }
+  fragColor = vec4(col, 2.0);
+}
+`;
+function emptyTexture2() {
+  const data = new Uint8Array([0, 0, 0, 0]);
+  const tex = new DataTexture(data, 1, 1, RGBAFormat);
+  tex.needsUpdate = true;
+  return tex;
+}
+var OceanSurface = class {
+  constructor(sim) {
+    const empty = emptyTexture2();
+    this.uniforms = {
+      uDisp0: { value: null },
+      uDisp1: { value: null },
+      uDisp2: { value: null },
+      uSlope0: { value: null },
+      uSlope1: { value: null },
+      uSlope2: { value: null },
+      uSlope3: { value: null },
+      uLength: { value: sim.lengthsVec },
+      uWind: { value: 0 },
+      uImpact: { value: Array.from({ length: 8 }, () => new Vector4()) },
+      uImpactSize: { value: new Array(8).fill(1) },
+      uTerrainMaps: { value: null },
+      uShoreCenter: { value: new Vector2() },
+      uShoreExtent: { value: 1 },
+      uTime: { value: 0 },
+      uShoreWave: { value: new Vector4(0.55, 30, 1, 1) },
+      uShoreHandoff: { value: 1 },
+      uWindward: { value: 0.7 },
+      uReefFoam: { value: 1 },
+      // x: 完整涌浪的水深门槛（>4 m），y: 浅水细浪下限
+      uWaveDamp: { value: new Vector2(4.2, 0.55) },
+      uLayerWeights: { value: new Vector3(1, 1, 1) },
+      uNearshore: { value: new Vector2(3.2, 0.65) },
+      uShoreSensing: { value: 1 },
+      uShoal: { value: 1 },
+      uBreakFoam: { value: 0.6 },
+      uSwellDir: { value: new Vector2(1, 0) },
+      uGridScale: { value: 1 },
+      uCellStep: { value: 2 * Math.PI / ANGULAR },
+      uResolution: { value: new Vector2(1, 1) },
+      uNearFar: { value: new Vector2(0.5, 8e4) },
+      uSceneColor: { value: null },
+      uSceneDepth: { value: null },
+      uReflection: { value: empty },
+      uReflMatrix: { value: new Matrix4() },
+      uSkyCube: { value: null },
+      uSkyMaxLod: { value: 0 },
+      uFoamTex: { value: null },
+      uDriftTex: { value: null },
+      uSunDir: { value: new Vector3(0, 1, 0) },
+      uSunColor: { value: new Color(1, 1, 1) },
+      uAbsorption: { value: new Vector3(0.4, 0.062, 0.032) },
+      uScatterColor: { value: new Color(0, 0.05, 0.08) },
+      uFoamTint: { value: new Color(0.62, 0.78, 0.82) },
+      uSSS: { value: new Vector4(1.6, 0.06, 0.05, 0) },
+      uFoam: { value: new Vector4(0.85, 0.5, 0.2, 0.72) },
+      uOptics: { value: new Vector4(0.02, 0.06, 0.04, 1 / 18e3) },
+      uFogColor: { value: new Color(0.2, 0.26, 0.33) },
+      uFogSkyBlend: { value: new Vector2(500, 1500) },
+      uOceanRadius: { value: OUTER },
+      uSunGlow: { value: 0 },
+      uSkyIsDirect: { value: 0 },
+      uCamForward: { value: new Vector3() },
+      uGlint: { value: 0.6 },
+      uFresnel: { value: 1 },
+      uGrazingRefl: { value: GRAZING_REFLECTION_DIM },
+      uBacklight: { value: 1 },
+      uCamSide: { value: -1 },
+      uToneMap: { value: 1 },
+      uDebug: { value: 0 },
+      uExposure: { value: 1 },
+      uIceCenter: { value: new Vector2() },
+      uIceRadius: { value: 0 },
+      uIceCracks: { value: null },
+      uIcePerlin: { value: null }
+    };
+    this.material = new ShaderMaterial({
+      glslVersion: GLSL3,
+      vertexShader: VERT2,
+      fragmentShader: FRAG2,
+      uniforms: this.uniforms,
+      side: DoubleSide
+    });
+    this.grids = [buildGrid(ANGULAR), buildGrid(ANGULAR / 2)];
+    this.mesh = new Mesh(this.grids[0], this.material);
+    this.mesh.frustumCulled = false;
+    this.mesh.name = "ultra-ocean-surface";
+  }
+  update(camera2, time, simParams) {
+    const u4 = this.uniforms;
+    u4.uTime.value = time;
+    u4.uWind.value = simParams.windSpeed;
+    const a3 = MathUtils.degToRad(simParams.swellDirection);
+    u4.uSwellDir.value.set(-Math.cos(a3), -Math.sin(a3));
+    const cameraY = Math.abs(camera2.position.y);
+    const horizon = HORIZON_FACTOR * Math.sqrt(Math.max(0.5, cameraY));
+    const scale = Math.max(1, cameraY / 2, horizon * HORIZON_MARGIN / OUTER);
+    u4.uGridScale.value = scale;
+    u4.uOceanRadius.value = OUTER * scale;
+    const coarse = Math.abs(camera2.position.y) > HIGH_CAMERA * (this.mesh.geometry === this.grids[1] ? 0.85 : 1.15);
+    this.mesh.geometry = coarse ? this.grids[1] : this.grids[0];
+    u4.uCellStep.value = 2 * Math.PI / (ANGULAR >> (coarse ? 1 : 0));
+    u4.uNearFar.value.set(camera2.near, camera2.far);
+    camera2.getWorldDirection(u4.uCamForward.value);
+  }
+  /** 每帧把 OceanSim 的贴图挂到 uniform 上 */
+  setSim(sim) {
+    const u4 = this.uniforms;
+    u4.uDisp0.value = sim.displacement[0];
+    u4.uDisp1.value = sim.displacement[1];
+    u4.uDisp2.value = sim.displacement[2];
+    u4.uSlope0.value = sim.slope[0];
+    u4.uSlope1.value = sim.slope[1];
+    u4.uSlope2.value = sim.slope[2];
+    u4.uSlope3.value = sim.slope[3];
+  }
+  dispose() {
+    this.grids[0].dispose();
+    this.grids[1].dispose();
+    this.material.dispose();
+    this.uniforms.uReflection.value?.dispose();
+  }
+};
+
+// src/ultra/PlanarReflection.ts
+var normal = new Vector3(0, 1, 0);
+var camPos = new Vector3();
+var lookAt = new Vector3();
+var target = new Vector3();
+var rot = new Matrix4();
+var plane = new Plane();
+var clip = new Vector4();
+var q3 = new Vector4();
+var PlanarReflection = class {
+  constructor(layer = 1) {
+    this.camera = new PerspectiveCamera();
+    this.textureMatrix = new Matrix4();
+    this.scale = 0.5;
+    this.camera.layers.set(layer);
+    this.target = new WebGLRenderTarget(1, 1, {
+      type: HalfFloatType,
+      generateMipmaps: true,
+      minFilter: LinearMipmapLinearFilter
+    });
+  }
+  setSize(w4, h3) {
+    this.target.setSize(Math.max(1, Math.floor(w4 * this.scale)), Math.max(1, Math.floor(h3 * this.scale)));
+  }
+  render(renderer, scene, camera2) {
+    const rc = this.camera;
+    camPos.setFromMatrixPosition(camera2.matrixWorld);
+    rot.extractRotation(camera2.matrixWorld);
+    lookAt.set(0, 0, -1).applyMatrix4(rot).add(camPos);
+    target.set(lookAt.x, -lookAt.y, lookAt.z);
+    rc.position.set(camPos.x, -camPos.y, camPos.z);
+    rc.up.set(0, 1, 0).applyMatrix4(rot).reflect(normal);
+    rc.lookAt(target);
+    rc.far = camera2.far;
+    rc.updateMatrixWorld();
+    rc.projectionMatrix.copy(camera2.projectionMatrix);
+    this.textureMatrix.set(0.5, 0, 0, 0.5, 0, 0.5, 0, 0.5, 0, 0, 0.5, 0.5, 0, 0, 0, 1).multiply(rc.projectionMatrix).multiply(rc.matrixWorldInverse);
+    plane.setFromNormalAndCoplanarPoint(normal, target.set(0, 0, 0)).applyMatrix4(rc.matrixWorldInverse);
+    clip.set(plane.normal.x, plane.normal.y, plane.normal.z, plane.constant);
+    const p4 = rc.projectionMatrix.elements;
+    q3.set((Math.sign(clip.x) + p4[8]) / p4[0], (Math.sign(clip.y) + p4[9]) / p4[5], -1, (1 + p4[10]) / p4[14]);
+    clip.multiplyScalar(2 / clip.dot(q3));
+    p4[2] = clip.x;
+    p4[6] = clip.y;
+    p4[10] = clip.z + 1;
+    p4[14] = clip.w;
+    rc.projectionMatrixInverse.copy(rc.projectionMatrix).invert();
+    renderer.setRenderTarget(this.target);
+    renderer.setClearColor(0, 0);
+    renderer.clear(true, true, false);
+    renderer.render(scene, rc);
+  }
+  dispose() {
+    this.target.dispose();
+  }
+};
+
+// src/ultra/WaterQuery.ts
+var FRAG3 = (
+  /* glsl */
+  `
+precision highp float;
+precision highp int;
+${WATER_GLSL}
+uniform highp sampler2D uQueries;
+out vec4 outColor;
+void main() {
+  vec2 q = texelFetch(uQueries, ivec2(gl_FragCoord.xy), 0).xy;
+  vec3 d = waterAt(q, vec3(0.0));
+  outColor = vec4(d.y, d.x, d.z, 1.0);
+}
+`
+);
+var WaterQuery = class {
+  constructor(surface, capacity = 512) {
+    this.resultCount = 0;
+    this.resultTag = -1;
+    this.resultTime = 0;
+    this.inFlight = 0;
+    this.capacity = capacity;
+    this.input = new DataTexture(new Float32Array(capacity * 4), capacity, 1, RGBAFormat, FloatType);
+    this.target = new WebGLRenderTarget(capacity, 1, {
+      type: FloatType,
+      minFilter: NearestFilter,
+      magFilter: NearestFilter,
+      depthBuffer: false,
+      generateMipmaps: false
+    });
+    this.quad = new FullscreenQuad(rawPass(FRAG3, { ...surface.uniforms, uQueries: { value: this.input } }));
+    this.result = new Float32Array(capacity * 4);
+  }
+  /** xz: 世界坐标 x,z 交错数组；tag 标记这一批点的布局 */
+  submit(renderer, xz, count, tag, time) {
+    if (this.inFlight >= 2 || count === 0) return;
+    count = Math.min(count, this.capacity);
+    const d3 = this.input.image.data;
+    for (let i4 = 0; i4 < count; i4++) {
+      d3[i4 * 4] = xz[i4 * 2];
+      d3[i4 * 4 + 1] = xz[i4 * 2 + 1];
+    }
+    this.input.needsUpdate = true;
+    this.quad.render(renderer, this.target);
+    this.inFlight++;
+    const buf = new Float32Array(count * 4);
+    renderer.readRenderTargetPixelsAsync(this.target, 0, 0, count, 1, buf).then(() => {
+      this.result.set(buf);
+      this.resultCount = count;
+      this.resultTag = tag;
+      this.resultTime = time;
+    }).catch(() => {
+    }).finally(() => {
+      this.inFlight--;
+    });
+  }
+  dispose() {
+    this.input.dispose();
+    this.target.dispose();
+    this.quad.material.dispose();
+  }
+};
+
+// src/ultra/bakeWaterTextures.ts
+var FOAM = (
+  /* glsl */
+  `
+precision highp float;
+in vec2 vUv;
+out vec4 outColor;
+vec2 hash22(vec2 p) {
+  vec3 p3 = fract(vec3(p.xyx) * vec3(0.1031, 0.1030, 0.0973));
+  p3 += dot(p3, p3.yzx + 33.33);
+  return fract((p3.xx + p3.yz) * p3.zy);
+}
+vec2 voronoi(vec2 p, float period) {
+  vec2 i = floor(p), f = fract(p);
+  float f1 = 8.0, f2 = 8.0;
+  for (int y = -1; y <= 1; y++) for (int x = -1; x <= 1; x++) {
+    vec2 g = vec2(x, y);
+    vec2 o = hash22(mod(i + g, period));
+    float d = length(g + o - f);
+    if (d < f1) { f2 = f1; f1 = d; } else if (d < f2) f2 = d;
+  }
+  return vec2(f1, f2);
+}
+float billow(vec2 uv) {
+  vec2 a = voronoi(uv * 7.0 + 0.3, 7.0), b = voronoi(uv * 17.0 + 0.7, 17.0), c = voronoi(uv * 41.0 + 0.1, 41.0);
+  return 0.5 * sqrt(clamp((a.y - a.x) * 2.2, 0.0, 1.0)) + 0.32 * sqrt(clamp((b.y - b.x) * 2.2, 0.0, 1.0))
+       + 0.18 * sqrt(clamp((c.y - c.x) * 2.2, 0.0, 1.0));
+}
+void main() {
+  vec2 a = voronoi(vUv * 9.0, 9.0);
+  vec2 b = voronoi(vUv * 23.0 + 0.5, 23.0);
+  vec2 c = voronoi(vUv * 61.0, 61.0);
+  float lace = 1.0 - smoothstep(0.0, 0.22, a.y - a.x);
+  float fine = 1.0 - smoothstep(0.0, 0.16, b.y - b.x);
+  float bubbles = smoothstep(0.55, 0.15, c.x);
+  float v = lace * 0.55 + fine * 0.3 + bubbles * 0.25 + (1.0 - a.x) * 0.25;
+  const float e = 1.0 / 1024.0;
+  vec2 g = vec2(billow(vUv + vec2(e, 0.0)) - billow(vUv - vec2(e, 0.0)),
+                billow(vUv + vec2(0.0, e)) - billow(vUv - vec2(0.0, e))) / (2.0 * e);
+  outColor = vec4(clamp(v * 0.85, 0.0, 1.0), billow(vUv), clamp(0.5 + g / 64.0, 0.0, 1.0));
+}
+`
+);
+function bake(renderer, fragment2, size) {
+  const rt3 = new WebGLRenderTarget(size, size, {
+    wrapS: RepeatWrapping,
+    wrapT: RepeatWrapping,
+    minFilter: LinearMipmapLinearFilter,
+    magFilter: LinearFilter,
+    generateMipmaps: true,
+    depthBuffer: false,
+    anisotropy: renderer.capabilities.getMaxAnisotropy()
+  });
+  const material = rawPass(fragment2);
+  new FullscreenQuad(material).render(renderer, rt3);
+  material.dispose();
+  renderer.setRenderTarget(null);
+  return rt3.texture;
+}
+function bakeWaterTextures(renderer) {
+  return { foam: bake(renderer, FOAM, 512) };
+}
+
+// src/ultra/WaveCaustics.ts
+var ETA = 1 / 1.33;
+var MAX_RATIO = 16;
+var TARGETS = [
+  { res: 512, format: RedFormat },
+  { res: 256, format: RGFormat }
+];
+var SLICES = [
+  { depth: 1.5, target: 0, channel: 0, cells: 128, margin: 6 },
+  { depth: 4, target: 1, channel: 0, cells: 64, margin: 7 },
+  { depth: 10, target: 1, channel: 1, cells: 32, margin: 8 }
+];
+var f3 = (x3) => x3.toPrecision(9);
+var VERT3 = (
+  /* glsl */
+  `
+precision highp float;
+in vec3 position;               // PlaneGeometry vertex: cell coords - uCells / 2
+uniform highp sampler2D uSlope; // cascade 2 (sx, sz, ...)
+uniform vec3 uSun;              // towards the sun
+uniform float uDepth, uCells, uLod, uMargin, uRes, uTile;
+out vec2 vOld;
+
+vec2 slopeBSpline(vec2 uv, float lod) {
+  vec2 size = vec2(textureSize(uSlope, int(lod)));
+  vec2 st = uv * size - 0.5, i = floor(st), f = st - i;
+  vec2 f2 = f * f, f3 = f2 * f;
+  vec2 w0 = (1.0 - 3.0 * f + 3.0 * f2 - f3) / 6.0, w1 = (4.0 - 6.0 * f2 + 3.0 * f3) / 6.0;
+  vec2 w2 = (1.0 + 3.0 * f + 3.0 * f2 - 3.0 * f3) / 6.0, w3 = f3 / 6.0;
+  vec2 g0 = w0 + w1, g1 = w2 + w3;
+  vec2 h0 = (i - 0.5 + w1 / g0) / size, h1 = (i + 1.5 + w3 / g1) / size;
+  return g0.y * (g0.x * textureLod(uSlope, h0, lod).xy + g1.x * textureLod(uSlope, vec2(h1.x, h0.y), lod).xy)
+       + g1.y * (g0.x * textureLod(uSlope, vec2(h0.x, h1.y), lod).xy + g1.x * textureLod(uSlope, h1, lod).xy);
+}
+
+void main() {
+  vec2 t = (position.xy + 0.5 * uCells + 0.5) / uCells;
+  vec2 s = slopeBSpline(t, uLod);
+  vec3 r = refract(-uSun, normalize(vec3(-s.x, 1.0, -s.y)), ${f3(ETA)});
+  vec3 rf = refract(-uSun, vec3(0.0, 1.0, 0.0), ${f3(ETA)});
+  vec2 d = (r.xz / max(-r.y, 0.05) - rf.xz / -rf.y) * (uDepth / max(uTile, 0.01));
+  d = clamp(d, -uMargin, uMargin);
+  vOld = t * uRes;
+  gl_Position = vec4((t + d) * 2.0 - 1.0, 0.0, 1.0);
+}
+`
+);
+var FRAG4 = (
+  /* glsl */
+  `
+precision highp float;
+uniform vec3 uMask;
+in vec2 vOld;
+out vec4 outColor;
+
+void main() {
+  vec2 a = dFdx(vOld), b = dFdy(vOld);
+  outColor = vec4(uMask * min(abs(a.x * b.y - a.y * b.x), ${f3(MAX_RATIO)}), 0.0);
+}
+`
+);
+var WaveCaustics = class {
+  constructor(renderer, sim) {
+    this.slope = { value: null };
+    this.sun = { value: new Vector3(0, 1, 0) };
+    this.tile = { value: 12 };
+    this.camera = new Camera();
+    this.flat = false;
+    this.slopeTexture = null;
+    this.clearScratch = new Color();
+    this.renderer = renderer;
+    this.slopeTexture = sim.slope[2];
+    this.slope.value = this.slopeTexture;
+    this.targets = TARGETS.map(({ res, format }) => new WebGLRenderTarget(res, res, {
+      type: HalfFloatType,
+      format,
+      samples: 4,
+      minFilter: LinearMipmapLinearFilter,
+      magFilter: LinearFilter,
+      wrapS: RepeatWrapping,
+      wrapT: RepeatWrapping,
+      generateMipmaps: true,
+      depthBuffer: false
+    }));
+    this.uniforms = {
+      uCaustics: { value: this.targets[0].texture },
+      uCausticsDeep: { value: this.targets[1].texture }
+    };
+    this.scenes = TARGETS.map(() => new Group());
+    SLICES.forEach(({ depth, target: target2, channel, cells, margin }) => {
+      const material = rawPass(FRAG4, {
+        uSlope: this.slope,
+        uSun: this.sun,
+        uRes: { value: TARGETS[target2].res },
+        uDepth: { value: depth },
+        uCells: { value: cells },
+        uLod: { value: Math.max(0, Math.log2(N4 / cells)) },
+        uMargin: { value: (margin - 1) / cells },
+        uTile: this.tile,
+        uMask: { value: new Vector3().setComponent(channel, 1) }
+      }, {
+        vertexShader: VERT3,
+        side: DoubleSide,
+        blending: CustomBlending,
+        blendSrc: OneFactor,
+        blendDst: OneFactor
+      });
+      const span = cells + 2 * margin;
+      const mesh = new Mesh(new PlaneGeometry(span, span, span, span), material);
+      mesh.frustumCulled = false;
+      this.scenes[target2].add(mesh);
+    });
+    this.update(new Vector3(0, -1, 0), 12);
+  }
+  /** 每帧在 sim.update() 之后调用；tileLength 取 12 m 级联当前的世界长度 */
+  update(sunDir, tileLength) {
+    this.slope.value = this.slopeTexture;
+    this.tile.value = Math.max(0.01, tileLength);
+    const up = sunDir.y > 0;
+    if (!up && this.flat) return;
+    this.flat = !up;
+    const renderer = this.renderer;
+    const previousTarget = renderer.getRenderTarget();
+    const face = renderer.getActiveCubeFace();
+    const mip = renderer.getActiveMipmapLevel();
+    const previousAlpha = renderer.getClearAlpha();
+    const previousColor = renderer.getClearColor(this.clearScratch);
+    this.sun.value.copy(sunDir).normalize();
+    renderer.setClearColor(up ? 0 : 16777215, 1);
+    this.targets.forEach((target2, index) => {
+      this.scenes[index].visible = up;
+      renderer.setRenderTarget(target2);
+      renderer.clear(true, false, false);
+      renderer.render(this.scenes[index], this.camera);
+    });
+    renderer.setRenderTarget(previousTarget, face, mip);
+    renderer.setClearColor(previousColor, previousAlpha);
+  }
+  dispose() {
+    this.targets.forEach((target2) => target2.dispose());
+    this.scenes.forEach((scene) => {
+      scene.traverse((object) => {
+        const mesh = object;
+        mesh.geometry?.dispose();
+        const material = mesh.material;
+        if (material instanceof Material) material.dispose();
+      });
+    });
+  }
+};
+
 // src/WaterScene.ts
 function disposeTree(root) {
   const geometries = /* @__PURE__ */ new Set();
@@ -51730,9 +54970,31 @@ function disposeTree(root) {
   });
   textures.forEach((texture) => texture.dispose());
   materials.forEach((material) => material.dispose());
-  geometries.forEach((geometry) => geometry.dispose());
+  geometries.forEach((geometry2) => geometry2.dispose());
 }
 var MAX_CAMERA_DISTANCE = 650;
+var HORIZON_DISTANCE_FACTOR = 3570;
+var FOG_BLEND_NEAR = 0.25;
+var FOG_BLEND_FAR = 0.75;
+var FOG_BLEND_MIN = 400;
+var FOG_BLEND_MAX = 12e3;
+function createSkyLight() {
+  return {
+    sunDir: new Vector3(0, 1, 0),
+    sunColor: new Color(1, 1, 1),
+    sunIntensity: 0,
+    ambientColor: new Color("#b7d7ed"),
+    ambientIntensity: 1,
+    fill: 1,
+    fog: 8e-4,
+    fogColor: new Color("#d6e2ea"),
+    glow: 0,
+    scatter: new Color("#0d5a66"),
+    exposure: 1,
+    background: 1,
+    environment: 0.9
+  };
+}
 var overcastAmbient = new Color("#9fa9b3");
 var overcastFog = new Color("#5a6772");
 var overcastWater = new Color("#33454e");
@@ -51774,6 +55036,26 @@ var WaterScene = class extends Emitter {
     this.iceRadius = 0;
     this.snowAmount = 0;
     this.ship = new Group();
+    /**
+     * 6 采样点浮力：每个点独立维护垂直位置 / 速度，用弹簧-阻尼积分跟随当地波面。
+     * 上升与下落使用两套刚度、阻尼：上升更硬、下落更黏，船体有自重与惯性。
+     */
+    this.buoy = {
+      /** 每个采样点当前高度（m） */
+      point: new Float32Array(6),
+      /** 每个采样点垂直速度（m/s） */
+      vel: new Float32Array(6),
+      /** 上一物理步的姿态，用于渲染帧插值 */
+      heave: 0,
+      heavePrev: 0,
+      pitch: 0,
+      pitchPrev: 0,
+      roll: 0,
+      rollPrev: 0,
+      acc: 0,
+      init: false
+    };
+    this.buoyRaw = new Float32Array(6);
     this.hull = new Group();
     this.probes = new Group();
     this.wakeProbes = new Group();
@@ -51810,13 +55092,29 @@ var WaterScene = class extends Emitter {
     };
     this.mixers = [];
     this.keys = /* @__PURE__ */ new Set();
+    /** foam-filaments 丝状漂浮泡沫贴图（异步加载，失败时退回烘焙泡沫图） */
+    this.driftTex = null;
+    /** 水面查询点：相机 + 船体 5 点 + 浮标 + 探针 + 鲨鱼，最多 33 个 */
+    this.waterPoints = new Float32Array(64 * 2);
+    this.daylight = 1;
+    this.fogColor = new Color();
+    this.hdriCubeScene = new Scene();
     this.environment = null;
     /** HDRI 天空：源贴图与 PMREM 目标，切换预设时替换 */
     this.hdriSource = null;
     this.hdriTarget = null;
     this.hdriRequest = 0;
-    /** HDRI 地平线附近的平均色，用来让雾与天空接缝 */
-    this.hdriHorizon = new Color();
+    /** 当前 HDRI 配方；null = 程序化体积天空 */
+    this.skyPreset = null;
+    /** 已加载的 HDRI 缓存：切回同一张时不必重新下载 / 重新烘 PMREM */
+    this.hdriCache = /* @__PURE__ */ new Map();
+    this.skyCrossfade = new HdriCrossfade();
+    this.moonSprite = null;
+    this.moonDirection = new Vector3(0, 1, 0);
+    this.ambience = null;
+    this.skySun = /* @__PURE__ */ new Map();
+    this.skyLight = createSkyLight();
+    this.skyGoal = createSkyLight();
     this.lastEnvironmentUpdate = 0;
     this.lastWeatherStats = 0;
     this.animation = 0;
@@ -51834,9 +55132,26 @@ var WaterScene = class extends Emitter {
     this.heading = -0.12;
     this.width = 1;
     this.height = 1;
+    /** 平面反射帧计数：非 Low 画质下每两帧更新一次 */
+    this.reflectionTick = 0;
+    /** 水下雾色（常量）：避免逐帧 new Color */
+    this.underwaterFog = new Color("#064052");
+    /** 焦散纹理按两帧一次生成：512² 的两套绘制，隔帧更新肉眼看不出来 */
+    this.causticTick = 0;
+    /** 反射通道存取 clearColor 的复用对象 */
+    this.clearScratch = new Color();
+    /** 浮力探针箭头朝向的复用向量 */
+    this.probeUp = new Vector3(0, 1, 0);
+    this.probeNormal = new Vector3();
     this.underwaterLight = new UnderwaterLighting();
     this.underwater = false;
     this.waterLevel = 0;
+    /** 当前地形（一次只显示一种地貌） */
+    this.terrain = null;
+    this.terrainKind = "sand";
+    /** 海岸装饰的实例化网格与模型源，切换地形时整体重建 */
+    this.scatterObjects = [];
+    this.scatterSources = null;
     this.wakeStern = new Vector3();
     this.splashTimer = 0;
     this.splashPeakTimer = 0;
@@ -51859,18 +55174,83 @@ var WaterScene = class extends Emitter {
       if (!this.settings.paused) this.time += delta;
       if (this.weather.advance(delta, this.settings)) this.updateWeatherLighting(false);
       const { wind } = this.settings;
-      const heightAt = (x4, z5) => this.spectrum.heightAt(x4, z5, this.time);
+      this.sim.update(this.settings.paused ? 0 : delta);
+      this.surface.setSim(this.sim);
+      this.surface.update(this.camera, this.time, this.sim.params);
+      const causticFrame = (this.causticTick++ & 1) === 0;
+      if (causticFrame) this.waveCaustics.update(this.weather.sunDirection, this.sim.lengthsVec.z);
+      this.skyCrossfade.update(delta, this.camera);
+      this.animateSkyLighting(delta);
+      this.updateAmbience(delta);
       const { x: x3, z: z4 } = this.ship.position;
+      const forwardX = Math.cos(this.heading);
+      const forwardZ = -Math.sin(this.heading);
+      const qp = this.waterPoints;
+      let q4 = 0;
+      const push = (px2, pz2) => {
+        if (q4 >= 64) return;
+        qp[q4 * 2] = px2;
+        qp[q4 * 2 + 1] = pz2;
+        q4++;
+      };
+      push(this.camera.position.x, this.camera.position.z);
+      push(x3, z4);
+      push(x3, z4 + 3);
+      push(x3, z4 - 3);
+      push(x3 + 8, z4);
+      push(x3 - 8, z4);
+      this.buoys.forEach((buoy) => push(buoy.position.x, buoy.position.z));
+      this.probes.children.forEach((probe) => {
+        const offset = probe.userData.offset;
+        push(
+          x3 + offset.x * Math.cos(this.heading) + offset.y * Math.sin(this.heading),
+          z4 - offset.x * Math.sin(this.heading) + offset.y * Math.cos(this.heading)
+        );
+      });
+      const wakeProbePositions = [];
+      this.wakeProbes.children.forEach((_probe, index) => {
+        const distance = 10 + Math.floor(index / 2) * 5;
+        const spread = (index % 2 ? 1 : -1) * distance * 0.17;
+        const px2 = x3 - distance * Math.cos(this.heading) + spread * Math.sin(this.heading);
+        const pz2 = z4 + distance * Math.sin(this.heading) + spread * Math.cos(this.heading);
+        wakeProbePositions.push([px2, pz2]);
+        push(px2, pz2);
+      });
+      let sharkPointX = 0;
+      let sharkPointZ = 0;
+      if (this.shark && this.sharkPath) {
+        if (!this.settings.paused) {
+          const speed = 4.6 + Math.sin(this.time * 0.11) * 0.9;
+          this.sharkProgress = (this.sharkProgress + delta * speed / this.sharkPathLength) % 1;
+        }
+        const point = this.sharkPath.getPointAt(this.sharkProgress, this.sharkPoint);
+        sharkPointX = point.x;
+        sharkPointZ = point.z;
+        push(point.x, point.z);
+      }
+      const probeSlopeBase = q4;
+      const slopeE = 1.4;
+      this.probes.children.forEach((probe) => {
+        const offset = probe.userData.offset;
+        const px2 = x3 + offset.x * Math.cos(this.heading) + offset.y * Math.sin(this.heading);
+        const pz2 = z4 - offset.x * Math.sin(this.heading) + offset.y * Math.cos(this.heading);
+        push(px2 - slopeE, pz2);
+        push(px2 + slopeE, pz2);
+        push(px2, pz2 - slopeE);
+        push(px2, pz2 + slopeE);
+      });
+      this.query.submit(this.renderer, qp, q4, 1, this.time);
+      const hasHeights = this.query.resultCount >= q4;
+      const heightAt = (index) => {
+        if (!hasHeights) return 0;
+        const value = this.query.result[index * 4];
+        return Number.isFinite(value) ? value : 0;
+      };
       const hullFrozen = 1 - this.iceCoverAt(x3, z4);
-      this.ship.position.y = heightAt(x3, z4) * 0.78 * hullFrozen;
-      this.ship.rotation.y = this.heading;
-      this.hull.rotation.x = -(heightAt(x3, z4 + 3) - heightAt(x3, z4 - 3)) / 6 * 0.65 * hullFrozen;
-      this.hull.rotation.z = (heightAt(x3 + 8, z4) - heightAt(x3 - 8, z4)) / 16 * 0.65 * hullFrozen;
-      this.hull.rotation.z += MathUtils.clamp(this.turnRate * this.speed * 0.075, -0.16, 0.16) * hullFrozen;
-      this.hull.rotation.x += MathUtils.clamp(-this.accel * 0.022, -0.09, 0.09) * hullFrozen;
+      this.updateBuoyancy(delta, hullFrozen, heightAt, hasHeights);
       this.buoys.forEach((buoy, index) => {
         const free = 1 - this.iceCoverAt(buoy.position.x, buoy.position.z);
-        buoy.position.y = heightAt(buoy.position.x, buoy.position.z) * free;
+        buoy.position.y = heightAt(6 + index) * free;
         buoy.rotation.z = Math.sin(this.time * 1.2 + index) * wind * 4e-3 * free;
         buoy.rotation.x = Math.cos(this.time * 0.9 + index) * wind * 3e-3 * free;
       });
@@ -51880,14 +55260,9 @@ var WaterScene = class extends Emitter {
         fish.rotation.y = -phase;
       });
       if (this.shark && this.sharkPath) {
-        if (!this.settings.paused) {
-          const speed = 4.6 + Math.sin(this.time * 0.11) * 0.9;
-          this.sharkProgress = (this.sharkProgress + delta * speed / this.sharkPathLength) % 1;
-        }
-        const point = this.sharkPath.getPointAt(this.sharkProgress, this.sharkPoint);
         const tangent = this.sharkPath.getTangentAt(this.sharkProgress, this.sharkTangent);
         const depth = -2.1 + Math.sin(this.time * 0.19) * 0.4;
-        this.shark.position.set(point.x, heightAt(point.x, point.z) + depth, point.z);
+        this.shark.position.set(sharkPointX, heightAt(32) + depth, sharkPointZ);
         this.sharkSwim.uSwimTime.value = this.time;
         const yaw = Math.atan2(-tangent.x, -tangent.z);
         this.shark.rotation.y = yaw + Math.sin(this.time * 3.4) * 0.018;
@@ -51899,55 +55274,55 @@ var WaterScene = class extends Emitter {
         this.shark.rotation.z = this.sharkRoll;
       }
       if (!this.settings.paused) this.mixers.forEach((mixer) => mixer.update(delta));
-      this.probes.children.forEach((probe) => {
+      this.probes.children.forEach((probe, index) => {
         const offset = probe.userData.offset;
         const px2 = x3 + offset.x * Math.cos(this.heading) + offset.y * Math.sin(this.heading);
         const pz2 = z4 - offset.x * Math.sin(this.heading) + offset.y * Math.cos(this.heading);
-        probe.position.set(px2, heightAt(px2, pz2) + 0.3, pz2);
+        probe.position.set(px2, heightAt(14 + index) + 0.06, pz2);
+        const base = probeSlopeBase + index * 4;
+        const gx = (heightAt(base + 1) - heightAt(base)) / (2 * slopeE);
+        const gz = (heightAt(base + 3) - heightAt(base + 2)) / (2 * slopeE);
+        this.probeNormal.set(-gx * 1.5, 1, -gz * 1.5).normalize();
+        probe.userData.arrows.quaternion.setFromUnitVectors(this.probeUp, this.probeNormal);
       });
       this.wakeProbes.children.forEach((probe, index) => {
-        const distance = 10 + Math.floor(index / 2) * 5;
-        const spread = (index % 2 ? 1 : -1) * distance * 0.17;
-        const px2 = x3 - distance * Math.cos(this.heading) + spread * Math.sin(this.heading);
-        const pz2 = z4 + distance * Math.sin(this.heading) + spread * Math.cos(this.heading);
-        probe.position.set(px2, heightAt(px2, pz2) + 0.12, pz2);
+        const [px2, pz2] = wakeProbePositions[index];
+        probe.position.set(px2, heightAt(20 + index) + 0.12, pz2);
       });
+      const approxHeight = (px2, pz2) => this.approxHeight(px2, pz2);
       this.material.uniforms.uTime.value = this.time;
-      this.material.uniforms.uEye.value.copy(this.camera.position);
-      this.material.uniforms.uHeightRms.value = this.spectrum.heightRms;
-      this.material.uniforms.uInverseProjection.value.copy(this.camera.projectionMatrixInverse);
-      this.material.uniforms.uCameraMatrix.value.copy(this.camera.matrixWorld);
-      this.atmosphere.update(this.weather.cloudTime, false, this.time);
+      this.material.uniforms.uExposure.value = this.renderer.toneMappingExposure;
+      if (this.sky.visible) this.atmosphere.update(this.weather.cloudTime, false, this.time);
       if (!this.settings.paused && (this.settings.animateTime || this.settings.animateClouds) && this.time - this.lastEnvironmentUpdate >= 0.5) {
         this.updateEnvironment(false);
       }
-      this.spectrum.update(this.time, this.material.uniforms);
-      this.underwaterLight.update(this.renderer, this.time, this.weather.sunDirection, this.sun.color, this.material.uniforms.uDaylight.value, this.sun.intensity / 3.8);
-      this.waterLevel = heightAt(this.camera.position.x, this.camera.position.z);
+      if (causticFrame) this.underwaterLight.update(this.renderer, this.time, this.weather.sunDirection, this.sun.color, this.daylight, this.sun.intensity / 3.8);
+      this.waterLevel = heightAt(0);
       const underwater = this.camera.position.y < this.waterLevel - 0.1;
       this.underwater = underwater;
+      this.material.uniforms.uCamSide.value = this.camera.position.y > this.waterLevel + 0.5 ? -1 : this.camera.position.y < this.waterLevel - 0.5 ? 1 : 0;
       const preset = resolvePreset(this.settings.preset);
       const fog = this.scene.fog;
-      const weatherFog = preset.fog * (1 + this.settings.overcast * 1.5 + this.settings.rain * 1.9);
+      const weatherFog = preset.fog;
       fog.density = underwater ? 0 : weatherFog;
-      fog.color.copy(underwater ? new Color("#064052") : this.material.uniforms.uFogColor.value);
+      fog.color.copy(underwater ? this.underwaterFog : this.fogColor);
+      this.material.uniforms.uFogColor.value.copy(fog.color);
+      this.updateFogSkyBlend();
+      this.material.uniforms.uOptics.value.w = underwater ? 0 : weatherFog;
       this.sky.material.uniforms.uUnderwater.value = underwater ? 1 : 0;
       const flash = this.lightning.update(delta, this.settings.lightning, this.settings.overcast, this.settings.rain, this.camera);
       this.flashLight.position.copy(this.camera.position).addScaledVector(this.lightning.strikeDirection, 420);
       this.flashLight.intensity = flash * 11;
       this.atmosphere.setFlash(flash, this.lightning.strikeDirection);
-      this.material.uniforms.uFlash.value = flash;
       this.splash.update(this.time);
-      this.spawnSplashes(delta, heightAt);
-      const forwardX = Math.cos(this.heading);
-      const forwardZ = -Math.sin(this.heading);
+      this.spawnSplashes(delta, approxHeight);
       this.wakeStern.set(
         this.ship.position.x - forwardX * 11.5,
         this.ship.position.y,
         this.ship.position.z - forwardZ * 11.5
       );
-      this.wake.update(delta, this.wakeStern, this.heading, this.speed, this.time, heightAt);
-      this.rainSystem.update(this.time, this.camera, this.material.uniforms.uDaylight.value);
+      this.wake.update(delta, this.wakeStern, this.heading, this.speed, this.time, approxHeight);
+      this.rainSystem.update(this.time, this.camera, this.daylight);
       this.rainSystem.mesh.visible = !underwater && this.settings.rain > 4e-3;
       const iceTarget = this.settings.freeze * 220;
       const iceStep = 220 / 20 * delta;
@@ -51956,7 +55331,9 @@ var WaterScene = class extends Emitter {
       this.material.uniforms.uIceRadius.value = this.iceRadius;
       this.snowAmount = MathUtils.damp(this.snowAmount, this.settings.snow > 0.02 ? Math.min(1, this.settings.snow * 1.15) : 0, 0.16, delta);
       this.snowCover.amount = this.snowAmount;
-      this.snowSystem.update(this.time, this.camera, this.material.uniforms.uDaylight.value);
+      this.terrain?.setDetail(this.settings.terrainDetail);
+      this.terrain?.setShoreHandoff(this.settings.shoreHandoff);
+      this.snowSystem.update(this.time, this.camera, this.daylight);
       this.snowSystem.mesh.visible = !underwater && this.settings.snow > 4e-3;
       this.render();
       if (now - this.lastWeatherStats >= 100) {
@@ -51983,11 +55360,14 @@ var WaterScene = class extends Emitter {
     this.iceRadius = settings.freeze * 220;
     this.weather = new WeatherSystem(settings);
     this.renderer = new WebGLRenderer({ antialias: true, powerPreference: "high-performance", preserveDrawingBuffer: true });
+    this.renderer.capabilities.maxTextures = this.renderer.getContext().getParameter(WebGL2RenderingContext.MAX_COMBINED_TEXTURE_IMAGE_UNITS);
     this.renderer.outputColorSpace = SRGBColorSpace;
     this.renderer.toneMapping = ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 0.95;
     this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = PCFSoftShadowMap;
+    this.renderer.shadowMap.type = PCFShadowMap;
+    this.renderer.shadowMap.autoUpdate = false;
+    this.scene.matrixWorldAutoUpdate = false;
     this.renderer.domElement.setAttribute("aria-label", "\u53EF\u4EA4\u4E92\u7684\u6D77\u6D0B\u4E09\u7EF4\u573A\u666F");
     this.renderer.domElement.tabIndex = 0;
     host.appendChild(this.renderer.domElement);
@@ -52018,100 +55398,59 @@ var WaterScene = class extends Emitter {
     this.atmosphere = new VolumetricSky(this.renderer, this.camera, this.asset("takram"));
     this.sky = this.atmosphere.mesh;
     this.scene.add(this.sky);
-    this.spectrum = new SpectralOcean(this.renderer);
-    const foamFine = this.loadTexture(this.asset("textures/foam-1.jpg"));
-    const foamCrest = this.loadTexture(this.asset("textures/foam-2.jpg"));
-    const foamWake = this.loadTexture(this.asset("textures/foam-3.jpg"));
-    const foamSpray = this.loadTexture(this.asset("textures/foam-4.jpg"));
-    this.ocean = new Reflector(this.waterGeometry(settings.quality), {
-      textureWidth: QUALITY_OPTIONS[settings.quality].reflection,
-      textureHeight: QUALITY_OPTIONS[settings.quality].reflection,
-      multisample: 0,
-      clipBias: 2e-3,
-      shader: {
-        name: "OceanSurface",
-        vertexShader: oceanVertex,
-        fragmentShader: oceanFragment,
-        uniforms: {
-          color: { value: new Color() },
-          textureMatrix: { value: new Matrix4() },
-          tDiffuse: { value: null },
-          uTime: { value: 0 },
-          uWind: { value: settings.wind },
-          uTexelOffset: { value: 0.5 / 128 },
-          uRefraction: { value: null },
-          uDepth: { value: null },
-          uFoam1: { value: null },
-          uFoam2: { value: null },
-          uFoam3: { value: null },
-          uFoam4: { value: null },
-          uDisplacement0: { value: null },
-          uDisplacement1: { value: null },
-          uDisplacement2: { value: null },
-          uNormal0: { value: null },
-          uNormal1: { value: null },
-          uNormal2: { value: null },
-          uSkyEnvironment: { value: null },
-          uReflectionDepth: { value: null },
-          uResolution: { value: new Vector2() },
-          uEye: { value: new Vector3() },
-          uSun: { value: new Vector3() },
-          uSunColor: { value: new Color() },
-          uWaterColor: { value: new Color() },
-          uFogColor: { value: new Color() },
-          uFog: { value: 1e-3 },
-          uDaylight: { value: 1 },
-          uNear: { value: this.camera.near },
-          uFar: { value: this.camera.far },
-          uFoamCrestOpacity: { value: 1 },
-          uFoamShoreOpacity: { value: 1 },
-          uCrestFoamMix: { value: 1 },
-          uFoamFlow1: { value: 1 },
-          uFoamFlow2: { value: 0.55 },
-          uPeakThreshold: { value: 0.05 },
-          uPeakFalloff: { value: 4 },
-          uTroughSuppress: { value: 0.9 },
-          uWaveShadowAbove: { value: 1 },
-          uWaveShadowUnder: { value: 0.6 },
-          uFoamBrightness: { value: 1 },
-          uDeepWater: { value: 0.55 },
-          uShoreFoamRange: { value: 1.35 },
-          uCurvatureWeight: { value: 1 },
-          uTroughNoise: { value: 0.5 },
-          uTroughSpecular: { value: 0.6 },
-          uSpecAnisotropy: { value: 0.85 },
-          uSpecAnisoX: { value: 8 },
-          uSpecAnisoY: { value: 128 },
-          uSpecCurvature: { value: 0.6 },
-          uReflRoughness: { value: 0.6 },
-          uSpecColor: { value: new Color("#ebfaff") },
-          uHeightRms: { value: 0.7 },
-          uInverseProjection: { value: new Matrix4() },
-          uCameraMatrix: { value: new Matrix4() },
-          uRain: { value: 0 },
-          uOvercast: { value: 0 },
-          uFlash: { value: 0 },
-          uIceCenter: { value: this.iceCenter.clone() },
-          uIceRadius: { value: 0 },
-          uIceCracks: { value: null },
-          uIcePerlin: { value: null }
-        }
-      }
+    this.sim = new OceanSim(this.renderer, defaultOceanParams());
+    this.sim.params.windSpeed = settings.wind;
+    this.sim.params.windDirection = settings.windDirection;
+    this.sim.params.fetchKm = settings.fetchKm;
+    this.sim.params.waveScale = settings.waveScale;
+    this.sim.params.spreadBlend = settings.spreadBlend;
+    this.sim.params.choppiness = settings.choppiness;
+    this.sim.params.swellScale = settings.swellScale;
+    this.sim.params.swellDirection = settings.swellDirection;
+    this.sim.params.foamRecovery = settings.foamRecovery;
+    this.surface = new OceanSurface(this.sim);
+    this.material = this.surface.material;
+    this.waterTextures = bakeWaterTextures(this.renderer);
+    this.material.uniforms.uFoamTex.value = this.waterTextures.foam;
+    this.material.uniforms.uDriftTex.value = this.waterTextures.foam;
+    new TextureLoader().load(this.asset("textures/foam-filaments.png"), (texture) => {
+      texture.wrapS = texture.wrapT = RepeatWrapping;
+      texture.colorSpace = NoColorSpace;
+      texture.minFilter = LinearMipmapLinearFilter;
+      texture.magFilter = LinearFilter;
+      texture.generateMipmaps = true;
+      texture.anisotropy = Math.min(8, this.renderer.capabilities.getMaxAnisotropy());
+      texture.needsUpdate = true;
+      this.driftTex = texture;
+      this.material.uniforms.uDriftTex.value = texture;
     });
-    this.material = this.ocean.material;
-    this.ocean.getRenderTarget().depthTexture = new DepthTexture(QUALITY_OPTIONS[settings.quality].reflection, QUALITY_OPTIONS[settings.quality].reflection, UnsignedIntType);
-    this.material.uniforms.uReflectionDepth.value = this.ocean.getRenderTarget().depthTexture;
-    this.material.uniforms.uSkyEnvironment.value = this.atmosphere.texture;
-    this.material.side = DoubleSide;
-    this.material.uniforms.uRefraction.value = this.refraction.texture;
-    this.material.uniforms.uDepth.value = this.refraction.depthTexture;
-    this.material.uniforms.uFoam1.value = foamFine;
-    this.material.uniforms.uFoam2.value = foamCrest;
-    this.material.uniforms.uFoam3.value = foamWake;
-    this.material.uniforms.uFoam4.value = foamSpray;
-    this.ocean.rotation.x = -Math.PI / 2;
-    this.ocean.frustumCulled = false;
-    this.scene.add(this.ocean);
+    this.material.uniforms.uSkyCube.value = this.atmosphere.texture;
+    this.material.uniforms.uSceneColor.value = this.refraction.texture;
+    this.material.uniforms.uSceneDepth.value = this.refraction.depthTexture;
+    this.material.uniforms.uShoreWave.value.set(
+      settings.shoreAmplitude,
+      settings.shoreWavelength,
+      settings.shoreSpeed,
+      settings.shoreSteepness
+    );
+    this.material.uniforms.uShoreHandoff.value = settings.shoreHandoff ?? 1;
+    this.material.uniforms.uIceCenter.value.copy(this.iceCenter);
+    this.scene.add(this.surface.mesh);
+    this.scene.add(this.skyCrossfade.mesh);
+    this.ambience = new Ambience(this.assetBase, settings.ambienceVolume);
+    const unlock = () => this.ambience?.unlock();
+    const audioSignal = this.events.signal;
+    window.addEventListener("pointerdown", unlock, { signal: audioSignal });
+    window.addEventListener("keydown", unlock, { signal: audioSignal });
+    window.addEventListener("touchstart", unlock, { signal: audioSignal });
+    this.reflection = new PlanarReflection(1);
+    this.material.uniforms.uReflMatrix.value = this.reflection.textureMatrix;
+    this.emptyReflection = new DataTexture(new Uint8Array([0, 0, 0, 0]), 1, 1, RGBAFormat);
+    this.emptyReflection.needsUpdate = true;
+    this.material.uniforms.uReflection.value = this.emptyReflection;
+    this.query = new WaterQuery(this.surface, 512);
+    this.waveCaustics = new WaveCaustics(this.renderer, this.sim);
+    this.underwaterLight.setWaveCaustics(this.waveCaustics.uniforms);
     this.ship.add(this.hull);
     this.splash = new SplashSystem(this.assetBase);
     this.scene.add(this.splash.group);
@@ -52122,6 +55461,10 @@ var WaterScene = class extends Emitter {
     this.ship.position.set(0, 0, 4);
     this.scene.add(this.ship, this.probes, this.wakeProbes);
     this.createSeabed();
+    this.terrainKind = settings.terrain;
+    this.buildTerrain(this.terrainKind);
+    this.moorShip(false);
+    this.frameTerrainCamera();
     this.createProbes();
     this.applySettings(settings);
     this.observer = new ResizeObserver(() => this.resize());
@@ -52154,7 +55497,22 @@ var WaterScene = class extends Emitter {
     if (options.panel !== false) {
       this.panel = new Panel(this.host, this, typeof options.panel === "object" ? options.panel : void 0);
     }
-    void this.loadModels();
+    if (options.deferModels) void this.completeWithoutModels();
+    else void this.loadModels();
+  }
+  /** 调试 / 截图模式：不加载模型，等大气就绪后直接完成启动 */
+  async completeWithoutModels() {
+    try {
+      await Promise.all([this.atmosphere.ready, this.terrain?.ready]);
+      if (this.disposed) return;
+      this.updateWeatherLighting();
+      this.updateEnvironment();
+      this.setSky(this.settings.sky, false);
+      this.startIntro();
+      this.callbacks.ready();
+    } catch (error) {
+      if (!this.disposed) this.callbacks.error(`\u573A\u666F\u8D44\u6E90\u52A0\u8F7D\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5\u3002${error instanceof Error ? error.message : ""}`);
+    }
   }
   loadTexture(path, srgb = false, attempt = 0) {
     const texture = new TextureLoader().load(path, (loaded) => {
@@ -52180,16 +55538,6 @@ var WaterScene = class extends Emitter {
     if (srgb) texture.colorSpace = SRGBColorSpace;
     this.textures.push(texture);
     return texture;
-  }
-  waterGeometry(quality) {
-    const geometry = new PlaneGeometry(2, 2, QUALITY_OPTIONS[quality].segments, QUALITY_OPTIONS[quality].segments);
-    const positions = geometry.getAttribute("position");
-    for (let i4 = 0; i4 < positions.count; i4++) {
-      const x3 = positions.getX(i4), y4 = positions.getY(i4);
-      positions.setXY(i4, x3 * (90 + Math.pow(Math.abs(x3), 4) * 6e3), y4 * (90 + Math.pow(Math.abs(y4), 4) * 6e3));
-    }
-    geometry.computeBoundingSphere();
-    return geometry;
   }
   seabedHeight(x3, z4) {
     return -5.4 - Math.min(Math.hypot(x3, z4 + 20) * 0.037, 28) + Math.sin(x3 * 0.085) * Math.cos(z4 * 0.07) * 0.85;
@@ -52219,20 +55567,92 @@ var WaterScene = class extends Emitter {
     return 1 - MathUtils.smoothstep(Math.hypot(dx, dz), front - 3.5, front + 1.5);
   }
   createSeabed() {
-    const geometry = new PlaneGeometry(1400, 1400, 180, 180);
-    geometry.rotateX(-Math.PI / 2);
-    const positions = geometry.getAttribute("position");
-    for (let i4 = 0; i4 < positions.count; i4++) positions.setY(i4, this.seabedHeight(positions.getX(i4), positions.getZ(i4)));
-    geometry.computeVertexNormals();
+    const geometry2 = new PlaneGeometry(3e3, 3e3, 160, 160);
+    geometry2.rotateX(-Math.PI / 2);
+    const positions = geometry2.getAttribute("position");
+    for (let i4 = 0; i4 < positions.count; i4++) positions.setY(i4, this.seabedHeight(positions.getX(i4), positions.getZ(i4)) - 2.5);
+    geometry2.computeVertexNormals();
     const sand = this.loadTexture(this.asset("textures/sand.jpg"), true);
-    const normal = this.loadTexture(this.asset("textures/sand-normal.jpg"));
+    const normal2 = this.loadTexture(this.asset("textures/sand-normal.jpg"));
     sand.repeat.set(160, 160);
-    normal.repeat.set(160, 160);
-    const material = new MeshStandardMaterial({ map: sand, normalMap: normal, color: "#bac8ad", roughness: 0.95, normalScale: new Vector2(0.45, 0.45) });
+    normal2.repeat.set(160, 160);
+    const material = new MeshStandardMaterial({ map: sand, normalMap: normal2, color: "#f7f0e2", roughness: 0.95, normalScale: new Vector2(0.45, 0.45) });
     this.underwaterLight.applyTo(material);
-    const seabed = new Mesh(geometry, material);
+    const seabed = new Mesh(geometry2, material);
     seabed.receiveShadow = true;
     this.scene.add(seabed);
+  }
+  // ── 地形：一次只显示一种地貌，面板下拉切换 ──────────────────────────────
+  /** 建一块新地形、接到水面岸线贴图上，旧地形在切换完成后释放 */
+  buildTerrain(kind) {
+    const next = createTerrainSystem({
+      kind,
+      shelfLip: this.settings.reefShelf,
+      underwater: this.underwaterLight,
+      shoreHandoff: this.settings.shoreHandoff
+    });
+    next.setDetail(this.settings.terrainDetail);
+    if (kind !== "open") next.group.traverse((object) => object.layers.enable(1));
+    this.scene.add(next.group);
+    const previous = this.terrain;
+    this.terrain = next;
+    this.terrainKind = kind;
+    if (previous) {
+      previous.group.parent?.remove(previous.group);
+      previous.dispose();
+    }
+    this.material.uniforms.uTerrainMaps.value = next.bindings.maps;
+    this.material.uniforms.uShoreCenter.value.copy(next.bindings.center);
+    this.material.uniforms.uShoreExtent.value = next.bindings.extent;
+    this.refreshScatter();
+  }
+  /** 面板切换：重建地形 → 重新停船 → 机位退回船尾看向新地貌 */
+  switchTerrain(kind) {
+    if (kind === this.terrainKind) return;
+    this.buildTerrain(kind);
+    this.moorShip(true);
+  }
+  /**
+   * 把船停到当前地貌附近足够深的水面（四周找 ≤ -7 m 的点），
+   * 船头朝向地貌中心；切换地形时同时把镜头退到船尾后方重新构图。
+   */
+  moorShip(moveCamera) {
+    const terrain = this.terrain;
+    if (!terrain) return;
+    const spot = findMooring(terrain.field);
+    this.ship.position.set(spot.x, 0, spot.z);
+    this.heading = spot.heading;
+    this.speed = 0;
+    this.turnRate = 0;
+    this.accel = 0;
+    this.buoy.init = false;
+    this.buoy.acc = 0;
+    this.buoy.vel.fill(0);
+    if (!moveCamera) return;
+    this.stopIntro();
+    this.setMode("orbit");
+    const center = terrain.bindings.center;
+    const dir = new Vector3(center.x - spot.x, 0, center.y - spot.z);
+    if (dir.lengthSq() < 1e-4) dir.set(0, 0, 1);
+    dir.normalize();
+    this.controls.target.copy(this.ship.position).addScaledVector(dir, 30).add(new Vector3(0, 6, 0));
+    this.camera.position.copy(this.ship.position).addScaledVector(dir, -78).add(new Vector3(0, 34, 0));
+    this.controls.update();
+  }
+  /** 默认构图：从船尾斜后方看向当前地貌，开场结束后第一眼就是海岸 */
+  frameTerrainCamera() {
+    const terrain = this.terrain;
+    const ship = this.ship.position;
+    const dir = terrain ? new Vector3(terrain.bindings.center.x - ship.x, 0, terrain.bindings.center.y - ship.z) : new Vector3(0, 0, -1);
+    if (dir.lengthSq() < 1e-4) dir.set(0, 0, -1);
+    dir.normalize();
+    this.controls.target.set(ship.x + dir.x * 30, 6, ship.z + dir.z * 30);
+    this.camera.position.set(ship.x - dir.x * 78, 34, ship.z - dir.z * 78);
+    this.controls.update();
+  }
+  /** 当前地形的海床高度：地形未就绪时退回程序化海床 */
+  terrainHeightAt(x3, z4) {
+    return this.terrain ? this.terrain.heightAt(x3, z4) : this.seabedHeight(x3, z4);
   }
   /** 鲨鱼模型没有贴图、材质是纯白金属，直接放进水里会像一团反光塑料。
    * 这里按局部高度刷一层顶点色：背部灰蓝、腹部乳白，眼睛和牙齿单独上色。 */
@@ -52295,6 +55715,25 @@ var WaterScene = class extends Emitter {
     material.customProgramCacheKey = () => "shark-swim";
     material.needsUpdate = true;
   }
+  /** 按高度归一化：棕榈树这类竖直模型用（水平尺寸归一化会把树压成矮丛） */
+  normalizeHeight(model, height) {
+    let box = new Box3().setFromObject(model);
+    const size = box.getSize(new Vector3());
+    model.scale.multiplyScalar(height / Math.max(size.y, 1e-3));
+    model.updateMatrixWorld(true);
+    box = new Box3().setFromObject(model);
+    const center = box.getCenter(new Vector3());
+    model.position.x -= center.x;
+    model.position.z -= center.z;
+    model.position.y -= box.min.y;
+    model.traverse((object) => {
+      if (!(object instanceof Mesh)) return;
+      object.castShadow = true;
+      object.receiveShadow = true;
+      object.layers.enable(1);
+    });
+    return model;
+  }
   normalizeModel(model, length, draft) {
     let box = new Box3().setFromObject(model);
     const size = box.getSize(new Vector3());
@@ -52309,10 +55748,155 @@ var WaterScene = class extends Emitter {
       if (object instanceof Mesh) {
         object.castShadow = true;
         object.receiveShadow = true;
+        object.layers.enable(1);
         for (const material of Array.isArray(object.material) ? object.material : [object.material]) this.underwaterLight.applyTo(material);
       }
     });
     return model;
+  }
+  /** 从多块石头的资产包里挑一块（按材质名），用于沙滩实例化 */
+  pickBeachRockMesh(pack) {
+    let found = null;
+    pack.traverse((object) => {
+      if (found) return;
+      const mesh = object;
+      if (!mesh.isMesh) return;
+      const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+      if (material?.name === "Rock03_lightgray" || mesh.name.includes("Rock03_lightgray")) found = mesh;
+    });
+    return found;
+  }
+  /**
+   * 把同一个 GLTF 模型的所有网格转成 InstancedMesh：每种模型只占几次绘制。
+   * 每个 instance 的变换会烘焙到共享几何体里（模型自身的归一化矩阵），
+   * 实例矩阵只负责世界位置 / 旋转 / 缩放。
+   */
+  scatterInstances(source, items, nominalLength, byHeight = false) {
+    if (!items.length) return;
+    try {
+      if (byHeight) this.normalizeHeight(source, nominalLength);
+      else this.normalizeModel(source, nominalLength, 0);
+      source.updateMatrixWorld(true);
+      const matrix = new Matrix4();
+      const position = new Vector3();
+      const quaternion = new Quaternion();
+      const euler = new Euler();
+      const scale = new Vector3();
+      source.traverse((child) => {
+        const mesh = child;
+        if (!mesh.isMesh) return;
+        const geometry2 = mesh.geometry.clone();
+        geometry2.applyMatrix4(mesh.matrixWorld);
+        const instanced = new InstancedMesh(
+          geometry2,
+          Array.isArray(mesh.material) ? mesh.material[0] : mesh.material,
+          items.length
+        );
+        items.forEach((item, index) => {
+          position.set(item.x, item.y, item.z);
+          euler.set(item.tiltX, item.rot, item.tiltZ, "YXZ");
+          quaternion.setFromEuler(euler);
+          scale.setScalar(item.scale);
+          matrix.compose(position, quaternion, scale);
+          instanced.setMatrixAt(index, matrix);
+        });
+        instanced.instanceMatrix.needsUpdate = true;
+        instanced.castShadow = mesh.castShadow;
+        instanced.receiveShadow = mesh.receiveShadow;
+        instanced.layers.enable(1);
+        instanced.name = "terrain-scatter";
+        instanced.computeBoundingSphere();
+        this.scene.add(instanced);
+        this.scatterObjects.push(instanced);
+      });
+    } catch (error) {
+      console.warn("[threejs-water] \u6D77\u5CB8\u88C5\u9970\u5B9E\u4F8B\u5316\u5931\u8D25\uFF1A", error);
+    }
+  }
+  /** 按当前地形重新撒点：礁石 / 海藻 / 草丛，全部实例化 */
+  refreshScatter() {
+    for (const object of this.scatterObjects) {
+      object.parent?.remove(object);
+      const instanced = object;
+      instanced.geometry?.dispose();
+      instanced.dispose?.();
+    }
+    this.scatterObjects.length = 0;
+    const terrain = this.terrain;
+    const sources = this.scatterSources;
+    if (!terrain || !sources) return;
+    const field = terrain.field;
+    const { center, scale } = field.variant;
+    if (this.terrainKind === "open") return;
+    let seed = 8437;
+    const random = () => {
+      seed = seed * 1664525 + 1013904223 >>> 0;
+      return seed / 4294967296;
+    };
+    const scatter = (amount, minH, maxH, sizeMin, sizeMax, rMin, rMax, density, sink) => {
+      const items = [];
+      for (let i4 = 0; i4 < amount * 10 && items.length < amount; i4++) {
+        const angle = random() * Math.PI * 2;
+        const radius = rMin + (rMax - rMin) * Math.sqrt(random());
+        const x3 = center.x + Math.cos(angle) * radius;
+        const z4 = center.z + Math.sin(angle) * radius;
+        const h3 = field.height(x3, z4);
+        if (h3 < minH || h3 > maxH) continue;
+        const clump = simplex2(x3 * 0.03 + 5.3, z4 * 0.03 - 2.1) * 0.5 + 0.5;
+        if (clump + (random() - 0.5) * 0.5 < 1 - density) continue;
+        const size = sizeMin + random() * (sizeMax - sizeMin);
+        items.push({
+          x: x3,
+          y: h3 - sink * size,
+          z: z4,
+          scale: size,
+          rot: random() * Math.PI * 2,
+          tiltX: (random() - 0.5) * 0.5,
+          tiltZ: (random() - 0.5) * 0.5
+        });
+      }
+      return items;
+    };
+    const reach = (this.terrainKind === "open" ? 42 : 95) * scale;
+    if (this.terrainKind === "sand" || this.terrainKind === "open") {
+      this.scatterInstances(sources.rocks, [
+        ...scatter(10, -0.6, 6, 2, 4, reach * 0.2, reach * 1, 0.22, 0.1),
+        ...scatter(34, -0.9, 9, 0.9, 1.8, reach * 0.15, reach * 1.06, 0.3, 0.09),
+        ...scatter(90, -1.4, 12, 0.3, 0.7, reach * 0.1, reach * 1.1, 0.26, 0.06)
+      ], 5);
+      if (sources.palms.length) {
+        const palmItems = scatter(9, 1.4, 6.5, 0.85, 1.25, reach * 0.15, reach * 0.6, 0.34, 0.06);
+        const buckets = sources.palms.map(() => []);
+        palmItems.forEach((item, index) => buckets[index % buckets.length].push(item));
+        buckets.forEach((items, index) => {
+          if (items.length) this.scatterInstances(sources.palms[index], items, 7.5, true);
+        });
+      }
+      this.scatterInstances(sources.grass, [
+        ...scatter(46, 0.9, 6, 0.8, 1.6, reach * 0.12, reach * 0.65, 0.4, 0.04)
+      ], 1.3, true);
+      if (sources.beachRocks) {
+        const beachItems = [
+          ...scatter(56, -1, 1.3, 0.55, 1.35, reach * 0.55, reach * 1.14, 0.52, 0.32),
+          ...scatter(22, 1.2, 4.6, 0.3, 0.75, reach * 0.2, reach * 0.9, 0.3, 0.26)
+        ];
+        for (const item of beachItems) {
+          item.tiltX *= 0.3;
+          item.tiltZ *= 0.3;
+        }
+        this.scatterInstances(sources.beachRocks, beachItems, 3.2);
+      }
+      return;
+    }
+    if (this.terrainKind === "cliff") return;
+    this.scatterInstances(sources.rocks, [
+      ...scatter(46, -2.8, 1.6, 0.25, 1.1, 0, reach, 0.4, 0.06),
+      ...scatter(18, -3.8, -1.2, 0.3, 1.3, reach * 0.6, reach * 1.5, 0.35, 0.06)
+    ], 5);
+    if (this.terrainKind !== "reef") return;
+    this.scatterInstances(sources.seaweed, [
+      ...scatter(36, -4.5, -0.3, 0.6, 1.8, 0, reach, 0.45, 0.03)
+    ], 2);
   }
   /** 把一条沉船摆到海床上：先按给定姿态旋转，再让旋转后的最低点沉进沙里指定深度。 */
   placeWreck(model, options) {
@@ -52352,7 +55936,8 @@ var WaterScene = class extends Emitter {
     const optionalModels = [
       ["shark", "\u9CA8\u9C7C"],
       ["wreck-1", "\u6D77\u5E95\u6C89\u8239"],
-      ["wreck-2", "\u4E8C\u53F7\u6C89\u8239"]
+      ["wreck-2", "\u4E8C\u53F7\u6C89\u8239"],
+      ["stylized_rocks_asset_pack", "\u6C99\u6EE9\u7901\u77F3"]
     ];
     const total = requiredModels.length + optionalModels.length + 1;
     let count = 0;
@@ -52383,20 +55968,14 @@ var WaterScene = class extends Emitter {
         })
       ]);
       if (this.disposed) return;
-      const [shipGLTF, islandGLTF, buoyGLTF, rocksGLTF, seaweedGLTF, grassGLTF, fishGLTF, sharkGLTF, wreckGLTF, wreck2GLTF] = results;
+      const [shipGLTF, islandGLTF, buoyGLTF, rocksGLTF, seaweedGLTF, grassGLTF, fishGLTF, sharkGLTF, wreckGLTF, wreck2GLTF, beachRockGLTF] = results;
       if (!shipGLTF || !islandGLTF || !buoyGLTF || !rocksGLTF || !seaweedGLTF || !grassGLTF || !fishGLTF) return;
       const shipModel = this.normalizeModel(shipGLTF.scene, 28, 1.65);
       const shipSize = new Box3().setFromObject(shipModel).getSize(new Vector3());
       if (shipSize.z > shipSize.x) shipModel.rotation.y = Math.PI / 2;
       shipModel.visible = true;
       this.hull.add(shipModel);
-      islandGLTF.scene.rotation.x = -Math.PI / 2;
-      const island = this.normalizeModel(islandGLTF.scene, 66, 0);
-      island.position.y = 2.25;
-      island.position.add(new Vector3(-25, 0, -48));
-      island.visible = true;
       this.snowCover.add(this.hull);
-      this.snowCover.add(island);
       const buoy = this.normalizeModel(buoyGLTF.scene, 0.35, 0.18);
       for (let i4 = 0; i4 < 8; i4++) {
         const group = new Group();
@@ -52407,23 +55986,38 @@ var WaterScene = class extends Emitter {
         this.scene.add(group);
         this.buoys.push(group);
       }
-      let seed = 8437;
-      const random = () => {
-        seed = seed * 1664525 + 1013904223 >>> 0;
-        return seed / 4294967296;
-      };
-      for (const [source, length, amount] of [[rocksGLTF.scene, 5, 24], [seaweedGLTF.scene, 2, 42], [grassGLTF.scene, 2.6, 54]]) {
-        this.normalizeModel(source, length, 0);
-        for (let i4 = 0; i4 < amount; i4++) {
-          const model = source.clone(true);
-          const x3 = (random() - 0.5) * 175, z4 = (random() - 0.5) * 145;
-          model.visible = true;
-          model.position.add(new Vector3(x3, this.seabedHeight(x3, z4) - 0.1, z4));
-          model.rotation.y = random() * Math.PI * 2;
-          model.scale.multiplyScalar(0.6 + random() * 1.1);
-          this.scene.add(model);
+      const palms = [];
+      for (const name of ["Object_68", "Object_12", "Object_6", "Object_4"]) {
+        const node = islandGLTF.scene.getObjectByName(name);
+        if (!node) continue;
+        const wrap = new Group();
+        const clone2 = node.clone(true);
+        clone2.position.set(0, 0, 0);
+        wrap.add(clone2);
+        wrap.rotation.x = -Math.PI / 2;
+        palms.push(wrap);
+      }
+      let beachRocks = null;
+      if (beachRockGLTF) {
+        const picked = this.pickBeachRockMesh(beachRockGLTF.scene);
+        if (picked) {
+          const material = Array.isArray(picked.material) ? picked.material[0] : picked.material;
+          material.color.set("#d6cec2");
+          material.roughness = 0.95;
+          material.envMapIntensity = 0.9;
+          const wrap = new Group();
+          wrap.add(picked);
+          beachRocks = wrap;
         }
       }
+      this.scatterSources = {
+        rocks: rocksGLTF.scene,
+        ...beachRocks ? { beachRocks } : {},
+        seaweed: seaweedGLTF.scene,
+        grass: grassGLTF.scene,
+        palms
+      };
+      this.refreshScatter();
       const fishModel = this.normalizeModel(fishGLTF.scene, 0.8, 0);
       for (let i4 = 0; i4 < 16; i4++) {
         const model = clone(fishModel);
@@ -52462,23 +56056,148 @@ var WaterScene = class extends Emitter {
       if (wreck2GLTF) {
         this.placeWreck(wreck2GLTF.scene, { length: 14, x: 105, z: -75, yaw: 0.8, pitch: 0.07, roll: -0.28, sink: 1.1 });
       }
+      await this.terrain?.ready;
+      if (this.disposed) return;
       this.updateWeatherLighting();
       this.updateEnvironment();
-      void this.applyHdri(resolvePreset(this.settings.preset).hdri, resolvePreset(this.settings.preset).hdriRotation);
+      this.setSky(this.settings.sky, false);
       this.startIntro();
       this.callbacks.ready();
     } catch (error) {
       if (!this.disposed) this.callbacks.error(`\u573A\u666F\u8D44\u6E90\u52A0\u8F7D\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5\u3002${error instanceof Error ? error.message : ""}`);
     }
   }
+  /**
+   * 浮力姿态：6 个采样点各自维护垂直位置与速度，用弹簧-阻尼积分跟随当地波面。
+   *
+   *   targetY = 该点海面高度
+   *   velocity += (targetY - pointY) * stiffness * dt
+   *   velocity *= damping^(dt*60)
+   *   pointY += velocity * dt
+   *
+   * 上升与下落各用一套刚度、阻尼：浪峰到来时用高刚度快速抬起，浪峰过去后用
+   * 较低的刚度和更强的阻尼让船体慢慢沉下去，模拟船体自重，而不是贴着海面漂。
+   * 采样点独立运动，浪从船尾推进到船头时，船尾先被抬起、越过浪峰后再落下，
+   * 俯仰 / 横滚由 6 个点的实际高度差算出，船体位置取平均高度。
+   */
+  updateBuoyancy(delta, frozen, heightAt, valid) {
+    const s2 = this.settings;
+    const b6 = this.buoy;
+    const maxTilt = MathUtils.degToRad(s2.buoyancyMaxTilt);
+    const tiltGain = 0.9;
+    const cogFactor = MathUtils.clamp(1.25 - s2.buoyancyCog * 0.1, 0.75, 1.2);
+    const leanPitch = MathUtils.clamp(this.accel * 0.018, -0.06, 0.06) * frozen;
+    const leanRoll = MathUtils.clamp(-this.turnRate * this.speed * 0.05, -0.12, 0.12) * frozen;
+    const pose = () => {
+      const p4 = b6.point;
+      const front = (p4[4] + p4[5]) * 0.5;
+      const rear = (p4[0] + p4[1]) * 0.5;
+      const starboard = (p4[1] + p4[3] + p4[5]) / 3;
+      const port = (p4[0] + p4[2] + p4[4]) / 3;
+      const avg = (p4[0] + p4[1] + p4[2] + p4[3] + p4[4] + p4[5]) / 6;
+      b6.heave = avg * 0.78;
+      b6.pitch = MathUtils.clamp(
+        Math.atan2(front - rear, 18) * tiltGain + leanPitch,
+        -maxTilt,
+        maxTilt
+      );
+      b6.roll = MathUtils.clamp(
+        -Math.atan2(starboard - port, 4.8) * tiltGain * cogFactor + leanRoll,
+        -maxTilt,
+        maxTilt
+      );
+    };
+    if (!valid) {
+      if (b6.init) {
+        this.ship.position.y = b6.heave;
+        this.ship.rotation.y = this.heading;
+        this.hull.rotation.x = b6.roll;
+        this.hull.rotation.z = b6.pitch;
+      }
+      return;
+    }
+    for (let i4 = 0; i4 < 6; i4++) this.buoyRaw[i4] = heightAt(14 + i4) * frozen;
+    if (!b6.init) {
+      for (let i4 = 0; i4 < 6; i4++) {
+        b6.point[i4] = this.buoyRaw[i4];
+        b6.vel[i4] = 0;
+      }
+      pose();
+      b6.heavePrev = b6.heave;
+      b6.pitchPrev = b6.pitch;
+      b6.rollPrev = b6.roll;
+      b6.acc = 0;
+      b6.init = true;
+    }
+    const step = 1 / Math.max(20, s2.buoyancyStep);
+    const riseK = MathUtils.clamp(s2.buoyancyRiseStiffness, 1, 2e3);
+    const fallK = MathUtils.clamp(s2.buoyancyFallStiffness, 1, 2e3);
+    const riseDamp = Math.exp(-MathUtils.clamp(s2.buoyancyRiseDamping, 0, 40) * step);
+    const fallDamp = Math.exp(-MathUtils.clamp(s2.buoyancyFallDamping, 0, 40) * step);
+    b6.acc = Math.min(b6.acc + delta, step * 5);
+    while (b6.acc >= step) {
+      b6.acc -= step;
+      b6.heavePrev = b6.heave;
+      b6.pitchPrev = b6.pitch;
+      b6.rollPrev = b6.roll;
+      for (let i4 = 0; i4 < 6; i4++) {
+        const target2 = this.buoyRaw[i4];
+        const rising = target2 > b6.point[i4];
+        const k3 = rising ? riseK : fallK;
+        const damp2 = rising ? riseDamp : fallDamp;
+        b6.vel[i4] += (target2 - b6.point[i4]) * k3 * step;
+        b6.vel[i4] *= damp2;
+        b6.vel[i4] = MathUtils.clamp(b6.vel[i4], -30, 30);
+        b6.point[i4] += b6.vel[i4] * step;
+      }
+      pose();
+    }
+    const t3 = MathUtils.clamp(b6.acc / step, 0, 1);
+    this.ship.position.y = b6.heavePrev + (b6.heave - b6.heavePrev) * t3;
+    this.ship.rotation.y = this.heading;
+    this.hull.rotation.x = b6.rollPrev + (b6.roll - b6.rollPrev) * t3;
+    this.hull.rotation.z = b6.pitchPrev + (b6.pitch - b6.pitchPrev) * t3;
+  }
   createProbes() {
-    const geometry = new SphereGeometry(0.22, 10, 8);
-    const material = new MeshBasicMaterial({ color: "#7cffe6", depthTest: false });
+    const ballGeometry = new SphereGeometry(0.6, 18, 14);
+    const ballMaterial = new MeshBasicMaterial({
+      color: "#46ff5a",
+      transparent: true,
+      opacity: 0.9,
+      depthTest: false,
+      depthWrite: false
+    });
+    const shaftGeometry = new CylinderGeometry(0.02, 0.02, 1.6, 6, 1, true);
+    shaftGeometry.translate(0, 1.3, 0);
+    const tipGeometry = new ConeGeometry(0.1, 0.45, 10);
+    tipGeometry.translate(0, 2.325, 0);
+    const arrowMaterial = new MeshBasicMaterial({
+      color: "#f2ff57",
+      transparent: true,
+      opacity: 0.95,
+      depthTest: false,
+      depthWrite: false
+    });
     for (const x3 of [-9, 0, 9]) for (const z4 of [-2.4, 2.4]) {
-      const mesh = new Mesh(geometry, material);
-      mesh.userData.offset = new Vector2(x3, z4);
-      mesh.renderOrder = 20;
-      this.probes.add(mesh);
+      const group = new Group();
+      group.userData.offset = new Vector2(x3, z4);
+      const ball = new Mesh(ballGeometry, ballMaterial);
+      ball.renderOrder = 20;
+      group.add(ball);
+      const arrows = new Group();
+      for (const tilt of [-0.16, 0.16]) {
+        const arrow = new Group();
+        const shaft = new Mesh(shaftGeometry, arrowMaterial);
+        const tip = new Mesh(tipGeometry, arrowMaterial);
+        shaft.renderOrder = 20;
+        tip.renderOrder = 20;
+        arrow.add(shaft, tip);
+        arrow.rotation.z = -tilt;
+        arrows.add(arrow);
+      }
+      group.add(arrows);
+      group.userData.arrows = arrows;
+      this.probes.add(group);
     }
     const wakeMaterial = new MeshBasicMaterial({ color: "#ffc96b", wireframe: true, depthTest: false });
     const ring = new TorusGeometry(0.5, 0.08, 4, 16);
@@ -52489,36 +56208,85 @@ var WaterScene = class extends Emitter {
       this.wakeProbes.add(mesh);
     }
   }
-  applySettings(next) {
+  applySettings(nextIn) {
     const previous = this.settings;
+    let next = nextIn;
+    if (next.boatMass !== previous.boatMass || next.boatPreset !== previous.boatPreset) {
+      const phys = boatPhysics(next.boatMass);
+      next = {
+        ...next,
+        buoyancyRiseStiffness: phys.riseStiffness,
+        buoyancyFallStiffness: phys.fallStiffness,
+        buoyancyRiseDamping: phys.riseDamping,
+        buoyancyFallDamping: phys.fallDamping,
+        buoyancyMaxTilt: phys.maxTilt,
+        buoyancyCog: phys.cog
+      };
+    }
     this.settings = { ...next };
     const preset = resolvePreset(next.preset);
+    this.sim.params.windSpeed = next.wind;
+    this.sim.params.windDirection = next.windDirection;
+    this.sim.params.fetchKm = next.fetchKm;
+    this.sim.params.waveScale = next.waveScale;
+    this.sim.params.spreadBlend = next.spreadBlend;
+    this.sim.params.choppiness = next.choppiness;
+    this.sim.params.swellScale = next.swellScale;
+    this.sim.params.swellDirection = next.swellDirection;
+    this.sim.params.foamRecovery = next.foamRecovery;
+    this.sim.params.timeScale = next.timeScale;
+    this.sim.setCoverage(next.coverageScale);
+    if (previous.wind !== next.wind || previous.windDirection !== next.windDirection || previous.fetchKm !== next.fetchKm || previous.waveScale !== next.waveScale || previous.spreadBlend !== next.spreadBlend || previous.choppiness !== next.choppiness || previous.swellScale !== next.swellScale || previous.swellDirection !== next.swellDirection) this.sim.dirty = true;
     this.material.uniforms.uWind.value = next.wind;
-    this.spectrum.configure(next.wind, next.wavelength, next.quality);
-    this.spectrum.setChoppiness(next.choppiness);
-    this.material.uniforms.uFoamCrestOpacity.value = next.foamCrestOpacity;
-    this.material.uniforms.uFoamShoreOpacity.value = next.foamShoreOpacity;
-    this.material.uniforms.uCrestFoamMix.value = next.crestFoamMix;
-    this.material.uniforms.uPeakThreshold.value = next.peakThreshold;
-    this.material.uniforms.uPeakFalloff.value = next.peakFalloff;
-    this.material.uniforms.uTroughSuppress.value = next.troughSuppress;
-    this.material.uniforms.uWaveShadowAbove.value = next.waveShadowAbove;
-    this.material.uniforms.uWaveShadowUnder.value = next.waveShadowUnder;
-    this.material.uniforms.uFoamBrightness.value = next.foamBrightness;
-    this.material.uniforms.uDeepWater.value = next.deepWater;
+    const surf = MathUtils.clamp(
+      0.55 + 0.45 * Math.sqrt(Math.max(next.waveScale, 0.1) * Math.max(next.swellScale, 0.1)),
+      0.6,
+      2.2
+    );
+    const surfCoupling = MathUtils.clamp(next.surfCoupling ?? 0.8, 0, 1);
+    const shoreAmplitude = next.shoreAmplitude * MathUtils.lerp(1, surf, surfCoupling);
+    this.material.uniforms.uShoreWave.value.set(
+      shoreAmplitude,
+      next.shoreWavelength,
+      next.shoreSpeed,
+      next.shoreSteepness
+    );
+    this.material.uniforms.uLayerWeights.value.set(next.layerWeight1, next.layerWeight2, next.layerWeight3);
+    this.material.uniforms.uNearshore.value.set(3.2, next.nearshoreDamping);
+    this.material.uniforms.uShoreSensing.value = MathUtils.clamp(next.shoreSensing ?? 1, 0, 1);
+    this.material.uniforms.uShoreHandoff.value = MathUtils.clamp(next.shoreHandoff ?? 1, 0, 1);
+    const red = Math.max(0.1, next.redAbsorption);
+    this.material.uniforms.uAbsorption.value.set(red, red * 0.155, red * 0.08);
+    this.material.uniforms.uScatterColor.value.set(next.waterScatter || scatterFromWater(preset.water)).lerp(overcastWater, next.overcast * 0.55);
+    this.material.uniforms.uOptics.value.set(
+      next.waterRoughness,
+      next.waterRefraction,
+      next.reflectionDistortion,
+      preset.fog * (1 + next.overcast * 1.5 + next.rain * 1.9)
+    );
+    this.material.uniforms.uSSS.value.set(next.sssPeak, next.sssView, next.sssView * 0.8, 0);
+    this.material.uniforms.uFoam.value.set(
+      next.foamThreshold,
+      next.foamScale,
+      next.shoreFoamBand,
+      next.foamBrightness
+    );
+    this.material.uniforms.uWindward.value = next.windwardBoost;
+    this.material.uniforms.uReefFoam.value = next.reefImpactFoam;
+    this.material.uniforms.uGlint.value = next.glint;
+    this.material.uniforms.uFresnel.value = next.fresnelStrength;
+    this.material.uniforms.uBacklight.value = next.backlightCyan;
+    this.underwaterLight.setAbsorption(next.redAbsorption);
+    this.underwaterLight.setCaustics(next.causticStrength, next.causticSpeed, this.sim.lengthsVec.z);
+    this.underwaterLight.setCausticDepth(next.causticDepth);
+    if (next.terrain !== this.terrainKind) {
+      this.switchTerrain(next.terrain);
+    } else if (previous.reefShelf !== next.reefShelf) {
+      this.buildTerrain(next.terrain);
+    }
+    if (previous.terrainDetail !== next.terrainDetail) this.terrain?.setDetail(next.terrainDetail);
+    if (previous.shoreHandoff !== next.shoreHandoff) this.terrain?.setShoreHandoff(next.shoreHandoff);
     this.underwaterLight.setRays(next.underwaterRays);
-    this.material.uniforms.uFoamFlow1.value = next.foamFlow1;
-    this.material.uniforms.uFoamFlow2.value = next.foamFlow2;
-    this.material.uniforms.uShoreFoamRange.value = next.shoreFoamRange;
-    this.material.uniforms.uCurvatureWeight.value = next.curvatureWeight;
-    this.material.uniforms.uTroughNoise.value = next.troughNoise;
-    this.material.uniforms.uTroughSpecular.value = next.troughSpecular;
-    this.material.uniforms.uSpecAnisotropy.value = next.specAnisotropy;
-    this.material.uniforms.uSpecAnisoX.value = next.specAnisoX;
-    this.material.uniforms.uSpecAnisoY.value = next.specAnisoY;
-    this.material.uniforms.uSpecCurvature.value = next.specCurvature;
-    this.material.uniforms.uReflRoughness.value = next.reflectionRoughness;
-    this.material.uniforms.uSpecColor.value.set(next.specColor);
     this.wake?.setOpacity(next.foamWakeOpacity);
     this.atmosphere.configure(next.quality);
     this.atmosphere.setWeather(next.skyExposure * (1 - next.overcast * 0.3), next.haze);
@@ -52528,35 +56296,40 @@ var WaterScene = class extends Emitter {
     this.rainSystem.setWind(next.wind);
     this.snowSystem.setQuality(next.quality);
     this.snowSystem.setIntensity(next.snow);
-    this.material.uniforms.uRain.value = next.rain;
-    this.material.uniforms.uOvercast.value = next.overcast;
-    this.material.uniforms.uWaterColor.value.set(preset.water).lerp(overcastWater, next.overcast * 0.65);
     this.probes.visible = next.buoyancyProbes;
     this.wakeProbes.visible = next.wakeProbes;
     if (previous.dayOfYear !== next.dayOfYear || previous.timeOfDay !== next.timeOfDay) {
       this.weather.setDate(next.dayOfYear, next.timeOfDay);
     }
-    this.updateWeatherLighting();
+    const skyChanged = previous.sky !== next.sky || previous.preset !== next.preset;
+    this.updateWeatherLighting(!skyChanged);
     this.callbacks.weather?.(this.weather.snapshot());
     if (previous.quality !== next.quality) {
       this.environment?.dispose();
       this.environment = null;
-      this.ocean.geometry.dispose();
-      this.ocean.geometry = this.waterGeometry(next.quality);
-      const size = QUALITY_OPTIONS[next.quality].reflection;
-      this.ocean.getRenderTarget().setSize(size, size);
+      this.reflection.scale = { Low: 0.35, Medium: 0.4, High: 0.5, Ultra: 0.6 }[next.quality];
+      this.reflection.setSize(this.width, this.height);
     }
     if (previous.quality !== next.quality || previous.pixelRatio !== next.pixelRatio || this.width === 1) this.resize();
-    if (previous.preset !== next.preset) {
-      const preset2 = resolvePreset(next.preset);
-      void this.applyHdri(preset2.hdri, preset2.hdriRotation);
-    }
-    if (previous.skyExposure !== next.skyExposure && this.hdriSource) this.scene.backgroundIntensity = Math.max(0.2, next.skyExposure / 10);
-    if (!this.environment || previous.quality !== next.quality || previous.timeOfDay !== next.timeOfDay || previous.dayOfYear !== next.dayOfYear || previous.skyExposure !== next.skyExposure || previous.haze !== next.haze || previous.clouds !== next.clouds || previous.overcast !== next.overcast || previous.preset !== next.preset) {
+    if (skyChanged) this.setSky(next.sky, true);
+    if (previous.ambienceVolume !== next.ambienceVolume) this.ambience?.setVolume(next.ambienceVolume);
+    if (previous.ambience !== next.ambience) this.ambience?.setMuted(!next.ambience);
+    if (!this.environment || previous.quality !== next.quality || previous.timeOfDay !== next.timeOfDay || previous.dayOfYear !== next.dayOfYear || previous.skyExposure !== next.skyExposure || previous.haze !== next.haze || previous.clouds !== next.clouds || previous.overcast !== next.overcast || previous.preset !== next.preset || previous.sky !== next.sky) {
       clearTimeout(this.environmentTimer);
       this.environmentTimer = setTimeout(() => this.updateEnvironment(), 200);
     }
     this.emit("change", this.getSettings());
+  }
+  /** 环境音：水下优先；强风 / 暴雨 / 阴天用风暴声，微风用静谧声 */
+  updateAmbience(delta) {
+    const a3 = this.ambience;
+    if (!a3) return;
+    const s2 = this.settings;
+    const stormy = s2.wind >= 15 || s2.rain > 0.35 || s2.snow > 0.4 || s2.overcast > 0.75;
+    const breezy = s2.wind >= 6.5;
+    const track = this.underwater ? "underwater" : stormy ? "storm" : breezy ? "calm" : "tranquil";
+    a3.update(track);
+    a3.step(delta);
   }
   /** 当前参数快照（浅拷贝，可直接交给 UI 渲染） */
   getSettings() {
@@ -52587,6 +56360,11 @@ var WaterScene = class extends Emitter {
     return this.assetBase + path.replace(/^\/+/, "");
   }
   updateWeatherLighting(immediate = true) {
+    if (this.skyPreset) {
+      this.updateHdriLighting(immediate);
+      return;
+    }
+    this.renderer.toneMappingExposure = 0.95;
     const sun = this.weather.sunDirection;
     const altitude = sun.y;
     const daylight = MathUtils.smoothstep(altitude, -0.12, 0.22);
@@ -52604,17 +56382,17 @@ var WaterScene = class extends Emitter {
     this.ambient.intensity = (0.45 + daylight * 1.23) * (1 + overcast * 0.55);
     this.fill.intensity = (0.25 + daylight * 3.25) * (1 - coverage * 0.3) * (1 - overcast * 0.5);
     this.ambient.color.set(daylight > 0.3 ? "#b7d7ed" : "#507299").lerp(overcastAmbient, overcast * 0.85);
-    this.material.uniforms.uSun.value.copy(sun);
-    this.material.uniforms.uSunColor.value.copy(this.sun.color).multiplyScalar(transmission * (1 - overcast * 0.55));
-    this.material.uniforms.uDaylight.value = daylight * (1 - overcast * 0.45);
+    this.daylight = daylight * (1 - overcast * 0.45);
+    this.material.uniforms.uSunDir.value.copy(sun);
+    this.material.uniforms.uSunColor.value.copy(this.sun.color).multiplyScalar(this.sun.intensity * 0.9);
     const preset = resolvePreset(this.settings.preset);
     const fogScale = 1 + overcast * 1.5 + rain * 1.9;
-    this.material.uniforms.uFog.value = preset.fog * fogScale;
-    const fogColor = this.material.uniforms.uFogColor.value;
-    fogColor.setRGB(0.2, 0.26, 0.33).multiplyScalar(0.035 + daylight * 0.965);
-    fogColor.lerp(new Color("#d79873"), sunset * 0.26);
-    fogColor.lerp(overcastFog, overcast * 0.8);
-    if (!this.scene.fog) this.scene.fog = new FogExp2(fogColor, preset.fog);
+    this.material.uniforms.uOptics.value.w = preset.fog * fogScale;
+    this.material.uniforms.uSunGlow.value = 0;
+    this.fogColor.setRGB(0.2, 0.26, 0.33).multiplyScalar(0.035 + daylight * 0.965);
+    this.fogColor.lerp(new Color("#d79873"), sunset * 0.26);
+    this.fogColor.lerp(overcastFog, overcast * 0.8);
+    if (!this.scene.fog) this.scene.fog = new FogExp2(this.fogColor, preset.fog);
   }
   getWeather() {
     return this.weather.snapshot();
@@ -52628,75 +56406,223 @@ var WaterScene = class extends Emitter {
     clearTimeout(this.environmentTimer);
     this.environmentTimer = setTimeout(() => this.updateEnvironment(), 150);
   }
+  /** 天空 id → 配方；auto 跟随环境预设里绑定的 HDRI */
+  resolveSky(sky) {
+    if (sky === "volumetric") return null;
+    if (isHdriId(sky)) return SKY_PRESETS[sky];
+    return hdriPresetFromFile(resolvePreset(this.settings.preset).hdri);
+  }
   /**
-   * 切换 HDRI 天空：作为背景 + IBL，并让水面反射用同一张环境图。
-   * 传空则恢复体积云天空。
+   * 切换天空：HDRI（背景 + IBL + 水面反射立方体）或程序化体积天空。
+   * HDRI ↔ HDRI 之间用全景交叉淡入，光照参数逐帧插值；同一张图有缓存，秒切。
    */
-  async applyHdri(file, rotationDegrees = 0) {
+  setSky(sky, smooth = true) {
+    void this.applySky(this.resolveSky(sky), smooth);
+  }
+  async applySky(preset, smooth) {
     const token = ++this.hdriRequest;
-    if (!file) {
-      this.hdriSource?.dispose();
-      this.hdriTarget?.dispose();
+    if (!preset) {
+      this.skyPreset = null;
       this.hdriSource = null;
       this.hdriTarget = null;
       this.scene.background = null;
+      this.scene.backgroundIntensity = 1;
+      this.scene.environmentIntensity = 0.85;
       this.sky.visible = true;
-      this.material.uniforms.uSkyEnvironment.value = this.atmosphere.texture;
+      this.material.uniforms.uSkyCube.value = this.atmosphere.texture;
+      this.material.uniforms.uSkyMaxLod.value = 7;
+      this.material.uniforms.uSkyIsDirect.value = 0;
+      this.setMoon(null);
+      this.updateWeatherLighting(true);
       return;
     }
-    try {
-      const texture = await new TextureLoader().loadAsync(this.asset(`hdris/${file}`));
-      if (token !== this.hdriRequest) {
-        texture.dispose();
+    let entry = this.hdriCache.get(preset.id);
+    if (!entry) {
+      try {
+        const texture = await new TextureLoader().loadAsync(this.asset(`hdris/${preset.file}`));
+        if (token !== this.hdriRequest) {
+          texture.dispose();
+          return;
+        }
+        texture.mapping = EquirectangularReflectionMapping;
+        texture.colorSpace = SRGBColorSpace;
+        const detected = detectSkyLight(texture);
+        if (detected) {
+          this.skySun.set(preset.id, detected);
+          console.info(`[hdri] ${preset.id}: \u68C0\u6D4B\u5230\u4E3B\u5149\u6E90 az ${detected.azimuth.toFixed(1)}\xB0 / el ${detected.elevation.toFixed(1)}\xB0\uFF08\u5CF0\u503C ${detected.peak.toFixed(0)}\uFF09`);
+        } else {
+          console.info(`[hdri] ${preset.id}: \u5CF0\u503C <165\uFF0C\u56DE\u843D\u5230\u624B\u5199\u65B9\u4F4D az ${preset.sunAzimuth}\xB0 / el ${preset.sunElevation}\xB0`);
+        }
+        this.environmentGenerator ?? (this.environmentGenerator = new PMREMGenerator(this.renderer));
+        const target2 = this.environmentGenerator.fromEquirectangular(texture);
+        const cube = new WebGLCubeRenderTarget(256, {
+          type: HalfFloatType,
+          generateMipmaps: true,
+          minFilter: LinearMipmapLinearFilter,
+          magFilter: LinearFilter
+        });
+        const cubeScene = this.hdriCubeScene;
+        cubeScene.background = texture;
+        cubeScene.backgroundIntensity = preset.background;
+        const previousToneMapping = this.renderer.toneMapping;
+        this.renderer.toneMapping = NoToneMapping;
+        new CubeCamera(0.1, 4e3, cube).update(this.renderer, cubeScene);
+        this.renderer.toneMapping = previousToneMapping;
+        cubeScene.background = null;
+        entry = { texture, target: target2, cube };
+        this.hdriCache.set(preset.id, entry);
+      } catch {
         return;
       }
-      texture.mapping = EquirectangularReflectionMapping;
-      texture.colorSpace = SRGBColorSpace;
-      this.environmentGenerator ?? (this.environmentGenerator = new PMREMGenerator(this.renderer));
-      const target = this.environmentGenerator.fromEquirectangular(texture);
-      this.hdriSource?.dispose();
-      this.hdriTarget?.dispose();
-      this.hdriSource = texture;
-      this.hdriTarget = target;
-      this.scene.background = texture;
-      this.scene.backgroundIntensity = Math.max(0.2, this.settings.skyExposure / 10);
-      this.scene.environment = target.texture;
-      this.scene.environmentIntensity = 0.85;
-      this.material.uniforms.uSkyEnvironment.value = target.texture;
-      const rotation = MathUtils.degToRad(rotationDegrees);
-      this.scene.backgroundRotation.set(0, rotation, 0);
-      this.scene.environmentRotation.set(0, rotation, 0);
-      this.sky.visible = false;
-      this.sampleHdriHorizon(texture);
-      this.material.uniforms.uFogColor.value.copy(this.hdriHorizon);
-    } catch {
     }
+    if (token !== this.hdriRequest) return;
+    if (smooth && this.hdriSource && this.hdriSource !== entry.texture) {
+      this.skyCrossfade.start(this.hdriSource, this.scene.backgroundIntensity ?? 1, this.renderer.toneMappingExposure);
+    }
+    this.hdriSource = entry.texture;
+    this.hdriTarget = entry.target;
+    this.scene.background = entry.texture;
+    this.scene.environment = entry.target.texture;
+    this.material.uniforms.uSkyCube.value = entry.cube.texture;
+    this.material.uniforms.uSkyMaxLod.value = 7;
+    this.material.uniforms.uSkyIsDirect.value = 1;
+    this.sky.visible = false;
+    this.skyPreset = preset;
+    this.applySkyGoal(preset);
+    const detectedMoon = this.skySun.get(preset.id);
+    this.setMoon(preset.moon ? { ...preset.moon, azimuth: detectedMoon?.azimuth ?? preset.moon.azimuth, elevation: detectedMoon?.elevation ?? preset.moon.elevation } : null);
+    if (!smooth) this.snapSkyLight();
+    this.updateHdriLighting(!smooth);
   }
-  /** 取 HDRI 地平线一带的平均色（把全景缩到 128×64 再采样） */
-  sampleHdriHorizon(texture) {
-    const image = texture.image;
-    if (!image) return;
-    try {
-      const canvas = document.createElement("canvas");
-      canvas.width = 128;
-      canvas.height = 64;
-      const context = canvas.getContext("2d");
-      if (!context) return;
-      context.drawImage(image, 0, 0, 128, 64);
-      const data = context.getImageData(0, 27, 128, 8).data;
-      let r3 = 0;
-      let g6 = 0;
-      let b6 = 0;
-      let count = 0;
-      for (let i4 = 0; i4 < data.length; i4 += 4) {
-        r3 += data[i4];
-        g6 += data[i4 + 1];
-        b6 += data[i4 + 2];
-        count++;
-      }
-      this.hdriHorizon.setRGB(r3 / count / 255, g6 / count / 255, b6 / count / 255, SRGBColorSpace);
-    } catch {
+  /** 把配方写进光照目标值（之后逐帧插值过去） */
+  applySkyGoal(preset) {
+    const goal = this.skyGoal;
+    const detected = this.skySun.get(preset.id);
+    skyDirection(detected?.azimuth ?? preset.sunAzimuth, detected?.elevation ?? preset.sunElevation, goal.sunDir);
+    goal.sunColor.set(preset.sunColor);
+    goal.sunIntensity = preset.sunIntensity;
+    goal.ambientColor.set(preset.ambientColor);
+    goal.ambientIntensity = preset.ambientIntensity;
+    goal.fill = preset.fillIntensity;
+    goal.fog = preset.fog;
+    goal.fogColor.set(preset.fogColor);
+    goal.glow = preset.horizonGlow ?? 0;
+    goal.scatter.set(preset.scatter);
+    goal.exposure = preset.exposure;
+    goal.background = preset.background;
+    goal.environment = preset.environment;
+    this.fogColor.copy(goal.fogColor);
+  }
+  snapSkyLight() {
+    const from = this.skyGoal;
+    const to = this.skyLight;
+    to.sunDir.copy(from.sunDir);
+    to.sunColor.copy(from.sunColor);
+    to.ambientColor.copy(from.ambientColor);
+    to.fogColor.copy(from.fogColor);
+    to.scatter.copy(from.scatter);
+    to.sunIntensity = from.sunIntensity;
+    to.ambientIntensity = from.ambientIntensity;
+    to.fill = from.fill;
+    to.fog = from.fog;
+    to.glow = from.glow;
+    to.exposure = from.exposure;
+    to.background = from.background;
+    to.environment = from.environment;
+  }
+  /** HDRI 模式下的光照；immediate 直接跳到目标 */
+  updateHdriLighting(immediate = false) {
+    if (!this.skyPreset) return;
+    if (immediate) this.snapSkyLight();
+    this.applySkyLighting();
+  }
+  animateSkyLighting(dt3) {
+    if (!this.skyPreset) return;
+    const k3 = 1 - Math.exp(-dt3 * 2.6);
+    const to = this.skyLight;
+    const from = this.skyGoal;
+    to.sunDir.lerp(from.sunDir, k3).normalize();
+    to.sunColor.lerp(from.sunColor, k3);
+    to.ambientColor.lerp(from.ambientColor, k3);
+    to.fogColor.lerp(from.fogColor, k3);
+    to.scatter.lerp(from.scatter, k3);
+    to.sunIntensity += (from.sunIntensity - to.sunIntensity) * k3;
+    to.ambientIntensity += (from.ambientIntensity - to.ambientIntensity) * k3;
+    to.fill += (from.fill - to.fill) * k3;
+    to.fog += (from.fog - to.fog) * k3;
+    to.glow += (from.glow - to.glow) * k3;
+    to.exposure += (from.exposure - to.exposure) * k3;
+    to.background += (from.background - to.background) * k3;
+    to.environment += (from.environment - to.environment) * k3;
+    this.applySkyLighting();
+  }
+  /** 雾的终点跟当地地平线绑定：低机位近、高机位远，但始终在远平面以内 */
+  updateFogSkyBlend() {
+    const horizon = HORIZON_DISTANCE_FACTOR * Math.sqrt(Math.max(0.5, Math.abs(this.camera.position.y)));
+    const near = MathUtils.clamp(horizon * FOG_BLEND_NEAR, FOG_BLEND_MIN, FOG_BLEND_MAX);
+    const far = MathUtils.clamp(horizon * FOG_BLEND_FAR, FOG_BLEND_MIN, FOG_BLEND_MAX);
+    this.material.uniforms.uFogSkyBlend.value.set(near, far);
+  }
+  /** 把当前插值状态写进灯光、雾与水面 uniform */
+  applySkyLighting() {
+    const st4 = this.skyLight;
+    this.sun.position.copy(st4.sunDir).multiplyScalar(170);
+    this.sun.color.copy(st4.sunColor);
+    this.sun.intensity = st4.sunIntensity;
+    this.sun.castShadow = st4.sunIntensity > 0.6;
+    this.ambient.color.copy(st4.ambientColor);
+    this.fill.intensity = st4.fill;
+    const physical = this.settings.physicalLighting !== false;
+    const ambientIntensity = physical ? st4.environment * 0.15 : st4.ambientIntensity;
+    this.ambient.intensity = ambientIntensity;
+    if (physical) this.fill.intensity = st4.environment * 0.4;
+    this.daylight = Math.min(1, st4.sunIntensity / 3.8 * 0.85 + ambientIntensity / 2.2 * 0.15);
+    if (!(this.scene.fog instanceof FogExp2)) this.scene.fog = new FogExp2(st4.fogColor, st4.fog);
+    this.scene.fog.color.copy(st4.fogColor);
+    this.scene.fog.density = st4.fog;
+    this.fogColor.copy(st4.fogColor);
+    if (this.scene.background) this.scene.backgroundIntensity = st4.background;
+    this.scene.environmentIntensity = st4.environment;
+    const uniforms = this.material.uniforms;
+    uniforms.uSunDir.value.copy(st4.sunDir);
+    uniforms.uSunColor.value.copy(st4.sunColor).multiplyScalar(st4.sunIntensity * 0.9);
+    uniforms.uScatterColor.value.copy(st4.scatter);
+    uniforms.uSunGlow.value = st4.glow;
+    uniforms.uOptics.value.w = st4.fog;
+    uniforms.uFogColor.value.copy(st4.fogColor);
+    this.updateFogSkyBlend();
+    this.renderer.toneMappingExposure = st4.exposure;
+    uniforms.uExposure.value = st4.exposure;
+  }
+  /** 月亮：一张带月表纹理的公告板，挂在配方给的方位上（只给月夜预设用） */
+  setMoon(moon) {
+    if (!moon) {
+      if (this.moonSprite) this.moonSprite.visible = false;
+      return;
     }
+    if (!this.moonSprite) {
+      const material = new SpriteMaterial({
+        transparent: true,
+        depthWrite: false,
+        fog: false,
+        color: 16777215
+      });
+      this.moonSprite = new Sprite(material);
+      this.moonSprite.name = "moon";
+      this.moonSprite.frustumCulled = false;
+      this.moonSprite.layers.enable(1);
+      this.scene.add(this.moonSprite);
+      new TextureLoader().load(this.asset("hdris/moon.jpg"), (texture) => {
+        texture.colorSpace = SRGBColorSpace;
+        material.map = texture;
+        material.needsUpdate = true;
+      });
+    }
+    skyDirection(moon.azimuth, moon.elevation, this.moonDirection);
+    this.moonSprite.position.copy(this.moonDirection).multiplyScalar(2600);
+    this.moonSprite.scale.setScalar(moon.size);
+    this.moonSprite.material.opacity = moon.opacity;
+    this.moonSprite.visible = true;
   }
   updateEnvironment(refreshSky = true) {
     if (this.disposed || !this.atmosphere.isReady || this.hdriSource) return;
@@ -52749,16 +56675,19 @@ var WaterScene = class extends Emitter {
     const progress = MathUtils.clamp((intro.elapsed - intro.hold) / intro.descent, 0, 1);
     const fall = progress < 0.5 ? 4 * progress ** 3 : 1 - (-2 * progress + 2) ** 3 / 2;
     const lateral = MathUtils.smoothstep(progress, 0.45, 1);
+    const dirX = Math.cos(this.heading), dirZ = -Math.sin(this.heading);
+    const endX = x3 - dirX * 78, endZ = z4 - dirZ * 78;
+    const aimX = x3 + dirX * 30, aimZ = z4 + dirZ * 30;
     this.camera.position.set(
-      MathUtils.lerp(x3 + sway, 17, lateral),
-      MathUtils.lerp(MAX_CAMERA_DISTANCE + lift, 11, fall),
-      MathUtils.lerp(z4 + 26 + sway * 0.4, 37, lateral)
+      MathUtils.lerp(x3 + sway, endX, lateral),
+      MathUtils.lerp(MAX_CAMERA_DISTANCE + lift, 34, fall),
+      MathUtils.lerp(z4 + 26 + sway * 0.4, endZ, lateral)
     );
     const aim = MathUtils.smoothstep(progress, 0.55, 1);
     this.controls.target.set(
-      MathUtils.lerp(x3, -4, aim),
+      MathUtils.lerp(x3, aimX, aim),
       MathUtils.lerp(this.ship.position.y, 6, aim),
-      MathUtils.lerp(z4, -3, aim)
+      MathUtils.lerp(z4, aimZ, aim)
     );
     this.camera.lookAt(this.controls.target);
     if (progress >= 1) {
@@ -52770,39 +56699,54 @@ var WaterScene = class extends Emitter {
    * 直接指定机位与注视点（会打断开场镜头与机位飞行）。
    * 做固定构图、缩略图或对外提供「相机书签」时用。
    */
-  setCameraPose(position, target) {
+  setCameraPose(position, target2) {
     this.stopIntro();
     this.flight.active = false;
     this.controls.enabled = true;
     const toVector = (value) => value instanceof Vector3 ? value.clone() : new Vector3(...value);
     this.camera.position.copy(toVector(position));
-    this.controls.target.copy(toVector(target));
+    this.controls.target.copy(toVector(target2));
     this.controls.update();
   }
+  /** 重置视角：回到当前地形的停泊点与构图，而不是旧世界的原点 */
   resetCamera() {
     this.stopIntro();
-    this.ship.position.set(0, 0, 4);
-    this.heading = -0.12;
     this.speed = 0;
+    this.turnRate = 0;
+    this.accel = 0;
+    this.moorShip(false);
     this.setMode("orbit");
-    this.camera.position.set(17, 11, 37);
-    this.controls.target.set(-4, 6, -3);
-    this.controls.update();
+    this.frameTerrainCamera();
   }
+  /** 水下机位：贴着船尾往下看，朝当前地形方向 */
   underwaterView() {
     this.stopIntro();
     this.setMode("fly");
-    this.camera.position.set(18, -3.4, 25);
-    const direction = new Vector3(0, -4.6, -15).sub(this.camera.position).normalize();
-    this.controls.target.copy(this.camera.position).addScaledVector(direction, 3);
+    const ship = this.ship.position;
+    const dirX = Math.cos(this.heading), dirZ = -Math.sin(this.heading);
+    this.camera.position.set(ship.x - dirX * 24, -3.4, ship.z - dirZ * 24);
+    this.controls.target.set(ship.x + dirX * 34, -2, ship.z + dirZ * 34);
     this.controls.update();
+  }
+  /**
+   * 解析近似波高：只给航迹拖尾与浪花粒子这类泡沫层使用。
+   * 精确的船体 / 浮标 / 水下判定高度走 GPU 的 WaterQuery，与看见的 FFT 海面一致。
+   */
+  approxHeight(x3, z4) {
+    const amp = Math.min(1.15, this.settings.wind * 0.038);
+    const dir = MathUtils.degToRad(this.settings.windDirection);
+    const t3 = this.time;
+    const wave = (k3, angle, scale, speed) => scale * Math.sin(k3 * (x3 * Math.cos(angle) + z4 * Math.sin(angle)) - Math.sqrt(9.81 * k3) * t3 * speed);
+    const h3 = amp * (wave(2 * Math.PI / 70, dir, 0.62, 1) + wave(2 * Math.PI / 33, dir + 0.45, 0.28, 1.08) + wave(2 * Math.PI / 14, dir - 0.6, 0.1, 1.2));
+    const damp2 = this.terrain ? terrainWaveDamping(this.terrain.field, x3, z4, this.terrain.dampingDepthAt) : { swell: 1, chop: 1 };
+    return h3 * (0.35 + 0.65 * damp2.chop);
   }
   /**
    * 浪花生成策略：只在「有明显能量」的位置喷。
    * 全部走概率与节流，避免每帧堆几百颗粒子。
    */
   spawnSplashes(delta, heightAt) {
-    const rms = Math.max(this.spectrum.heightRms, 0.05);
+    const rms = Math.max(this.settings.wind * 0.032, 0.05);
     const wind = this.settings.wind;
     this.splashTimer += delta;
     if (this.splashTimer > 0.08) {
@@ -52818,7 +56762,7 @@ var WaterScene = class extends Emitter {
     if (wind > 4) {
       for (const probe of this.probes.children) {
         if (Math.random() > 0.05) continue;
-        if (probe.position.y - 0.3 <= rms * 0.95) continue;
+        if (probe.position.y - 0.06 <= rms * 0.95) continue;
         this.splash.spawn(probe.position, 1.8 + Math.random() * 0.9, 0.35);
       }
     }
@@ -52848,13 +56792,13 @@ var WaterScene = class extends Emitter {
     return true;
   }
   /** 从当前位置平滑飞到目标机位，而不是瞬移。 */
-  flyTo(position, target) {
+  flyTo(position, target2) {
     this.stopIntro();
     const distance = this.camera.position.distanceTo(position);
     this.flight.fromPosition.copy(this.camera.position);
     this.flight.fromTarget.copy(this.controls.target);
     this.flight.toPosition.copy(position);
-    this.flight.toTarget.copy(target);
+    this.flight.toTarget.copy(target2);
     this.flight.midPosition.copy(position).add(this.camera.position).multiplyScalar(0.5);
     this.flight.midPosition.y += Math.max(6, distance * 0.18);
     this.flight.elapsed = 0;
@@ -52903,9 +56847,13 @@ var WaterScene = class extends Emitter {
     const dimensions = this.renderer.getDrawingBufferSize(new Vector2());
     this.atmosphere?.setSize(dimensions.x, dimensions.y);
     this.underwaterLight.setSize(dimensions.x, dimensions.y, this.settings.quality);
-    this.material?.uniforms.uResolution.value.copy(dimensions);
+    this.material?.uniforms.uResolution.value?.copy(dimensions);
+    const cube = this.atmosphere.texture;
+    const face = cube.image?.[0];
+    this.material.uniforms.uSkyMaxLod.value = Math.log2(face?.width ?? 128);
     const scale = QUALITY_OPTIONS[this.settings.quality].refraction;
     this.refraction.setSize(Math.round(dimensions.x * scale), Math.round(dimensions.y * scale));
+    this.reflection?.setSize(dimensions.x, dimensions.y);
   }
   updateMovement(delta) {
     const forward = Number(this.keys.has("KeyW") || this.keys.has("ArrowUp")) - Number(this.keys.has("KeyS") || this.keys.has("ArrowDown"));
@@ -52918,7 +56866,10 @@ var WaterScene = class extends Emitter {
       motion.multiplyScalar(delta * (this.keys.has("ShiftLeft") || this.keys.has("ShiftRight") ? 45 : 15));
       this.camera.position.add(motion);
       this.controls.target.add(motion);
-      const floor = this.seabedHeight(this.camera.position.x, this.camera.position.z) + 0.65;
+      const floor = Math.max(
+        this.seabedHeight(this.camera.position.x, this.camera.position.z),
+        this.terrainHeightAt(this.camera.position.x, this.camera.position.z)
+      ) + 0.65;
       if (this.camera.position.y < floor) {
         this.controls.target.y += floor - this.camera.position.y;
         this.camera.position.y = floor;
@@ -52937,7 +56888,15 @@ var WaterScene = class extends Emitter {
       this.heading += this.turnRate * delta;
       const movement = new Vector3(Math.cos(this.heading), 0, -Math.sin(this.heading)).multiplyScalar(this.speed * delta);
       const candidate = this.ship.position.clone().add(movement);
-      if (Math.hypot(candidate.x + 25, candidate.z + 48) > 31 && Math.hypot(candidate.x, candidate.z) < 210) {
+      const forwardX = Math.cos(this.heading), forwardZ = -Math.sin(this.heading);
+      const shallowest = Math.max(
+        this.terrainHeightAt(candidate.x, candidate.z),
+        this.terrainHeightAt(candidate.x + forwardX * 13, candidate.z + forwardZ * 13),
+        this.terrainHeightAt(candidate.x - forwardX * 13, candidate.z - forwardZ * 13)
+      );
+      const terrainCenter = this.terrain?.bindings.center;
+      const nearTerrain = !terrainCenter || Math.hypot(candidate.x - terrainCenter.x, candidate.z - terrainCenter.y) < 310;
+      if (nearTerrain && Math.hypot(candidate.x, candidate.z) < 520 && shallowest < -3.2) {
         this.ship.position.add(movement);
         this.camera.position.add(movement);
         this.controls.target.add(movement);
@@ -52945,21 +56904,52 @@ var WaterScene = class extends Emitter {
     } else this.speed = MathUtils.damp(this.speed, 0, 2, delta);
   }
   render() {
-    this.ocean.visible = false;
+    this.scene.updateMatrixWorld(true);
+    this.renderer.shadowMap.needsUpdate = true;
+    const water = this.surface.mesh;
+    water.visible = false;
     this.sky.material.uniforms.uUnderwater.value = 0;
     const rainVisible = this.rainSystem.mesh.visible;
     const snowVisible = this.snowSystem.mesh.visible;
+    const skyVisible = this.sky.visible;
+    const background = this.scene.background;
     this.rainSystem.mesh.visible = false;
     this.snowSystem.mesh.visible = false;
-    this.renderer.setRenderTarget(this.refraction);
-    this.renderer.render(this.scene, this.camera);
-    this.rainSystem.mesh.visible = rainVisible;
-    this.snowSystem.mesh.visible = snowVisible;
-    this.ocean.visible = true;
+    this.sky.visible = false;
+    this.scene.background = null;
+    try {
+      this.renderer.setRenderTarget(this.refraction);
+      this.renderer.render(this.scene, this.camera);
+    } finally {
+      this.rainSystem.mesh.visible = rainVisible;
+      this.snowSystem.mesh.visible = snowVisible;
+      this.sky.visible = skyVisible;
+      this.scene.background = background;
+      water.visible = true;
+    }
+    if (!this.underwater) {
+      const lowQuality = this.settings.quality === "Low";
+      if (!lowQuality && (this.reflectionTick++ & 1) === 0) {
+        const clearColor = this.renderer.getClearColor(this.clearScratch);
+        const clearAlpha = this.renderer.getClearAlpha();
+        this.reflection.render(this.renderer, this.scene, this.camera);
+        this.renderer.setClearColor(clearColor, clearAlpha);
+      }
+      this.material.uniforms.uReflection.value = lowQuality ? this.emptyReflection : this.reflection.target.texture;
+    } else {
+      this.material.uniforms.uReflection.value = this.emptyReflection;
+    }
+    this.renderer.setClearColor(0, 1);
+    this.material.uniforms.uToneMap.value = this.underwater ? 0 : 1;
     this.sky.material.uniforms.uUnderwater.value = this.underwater ? 1 : 0;
-    this.renderer.setRenderTarget(this.underwater ? this.underwaterLight.target : null);
-    this.renderer.render(this.scene, this.camera);
-    if (this.underwater) this.underwaterLight.render(this.renderer, this.camera, this.sun, this.waterLevel);
+    if (this.underwater) {
+      this.renderer.setRenderTarget(this.underwaterLight.target);
+      this.renderer.render(this.scene, this.camera);
+      this.underwaterLight.render(this.renderer, this.camera, this.sun, this.waterLevel);
+    } else {
+      this.renderer.setRenderTarget(null);
+      this.renderer.render(this.scene, this.camera);
+    }
   }
   dispose() {
     this.disposed = true;
@@ -52976,7 +56966,24 @@ var WaterScene = class extends Emitter {
       mixer.uncacheRoot(mixer.getRoot());
     });
     this.draco.dispose();
-    this.spectrum.dispose();
+    this.sim.dispose();
+    this.surface.dispose();
+    this.waveCaustics.dispose();
+    this.query.dispose();
+    this.reflection.dispose();
+    this.waterTextures.foam.dispose();
+    this.driftTex?.dispose();
+    this.terrain?.group.parent?.remove(this.terrain.group);
+    this.terrain?.dispose();
+    this.terrain = null;
+    for (const object of this.scatterObjects) {
+      object.parent?.remove(object);
+      const instanced = object;
+      instanced.geometry?.dispose();
+      instanced.dispose?.();
+    }
+    this.scatterObjects.length = 0;
+    this.emptyReflection.dispose();
     this.splash.dispose();
     this.wake.dispose();
     this.atmosphere.dispose();
@@ -52987,13 +56994,20 @@ var WaterScene = class extends Emitter {
     this.iceMaps?.cracks.dispose();
     this.iceMaps?.perlin.dispose();
     disposeTree(this.scene);
+    this.ambience?.dispose();
+    this.ambience = null;
+    this.skyCrossfade.dispose();
+    for (const entry of this.hdriCache.values()) {
+      entry.texture.dispose();
+      entry.target.dispose();
+      entry.cube.dispose();
+    }
+    this.hdriCache.clear();
     this.textures.forEach((texture) => texture.dispose());
     this.environment?.dispose();
     this.hdriSource?.dispose();
     this.hdriTarget?.dispose();
     this.environmentGenerator?.dispose();
-    this.ocean.getRenderTarget().depthTexture?.dispose();
-    this.ocean.dispose();
     this.refraction.dispose();
     this.refraction.depthTexture?.dispose();
     this.sun.shadow.dispose();
